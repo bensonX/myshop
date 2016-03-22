@@ -1,0 +1,598 @@
+html,body,ul,li,ol,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,form,input,button,fieldset,legend,img {
+	margin: 0;
+	padding: 0
+}
+
+* {
+	margin: 0;
+	padding: 0
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-size: 20px;
+	font-weight: 400
+}
+
+fieldset,img {
+	border: none
+}
+
+em {
+	font-style: normal
+}
+
+ul,ol {
+	list-style: none
+}
+
+ul li,ol li {
+	border: none
+}
+
+.fl {
+	float: left;
+	display: inline
+}
+
+.fr {
+	float: right;
+	display: inline
+}
+
+input,button {
+	outline: 0;
+	resize: none;
+	border: none
+}
+
+a {
+	color: #515151;
+	text-decoration: none;
+	border: none
+}
+
+a:hover {
+	color: #FFC800
+}
+
+body {
+	font-size: 12px;
+	font-family: ºÚÌå;
+	color: #333
+}
+
+.white {
+	background-color: #fff;
+	width: 100%
+}
+
+.clearfix:after {
+	content: "";
+	display: block;
+	visibility: hidden;
+	height: 0;
+	clear: both
+}
+
+.clearfix {
+	zoom: 1
+}
+
+header {
+	width: 1100px;
+	margin: 0 auto;
+	padding-top: 65px
+}
+
+header h1 {
+	width: 350px;
+	height: 30px;
+	background: url(../images_mdh/logo.png) no-repeat center center;
+	margin: 0 auto;
+	text-indent: -9999px
+}
+
+.search {
+	width: 468px;
+	margin: 0 auto;
+	position: relative;
+	padding-top: 35px
+}
+
+.search input {
+	width: 430px;
+	height: 35px;
+	border: 1px solid #ccc;
+	outline: 0;
+	color: #666
+}
+
+.search button {
+	width: 37px;
+	height: 37px;
+	background: #231815 url(../images_mdh/icon/search.png) no-repeat center center;
+	position: absolute;
+	top: 35px;
+	right: 0
+}
+
+header .nav {
+	width: 1100px;
+	height: 50px;
+	background: #231815;
+	margin: 57px 0 10px;
+	position: relative
+}
+
+header .nav.current {
+	position: fixed;
+	top: -57px;
+	left: 50%;
+	margin-left: -550px;
+	z-index: 100
+}
+
+header .nav ul li {
+	float: left;
+	margin-right: 10px
+}
+
+header .nav ul>li>a {
+	width: 100px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	display: block
+}
+
+header .nav ul>li>a:hover {
+	border-bottom: 5px solid #fff;
+	height: 45px
+}
+
+header .nav ul li .innav {
+	width: 1060px;
+	background: rgba(0,0,0,.6);
+	position: absolute;
+	top: 50px;
+	left: 0;
+	z-index: 9999;
+	padding: 0 20px 20px;
+	display: none
+}
+
+header .nav ul li .innav ol li {
+	float: left;
+	width: 100px
+}
+
+header .nav ul li .innav ol li h2 {
+	font-size: 16px;
+	color: #fff;
+	line-height: 40px
+}
+
+header .nav ul li .innav ol li a {
+	font-size: 14px;
+	color: #ccc;
+	line-height: 30px;
+	display: block
+}
+
+.banner {
+	width: 1099px;
+	height: 551px;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative
+}
+
+.banner .inbanner {
+	width: 8800px;
+	height: 551px
+}
+
+.banner .inbanner li {
+	float: left
+}
+
+.banner ol {
+	position: absolute;
+	top: 510px;
+	left: 50%;
+	margin-left: -52px;
+	min-width: 104px
+}
+
+.banner ol li {
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	background: #fff;
+	float: left;
+	margin: 2px 5px
+}
+
+.banner ol li.current {
+	background: #FFC800
+}
+
+.banner button {
+	width: 50px;
+	height: 100px;
+	background: rgba(0,0,0,.4)url(../images_mdh/icon/left.png) no-repeat center center;
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	margin-top: -50px;
+	display: none
+}
+
+.banner button.right {
+	background: rgba(0,0,0,.4)url(../images_mdh/icon/right.png) no-repeat center center;
+	left: 1030px
+}
+
+.main {
+	width: 1100px;
+	height: 200px;
+	margin: 20px auto
+}
+
+.main ul li {
+	float: left
+}
+
+.main ul li.right {
+	float: right
+}
+
+.news {
+	width: 1100px;
+	margin: 0 auto
+}
+
+h2 {
+	width: 1100px;
+	height: 50px;
+	font-size: 18px;
+	line-height: 50px;
+	color: #505050
+}
+
+h2 span {
+	float: right
+}
+
+h2 span a {
+	font-size: 12px;
+	line-height: 50px;
+	display: block;
+	height: 50px
+}
+
+.news ul li {
+	float: left;
+	width: 265px;
+	margin-right: 13.33px
+}
+
+.news ul li:last-child {
+	margin-right: 0
+}
+
+.news ul li a {
+	text-align: center
+}
+
+.news ul li .about {
+	width: 245px;
+	padding: 20px 10px
+}
+
+.news ul li .about h3 {
+	width: 245px;
+	text-align: left;
+	font-size: 14px;
+	line-height: 30px;
+	color: #7A7979;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis
+}
+
+.news ul li .about p {
+	font-size: 12px;
+	text-align: left;
+	color: #7A7979;
+	line-height: 20px;
+	width: 245px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}
+
+.news ul li .about span {
+	font-size: 22px;
+	color: #EB9B42;
+	line-height: 30px;
+	font-weight: 700
+}
+
+.news ul li .about p.last {
+	color: #B6B6B6;
+	font-size: 12px
+}
+
+.news ul li .about p.last a {
+	float: right;
+	margin: 0 10px
+}
+
+.main1 {
+	width: 1100px;
+	margin: 20px auto
+}
+
+.main1 ul li.big {
+	float: left;
+	margin-right: 36px
+}
+
+.main1 ul li:last-child {
+	margin-top: 16px
+}
+
+.main1 ol {
+	margin-top: 20px
+}
+
+.main1 ol li {
+	float: left
+}
+
+.main1 ol li:last-child {
+	float: right
+}
+
+.moods {
+	width: 1100px;
+	margin: 0 auto
+}
+
+.moods ul li {
+	float: left;
+	margin-right: 13.3px;
+	margin-bottom: 10px;
+	position: relative
+}
+
+.moods ul li:nth-child(4n) {
+	margin-right: 0
+}
+
+.moods ul li:hover .top {
+	display: block
+}
+
+.moods ul li .top {
+	position: absolute;
+	background: rgba(0,0,0,.6);
+	top: 0;
+	left: 0;
+	width: 225px;
+	height: 200px;
+	padding: 50px 20px 20px;
+	display: none
+}
+
+.moods ul li .top h3 {
+	font-size: 18px;
+	color: #EDEDED;
+	text-align: center;
+	line-height: 40px
+}
+
+.moods ul li .top p {
+	font-size: 14px;
+	line-height: 20px;
+	color: #EDEDED
+}
+
+.moods ul li .top .collect {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 80px
+}
+
+.moods ul li .top .collect a {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background: #fff url(../images_mdh/icon/top1.png) no-repeat center center
+}
+
+.moods ul li .top .collect a:last-child {
+	background: #fff url(../images_mdh/icon/top2.png) no-repeat center center;
+	margin-left: 5px
+}
+
+.moods ul li p {
+	font-size: 14px;
+	color: #787777;
+	line-height: 30px
+}
+
+.moods ul li p span {
+	font-size: 18px;
+	color: #EBA049;
+	float: right
+}
+
+footer {
+	width: 100%
+}
+
+footer ul {
+	width: 1100px;
+	margin: 0 auto
+}
+
+footer ul li {
+	float: left;
+	margin: 110px 10px
+}
+
+footer ul li a {
+	font-size: 18px;
+	color: #454545;
+	padding-left: 150px;
+	line-height: 40px;
+	display: block;
+	height: 40px;
+	background: url(../images_mdh/icon/foot1.png) no-repeat center center
+}
+
+footer ul li a.two {
+	background: url(../images_mdh/icon/foot2.png) no-repeat center center
+}
+
+footer ul li a.three {
+	background: url(../images_mdh/icon/foot3.png) no-repeat center center
+}
+
+footer ul li a.fore {
+	background: url(../images_mdh/icon/foot4.png) no-repeat center center
+}
+
+footer ol {
+	width: 1100px;
+	margin: 0 auto
+}
+
+footer ol li {
+	float: left;
+	line-height: 20px;
+	color: #888;
+	margin: 0 60px
+}
+
+footer ol li:last-child {
+	margin-right: 0;
+	height: 100%;
+	margin-top: 25px
+}
+
+footer ol li h4 {
+	font-size: 14px
+}
+
+footer ol li a {
+	font-size: 12px;
+	display: block;
+	color: #888
+}
+
+footer .copy {
+	width: 100%;
+	background: #000;
+	height: 65px;
+	margin-top: 80px
+}
+
+footer .copy p {
+	width: 1020px;
+	margin: 0 auto;
+	font-size: 12px;
+	line-height: 65px;
+	color: #919191;
+	padding: 0 40px
+}
+
+footer .copy p span {
+	float: right;
+	text-align: center
+}
+
+footer .copy p span a:first-child {
+	background: url(../images_mdh/icon/copy1.png);
+	width: 34px;
+	height: 42px;
+	display: inline-block;
+	margin-top: 0
+}
+
+footer .copy p span a:last-child {
+	background: url(../images_mdh/icon/copy2.png);
+	width: 32px;
+	height: 32px;
+	margin: 10px 20px;
+	display: inline-block
+}
+
+.fix,.fix ul {
+	width: 46px;
+	height: 230px;
+	position: fixed;
+	top: 50%;
+	right: 0;
+	margin-top: -115px;
+	background: #000;
+	z-index: 9999
+}
+
+.fix ul li {
+	width: 46px;
+	height: 45px;
+	border-bottom: 1px solid #666;
+	background: url(../images_mdh/icon/fix1.png) no-repeat center center;
+	z-index: 9999
+}
+
+.fix ul li.two {
+	background: url(../images_mdh/icon/fix2.png) no-repeat center center
+}
+
+.fix ul li.three {
+	background: url(../images_mdh/icon/fix3.png) no-repeat center center
+}
+
+.fix ul li.fore {
+	background: url(../images_mdh/icon/fix4.png) no-repeat center center
+}
+
+.fix ul li.five {
+	display: block;
+	width: 46px;
+	height: 45px;
+	background: url(../images_mdh/icon/fix5.png) no-repeat center center
+}
+
+.fix ol {
+	width: 120px;
+	z-index: 30
+}
+
+.fix ol li {
+	width: 120px;
+	height: 45px;
+	position: absolute;
+	top: 0;
+	right: -120px;
+	z-index: 30
+}
+
+.fix ol li a {
+	display: inline-block;
+	width: 60px;
+	height: 45px;
+	background: #FFC800;
+	line-height: 45px;
+	font-size: 16px;
+	color: #3473700;
+	text-align: center;
+	float: left
+}

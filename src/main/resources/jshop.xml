@@ -127,7 +127,7 @@
 	<templateConfig id="footer" type="page" name="底部" templatePath="/shop/${theme}/include/footer.ftl" />
 	<templateConfig id="login" type="page" name="登录" templatePath="/shop/${theme}/login/index.ftl" />
 	<templateConfig id="register" type="page" name="注册" templatePath="/shop/${theme}/register/index.ftl" />
-	<templateConfig id="index" type="page" name="首页" templatePath="/shop/${theme}/index.ftl" staticPath="/index.html" />
+	<templateConfig id="index" type="page" name="首页" templatePath="/shop/${theme}/index_mdh.ftl" staticPath="/index.html" />
 	<templateConfig id="articleList" type="page" name="文章列表" templatePath="/shop/${theme}/article/list.ftl" />
 	<templateConfig id="articleSearch" type="page" name="文章搜索" templatePath="/shop/${theme}/article/search.ftl" />
 	<templateConfig id="articleContent" type="page" name="文章内容" templatePath="/shop/${theme}/article/content.ftl" staticPath="/article/content/${article.createDate?string('yyyyMM')}/${article.id}/${pageNumber}.html" />
