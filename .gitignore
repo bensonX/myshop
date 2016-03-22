@@ -1,3 +1,7 @@
+/target
+/target/*
+/src/test
+/src/test/*
 ./target
 ./target/*
 ./target/m2e-wtp
