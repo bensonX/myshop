@@ -1,0 +1,10 @@
+./target
+./target/*
+./target/m2e-wtp
+./target/m2e-wtp/*
+./target/classes
+./target/classes/*test-classes
+./target/test-classes
+./target/test-classes/*
+./src/test
+./src/test/*
