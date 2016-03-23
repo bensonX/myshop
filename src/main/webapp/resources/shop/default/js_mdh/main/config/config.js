@@ -1,22 +1,31 @@
-// Require.js Configurations
+/**
+ * 主要引入第三方插件加载
+ *
+ */
 require.config({
 
-  baseUrl: "/js/main/",
+  baseUrl: common.loading.hostPath()+'main/views',
 
   paths: {
 
-    "jquery": "../lib/jquery/1.12.0/jquery.min"
+    "jquery": "../../third/jquery.min",
+
+    "backbone": "../../third/backbone",
+
+    "touchSlider": "../../third/touchSlider"
 
   },
 
   shim: {
+    "backbone": ['jquery'],
 
+    "touchSlider": ['jquery']
   },
 
-  urlArgs: lop.load.version
+  urlArgs: common.loading.version
 
 });
 
-require([lop.load.filesToLoad()["dev-init"]], function (cc) {
-  
+require([common.loading.viewsJsPath], function (views) {
+  new views();
 })
