@@ -15,6 +15,7 @@
 		<meta name="description" content="[@seo.description?interpret /]" />
 	[/#if]
 [/@seo]
+[#----]
 <link href="${base}/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="${base}/resources/shop/${theme}/slider/slider.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
@@ -25,9 +26,11 @@
 <script type="text/javascript" src="${base}/resources/shop/${theme}/slider/slider.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 
-<link rel="stylesheet" type="text/css"href="${base}/resources/shop/${theme}/css_mdh/main.css" />
-<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/third/jquery.min.js"></script>
-<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/main/views/layout/index.js"></script>
+<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
+<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/main/config/common.js"></script>
+<script>
+			common.loading.mainJs("layout/index");
+</script>
 <style type="text/css">
 .header {
 	margin-bottom: 0px;
@@ -204,14 +207,11 @@ $().ready(function() {
 				</span>
 			</h2>
 			<ul class="clearfix" >
-				[@ad_position id = 2 /]
+				[@ad_position id = 4 /]
 			</ul>
 		</div>
-		<div class="row">
-			<div class="span12">
-				[@ad_position id = 3 /]
-			</div>
-		</div>
+		<!-- 图片区域2开始 -->
+		[@ad_position id = 3 /]
 		[#--
 		<div class="row" style="border:1px solid red;">
 			<div class="span9">
