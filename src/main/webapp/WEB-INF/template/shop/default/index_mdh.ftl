@@ -196,10 +196,23 @@ $().ready(function() {
 				[/@product_category_root_list]
 			</ul>
 		</div> 
-		===============================================================================================================
-		<br>
-		<br>
-		
+		<!-- 新品上架开始 -->
+		<div class="news" data-tag=news>
+			<h2>${message("shop.index.newPromotion")}
+				<span>
+					<a href="">${message("shop.index.morePromotion")}></a>
+				</span>
+			</h2>
+			<ul class="clearfix" >
+				[@ad_position id = 2 /]
+			</ul>
+		</div>
+		<div class="row">
+			<div class="span12">
+				[@ad_position id = 3 /]
+			</div>
+		</div>
+		[#--
 		<div class="row" style="border:1px solid red;">
 			<div class="span9">
 				[@ad_position id = 2 /]
@@ -231,29 +244,53 @@ $().ready(function() {
 				[/@article_category_root_list]
 			</div>
 		</div>
-		<div class="row">
-			<div class="span12">
-				[@ad_position id = 3 /]
-			</div>
+		--]
+		<!-- 模块商品开始 -->
+		<div class="moods">
+			[@product_category_root_list count = 4]
+				[@ad_position id = 4]
+					[#if adPosition??]
+						[#assign adIterator = adPosition.ads.iterator() /]
+					[/#if]
+				[/@ad_position]
+				[#list productCategories as productCategory]
+					[@goods_list productCategoryId = productCategory.id tagId = 3 count = 10]
+					<h2>${productCategory.name}
+						<span>
+							<a href="${base}${productCategory.path}">${message("shop.index.morePromotion")}></a>
+						</span>
+					</h2>
+					<ul class="clearfix" >
+						[#list goodsList as goods]
+							[#if goods_index < 4]
+								<li>
+									<a href="${goods.url}" title="${goods.name}" target="_blank">
+										<img src="${goods.image}" height="270" width="265">
+									</a>
+									<P>${abbreviate(goods.name, 10)}
+										<span>${currency(goods.price, true)}</span>
+									</P>
+									<div class="top">
+										<div class="intop"></div>
+										<h3>${abbreviate(goods.name, 24)}</h3>
+										<p>${abbreviate(goods.caption, 24)}
+										</p>
+										<div class="collect">
+											<a href=""></a>
+											<a class="last" href=""></a>
+										</div>
+									</div>
+								</li>
+							[/#if]
+						[/#list]
+					</ul>
+					[/@goods_list]
+				[/#list]
+			[/@product_category_root_list]
+			<button></button>
 		</div>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		===============================================================================================================
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		
-		
-		
-		
-		
+
+		[#--
 		[@product_category_root_list count = 3]
 			[@ad_position id = 4]
 				[#if adPosition??]
@@ -272,7 +309,7 @@ $().ready(function() {
 										</dt>
 										[#list productCategories as productCategory]
 											<dd>
-												<a href="${base}${productCategory.path}">${productCategory.name}</a>
+											<a href="${base}${productCategory.path}">${productCategory.name}</a>
 											</dd>
 										[/#list]
 									</dl>
@@ -282,7 +319,7 @@ $().ready(function() {
 										[#assign ad = adIterator.next() /]
 										[#if ad.url??]
 											<a href="${ad.url}">
-												<img src="${ad.path}" alt="${ad.title}" title="${ad.title}" />
+											<img src="${ad.path}" alt="${ad.title}" title="${ad.title}" />
 											</a>
 										[#else]
 											<img src="${ad.path}" alt="${ad.title}" title="${ad.title}" />
@@ -303,6 +340,7 @@ $().ready(function() {
 														[/#if]
 													</div>
 													<strong>${currency(goods.price, true)}</strong>
+													<img src="${goods.image}">${goods.image}
 													<img src="${base}/upload/image/blank.gif" data-original="${goods.image!setting.defaultThumbnailProductImage}" />
 												</a>
 											</li>
@@ -323,6 +361,8 @@ $().ready(function() {
 				[/@goods_list]
 			[/#list]
 		[/@product_category_root_list]
+		--]
+		
 		<div class="row">
 			<div class="span12">
 				[@ad_position id = 5 /]
