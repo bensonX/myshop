@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -41,6 +42,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
+import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
 /**
  * Controller - 会员注册
@@ -76,7 +82,63 @@ public class RegisterController extends BaseController {
 		}
 		return !memberService.usernameDisabled(username) && !memberService.usernameExists(username);
 	}
-
+	
+	/**
+	 * 检查手机号是否被禁用或已注册
+	 */
+	@RequestMapping(value = "/check_phone", method = RequestMethod.GET)
+	public @ResponseBody
+	boolean checkPhone(String phone){
+		System.out.println("check_phone"+phone);
+		if(StringUtils.isEmpty(phone)){
+			return false;
+		}
+		return !memberService.phoneExists(phone);
+	}
+	
+	/**
+	 * 获取手机号验证码
+	 */
+	@RequestMapping(value = "/phone_captcha", method = RequestMethod.GET)
+	public @ResponseBody
+	String sendPhoneCaptcha(String phone){
+		System.out.println("phone:"+phone);
+		if(StringUtils.isEmpty(phone)){
+			return false+"";
+		}
+		Random random = new Random();
+		Double doub = random.nextDouble(); 
+		String strcode = doub + ""; 
+		strcode=strcode.substring(3,3+4); 
+		// 官网的URL
+		String url = "http://gw.api.taobao.com/router/rest";
+		// 成为开发者，创建应用后系统自动生成
+		String appkey = "23331183";
+		String secret = "ed45c69efd06e5b91aa8708ba8595a3a";
+		//短信模板的内容  
+		String json="{\"code\":\""+strcode+"\",\"product\":\"leosu , 电子商务验证\"}"; 
+		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
+		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
+		req.setExtend("123456");
+		req.setSmsType("normal");
+		req.setSmsFreeSignName("注册验证");
+		req.setSmsParamString(json);
+		req.setRecNum(phone);
+		req.setSmsTemplateCode("SMS_6480466"); 
+		try {
+			AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);
+			System.out.println("leo in try");
+			System.out.println(rsp.getBody());
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("leo in cache");
+			System.out.println(e.toString());
+			return "获取验证码失败！";
+		}
+		System.out.println("发送成功！");
+		return strcode;
+	}
+	
 	/**
 	 * 检查E-mail是否存在
 	 */
@@ -94,9 +156,10 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(ModelMap model) {
+		System.out.println("跳转到注册页面。。。。。");
 		model.addAttribute("genders", Member.Gender.values());
 		model.addAttribute("captchaId", UUID.randomUUID().toString());
-		return "/shop/${theme}/register/index";
+		return "/shop/${theme}/register/index_mdh";
 	}
 
 	/**

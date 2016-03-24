@@ -187,7 +187,7 @@ $().ready(function() {
 						[#if promotions?has_content]
 							[#list promotions as promotion]
 								[#if promotion.image?has_content]
-									<li class="right">
+									<li [#if promotion_index !=0 ] class="right" [/#if]>
 										<a href="${base}${promotion.path}" title="${promotion.title}">
 											<img src="${promotion.image}" alt="${promotion.title}" height="200" width="541">
 										</a>
@@ -362,7 +362,7 @@ $().ready(function() {
 			[/#list]
 		[/@product_category_root_list]
 		--]
-		
+		[#--
 		<div class="row">
 			<div class="span12">
 				[@ad_position id = 5 /]
@@ -388,6 +388,7 @@ $().ready(function() {
 			</div>
 		</div>
 	</div>
+	--]
 	[#include "/shop/${theme}/include/footer_mdh.ftl" /]
 </body>
 </html>

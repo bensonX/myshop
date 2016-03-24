@@ -78,7 +78,12 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 		}
 		return false;
 	}
-
+	
+	@Transactional(readOnly = true)
+	public boolean phoneExists(String phone){
+		return memberDao.phoneExists(phone);
+	}
+	
 	@Transactional(readOnly = true)
 	public boolean emailExists(String email) {
 		return memberDao.emailExists(email);

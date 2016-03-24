@@ -41,7 +41,16 @@ public class MemberDaoImpl extends BaseDaoImpl<Member, Long> implements MemberDa
 		Long count = entityManager.createQuery(jpql, Long.class).setParameter("username", username).getSingleResult();
 		return count > 0;
 	}
-
+	
+	public boolean phoneExists(String phone){
+		if(StringUtils.isEmpty(phone)){
+			return false;
+		}
+		String jpql = "select count(*) from Member members where members.phone =:phone";
+		Long count = entityManager.createQuery(jpql,Long.class).setParameter("phone", phone).getSingleResult();
+		return count > 0;
+	}
+	
 	public boolean emailExists(String email) {
 		if (StringUtils.isEmpty(email)) {
 			return false;

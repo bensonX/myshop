@@ -40,7 +40,16 @@ public interface MemberService extends BaseService<Member, Long> {
 	 * @return 用户名是否禁用
 	 */
 	boolean usernameDisabled(String username);
-
+	
+	/**
+	 * 判断电话号码是否存在
+	 * 
+	 * @param phone
+	 * 			电话号码
+	 * @return 电话号码是否存在
+	 */
+	boolean phoneExists(String phone);
+	
 	/**
 	 * 判断E-mail是否存在
 	 * 

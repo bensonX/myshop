@@ -38,7 +38,16 @@ public interface MemberDao extends BaseDao<Member, Long> {
 	 * @return E-mail是否存在
 	 */
 	boolean emailExists(String email);
-
+	
+	/**
+	 * 判断电话号码是否存在
+	 * 
+	 * @param phone
+	 * 			电话号码
+	 * @return 电话号码是否存在
+	 */
+	boolean phoneExists(String phone);
+	
 	/**
 	 * 查找会员
 	 * 
