@@ -81,7 +81,7 @@
 	</div>
 	--]
 	<!-- 底部开始 -->
-	<footer>
+	<div id = "footer">
 		<ul class="clearfix">
 			<li>
 				<a class="one" href="">德国直采</a>
@@ -177,22 +177,20 @@
 		</div>
 		[#include "/shop/${theme}/include/statistics.ftl" /]
 		--]
-	</footer>
+	</div>
 	<!-- 窗口固定区开始 -->
-	<div class="fix">
-		<ol class="clearfix">
-			<li>
+
+	<ul class="fix">
+		<li class="one">
+			<div class="infix">
 				<a href="">登陆</a>
 				<a href="">注册</a>
-			</li>
-		</ol>
-		<ul>
-			<li class="one"></li>
-			<li class="two"></li>
-			<li class="three"></li>
-			<li class="fore"></li>
-			<li class="five"></li>
-		</ul>
-	</div>
+			</div>
+		</li>
+		<li class="two"></li>
+		<li class="three"></li>
+		<li class="fore"></li>
+		<li class="five"></li>
+	</ul>
 </div>
 [/#escape]

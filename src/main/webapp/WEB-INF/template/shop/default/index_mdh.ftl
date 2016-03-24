@@ -15,7 +15,7 @@
 		<meta name="description" content="[@seo.description?interpret /]" />
 	[/#if]
 [/@seo]
-[#----]
+
 <link href="${base}/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="${base}/resources/shop/${theme}/slider/slider.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
@@ -27,10 +27,8 @@
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 
 <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
-<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/main/config/common.js"></script>
-<script>
-			common.loading.mainJs("layout/index");
-</script>
+<script type="text/javascript"  src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+
 <style type="text/css">
 .header {
 	margin-bottom: 0px;
