@@ -132,7 +132,7 @@ $().ready(function() {
 
 
 		<!-- 头部开始 -->
-		<header>
+		<div id = "header">
 			<a href = "">
 				<h1>买德好</h1>
 			</a>
@@ -173,5 +173,5 @@ $().ready(function() {
 					</li>
 				</ul>
 			</div>			
-		</header>
+		</div id = "header">
 [/#escape]

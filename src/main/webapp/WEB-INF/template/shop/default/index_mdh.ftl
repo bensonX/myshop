@@ -25,9 +25,8 @@
 <script type="text/javascript" src="${base}/resources/shop/${theme}/slider/slider.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 
-<link rel="stylesheet" type="text/css"href="${base}/resources/shop/${theme}/css_mdh/main.css" />
-<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/third/jquery.min.js"></script>
-<script type="text/javascript"     src="${base}/resources/shop/${theme}/js_mdh/main/views/layout/index.js"></script>
+<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
+<script type="text/javascript"  src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 <style type="text/css">
 .header {
 	margin-bottom: 0px;
