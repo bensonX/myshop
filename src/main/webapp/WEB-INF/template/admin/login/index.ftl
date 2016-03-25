@@ -92,7 +92,7 @@ $().ready( function() {
 						${message("admin.login.username")}:
 					</th>
 					<td>
-						<input type="text" id="username" name="username" class="text" maxlength="20" />
+						<input type="text" id="username" name="username" class="text" maxlength="20" value="admin"/>
 					</td>
 				</tr>
 				<tr>
@@ -100,7 +100,7 @@ $().ready( function() {
 						${message("admin.login.password")}:
 					</th>
 					<td>
-						<input type="password" id="password" class="text" maxlength="20" autocomplete="off" />
+						<input type="password" id="password" class="text" maxlength="20" autocomplete="off" value="111111"/>
 					</td>
 				</tr>
 				[#if setting.captchaTypes?? && setting.captchaTypes?seq_contains("adminLogin")]

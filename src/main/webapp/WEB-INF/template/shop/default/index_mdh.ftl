@@ -15,7 +15,7 @@
 		<meta name="description" content="[@seo.description?interpret /]" />
 	[/#if]
 [/@seo]
-
+[#--
 <link href="${base}/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="${base}/resources/shop/${theme}/slider/slider.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
@@ -25,73 +25,26 @@
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.lazyload.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/slider/slider.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
+--]
 
 <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
-<script type="text/javascript"  src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-
-<style type="text/css">
-.header {
-	margin-bottom: 0px;
-}
-</style>
-<script type="text/javascript">
-$().ready(function() {
-
-	var $productCategoryMenuItem = $("#productCategoryMenu li");
-	var $slider = $("#slider");
-	var $newArticleTab = $("#newArticle ul.tab");
-	var $hotGoodsImage = $("div.hotGoods img");
-	
-	$productCategoryMenuItem.hover(
-		function() {
-			$(this).children("div.menu").show();
-		}, function() {
-			$(this).children("div.menu").hide();
-		}
-	);
-	
-	$slider.nivoSlider({
-		effect: "random",
-		animSpeed: 1000,
-		pauseTime: 6000,
-		controlNav: true,
-		keyboardNav: false,
-		captionOpacity: 0.4
-	});
-	
-	$newArticleTab.tabs("ul.tabContent", {
-		tabs: "li",
-		event: "mouseover"
-	});
-	
-	$hotGoodsImage.lazyload({
-		threshold: 100,
-		effect: "fadeIn",
-		skip_invisible: false
-	});
-
-});
-</script>
+<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
+<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/index.js"></script>
 </head>
 <body>
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
 	
 	<!-- 轮播图开始 -->
-	<div class="banner">
-		<ul class="inbanner clearfix">
-			[@ad_position id = 1 /]
-		</ul>  
-		<ol class="clearfix" style="background-color:#eee">
-			<li></li>
-			<li></li>
-			<li></li>
-		</ol>
-		<button class="left"></button>
-		<button class="right"></button>
+	<div class="main_visual">
+		[@ad_position id = 1 /]
 	</div>
+	
+	[#--
 	<div class="container index" >
 	
-		[#--
+
 		<div class="row" style="border:3px solid red;">
 			<div class="span2">
 				[@product_category_root_list count = 6]
@@ -185,9 +138,9 @@ $().ready(function() {
 						[#if promotions?has_content]
 							[#list promotions as promotion]
 								[#if promotion.image?has_content]
-									<li [#if promotion_index !=0 ] class="right" [/#if]>
+									<li class="right">
 										<a href="${base}${promotion.path}" title="${promotion.title}">
-											<img src="${promotion.image}" alt="${promotion.title}" height="200" width="541">
+											<img src="${promotion.image}" alt="${promotion.title}" height="200" width="540">
 										</a>
 									</li>						
 								[/#if]
