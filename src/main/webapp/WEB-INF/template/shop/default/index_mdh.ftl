@@ -161,10 +161,50 @@
 				<span>
 					<a href="">${message("shop.index.morePromotion")}></a>
 				</span>
-			</h2>
+			</h2>		
+			<ul class="clearfix">
+				[@product_category_root_list count = 6]
+					[@promotion_list productCategoryId = productCategory.id hasEnded = false count = 4]
+						[#if promotions?has_content]
+							[#list promotions as promotion]
+								[#if promotion.image?has_content]
+				                    <li>
+										<a href="${base}${promotion.path}" title="${promotion.title}">
+											<img src="${promotion.image}" alt="${promotion.title}" height="265" width="265">
+										</a>
+										<div class="about">
+											<a href="">
+												<h3>德国双心日夜护眼胶囊30粒</h3>
+											</a>
+											<a href="">
+												<P>疲劳用眼人群需常备 日夜护眼胶囊 原装进口 原装进口原装进口原装进口</P>
+											</a>
+											<span>￥55.00</span>
+											<p class="last">
+												<strike>￥1899</strike>
+												<a href="">
+													<img src="../../images_mdh/icon/about3.png" >
+												</a>
+												<a href="">
+													<img src="../../images_mdh/icon/about1.png" >
+												</a>
+												<a href="">
+													<img src="../../images_mdh/icon/about2.png" >
+												</a>
+											</p>
+										</div>		
+									</li>				
+								[/#if]
+							[/#list]
+						[/#if]
+					[/@promotion_list]
+				[/@product_category_root_list]
+			</ul>
+			[#--
 			<ul class="clearfix" >
 				[@ad_position id = 4 /]
 			</ul>
+			--]
 		</div>
 		<!-- 图片区域2开始 -->
 		[@ad_position id = 3 /]
@@ -204,11 +244,13 @@
 		<!-- 模块商品开始 -->
 		<div class="moods">
 			[@product_category_root_list count = 4]
+			[#--
 				[@ad_position id = 4]
 					[#if adPosition??]
 						[#assign adIterator = adPosition.ads.iterator() /]
 					[/#if]
 				[/@ad_position]
+				--]
 				[#list productCategories as productCategory]
 					[@goods_list productCategoryId = productCategory.id tagId = 3 count = 10]
 					<h2>${productCategory.name}

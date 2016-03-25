@@ -43,6 +43,7 @@ $().ready(function() {
 
 });
 </script>
+
 <div class="header">
     [#--
 	<div class="top">
