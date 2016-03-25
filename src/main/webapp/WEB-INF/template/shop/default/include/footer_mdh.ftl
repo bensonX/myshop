@@ -183,8 +183,9 @@
 	<ul class="fix">
 		<li class="one">
 			<div class="infix">
-				<a href="">登陆</a>
-				<a href="">注册</a>
+				<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
+				<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+				<a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a>
 			</div>
 		</li>
 		<li class="two"></li>

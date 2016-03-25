@@ -101,7 +101,7 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/phone_captcha", method = RequestMethod.GET)
 	public @ResponseBody
-	String sendPhoneCaptcha(String phone){
+	String sendPhoneCaptcha(String phone,HttpServletRequest request, HttpServletResponse response, HttpSession session){
 		System.out.println("phone:"+phone);
 		if(StringUtils.isEmpty(phone)){
 			return false+"";
@@ -136,6 +136,7 @@ public class RegisterController extends BaseController {
 			return "获取验证码失败！";
 		}
 		System.out.println("发送成功！");
+		request.setAttribute("phonecaptcha", strcode);
 		return strcode;
 	}
 	
@@ -167,32 +168,36 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public @ResponseBody
-	Message submit(String captchaId, String captcha, String username, String email, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		if (!captchaService.isValid(Setting.CaptchaType.memberRegister, captchaId, captcha)) {
-			return Message.error("shop.captcha.invalid");
-		}
+	Message submit(String phone, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//	Message submit(String captchaId, String captcha, String username, String email, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		if (!captchaService.isValid(Setting.CaptchaType.memberRegister, captchaId, captcha)) {
+//			return Message.error("shop.captcha.invalid");
+//		}
+//		Setting setting = SystemUtils.getSetting();
+//		if (!setting.getIsRegisterEnabled()) {
+//			return Message.error("shop.register.disabled");
+//		}
+//		String password = rsaService.decryptParameter("enPassword", request);
+//		rsaService.removePrivateKey(request);
+//		if (!isValid(Member.class, "username", username, BaseEntity.Save.class) || !isValid(Member.class, "password", password, BaseEntity.Save.class) || !isValid(Member.class, "email", email, BaseEntity.Save.class)) {
+//			return Message.error("shop.common.invalid");
+//		}
+//		if (username.length() < setting.getUsernameMinLength() || username.length() > setting.getUsernameMaxLength()) {
+//			return Message.error("shop.common.invalid");
+//		}
+//		if (password.length() < setting.getPasswordMinLength() || password.length() > setting.getPasswordMaxLength()) {
+//			return Message.error("shop.common.invalid");
+//		}
+//		if (memberService.usernameDisabled(username) || memberService.usernameExists(username)) {
+//			return Message.error("shop.register.disabledExist");
+//		}
+//		if (!setting.getIsDuplicateEmail() && memberService.emailExists(email)) {
+//			return Message.error("shop.register.emailExist");
+//		}
+		System.out.println("注册提交。。。");
 		Setting setting = SystemUtils.getSetting();
-		if (!setting.getIsRegisterEnabled()) {
-			return Message.error("shop.register.disabled");
-		}
 		String password = rsaService.decryptParameter("enPassword", request);
 		rsaService.removePrivateKey(request);
-		if (!isValid(Member.class, "username", username, BaseEntity.Save.class) || !isValid(Member.class, "password", password, BaseEntity.Save.class) || !isValid(Member.class, "email", email, BaseEntity.Save.class)) {
-			return Message.error("shop.common.invalid");
-		}
-		if (username.length() < setting.getUsernameMinLength() || username.length() > setting.getUsernameMaxLength()) {
-			return Message.error("shop.common.invalid");
-		}
-		if (password.length() < setting.getPasswordMinLength() || password.length() > setting.getPasswordMaxLength()) {
-			return Message.error("shop.common.invalid");
-		}
-		if (memberService.usernameDisabled(username) || memberService.usernameExists(username)) {
-			return Message.error("shop.register.disabledExist");
-		}
-		if (!setting.getIsDuplicateEmail() && memberService.emailExists(email)) {
-			return Message.error("shop.register.emailExist");
-		}
-
 		Member member = new Member();
 		member.removeAttributeValue();
 		for (MemberAttribute memberAttribute : memberAttributeService.findList(true, true)) {
@@ -203,9 +208,9 @@ public class RegisterController extends BaseController {
 			Object memberAttributeValue = memberAttributeService.toMemberAttributeValue(memberAttribute, values);
 			member.setAttributeValue(memberAttribute, memberAttributeValue);
 		}
-		member.setUsername(username);
+		member.setUsername("MDH_"+phone);
 		member.setPassword(DigestUtils.md5Hex(password));
-		member.setEmail(email);
+		member.setEmail(phone+"@maidehao.com");
 		member.setNickname(null);
 		member.setPoint(0L);
 		member.setBalance(BigDecimal.ZERO);
@@ -236,17 +241,17 @@ public class RegisterController extends BaseController {
 		member.setOutMessages(null);
 		member.setPointLogs(null);
 		memberService.save(member);
-
-		if (setting.getRegisterPoint() > 0) {
-			memberService.addPoint(member, setting.getRegisterPoint(), PointLog.Type.reward, null, null);
-		}
-
+System.out.println("111111111111");
+//		if (setting.getRegisterPoint() > 0) {
+//			memberService.addPoint(member, setting.getRegisterPoint(), PointLog.Type.reward, null, null);
+//		}
+System.out.println("2222222222");
 		Cart cart = cartService.getCurrent();
 		if (cart != null && cart.getMember() == null) {
 			cartService.merge(member, cart);
 			WebUtils.removeCookie(request, response, Cart.KEY_COOKIE_NAME);
 		}
-
+System.out.println("333333333333333333");
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		Enumeration<?> keys = session.getAttributeNames();
 		while (keys.hasMoreElements()) {
@@ -258,13 +263,16 @@ public class RegisterController extends BaseController {
 		for (Map.Entry<String, Object> entry : attributes.entrySet()) {
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
-
-		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), member.getUsername()));
-		WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
-		if (StringUtils.isNotEmpty(member.getNickname())) {
-			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
-		}
-
+		System.out.println("44444444444444444444");
+//		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), member.getPhone()));
+//		WebUtils.addCookie(request, response, Member.PHONE_COOKIE_NAME, member.getPhone());
+//		if (StringUtils.isNotEmpty(member.getNickname())) {
+//			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
+//		}
+//		if (StringUtils.isNotEmpty(member.getUsername())) {
+//			WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
+//		}
+		System.out.println("555555555555555555555");
 		return Message.success("shop.register.success");
 	}
 

@@ -43,6 +43,7 @@ $().ready(function() {
 
 });
 </script>
+[#--
 <div class="header">
 	<div class="top">
 		<div class="topNav">
@@ -76,6 +77,7 @@ $().ready(function() {
 			</ul>
 		</div>
 	</div>
+--]
 [#--
 	<div class="container">
 		<div class="row">

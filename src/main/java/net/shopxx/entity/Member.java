@@ -94,6 +94,9 @@ public class Member extends BaseEntity<Long> {
 	/** "昵称"Cookie名称 */
 	public static final String NICKNAME_COOKIE_NAME = "nickname";
 
+	/** "用户名"Cookie名称 */
+	public static final String PHONE_COOKIE_NAME = "phone";
+
 	/** 会员注册项值属性个数 */
 	public static final int ATTRIBUTE_VALUE_PROPERTY_COUNT = 10;
 
