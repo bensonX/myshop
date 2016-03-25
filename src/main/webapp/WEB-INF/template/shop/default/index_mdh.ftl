@@ -132,6 +132,10 @@
 		--]
 		<!-- 图片一区开始 -->
 		<div class="main">
+			[@ad_position id = 2 /]
+		</div>
+		[#--
+		<div class="main">
 			<ul class="clearfix">
 				[@product_category_root_list count = 6]
 					[@promotion_list productCategoryId = productCategory.id hasEnded = false count = 2]
@@ -150,6 +154,7 @@
 				[/@product_category_root_list]
 			</ul>
 		</div> 
+		--]
 		<!-- 新品上架开始 -->
 		<div class="news" data-tag=news>
 			<h2>${message("shop.index.newPromotion")}
