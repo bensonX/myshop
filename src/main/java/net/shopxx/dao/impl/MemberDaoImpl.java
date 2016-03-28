@@ -91,7 +91,15 @@ public class MemberDaoImpl extends BaseDaoImpl<Member, Long> implements MemberDa
 		String jpql = "select members from Member members where lower(members.email) = lower(:email)";
 		return entityManager.createQuery(jpql, Member.class).setParameter("email", email).getResultList();
 	}
-
+	
+	public List<Member> findListByPhone(String phone) {
+		if(StringUtils.isEmpty(phone)){
+			return Collections.emptyList();
+		}
+		String jpql = "select members from Member members where members.phone =:phone";
+		return entityManager.createQuery(jpql, Member.class).setParameter("phone", phone).getResultList();
+	}
+	
 	public Page<Member> findPage(Member.RankingType rankingType, Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Member> criteriaQuery = criteriaBuilder.createQuery(Member.class);

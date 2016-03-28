@@ -78,6 +78,15 @@ public interface MemberDao extends BaseDao<Member, Long> {
 	List<Member> findListByEmail(String email);
 
 	/**
+	 * 根据phone查找会员
+	 * 
+	 * @param phone
+	 * 			phone
+	 * @return 会员，若不存在则返回null
+	 */
+	List<Member> findListByPhone(String phone);
+	
+	/**
 	 * 查找会员分页
 	 * 
 	 * @param rankingType

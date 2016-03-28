@@ -83,13 +83,14 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(String redirectUrl, HttpServletRequest request, ModelMap model) {
+		System.out.println("跳转到登录页面。。。。。");
 		Setting setting = SystemUtils.getSetting();
 		if (StringUtils.equalsIgnoreCase(redirectUrl, setting.getSiteUrl()) || StringUtils.startsWithIgnoreCase(redirectUrl, request.getContextPath() + "/") || StringUtils.startsWithIgnoreCase(redirectUrl, setting.getSiteUrl() + "/")) {
 			model.addAttribute("redirectUrl", redirectUrl);
 		}
 		model.addAttribute("captchaId", UUID.randomUUID().toString());
 		model.addAttribute("loginPlugins", pluginService.getLoginPlugins(true));
-		return "/shop/${theme}/login/index";
+		return "/shop/${theme}/login/index_mdh";
 	}
 
 	/**
@@ -97,20 +98,26 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public @ResponseBody
-	Message submit(String captchaId, String captcha, String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	Message submit(String captchaId, String captcha, String phone, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String password = rsaService.decryptParameter("enPassword", request);
+		System.out.println("phone"+phone);
+		System.out.println("password"+password);
+		System.out.println("captchaId"+captchaId);
+		System.out.println("captcha"+captcha);
 		rsaService.removePrivateKey(request);
 
 		if (!captchaService.isValid(Setting.CaptchaType.memberLogin, captchaId, captcha)) {
+			System.out.println("验证码错误！");
 			return Message.error("shop.captcha.invalid");
 		}
-		if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(password)) {
+			System.out.println("手机号，密码为空！");
 			return Message.error("shop.common.invalid");
 		}
 		Member member;
 		Setting setting = SystemUtils.getSetting();
-		if (setting.getIsEmailLogin() && username.contains("@")) {
-			List<Member> members = memberService.findListByEmail(username);
+		if (setting.getIsEmailLogin()/* && username.contains("@")*/) {
+			List<Member> members = memberService.findListByPhone(phone);
 			if (members.isEmpty()) {
 				member = null;
 			} else if (members.size() == 1) {
@@ -119,7 +126,8 @@ public class LoginController extends BaseController {
 				return Message.error("shop.login.unsupportedAccount");
 			}
 		} else {
-			member = memberService.findByUsername(username);
+//			member = memberService.findByUsername(username);
+			member = null;
 		}
 		if (member == null) {
 			return Message.error("shop.login.unknownAccount");
@@ -150,7 +158,8 @@ public class LoginController extends BaseController {
 				memberService.update(member);
 			}
 		}
-
+		System.out.println("1."+DigestUtils.md5Hex(password));
+		System.out.println("2."+member.getPassword());
 		if (!DigestUtils.md5Hex(password).equals(member.getPassword())) {
 			int loginFailureCount = member.getLoginFailureCount() + 1;
 			if (loginFailureCount >= setting.getAccountLockCount()) {
@@ -160,8 +169,10 @@ public class LoginController extends BaseController {
 			member.setLoginFailureCount(loginFailureCount);
 			memberService.update(member);
 			if (ArrayUtils.contains(setting.getAccountLockTypes(), Setting.AccountLockType.member)) {
+				System.out.println("登录失败次数"+setting.getAccountLockCount());
 				return Message.error("shop.login.accountLockCount", setting.getAccountLockCount());
 			} else {
+				System.out.println("密码不正确！");
 				return Message.error("shop.login.incorrectCredentials");
 			}
 		}
@@ -188,12 +199,13 @@ public class LoginController extends BaseController {
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
 
-		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), username));
-		WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
+		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), phone));
+		WebUtils.addCookie(request, response, Member.PHONE_COOKIE_NAME, member.getPhone());
 		if (StringUtils.isNotEmpty(member.getNickname())) {
 			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
 		}
-
+		
+		System.out.println("登录成功！");
 		return SUCCESS_MESSAGE;
 	}
 

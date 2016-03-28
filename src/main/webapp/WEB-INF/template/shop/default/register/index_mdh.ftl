@@ -228,7 +228,7 @@ if ($.validator != null) {
         requestPhone();
       },
       success: function(message) {
-      	alert(message);
+      	//alert(message);
       	$("#compareCode").val(message);
         if (message.type != "success") {
           clearInterval(setInter);

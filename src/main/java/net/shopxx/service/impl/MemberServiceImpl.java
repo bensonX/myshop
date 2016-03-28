@@ -111,6 +111,11 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	public List<Member> findListByEmail(String email) {
 		return memberDao.findListByEmail(email);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<Member> findListByPhone(String phone) {
+		return memberDao.findListByPhone(phone);
+	}
 
 	@Transactional(readOnly = true)
 	public Page<Member> findPage(Member.RankingType rankingType, Pageable pageable) {
