@@ -35,6 +35,9 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<springframework.version>4.2.4.RELEASE</springframework.version>
+		<!--  jersey support for leo test  -->
+		<jersey.version>2.17</jersey.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -389,7 +392,32 @@
             <scope>system</scope> 
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKAnalyzer2012_u6.jar</systemPath> 
         </dependency>
+
+        <!--  jersey support for leo test  -->
+        <dependency>
+           <groupId>org.glassfish.jersey.containers</groupId>
+           <artifactId>jersey-container-servlet</artifactId>
+        </dependency>
+        <!--  jersey jason  support for leo test  -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+		</dependency>
 	</dependencies>
+	
+	<!--  jersey support for leo test  -->
+    <dependencyManagement>
+       <dependencies>
+               <dependency>
+                       <groupId>org.glassfish.jersey</groupId>
+                       <artifactId>jersey-bom</artifactId>
+                       <version>${jersey.version}</version>
+                       <type>pom</type>
+                       <scope>import</scope>
+               </dependency>
+       </dependencies>
+    </dependencyManagement>
+
 	<profiles>
 		<profile>
 			<id>jshop</id>
