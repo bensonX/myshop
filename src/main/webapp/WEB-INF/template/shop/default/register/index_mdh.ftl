@@ -298,7 +298,7 @@ if ($.validator != null) {
       }
     },
     submitHandler: function(form) {
-    	alert("submitHandler");
+    	//alert("submitHandler");
     	$.ajax({
 				url: "${base}/common/public_key.jhtml",
 				type: "GET",
@@ -308,11 +308,11 @@ if ($.validator != null) {
 					$submit.prop("disabled", true);
 				},
 				success: function(data) {
-					alert("data"+data);
+					//alert("data"+data);
 					var rsaKey = new RSAKey();
 					rsaKey.setPublic(b64tohex(data.modulus), b64tohex(data.exponent));
 					var enPassword = hex2b64(rsaKey.encrypt($password.val()));
-					alert("enPassword"+enPassword);
+					//alert("enPassword"+enPassword);
 					$.ajax({
 						url: $registerForm.attr("action"),
 						type: "POST",
@@ -401,7 +401,7 @@ if ($.validator != null) {
 			</form>
 		</div>
 		--]
-		<input type="text" id="compareCode" value="关于验证码"/>
+		<input type="text" id="compareCode" value="关于验证码" style="display:none"/>
 		<div id = "header" class="landing"></div>
     	<div class="landing">
 			<h1></h1>
@@ -428,10 +428,6 @@ if ($.validator != null) {
 						</p>
 					</div>
 					<button class="registered" type = "submit" >立即注册</button>
-					<input type="submit" class="registered" value="立即注册"/>
-
-<input type="submit" class="submit" value="${message("shop.register.submit")}" />
-
 					<p class="last clearfix">${message("shop.register.hasAccount")}　
 						<a href="${base}/login.jhtml">${message("shop.register.login")}</a>
 						<a class="email" href="javascrpt:;">通过邮箱注册》</a>

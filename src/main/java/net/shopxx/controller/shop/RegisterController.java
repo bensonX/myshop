@@ -208,6 +208,7 @@ public class RegisterController extends BaseController {
 			Object memberAttributeValue = memberAttributeService.toMemberAttributeValue(memberAttribute, values);
 			member.setAttributeValue(memberAttribute, memberAttributeValue);
 		}
+		member.setPhone(phone);
 		member.setUsername("MDH_"+phone);
 		member.setPassword(DigestUtils.md5Hex(password));
 		member.setEmail(phone+"@maidehao.com");
