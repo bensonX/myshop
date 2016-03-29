@@ -168,7 +168,7 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public @ResponseBody
-	Message submit(String phone, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	Message submit(String mobile, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 //	Message submit(String captchaId, String captcha, String username, String email, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 //		if (!captchaService.isValid(Setting.CaptchaType.memberRegister, captchaId, captcha)) {
 //			return Message.error("shop.captcha.invalid");
@@ -208,10 +208,10 @@ public class RegisterController extends BaseController {
 			Object memberAttributeValue = memberAttributeService.toMemberAttributeValue(memberAttribute, values);
 			member.setAttributeValue(memberAttribute, memberAttributeValue);
 		}
-		member.setPhone(phone);
-		member.setUsername("MDH_"+phone);
+		member.setPhone(mobile);
+		member.setUsername("MDH_"+mobile);
 		member.setPassword(DigestUtils.md5Hex(password));
-		member.setEmail(phone+"@maidehao.com");
+		member.setEmail(mobile+"@maidehao.com");
 		member.setNickname(null);
 		member.setPoint(0L);
 		member.setBalance(BigDecimal.ZERO);

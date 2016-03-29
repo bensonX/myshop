@@ -41,9 +41,9 @@
 
       // 人气商品开始
       $('.moods ul li').hover(function() {
-        $(this).find('.top').stop().slideDown(500);
+        $(this).find('.top').stop().fadeIn(400);
       }, function() {
-        $(this).find('.top').stop().slideUp(500);
+        $(this).find('.top').stop().fadeOut(400);
       });
 
       // 图片区域初始化
@@ -103,5 +103,42 @@
 
   });
 
+/**
+ * cookie
+ */
+// 添加Cookie
+function addCookie(name, value, options) {
+  if (arguments.length > 1 && name != null) {
+    if (options == null) {
+      options = {};
+    }
+    if (value == null) {
+      options.expires = -1;
+    }
+    if (typeof options.expires == "number") {
+      var time = options.expires;
+      var expires = options.expires = new Date();
+      expires.setTime(expires.getTime() + time * 1000);
+    }
+    if (options.path == null) {
+      options.path = "/";
+    }
+    if (options.domain == null) {
+      options.domain = "";
+    }
+    document.cookie = encodeURIComponent(String(name)) + "=" + encodeURIComponent(String(value)) + (options.expires != null ? "; expires=" + options.expires.toUTCString() : "") + (options.path != "" ? "; path=" + options.path : "") + (options.domain != "" ? "; domain=" + options.domain : "") + (options.secure != null ? "; secure" : "");
+  }
+}
 
+// 获取Cookie
+function getCookie(name) {
+  if (name != null) {
+    var value = new RegExp("(?:^|; )" + encodeURIComponent(String(name)) + "=([^;]*)").exec(document.cookie);
+    return value ? decodeURIComponent(value[1]) : null;
+  }
+}
 
+// 移除Cookie
+function removeCookie(name, options) {
+  addCookie(name, null, options);
+}

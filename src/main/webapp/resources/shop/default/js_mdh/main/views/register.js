@@ -29,7 +29,7 @@ if ($.validator != null) {
   }
 
   var $registerForm = $("#registerForm");
-  var $phone = $("#phone");
+  var $username = $("#username");
   var $password = $("#password");
   var $code = $("#code");
   var $agreement = $("#agreement");
@@ -114,17 +114,17 @@ if ($.validator != null) {
 
   // 点击获取手机验证码
   $codeButton.bind('click', function (){
-    var phone = $.trim($phone.val());
+    var phone = $.trim($username.val());
     var pattern = /1[3|4|5|7|8|9]\d{9}/;
     if (!pattern.test(phone)) {
       alert('请输入正确的手机号码');
       return ;
     }
     $.ajax({
-      url: 'http://www.maidehao.com/test/register.json',
+      url: '../../test/test.php',
       type: "POST",
       data: {
-        phone: $phone.val()
+        username: $username.val()
       },
       dataType: "json",
       cache: false,
@@ -143,14 +143,10 @@ if ($.validator != null) {
   // 表单验证
   $registerForm.validate({
     rules: {
-      phone: {
+      username: {
         required: true,
-        pattern: /1[3|4|5|7|8|9]\d{9}/,
-        minlength: 11,
-        remote: {
-			url: "jshop/register/check_phone.jhtml",
-			cache: false
-		}
+        pattern: /^1[3|4|5|7|8|9]{1}\d{9}$/g,
+        minlength: 11
       },
       password: {
         required: true,
@@ -171,7 +167,7 @@ if ($.validator != null) {
       }
     },
     messages: {
-      phone: {
+      username: {
         required : "请输入手机号码",
         pattern: "输入正确的手机号",
         remote: "手机已被注册"
@@ -202,7 +198,7 @@ if ($.validator != null) {
           url: $registerForm.attr("action"),
           type: "POST",
           data: {
-            phone: $phone.val(),
+            phone: $username.val(),
             enPassword: $password.val(),
             code: $code.val()
           },
@@ -253,5 +249,4 @@ if ($.validator != null) {
               .removeAttr('disabled')
               .removeClass('clickBackground');
   }
-
 });

@@ -402,6 +402,11 @@
  */
 
 ;$(function () {
+
+  for (var i = 0, len = $('.main_image li').length; i < len; i++) {
+    $('.flicking_inner').append('<a href="javascript:void 0;">'+(i+1)+'</a>');
+  }
+
   $(".main_visual").hover(function(){
     $("#btn_prev,#btn_next").fadeIn()
     },function(){
