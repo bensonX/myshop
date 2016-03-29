@@ -252,9 +252,8 @@ $().ready(function() {
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		<script type="text/javascript">
 		$().ready(function() {
-			//alert("123");
 			var $loginForm = $("#loginForm");
-			var $phone = $("#phone");
+			var $mobile = $("#mobile");
 			var $password = $("#password");
 			var $captcha = $("#captcha");
 			var $captchaImage = $("#captchaImage");
@@ -262,6 +261,16 @@ $().ready(function() {
 			var $isRememberUsername = $("#isRememberUsername");
 			var $submit = $("input:submit");
 			
+			// 记住用户名
+			  if (getCookie("memberUsername") != null) {
+			    $isRememberUsername.prop("checked", true);
+			    $mobile.val(getCookie("memberUsername"));
+			    $password.focus();
+			  } else {
+			    $isRememberUsername.prop("checked", false);
+			    $mobile.focus();
+			  }
+			  
 			// 更换验证码
 			$captchaImage.click(function() {
 				$captchaImage.attr("src", "${base}/common/captcha.jhtml?captchaId=${captchaId}&timestamp=" + new Date().getTime());
@@ -270,16 +279,50 @@ $().ready(function() {
 				$captchaImage.attr("src", "${base}/common/captcha.jhtml?captchaId=${captchaId}&timestamp=" + new Date().getTime());
 			});
 			
-
 			// 表单验证、记住用户名
 			$loginForm.validate({
 				rules: {
-					phone: "required",
-					password: "required"
+			      mobile: {
+			        required: true,
+			        pattern: /1[3|4|5|7|8|9]\d{9}$/,
+			        minlength: 11,
+			        remote: {
+			        	type:"GET",
+						url: "${base}/login/check_mobile.jhtml",
+						data:{
+                  			mobile:function(){return $("#mobile").val();}
+                		},
+						cache: false
+					}
+			      },
+				  password: {
+			        required: true,
+			        pattern: /.{6,}/,
+			      }
 					[#if setting.captchaTypes?? && setting.captchaTypes?seq_contains("memberLogin")]
-						,captcha: "required"
+						,captcha:  {
+					        required: true,
+					        pattern: /.{4}/,
+					    }
 					[/#if]
 				},
+				messages: {
+			      mobile: {
+			        required : "请输入手机号码",
+        			pattern: "输入正确的手机号",
+        			remote: "手机号码不存在"
+			      },
+
+			      password: {
+			        required : "请输入密码",
+			        pattern  : "请输入正确的密码"
+			      },
+
+			      captcha: {
+			        required : "请输入验证码",
+			        pattern  : "请输入正确的验证码"
+			      }
+			    },
 				submitHandler: function(form) {
 					$.ajax({
 						url: "${base}/common/public_key.jhtml",
@@ -293,13 +336,12 @@ $().ready(function() {
 							var rsaKey = new RSAKey();
 							rsaKey.setPublic(b64tohex(data.modulus), b64tohex(data.exponent));
 							var enPassword = hex2b64(rsaKey.encrypt($password.val()));
-							//alert("enPassword"+enPassword);
-							//alert("$phone.val()="+$phone.val()+"$captcha.val()"+$captcha.val());
+							
 							$.ajax({
 								url: $loginForm.attr("action"),
 								type: "POST",
 								data: {
-									phone: $phone.val(),
+									mobile: $mobile.val(),
 									enPassword: enPassword
 									[#if setting.captchaTypes?? && setting.captchaTypes?seq_contains("memberLogin")]
 										,captchaId: "${captchaId}",
@@ -314,11 +356,12 @@ $().ready(function() {
 									//for(t in message){
 									// alert(t+"==="+message.t);//t就是message的属性名  message.t就是属性值
 									//}
-									//alert("==="+message.type);
-									//alert("==="+message.content);
+									
 									if ($isRememberUsername.prop("checked")) {
-										addCookie("memberUsername", $phone.val(), {expires: 7 * 24 * 60 * 60});
+										alert("is");
+										addCookie("memberUsername", $mobile.val(), {expires: 7 * 24 * 60 * 60});
 									} else {
+										alert("not is");
 										removeCookie("memberUsername");
 									}
 									$submit.prop("disabled", false);
@@ -331,14 +374,18 @@ $().ready(function() {
 											[/#if]
 										[/#noescape]
 									} else {
+										alert("密码或验证码错误！");
 										$.message(message);
 										[#if setting.captchaTypes?? && setting.captchaTypes?seq_contains("memberLogin")]
 											$captcha.val("");
 											$captchaImage.attr("src", "${base}/common/captcha.jhtml?captchaId=${captchaId}&timestamp=" + new Date().getTime());
 										[/#if]
 									}
-									var phonecookie = getCookie("phone");
+									var mobilecookie = getCookie("mobile");
+									alert("mobilecookie"+mobilecookie);
 									
+									var memberUsername = getCookie("memberUsername");
+									alert("memberUsername"+memberUsername);
 								}
 							});
 						}
@@ -355,7 +402,7 @@ $().ready(function() {
 			<h1></h1>
 			<form class="landing" id="loginForm" action="${base}/login/submit.jhtml" method="post">
 				<div class = "username" >
-					<input class="tet" type="text" placeholder="请输入手机号" id="phone" name="phone" maxlength="200" />
+					<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="20" />
 				</div>
 					<input class="tet" type="password" placeholder="请输入密码" id="password" name="password" maxlength="200" autocomplete="off" />
 				<div class="inlanding clearfix">

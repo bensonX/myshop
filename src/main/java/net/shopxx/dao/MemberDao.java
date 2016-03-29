@@ -42,11 +42,11 @@ public interface MemberDao extends BaseDao<Member, Long> {
 	/**
 	 * 判断电话号码是否存在
 	 * 
-	 * @param phone
+	 * @param mobile
 	 * 			电话号码
 	 * @return 电话号码是否存在
 	 */
-	boolean phoneExists(String phone);
+	boolean mobileExists(String mobile);
 	
 	/**
 	 * 查找会员
@@ -84,7 +84,7 @@ public interface MemberDao extends BaseDao<Member, Long> {
 	 * 			phone
 	 * @return 会员，若不存在则返回null
 	 */
-	List<Member> findListByPhone(String phone);
+	List<Member> findListByMobile(String Mobile);
 	
 	/**
 	 * 查找会员分页

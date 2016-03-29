@@ -44,11 +44,11 @@ public interface MemberService extends BaseService<Member, Long> {
 	/**
 	 * 判断电话号码是否存在
 	 * 
-	 * @param phone
+	 * @param mobile
 	 * 			电话号码
 	 * @return 电话号码是否存在
 	 */
-	boolean phoneExists(String phone);
+	boolean mobileExists(String mobile);
 	
 	/**
 	 * 判断E-mail是否存在
@@ -106,7 +106,7 @@ public interface MemberService extends BaseService<Member, Long> {
 	 * 			phone
 	 * @return 会员，若不存在则返回null
 	 */
-	List<Member> findListByPhone(String phone);
+	List<Member> findListByMobile(String mobile);
 	
 	/**
 	 * 查找会员分页

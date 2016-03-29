@@ -21,78 +21,6 @@
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/base64.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/datePicker/WdatePicker.js"></script>
-[#--
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/register.js"></script>
-<script type="text/javascript">
-$().ready(function() {
-	alert("123");
-	var $registerForm_mdh = $("#registerForm_mdh");
-	var $phone = $("#phone");
-
-	var $getPhoneCaptcha=$("#getPhoneCaptcha");
-	var $submit = $("input:submit");
-	$getPhoneCaptcha.click(function() {
-		alert($phone.val());
-		
-		if($phone.val()!=""){
-			$.ajax({
-				url: "${base}/register/phone_captcha.jhtml",
-				data:{"phone":$phone.val()},
-				type: "GET",
-				dataType: "text",
-				cache: true,
-				success: function(data) {
-					alert(data);
-					$("#compareCode").val(data);
-					$("#compareCode2").val(${phonecaptcha});
-				},
-				error: function(data) {
-    				alert("error");
-    			}
-			});
-		}
-	});
-
-	// 表单验证
-	$registerForm_mdh.validate({
-		rules: {
-			phone: {
-				required: true,
-				pattern: /^[1][358][0-9]{9}$/,
-				remote: {
-					url: "${base}/register/check_phone.jhtml",
-					cache: false
-				}
-			},
-			password: {
-				required: true,
-				minlength: ${setting.passwordMinLength}
-			},
-			rePassword: {
-				required: true,
-				equalTo: "#password"
-			},
-			captcha: {
-				required: true,
-				minlength: ${setting.passwordMinLength},
-				pattern: /^[0-9][0-9][0-9][0-9]$/,
-				equalTo: "#compareCode",
-			}
-		},
-		messages: {
-			phone: {
-				pattern: "${message("shop.register.phoneIllegal")}",
-				remote: "${message("shop.register.phoneExist")}"
-			},
-			captcha: {
-				pattern: "${message("shop.captcha.invalid")}",
-				remote: "${message("shop.captcha.invalid")}"
-			},
-		}//,submitHandler: function(form) {}
-	});
-});
-</script>
---]
 <script>
 /**
  * 注册验证和提交表单
@@ -100,10 +28,8 @@ $().ready(function() {
  */
 
 ;$(function () {
-
-  // 验证
-if ($.validator != null) {
-    
+	// 验证
+	if ($.validator != null) {
     $.validator.setDefaults({
       errorClass: "fieldError",
       ignore: ".ignore",
@@ -121,17 +47,14 @@ if ($.validator != null) {
         form.submit();
       }
     });
-
   }
-
   var $registerForm = $("#registerForm");
-  var $phone = $("#phone");
+  var $mobile = $("#mobile");
   var $password = $("#password");
   var $code = $("#code");
   var $agreement = $("#agreement");
-  var $submit = $("button:submit");
   var $codeButton = $('#codeButton');
-
+  var $submit = $("button:submit");
 
   // 验证密码的强弱
   $password.keyup(function(e) {
@@ -208,19 +131,20 @@ if ($.validator != null) {
       return false;
     }
 
+	//alert("chushihua");
   // 点击获取手机验证码
   $codeButton.bind('click', function (){
-    var phone = $.trim($phone.val());
+    var mobile = $.trim($mobile.val());
     var pattern = /1[3|4|5|7|8|9]\d{9}/;
-    if (!pattern.test(phone)) {
+    if (!pattern.test(mobile)) {
       alert('请输入正确的手机号码');
       return ;
     }
     $.ajax({
-      url: '${base}/register/phone_captcha.jhtml',
+      url: '${base}/register/mobile_captcha.jhtml',
       type: "GET",
       data: {
-        "phone": $phone.val()
+        "mobile": $mobile.val()
       },
       dataType: "text",
       cache: true,
@@ -228,7 +152,9 @@ if ($.validator != null) {
         requestPhone();
       },
       success: function(message) {
-      	//alert(message);
+      	      	for( i in message){
+      	//alert(i+"="+message[i]);
+      	}
       	$("#compareCode").val(message);
         if (message.type != "success") {
           clearInterval(setInter);
@@ -241,12 +167,12 @@ if ($.validator != null) {
   // 表单验证
   $registerForm.validate({
     rules: {
-      phone: {
+      mobile: {
         required: true,
         pattern: /1[3|4|5|7|8|9]\d{9}/,
         minlength: 11,
         remote: {
-			url: "${base}/register/check_phone.jhtml",
+			url: "${base}/register/check_mobile.jhtml",
 			cache: false
 		}
       },
@@ -270,29 +196,25 @@ if ($.validator != null) {
       }
     },
     messages: {
-      phone: {
+      mobile: {
         required : "请输入手机号码",
         pattern: "${message("shop.register.phoneIllegal")}",
         remote: "${message("shop.register.phoneExist")}"
       },
-
       password: {
         required : "六位数以上的密码",
         pattern: "六位数以上的密码",
       },
-
       rePassword: {
         required : "六位数以上的密码",
         equalTo: "密码不相同"
       },
-
       code: {
         required : "请输入验证码",
         pattern: "只允许输入正确的手机号",
         equalTo: "验证码不对！请重新输",
         digits : "验证码应该输入数字"
       },
-
       agreement: {
         required: "必须接受条款",
       }
@@ -317,7 +239,7 @@ if ($.validator != null) {
 						url: $registerForm.attr("action"),
 						type: "POST",
 						data: {
-							"phone": $phone.val(),
+							"mobile": $mobile.val(),
 							"enPassword": enPassword
 							},
 						dataType: "json",
@@ -369,38 +291,6 @@ if ($.validator != null) {
 </script>
 </head>
 <body>
-	[#--
-	<input type="text" id="compareCode" value="关于验证码"/>
-	<input type="text" id="compareCode2" value="关于验证码2"/>
-	    <header class="landing"></header>
-    	<div class="landing">
-			<h1></h1>
-			<span>欢迎注册</span>
-			<form id="registerForm_mdh" action="${base}/register/submit.jhtml" method="post">
-				<input class="tet" type="text"     id="phone" name="phone"    maxlength="200" autocomplete="off" placeholder="请输入手机号" />
-				<input class="tet" type="password" name="password" maxlength="${setting.passwordMaxLength}" autocomplete="off" placeholder="请输入密码"/>
-				<input class="tet" type="password" name="rePassword" maxlength="${setting.passwordMaxLength}" autocomplete="off" placeholder="请重新输入密码"/>
-				<input class="tet" type="password" name="captcha" maxlength="4" autocomplete="off" placeholder="短信验证码"/>
-				<button class="register" type="button" name="getPhoneCaptcha" id="getPhoneCaptcha">获取验证码</button>
-				<p class="clearfix register">
-					<input class="names" type="radio" value="我已阅读并接受服务条款" name="nex" />
-					<a>我已阅读并接受服务条款</a>
-				</p>
-				<button class="registered">立即注册</button>
-				<p class="last clearfix">已注册可　<a href="">直接登陆</a>
-					<a class="email" href="">通过邮箱注册》</a>
-				</p>
-				<div class="register-fix">
-					<div class="register-infix  clearfix">
-						<span class="one"></span>
-						<span class="two"></span>
-						<span class="three"></span>
-					</div>
-					<p>弱中强</p>
-				</div>
-			</form>
-		</div>
-		--]
 		<input type="text" id="compareCode" value="关于验证码" style="display:none"/>
 		<div id = "header" class="landing"></div>
     	<div class="landing">
@@ -409,21 +299,21 @@ if ($.validator != null) {
 			<div class = "form" >
 				<form id="registerForm" action="${base}/register/submit.jhtml" method="post">
 					<div class = "username">
-						<input class="tet" type="text" placeholder="请输入手机号" id="phone" name="phone" maxlength="11" />
+						<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="11" />
 					</div>
 					<div class = "password">
 						<input class="tet" type="password" placeholder="请输入密码" id="password" name="password" maxlength="20" autocomplete="off" />
 					</div>
 					<div class = "re-password">
-						<input class="tet" type="password" placeholder="请重新输入密码" name="rePassword" maxlength="20" autocomplete="off" />
+						<input class="tet" type="password" placeholder="请重新输入密码" id="rePassword" name="rePassword" maxlength="20" autocomplete="off" />
 					</div>
 					<div class = "code">
-						<input class="tet" type="text" placeholder="短信验证码" name = "code" maxlength = "6" id = "code"/>
+						<input class="tet" type="text" placeholder="短信验证码" id = "code" name = "code" maxlength = "6"/>
 						<button class="register" type = "button" id = "codeButton" >获取验证码</button>
 					</div>
 					<div class = "agreement">
 						<p class="clearfix register">
-							<input class="names" type="checkbox" name="agreement" id = "agreement" />
+							<input class="names" type="checkbox" id = "agreement" name="agreement"/>
 							<a href = "javascript:;">我已阅读并接受服务条款</a>
 						</p>
 					</div>
@@ -442,8 +332,6 @@ if ($.validator != null) {
 					</div>
 				</form>
 			</div>
-			
-			
 		</div>
 </body>
 </html>

@@ -80,8 +80,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	}
 	
 	@Transactional(readOnly = true)
-	public boolean phoneExists(String phone){
-		return memberDao.phoneExists(phone);
+	public boolean mobileExists(String mobile){
+		return memberDao.mobileExists(mobile);
 	}
 	
 	@Transactional(readOnly = true)
@@ -113,8 +113,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Member> findListByPhone(String phone) {
-		return memberDao.findListByPhone(phone);
+	public List<Member> findListByMobile(String mobile) {
+		return memberDao.findListByMobile(mobile);
 	}
 
 	@Transactional(readOnly = true)

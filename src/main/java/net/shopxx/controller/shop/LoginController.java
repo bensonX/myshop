@@ -79,6 +79,19 @@ public class LoginController extends BaseController {
 	}
 
 	/**
+	 * 检查手机号是否被禁用或已注册
+	 */
+	@RequestMapping(value = "/check_mobile", method = RequestMethod.GET)
+	public @ResponseBody
+	boolean checkMobile(String mobile){
+		System.out.println("login比对数据库有无此手机号码"+mobile);
+		if(StringUtils.isEmpty(mobile)){
+			return false;
+		}
+		return memberService.mobileExists(mobile);
+	}
+	
+	/**
 	 * 登录页面
 	 */
 	@RequestMapping(method = RequestMethod.GET)
@@ -98,9 +111,9 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public @ResponseBody
-	Message submit(String captchaId, String captcha, String phone, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	Message submit(String captchaId, String captcha, String mobile, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String password = rsaService.decryptParameter("enPassword", request);
-		System.out.println("phone"+phone);
+		System.out.println("mobile"+mobile);
 		System.out.println("password"+password);
 		System.out.println("captchaId"+captchaId);
 		System.out.println("captcha"+captcha);
@@ -110,14 +123,14 @@ public class LoginController extends BaseController {
 			System.out.println("验证码错误！");
 			return Message.error("shop.captcha.invalid");
 		}
-		if (StringUtils.isEmpty(phone) || StringUtils.isEmpty(password)) {
+		if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
 			System.out.println("手机号，密码为空！");
 			return Message.error("shop.common.invalid");
 		}
 		Member member;
 		Setting setting = SystemUtils.getSetting();
 		if (setting.getIsEmailLogin()/* && username.contains("@")*/) {
-			List<Member> members = memberService.findListByPhone(phone);
+			List<Member> members = memberService.findListByMobile(mobile);
 			if (members.isEmpty()) {
 				member = null;
 			} else if (members.size() == 1) {
@@ -199,8 +212,8 @@ public class LoginController extends BaseController {
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
 
-		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), phone));
-		WebUtils.addCookie(request, response, Member.PHONE_COOKIE_NAME, member.getPhone());
+		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), member.getMobile()));
+		WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getMobile());
 		if (StringUtils.isNotEmpty(member.getNickname())) {
 			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
 		}

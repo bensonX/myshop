@@ -86,24 +86,24 @@ public class RegisterController extends BaseController {
 	/**
 	 * 检查手机号是否被禁用或已注册
 	 */
-	@RequestMapping(value = "/check_phone", method = RequestMethod.GET)
+	@RequestMapping(value = "/check_mobile", method = RequestMethod.GET)
 	public @ResponseBody
-	boolean checkPhone(String phone){
-		System.out.println("check_phone"+phone);
-		if(StringUtils.isEmpty(phone)){
+	boolean checkPhone(String mobile){
+		System.out.println("比对数据库有无此手机号码"+mobile);
+		if(StringUtils.isEmpty(mobile)){
 			return false;
 		}
-		return !memberService.phoneExists(phone);
+		return !memberService.mobileExists(mobile);
 	}
 	
 	/**
 	 * 获取手机号验证码
 	 */
-	@RequestMapping(value = "/phone_captcha", method = RequestMethod.GET)
+	@RequestMapping(value = "/mobile_captcha", method = RequestMethod.GET)
 	public @ResponseBody
-	String sendPhoneCaptcha(String phone,HttpServletRequest request, HttpServletResponse response, HttpSession session){
-		System.out.println("phone:"+phone);
-		if(StringUtils.isEmpty(phone)){
+	String sendPhoneCaptcha(String mobile,HttpServletRequest request, HttpServletResponse response, HttpSession session){
+
+		if(StringUtils.isEmpty(mobile)){
 			return false+"";
 		}
 		Random random = new Random();
@@ -123,7 +123,7 @@ public class RegisterController extends BaseController {
 		req.setSmsType("normal");
 		req.setSmsFreeSignName("注册验证");
 		req.setSmsParamString(json);
-		req.setRecNum(phone);
+		req.setRecNum(mobile);
 		req.setSmsTemplateCode("SMS_6480466"); 
 		try {
 			AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);
@@ -194,10 +194,23 @@ public class RegisterController extends BaseController {
 //		if (!setting.getIsDuplicateEmail() && memberService.emailExists(email)) {
 //			return Message.error("shop.register.emailExist");
 //		}
-		System.out.println("注册提交。。。");
+		System.out.println("注册提交。。。"+mobile);
+		
 		Setting setting = SystemUtils.getSetting();
+		if (!setting.getIsRegisterEnabled()) {
+			return Message.error("shop.register.disabled");
+		}
+		if (StringUtils.isEmpty(mobile)) {
+			return Message.error("shop.common.invalid");
+		}
 		String password = rsaService.decryptParameter("enPassword", request);
 		rsaService.removePrivateKey(request);
+		if (!isValid(Member.class, "mobile", mobile, BaseEntity.Save.class) || !isValid(Member.class, "password", password, BaseEntity.Save.class) ) {
+			return Message.error("shop.common.invalid");
+		}
+		if (password.length() < setting.getPasswordMinLength() || password.length() > setting.getPasswordMaxLength()) {
+			return Message.error("shop.common.invalid");
+		}
 		Member member = new Member();
 		member.removeAttributeValue();
 		for (MemberAttribute memberAttribute : memberAttributeService.findList(true, true)) {
@@ -208,10 +221,10 @@ public class RegisterController extends BaseController {
 			Object memberAttributeValue = memberAttributeService.toMemberAttributeValue(memberAttribute, values);
 			member.setAttributeValue(memberAttribute, memberAttributeValue);
 		}
-		member.setPhone(mobile);
+		member.setMobile(mobile);
 		member.setUsername("MDH_"+mobile);
 		member.setPassword(DigestUtils.md5Hex(password));
-		member.setEmail(mobile+"@maidehao.com");
+		member.setEmail(" ");
 		member.setNickname(null);
 		member.setPoint(0L);
 		member.setBalance(BigDecimal.ZERO);
@@ -265,14 +278,14 @@ System.out.println("333333333333333333");
 			session.setAttribute(entry.getKey(), entry.getValue());
 		}
 		System.out.println("44444444444444444444");
-//		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), member.getPhone()));
-//		WebUtils.addCookie(request, response, Member.PHONE_COOKIE_NAME, member.getPhone());
-//		if (StringUtils.isNotEmpty(member.getNickname())) {
-//			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
-//		}
-//		if (StringUtils.isNotEmpty(member.getUsername())) {
-//			WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
-//		}
+		session.setAttribute(Member.PRINCIPAL_ATTRIBUTE_NAME, new Principal(member.getId(), member.getMobile()));
+		WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getMobile());
+		if (StringUtils.isNotEmpty(member.getNickname())) {
+			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
+		}
+		if (StringUtils.isNotEmpty(member.getUsername())) {
+			WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
+		}
 		System.out.println("555555555555555555555");
 		return Message.success("shop.register.success");
 	}

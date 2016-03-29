@@ -42,12 +42,12 @@ public class MemberDaoImpl extends BaseDaoImpl<Member, Long> implements MemberDa
 		return count > 0;
 	}
 	
-	public boolean phoneExists(String phone){
-		if(StringUtils.isEmpty(phone)){
+	public boolean mobileExists(String mobile){
+		if(StringUtils.isEmpty(mobile)){
 			return false;
 		}
-		String jpql = "select count(*) from Member members where members.phone =:phone";
-		Long count = entityManager.createQuery(jpql,Long.class).setParameter("phone", phone).getSingleResult();
+		String jpql = "select count(*) from Member members where members.mobile =:mobile";
+		Long count = entityManager.createQuery(jpql,Long.class).setParameter("mobile", mobile).getSingleResult();
 		return count > 0;
 	}
 	
@@ -92,12 +92,12 @@ public class MemberDaoImpl extends BaseDaoImpl<Member, Long> implements MemberDa
 		return entityManager.createQuery(jpql, Member.class).setParameter("email", email).getResultList();
 	}
 	
-	public List<Member> findListByPhone(String phone) {
-		if(StringUtils.isEmpty(phone)){
+	public List<Member> findListByMobile(String mobile) {
+		if(StringUtils.isEmpty(mobile)){
 			return Collections.emptyList();
 		}
-		String jpql = "select members from Member members where members.phone =:phone";
-		return entityManager.createQuery(jpql, Member.class).setParameter("phone", phone).getResultList();
+		String jpql = "select members from Member members where members.mobile =:mobile";
+		return entityManager.createQuery(jpql, Member.class).setParameter("mobile", mobile).getResultList();
 	}
 	
 	public Page<Member> findPage(Member.RankingType rankingType, Pageable pageable) {

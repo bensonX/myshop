@@ -159,12 +159,13 @@ $().ready(function() {
 							[#list productCategories as productCategory]
 								<li>
 									<a href="${base}${productCategory.path}">
-										<h2>${productCategory.name}</h2>
+										<h2>${productCategory.name}<br>${base}${productCategory.path}</h2>
 									</a>
 									[@product_category_children_list productCategoryId = productCategory.id recursive = false count = 20]
 									[#list productCategories as productCategory]
 										<a href="${base}${productCategory.path}">
-											${productCategory.name}
+											${productCategory.name}<br>
+											${base}${productCategory.path}
 										</a>
 									[/#list]
 									[/@product_category_children_list]
