@@ -168,7 +168,7 @@ public class GoodsController extends BaseController {
 				}
 			}
 		}
-		System.out.println(pageNumber+"="+pageSize);
+		System.out.println(pageNumber+"="+pageSize+"="+Goods.OrderType.values());
 		Pageable pageable = new Pageable(pageNumber, pageSize);
 		model.addAttribute("orderTypes", Goods.OrderType.values());
 		model.addAttribute("productCategory", productCategory);

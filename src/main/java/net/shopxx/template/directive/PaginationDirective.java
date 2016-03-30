@@ -98,7 +98,7 @@ public class PaginationDirective extends BaseDirective {
 		Integer pageNumber = FreeMarkerUtils.getParameter(PAGE_NUMBER_PARAMETER_NAME, Integer.class, params);
 		Integer totalPages = FreeMarkerUtils.getParameter(TOTAL_PAGES_PARAMETER_NAME, Integer.class, params);
 		Integer segmentCount = FreeMarkerUtils.getParameter(SEGMENT_COUNT_PARAMETER_NAME, Integer.class, params);
-
+System.out.println("pattern"+pattern+"pageNumber"+pageNumber+"totalPages"+totalPages+"segmentCount"+segmentCount);
 		if (pageNumber == null || pageNumber < 1) {
 			pageNumber = 1;
 		}
