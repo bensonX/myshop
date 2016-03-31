@@ -183,8 +183,9 @@ public final class WebUtils {
 		if (cookies != null) {
 			try {
 				name = URLEncoder.encode(name, "UTF-8");
-				for (Cookie cookie : cookies) {
+				for (Cookie cookie : cookies) {System.out.println("Cookie名字1==>"+cookie.getName()+"值1==>"+cookie.getValue());
 					if (name.equals(cookie.getName())) {
+						System.out.println("Cookie名字2==>"+cookie.getName()+"值2==>"+cookie.getValue());
 						return URLDecoder.decode(cookie.getValue(), "UTF-8");
 					}
 				}

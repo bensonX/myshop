@@ -724,6 +724,7 @@ $().ready(function() {
 		<link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+		
 		<script type="text/javascript">
 			$().ready(function() {
 				var $headerCart = $("#headerCart");
@@ -746,8 +747,8 @@ $().ready(function() {
 				var $gridType = $("#gridType");
 				var $listType = $("#listType");
 				var $size = $("#layout a.size");
-				var $previousPage = $("#previousPage");
-				var $nextPage = $("#nextPage");
+				var $previousPage = $(".previousPage");
+				var $nextPage = $(".nextPage");
 				var $sort = $("#sort a, #sort li");
 				var $orderMenu = $("#orderMenu");
 				var $startPrice = $("#startPrice");
@@ -758,7 +759,10 @@ $().ready(function() {
 				var $exchange = $("#result a.exchange");
 				var $addFavorite = $("#result a.addFavorite");
 				var $addCompare = $("#result a.addCompare");
-	
+				var $pgn = $(".pgn");
+				var $confirmPage = $("#confirmPage");
+				var $confirm = $("#confirm");
+				
 				[#if productCategory??]
 				$filter.each(function() {
 					var $this = $(this);
@@ -873,6 +877,20 @@ $().ready(function() {
 			
 			$nextPage.click(function() {
 				$pageNumber.val(${page.pageNumber + 1});
+				$goodsForm.submit();
+				return false;
+			});
+			
+			$pgn.click(function() {
+				//alert($(this).html());
+				//alert($(this).attr('data-tag'));
+				$pageNumber.val($(this).attr('data-tag'));
+				$goodsForm.submit();
+				return false;
+			});
+			
+			$confirm.click(function(){
+				$pageNumber.val($confirmPage.val());
 				$goodsForm.submit();
 				return false;
 			});
@@ -1029,12 +1047,12 @@ $().ready(function() {
     	<!-- 头部开始 -->
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]	
 		<form id="goodsForm" action="${base}${(productCategory.path)!"/goods/list.jhtml"}" method="get">
-			<input type="text" border="1" id="brandId" name="brandId" value="${(brand.id)!}" />
-			<input type="text" border="1" id="promotionId" name="promotionId" value="${(promotion.id)!}" />
-			<input type="text" border="1" id="orderType" name="orderType" value="${orderType}" />
-			<input type="text" border="1" id="pageNumber" name="pageNumber" value="${page.pageNumber}" />
-			<input type="text" border="1" id="pageSize" name="pageSize" value="${page.pageSize}" />
-			<br/>
+			<input type="hidden" border="1" id="brandId" name="brandId" value="${(brand.id)!}" />
+			<input type="hidden" border="1" id="promotionId" name="promotionId" value="${(promotion.id)!}" />
+			<input type="hidden" border="1" id="orderType" name="orderType" value="${orderType}" />
+			<input type="hidden" border="1" id="pageNumber" name="pageNumber" value="${page.pageNumber}" />
+			<input type="hidden" border="1" id="pageSize" name="pageSize" value="${page.pageSize}" />
+
 			[#if productCategory??]
 				[@product_category_children_list productCategoryId = productCategory.id recursive = false]
 					[#assign filterProductCategories = productCategories /]
@@ -1060,8 +1078,8 @@ $().ready(function() {
 							${message("shop.goods.title")}
 						[/#if]
 					</h2>
-					<a href="">默认</a>
-					<div id="sort" class="sort"-->
+					<a href="javascript:;">默认</a>
+					<!--div id="sort" class="sort">
 						<div id="orderMenu" class="orderMenu">
 							${orderType}orderType${orderTypes[0]}orderTypes[0]
 							[#if orderType??]
@@ -1074,17 +1092,12 @@ $().ready(function() {
 									<li[#if type == orderType] class="current"[/#if] orderType="${type}">${message("Goods.OrderType." + type)}</li>
 								[/#list]
 							</ul>
-						</div>
-						
-						<span href="">
-								<a href="javascript:;"[#if orderType == "salesDesc"] class="currentDesc current" title="${message("shop.goods.cancel")}"[#else] class="desc"[/#if] orderType="salesDesc">${message("shop.goods.salesDesc")}</a>
-						</span>
-						<span href="">
-								<a href="javascript:;"[#if orderType == "scoreDesc"] class="currentDesc current" title="${message("shop.goods.cancel")}"[#else] class="desc"[/#if] orderType="scoreDesc">${message("shop.goods.scoreDesc")}</a>
-						</span>
-						<span href="">
-								<a href="javascript:;"[#if orderType == "priceAsc"] class="currentAsc current" title="${message("shop.goods.cancel")}"[#else] class="asc"[/#if] orderType="priceAsc">${message("shop.goods.priceAsc")}</a>
-						</span>
+						</div-->
+						<div id="sort" class="sort">
+								<a href="javascript:;"[#if orderType == "salesDesc"] class="currentDesc selected current" title="${message("shop.goods.cancel")}"[#else] class="desc"[/#if] orderType="salesDesc">${message("shop.goods.salesDesc")}<i></i></a>
+								<a href="javascript:;"[#if orderType == "scoreDesc"] class="currentDesc current" title="${message("shop.goods.cancel")}"[#else] class="desc"[/#if] orderType="scoreDesc">${message("shop.goods.scoreDesc")}<i></i></a>
+								<a href="javascript:;"[#if orderType == "priceAsc"] class="currentAsc current" title="${message("shop.goods.cancel")}"[#else] class="asc"[/#if] orderType="priceAsc">${message("shop.goods.priceAsc")}<i></i></a>
+						</div>		
 						<!--input type="text" id="startPrice" name="startPrice" class="startPrice" value="${startPrice}" maxlength="16" title="${message("shop.goods.startPrice")}" onpaste="return false" />
 						<label>-</label>
 						<input type="text" id="endPrice" name="endPrice" class="endPrice" value="${endPrice}" maxlength="16" title="${message("shop.goods.endPrice")}" onpaste="return false" />
@@ -1092,8 +1105,18 @@ $().ready(function() {
 					</div-->
 				</div>
 				<div class="goods-key">
-					<a class="lf" href=""></a>
-					<a class="rg" href=""></a>
+					[#if page.totalPages > 0]
+						[#if page.pageNumber != 1]
+							<a href="javascript:;" class="previousPage" ></a>
+						[#else]
+							<a href="javascript:;" class="previousPage" ></a>
+						[/#if]
+						[#if page.pageNumber != page.totalPages]
+							<a href="javascript:;" class="nextPage" ></a>
+						[#else]
+							<a href="javascript:;" class="nextPage" ></a>
+						[/#if]
+					[/#if]
 				</div>
 			</div>
 			
@@ -1104,46 +1127,42 @@ $().ready(function() {
 					[#list page.content as goods]
 						[#assign defaultProduct = goods.defaultProduct /]
 						<li productId = "123456" >
-							<a href="${goods.url}">
-								<img src="${goods.thumbnail!setting.defaultThumbnailProductImage}"  height="270" width="265"/>
-							</a>
-							<P>	<!--
-								goods.caption——》${goods.caption}<br/>
-								goods.name——》${goods.name}——》${abbreviate(goods.name, 24)}——》${abbreviate(goods.name, 48)}<br/>
-								goods.type——》${goods.type}<br/>
-								exchangePoint——》${defaultProduct.exchangePoint}<br/>
-								Product.exchangePoint——》${message("Product.exchangePoint")}<br/>
-								-->
-									[#if goods.caption?has_content]
-										${abbreviate(goods.name, 12)}
-									[/#if]
-								<span>
-									[#if goods.type == "general"]
-										${currency(defaultProduct.price, true)}
-									[/#if]
-								</span>
-							</P>
-							<div class="top">
-								<div class="intop"></div>
-								<h3>
-									[#if goods.caption?has_content]
-										<span title="${goods.name}">${abbreviate(goods.name, 24)}</span>
-									[#else]
-										${abbreviate(goods.name, 48)}
-									[/#if]
-								</h3>
-								<p>
-									[#if goods.caption?has_content]
-										<em title="${goods.caption}">${abbreviate(goods.caption, 24)}</em>
-									[#else]
-										${abbreviate(goods.name, 48)}
-									[/#if]
-								</p>
-								<div class="collect">
-									<a href="javascript:;" data-tag="addCart" title="${message("shop.goods.addCart")}" goodsId="${goods.id}">&nbsp;</a>
-									<a href="javascript:;" class="last" title="${message("shop.goods.exchange")}" goodsId="${goods.id}">&nbsp;</a>
+							<a href="${goods.url}" >
+								<!--img src="${goods.thumbnail!setting.defaultThumbnailProductImage}"  height="270" width="265"/-->
+								<img src="${goods.image}"  height="270" width="265"/>
+
+								<P>	<!--
+									goods.caption——》${goods.caption}<br/>
+									goods.name——》${goods.name}——》${abbreviate(goods.name, 24)}——》${abbreviate(goods.name, 48)}<br/>
+									goods.type——》${goods.type}<br/>
+									exchangePoint——》${defaultProduct.exchangePoint}<br/>
+									Product.exchangePoint——》${message("Product.exchangePoint")}<br/>
+									-->
+											${abbreviate(goods.name, 12)}
+									<span>
+										[#if goods.type == "general"]
+											${currency(defaultProduct.price, true)}
+										[/#if]
+									</span>
+								</P>
+								<div class="top">
+									<div class="intop"></div>
+									<h3>
+										[#if goods.caption?has_content]
+											<span title="${goods.name}">${abbreviate(goods.name, 24)}</span>
+										[#else]
+											${abbreviate(goods.name, 48)}
+										[/#if]
+									</h3>
+									<p>
+											${abbreviate(goods.name, 48)}
+									</p>
+									<div class="collect">
+										<a href="javascript:;" data-tag="addCart" title="${message("shop.goods.addCart")}" goodsId="${goods.id}"></a>
+										<a href="javascript:;" class="last" title="${message("shop.goods.exchange")}" goodsId="${goods.id}"></a>
+									</div>
 								</div>
-							</div>
+							</a>							
 						</li>
 					[/#list]
 				</ul>
@@ -1154,7 +1173,7 @@ $().ready(function() {
 				[/#if]
 			</div>
 			
-			<span class="page">
+			<!--span class="page">
 				<label>${message("shop.goods.totalCount", page.total)} ${page.pageNumber}/[#if page.totalPages > 0]${page.totalPages}[#else]1[/#if]</label>
 				[#if page.totalPages > 0]
 					[#if page.pageNumber != 1]
@@ -1169,27 +1188,37 @@ $().ready(function() {
 					[/#if]
 				[/#if]
 				<a href="#"><span>previous</span></a>
+				<a href="#">page.totalPages+${page.totalPages}</a>
+				<a href="#">page.pageNumber+${page.pageNumber}</a>
+				<a href="#">page.total+${page.total}</a>
+				<a href="#">page.pageSize+${page.pageSize}</a>					
 				<a href="#"><span>next</span></a>
-			</span>
+			</span-->
 			<p class="number">
-				<a href="">1</a>
-				<a href="">2</a>
-				<a href="">3</a>
-				<a href="">4</a>
-				<a href="">5</a>
-				<a href="">6</a>
-				<a href="">7</a>
-				<a href="">8</a>
-				<a href="">9</a>
-				<a href="">10</a>
-				<a href="">11</a>
-				<a href="">12</a>
-				<a class="page" href="">上一页</a>
-				<a class="next" href="">下一页</a>
+					<a href="">${message("shop.goods.totalCount", page.total)} ${page.pageNumber}/[#if page.totalPages > 0]${page.totalPages}[#else]1[/#if]</a>
+				[#list 1..page.totalPages as pgn]
+					<a href="javascript:;" data-tag = "${pgn}" class="pgn">${pgn}</a>
+				[/#list]
+				[#if page.totalPages > 0]
+					[#if page.pageNumber != 1]
+						<a href="javascript:;" class="previousPage" class="page">
+							${message("shop.goods.previousPage")}
+						</a>
+					[#else]
+						<a href="javascript:;">	${message("shop.goods.previousPage")}</a>
+					[/#if]
+					[#if page.pageNumber != page.totalPages]
+						<a href="javascript:;" class="nextPage" class="next">
+							${message("shop.goods.nextPage")}
+						</a>
+					[#else]
+						<a href="javascript:;"> ${message("shop.goods.nextPage")}</a>
+					[/#if]
+				[/#if]
 				<span>跳转到
-					<input type="text" />页
+					<input type="text" id="confirmPage"/>页
 				</span>
-				<button>确&nbsp认</button>
+				<button id="confirm">确&nbsp认</button>
 			</p>
 		
 		

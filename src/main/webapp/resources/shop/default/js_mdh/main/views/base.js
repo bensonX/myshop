@@ -61,18 +61,18 @@
       });
 
       // 购买导航开始
-      $('.goods-nav span').hover(function() {
-        $(this).find('.goods-opt').stop().slideDown(300);
-      }, function() {
-        $(this).find('.goods-opt').stop().slideUp(300);
-      });
+      // $('.goods-nav span').hover(function() {
+      //   $(this).find('.goods-opt').stop().slideDown(300);
+      // }, function() {
+      //   $(this).find('.goods-opt').stop().slideUp(300);
+      // });
 
 
-      $('.goods-opt a').click(function() {
-        var text = $(this).html();
-        $(this).parents('span').html(text);
+      // $('.goods-opt a').click(function() {
+      //   var text = $(this).html();
+      //   $(this).parents('span').html(text);
 
-      });
+      // });
 
        // placehloder兼容处理
       if (!('placeholder' in document.createElement('input'))) {

@@ -457,7 +457,7 @@ $().ready(function() {
 				</dl>
 			</td>
 			<td>
-				<iframe id="iframe" name="iframe" src="index.jhtml" frameborder="0"></iframe>
+				<iframe id="iframe" name="iframe" src="index.jhtml" frameborder="2" style="border:1px solid blue;"></iframe>
 			</td>
 		</tr>
 	</table>
