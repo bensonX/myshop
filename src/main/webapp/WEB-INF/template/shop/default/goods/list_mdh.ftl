@@ -1155,7 +1155,7 @@ $().ready(function() {
 										[/#if]
 									</h3>
 									<p>
-											${abbreviate(goods.name, 48)}
+											${abbreviate(goods.caption, 48)}
 									</p>
 									<div class="collect">
 										<a href="javascript:;" data-tag="addCart" title="${message("shop.goods.addCart")}" goodsId="${goods.id}"></a>

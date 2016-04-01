@@ -132,9 +132,9 @@
 	<templateConfig id="articleList" type="page" name="文章列表" templatePath="/shop/${theme}/article/list.ftl" />
 	<templateConfig id="articleSearch" type="page" name="文章搜索" templatePath="/shop/${theme}/article/search.ftl" />
 	<templateConfig id="articleContent" type="page" name="文章内容" templatePath="/shop/${theme}/article/content.ftl" staticPath="/article/content/${article.createDate?string('yyyyMM')}/${article.id}/${pageNumber}.html" />
-	<templateConfig id="goodsList" type="page" name="商品列表" templatePath="/shop/${theme}/goods/list.ftl" />
+	<templateConfig id="goodsList" type="page" name="商品列表" templatePath="/shop/${theme}/goods/list_mdh.ftl" />
 	<templateConfig id="goodsSearch" type="page" name="商品搜索" templatePath="/shop/${theme}/goods/search.ftl" />
-	<templateConfig id="goodsContent" type="page" name="商品内容" templatePath="/shop/${theme}/goods/content.ftl" staticPath="/goods/content/${goods.createDate?string('yyyyMM')}/${goods.id}.html" />
+	<templateConfig id="goodsContent" type="page" name="商品内容" templatePath="/shop/${theme}/goods/content_mdh.ftl" staticPath="/goods/content/${goods.createDate?string('yyyyMM')}/${goods.id}.html" />
 	<templateConfig id="brandList" type="page" name="品牌列表" templatePath="/shop/${theme}/brand/list.ftl" />
 	<templateConfig id="brandContent" type="page" name="品牌内容" templatePath="/shop/${theme}/brand/content.ftl" />
 	<templateConfig id="promotionContent" type="page" name="促销内容" templatePath="/shop/${theme}/promotion/content.ftl" />
