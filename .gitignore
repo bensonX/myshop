@@ -2,6 +2,8 @@
 /target/*
 /src/test
 /src/test/*
+/.idea
+/.idea/*
 ./target
 ./target/*
 ./target/m2e-wtp
