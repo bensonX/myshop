@@ -4,6 +4,8 @@
 /src/test/*
 /.idea
 /.idea/*
+/.classpath
+
 ./target
 ./target/*
 ./target/m2e-wtp
