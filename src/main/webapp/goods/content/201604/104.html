@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>110 - Powered By JSHOP</title>
+	<meta name="author" content="JSHOP Team" />
+	<meta name="copyright" content="JSHOP" />
+		<meta name="keywords" content="110" />
+		<meta name="description" content="110" />
+	
+<!--link href="/jshop/resources/shop/default/css_mdh/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/jshop/resources/shop/default/js_mdh/third/jquery.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js_mdh/third/jqueryzoom.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js_mdh/main/views/base.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js_mdh/main/views/item.js"></script-->
+
+<link href="/jshop/resources/shop/default/css_mdh/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/jshop/resources/shop/default/js/jquery.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js/jquery.tools.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/jshop/resources/shop/default/js/common.js"></script>
+
+</head>
+<body>
+	
+<script type="text/javascript">
+$().ready(function() {
+
+	var $headerName = $("#headerName");
+	var $headerLogin = $("#headerLogin");
+	var $headerRegister = $("#headerRegister");
+	var $headerLogout = $("#headerLogout");
+	var $goodsSearchForm = $("#goodsSearchForm");
+	var $keyword = $("#goodsSearchForm input");
+	var defaultKeyword = "商品搜索";
+	
+	var username = getCookie("username");
+	var nickname = getCookie("nickname");
+	if ($.trim(nickname) != "") {
+		$headerName.text(nickname).show();
+		$headerLogout.show();
+	} else if ($.trim(username) != "") {
+		$headerName.text(username).show();
+		$headerLogout.show();
+	} else {
+		$headerLogin.show();
+		$headerRegister.show();
+	}
+	
+	$keyword.focus(function() {
+		if ($.trim($keyword.val()) == defaultKeyword) {
+			$keyword.val("");
+		}
+	});
+	
+	$keyword.blur(function() {
+		if ($.trim($keyword.val()) == "") {
+			$keyword.val(defaultKeyword);
+		}
+	});
+	
+	$goodsSearchForm.submit(function() {
+		if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+			return false;
+		}
+	});
+
+});
+</script>
+
+<div class="header">
+	
+</div>
+
+
+
+
+		<!-- 头部开始 -->
+		<div id = "header">
+			<a href = "">
+				<h1>买德好</h1>
+			</a>
+			<div class="search">
+				<form action="/jshop/goods/search.jhtml" method="get">
+					<input type="text" placeholder="商品搜索....."  name="keyword" class="keyword" />
+					<button type="submit">&nbsp;</button>
+				</form>
+			</div>
+			<!-- 导航开始 -->
+			<div class="nav">
+				<ul class="clearfix">
+					<li>
+						<a href="/jshop/product_category.jhtml">主页 </a>
+					</li>
+					<li>
+						<a href="/jshop/product_category.jhtml">所有商品分类 </a>
+						<div class="innav">
+							<ol class="clearfix">
+								<li>
+									<a href="/jshop/goods/list/1.jhtml">
+										<h2>手机数码<br>/jshop/goods/list/1.jhtml</h2>
+									</a>
+										<a href="/jshop/goods/list/7.jhtml">
+											手机通讯<br>
+											/jshop/goods/list/7.jhtml
+										</a>
+										<a href="/jshop/goods/list/8.jhtml">
+											手机配件<br>
+											/jshop/goods/list/8.jhtml
+										</a>
+										<a href="/jshop/goods/list/9.jhtml">
+											摄影摄像<br>
+											/jshop/goods/list/9.jhtml
+										</a>
+								</li>
+								<li>
+									<a href="/jshop/goods/list/2.jhtml">
+										<h2>电脑办公<br>/jshop/goods/list/2.jhtml</h2>
+									</a>
+										<a href="/jshop/goods/list/14.jhtml">
+											电脑整机<br>
+											/jshop/goods/list/14.jhtml
+										</a>
+										<a href="/jshop/goods/list/15.jhtml">
+											电脑配件<br>
+											/jshop/goods/list/15.jhtml
+										</a>
+										<a href="/jshop/goods/list/16.jhtml">
+											电脑外设<br>
+											/jshop/goods/list/16.jhtml
+										</a>
+										<a href="/jshop/goods/list/17.jhtml">
+											网络设备<br>
+											/jshop/goods/list/17.jhtml
+										</a>
+										<a href="/jshop/goods/list/18.jhtml">
+											办公打印<br>
+											/jshop/goods/list/18.jhtml
+										</a>
+										<a href="/jshop/goods/list/19.jhtml">
+											办公文仪<br>
+											/jshop/goods/list/19.jhtml
+										</a>
+										<a href="/jshop/goods/list/20.jhtml">
+											办公耗材<br>
+											/jshop/goods/list/20.jhtml
+										</a>
+								</li>
+								<li>
+									<a href="/jshop/goods/list/3.jhtml">
+										<h2>家用电器<br>/jshop/goods/list/3.jhtml</h2>
+									</a>
+										<a href="/jshop/goods/list/21.jhtml">
+											生活电器<br>
+											/jshop/goods/list/21.jhtml
+										</a>
+										<a href="/jshop/goods/list/22.jhtml">
+											厨卫电器<br>
+											/jshop/goods/list/22.jhtml
+										</a>
+										<a href="/jshop/goods/list/23.jhtml">
+											个护健康<br>
+											/jshop/goods/list/23.jhtml
+										</a>
+										<a href="/jshop/goods/list/25.jhtml">
+											大家电<br>
+											/jshop/goods/list/25.jhtml
+										</a>
+								</li>
+							</ol>
+						</div>
+					</li>
+				</ul>
+			</div>			
+		</div id = "header">
+	
+	<!-- main start -->
+    <div class = "item-main">
+      <div class = "item-main-detail clearfix" data-tag="item" productId = "456789">
+        <div class = "item-left fl">
+          <ul data-tag="small">
+          
+				<li>
+					<a href="javascript:;" class="current">
+						<img src="/upload/image/default_thumbnail.jpg" alt = "one" jqimg = "" />
+					</a>
+				</li>
+			
+          </ul>
+        </div>
+        <div class = "item-middle fl">
+          <div class = "item-big"  >
+				<a href="/upload/image/default_large.jpg" id="zoom" >
+					<img jqimg = ""  src="/upload/image/default_medium.jpg" alt = "big" />
+				</a>
+          </div>
+        </div>
+        <div class = "item-right fl">
+          <div class = "title" >
+            <h2>110</h2>
+            <p>
+            </p>
+          </div>
+          <div class = "price" >
+            <h5>￥110.00</h5>
+            <p>
+						<span>
+							<em>市场价:</em>
+							<del id="marketPrice">￥132.00</del>
+						</span>
+			</p>
+          </div>
+          <div class = "item-sku" data-tag="formList">
+            <dl class = "size clearfix">
+              <dt>尺码</dt>
+              <dd>
+                <ul data-property="尺码">
+                  <li class = "tb-selected" data-tag="size">
+                    <a href = "javascript:void(0)" >
+                      <span>120ml</span>
+                      <i></i>
+                    </a>
+                  </li>
+                  <li data-tag="size">
+                    <a href = "javascript:void(0)" >
+                      <span>240ml</span>
+                      <i></i>
+                    </a>
+                  </li>
+                  <li data-tag="size">
+                    <a href = "javascript:void(0)" >
+                      <span>360ml</span>
+                      <i></i>
+                    </a>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <p class = "sku-p">运费免运费     （订单满288免运费）</p>
+            <p class = "sku-p">该商品由上海自贸区发出</p>
+            <dl class = "color clearfix">
+                
+              <-dt>颜色</dt>
+              <dd>
+                <ul data-property="颜色">
+                  <li class="grap">
+                    <a href = "javascript:void(0)" >
+                      <span>灰色</span>
+                      <i></i>
+                    </a>
+                  </li>
+                  <li class = "white">
+                    <a href = "javascript:void(0)" >
+                      <span>灰色</span>
+                      <i></i>
+                    </a>
+                  </li>
+                  <li class = "yellow">
+                    <a href = "javascript:void(0)" >
+                      <span>灰色</span>
+                      <i></i>
+                    </a>
+                  </li>
+                </ul>
+              </dd>
+              
+            </dl>
+            <dl class = "amount clearfix">
+              <dt>数量</dt>
+              <dd>
+                <a href = "javascript:void(0)" data-tag="minus" >-</a>
+                <input type="text" id="quantity" name="quantity" data-tag="number" value = "1" maxlength="4" onpaste="return false;" />
+                <a href = "javascript:void(0)" data-tag="plus">+</a>
+              </dd>
+            </dl>
+            <dl class = "share clearfix">
+              <dt>分享</dt>
+              <dd>
+                <ul>
+                  <li>
+                      	<div class="share">
+							<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+								<a class="bds_qzone"></a>
+								<a class="bds_tsina"></a>
+								<a class="bds_tqq"></a>
+								<a class="bds_renren"></a>
+								<a class="bds_t163"></a>
+								<span class="bds_more"></span>
+								<a class="shareCount"></a>
+							</div>
+						</div>
+                  </li>
+              </dd>
+            </dl>
+            <div class = "button" data-tag="button" >
+				<input type="button" id="addProductNotify" class="addProductNotify hidden" value="到货通知我" />
+					<button type="button" id="addCart" class="add" data-tag="addCart">加入购物车</button>
+				<!--a href="javascript:;" id="addFavorite">收藏</a-->
+	            <button type = "button" class = "submit" data-tag="buyImmediately">
+	                立即购买
+	            </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class = "item-main-grid clearfix" >
+        <div class = "item-right fr" >
+         
+        </div>
+        <div class = "item-left fl" >
+          
+        </div>
+        <div class = "item-middle" >
+          <div class = "item-box" >
+            <h3 class = "item-title">商品参数</h3>
+            <p>
+	              	<table>
+					</table>
+            </p>
+          </div>
+          <div class = "item-box" >
+            <h3 class = "item-title">商品介绍</h3>
+            <p>
+					<div></div>
+			</p>
+          </div>
+          <div class = "item-box" >
+            <h3 class = "item-title">商品评论</h3>
+            <p>
+					<p>
+						暂无商品评论信息 <a href="/jshop/review/add/104.jhtml" id="addReview">[发表商品评论]</a>
+					</p>
+            </p>
+          </div>
+          <div class = "item-box" >
+            <h3 class = "item-title">商品咨询</h3>
+						<p>
+							暂无商品咨询信息 <a href="/jshop/consultation/add/104.jhtml" id="addConsultation">[发表商品咨询]</a>
+						</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0"></script>
+	<script type="text/javascript" id="bdshell_js"></script>
+	<script type="text/javascript">
+		document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+	</script>
+	
+    <!-- main end -->	
+<div class="footer">
+	<script type="text/javascript">
+	$().ready(function() {
+	
+		var $headerName = $("#headerName");
+		var phone = getCookie("phone");
+
+		if ($.trim(phone) != "") {
+			$headerName.text(phone).show();
+
+		}
+	});
+	</script>
+	<!-- 底部开始 -->
+	<div id = "footer">
+		<ul class="clearfix">
+			<li>
+				<a class="one" href="">德国直采</a>
+			</li>
+			<li>
+				<a class="two" href="">价格更优</a>
+			</li>
+			<li>
+				<a class="three" href="">极速体验</a>
+			</li>
+			<li>
+				<a class="fore" href="">金牌服务</a>
+			</li>
+		</ul>
+		<ol class="clearfix">
+			<li>
+				<h4>买德好保障</h4>
+				<a href="">自营正品</a>
+				<a href="">海外直邮</a>
+				<a href="">无忧退货</a>
+			</li>
+			<li>
+				<h4>新手指南</h4>
+				<a href="">购物流程</a>
+				<a href="">支付方式</a>
+				<a href="">通关关税</a>
+				<a href="">常见问题</a>
+			</li>
+			<li>
+				<h4>售后服务</h4>
+				<a href="">退货政策</a>
+				<a href="">退货流程</a>
+				<a href="">退款说明</a>
+				<a href="">联系客服</a>
+			</li>
+			<li>
+				<h4>物流配送</h4>
+				<a href="">配送方式</a>
+				<a href="">运费标准</a>
+				<a href="">通关关税</a>
+				<a href="">物流跟踪</a>
+			</li>
+			<li>
+				<h4>关于我们</h4>
+				<a href="">网站简介</a>
+				<a href="">联系我们</a>
+				<a href="">招商合作</a>
+				<a href="">销售联盟</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="/jshop/resources/shop/default//images_mdh/footer.png" height="56" width="115">
+				</a>
+			</li>
+		</ol>
+		<div class="copy">
+			<P>增值电信业务经营许可证：沪B2-20160101-3 买德好公司版权所有©2015-2016　　　　　400-666-66666
+				<span>
+					<a href=""></a>
+					<a href=""></a>
+				</span>
+			</P>
+		</div>
+	</div>
+	<!-- 窗口固定区开始 -->
+	<ul class="fix">
+		<li class="one">
+			<div class="infix">
+				<a href="/jshop/login.jhtml">登录</a>
+				<a href="/jshop/register.jhtml">注册</a>
+				<a href="/jshop/logout.jhtml">[退出]</a>
+			</div>
+		</li>
+		<li class="two" id="headerCart"><a href="/jshop/cart/list.jhtml">购物车</a></li>
+		<li class="three"></li>
+		<li class="fore"></li>
+		<li class="five"></li>
+	</ul>
+</div>
+</body>
+</html>
+
+<script>
+	$(function () {
+		var $headerCart = $("#headerCart");
+		var $historyGoods = $("#historyGoods");
+		var $clearHistoryGoods = $("#historyGoods a.clear");
+		var $zoom = $("#zoom");
+		var $thumbnailScrollable = $("#thumbnailScrollable");
+		var $thumbnail = $("#thumbnailScrollable a");
+		var $dialogOverlay = $("#dialogOverlay");
+		var $preview = $("#preview");
+		var $previewClose = $("#preview a.close");
+		var $previewScrollable = $("#previewScrollable");
+		var $price = $("#price");
+		var $marketPrice = $("#marketPrice");
+		var $rewardPoint = $("#rewardPoint");
+		var $exchangePoint = $("#exchangePoint");
+		var $specification = $("#specification dl");
+		var $specificationTips = $("#specification div");
+		var $specificationValue = $("#specification a");
+		var $productNotifyForm = $("#productNotifyForm");
+		var $productNotify = $("#productNotify");
+		var $productNotifyEmail = $("#productNotify input");
+		var $addProductNotify = $("#addProductNotify");
+		var $quantity = $("#quantity");
+		var $increase = $("#increase");
+		var $decrease = $("#decrease");
+		var $addCart = $("#addCart");
+		var $exchange = $("#exchange");
+		var $addFavorite = $("#addFavorite");
+		var $window = $(window);
+		var $bar = $("#bar ul");
+		var $introductionTab = $("#introductionTab");
+		var $parameterTab = $("#parameterTab");
+		var $reviewTab = $("#reviewTab");
+		var $consultationTab = $("#consultationTab");
+		var $introduction = $("#introduction");
+		var $parameter = $("#parameter");
+		var $review = $("#review");
+		var $addReview = $("#addReview");
+		var $consultation = $("#consultation");
+		var $addConsultation = $("#addConsultation");
+//		var barTop = $bar.offset().top;
+//		var barWidth = $bar.width();
+		var productId = 120;
+		var productData = {};
+		
+			// 加入购物车
+			$addCart.click(function() {
+				if (productId == null) {
+					//$specificationTips.fadeIn(150).fadeOut(150).fadeIn(150);
+					alert("No ProductId!");
+					return false;
+				}
+				var phone=getCookie("mobile");
+				alert(phone);
+				phone="15001932281";
+				if(!phone){alert("没有登录"); return false;}
+				
+				var quantity = $quantity.val();
+				
+				alert(productId+":"+quantity);
+				if (/^\d*[1-9]\d*$/.test(quantity)) {
+					$.ajax({
+						url: "/jshop/cart/add.jhtml",
+						type: "POST",
+						data: {productId: productId, quantity: quantity},
+						dataType: "json",
+						cache: false,
+						success: function(message) {
+							alert(message);
+							if (message.type == "success" && $headerCart.size() > 0 && window.XMLHttpRequest) {
+								var $image = $zoom.find("img");
+								var cartOffset = $headerCart.offset();
+								var imageOffset = $image.offset();
+								$image.clone().css({
+									width: 300,
+									height: 300,
+									position: "absolute",
+									"z-index": 20,
+									top: imageOffset.top,
+									left: imageOffset.left,
+									opacity: 0.8,
+									border: "1px solid #dddddd",
+									"background-color": "#eeeeee"
+								}).appendTo("body").animate({
+									width: 30,
+									height: 30,
+									top: cartOffset.top,
+									left: cartOffset.left,
+									opacity: 0.2
+								}, 1000, function() {
+									$(this).remove();
+								});
+							}
+							console.log(message);
+							$.message(message);
+						}
+					});
+				} else {
+					$.message("warn", "购买数量必须为正整数");
+				}
+			});
+		
+		// 添加商品收藏
+		$addFavorite.click(function() {
+			$.ajax({
+				url: "/jshop/member/favorite/add.jhtml",
+				type: "POST",
+				data: {goodsId: 104},
+				dataType: "json",
+				cache: false,
+				success: function(message) {
+					$.message(message);
+				}
+			});
+			return false;
+		});
+
+	});
+
+</script>
