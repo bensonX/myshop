@@ -418,6 +418,28 @@ $().ready(function() {
 					<a href="javascript:;">忘记密码？|</a>
 				</p>
 			</form>
+			[#if loginPlugins?has_content]
+				<tr class="loginPlugin">
+					<th>
+						&nbsp;
+					</th>
+					<td>
+						<ul>
+							[#list loginPlugins as loginPlugin]
+								<li>
+									<a href="${base}/login/plugin_submit.jhtml?pluginId=${loginPlugin.id}"[#if loginPlugin.description??] title="${loginPlugin.description}"[/#if]>
+										[#if loginPlugin.logo?has_content]
+											<img src="${loginPlugin.logo}" alt="${loginPlugin.loginMethodName}" />
+										[#else]
+											${loginPlugin.loginMethodName}
+										[/#if]
+									</a>
+								</li>
+							[/#list]
+						</ul>
+					</td>
+				</tr>
+			[/#if]
 			<div class="other">
 				<h2>微信登陆</h2>
 			</div>
