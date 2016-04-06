@@ -95,7 +95,17 @@
 	<setting name="smsKey" value="" />
 	<setting name="locale" value="zh_CN" />
 	<setting name="theme" value="default" />
+	
+	<!-- here will be used by wechat login -->
+	<setting name="wechatQrconnectUrl" value="https://open.weixin.qq.com/connect/qrconnect" />
+	<setting name="mdhDevAppid" value="wxd5766a6d882dab7e" />
+	<setting name="mdhDevSecret" value="5eef2ada77d6fff8c869a78653a5e943" />
+	<setting name="mdhCallbackRrl" value="http://maidehao.com/jshop/wechatCallback" />
+	<!-- http%3A%2F%2Fmaidehao.com%2Fjshop%2FwechatCallback   http://maidehao.com/jshop/wechatCallback -->
+	<setting name="wechatAccessTokenUrl" value="https://api.weixin.qq.com/sns/oauth2/access_token" />
+	<setting name="wechatRefreshTokenUrl" value="https://api.weixin.qq.com/sns/oauth2/refresh_token" />
 
+	
 	<logConfig operation="系统设置" urlPattern="/admin/setting/update.jhtml" />
 	<logConfig operation="添加管理员" urlPattern="/admin/admin/save.jhtml" />
 	<logConfig operation="编辑管理员" urlPattern="/admin/admin/update.jhtml" />
