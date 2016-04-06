@@ -392,7 +392,14 @@
             <scope>system</scope> 
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKAnalyzer2012_u6.jar</systemPath> 
         </dependency>
-
+        <dependency> 
+            <groupId>taobao-sdk-java</groupId> 
+            <artifactId>taobao-sdk-java</artifactId> 
+            <version>20160315</version> 
+            <scope>system</scope> 
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20160315.jar</systemPath> 
+        </dependency>
+        
         <!--  jersey support for leo test  -->
         <dependency>
            <groupId>org.glassfish.jersey.containers</groupId>
