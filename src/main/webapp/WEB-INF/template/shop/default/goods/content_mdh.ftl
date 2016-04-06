@@ -888,11 +888,18 @@ $().ready(function() {
 	
 	--]
 	
-<link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
+<!--link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jqueryzoom.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/item.js"></script-->
 
+<link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.tools.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.validate.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 
 </head>
 <body>
@@ -902,6 +909,7 @@ $().ready(function() {
 	<!-- main start -->
     <div class = "item-main">
       <div class = "item-main-detail clearfix" data-tag="item" productId = "456789">
+        
         <div class = "item-left fl">
           <ul data-tag="small">
           
@@ -909,50 +917,147 @@ $().ready(function() {
 				[#list goods.productImages as productImage]
 				<li>
 					<a[#if productImage_index == 0] class="current"[/#if] href="javascript:;" rel="{gallery: 'gallery', smallimage: '${productImage.medium}', largeimage: '${productImage.large}'}">
-						<img src="${productImage.thumbnail}" title="${productImage.title}" alt = "one" />
+						<img src="${productImage.thumbnail}" jqimg = "${productImage.thumbnail}" title="${productImage.title}" alt = "one" />
 					</a>
 				</li>	
 				[/#list]
 			[#else]
 				<li>
 					<a href="javascript:;" class="current">
-						<img src="${setting.defaultThumbnailProductImage}" alt = "one" />
+						<img src="${setting.defaultThumbnailProductImage}" alt = "one" jqimg = "${productImage.thumbnail}" />
 					</a>
 				</li>
 			[/#if]
 			
           </ul>
         </div>
+        
         <div class = "item-middle fl">
           <div class = "item-big"  >
             [#if goods.productImages?has_content]
-				<a href="${goods.productImages[0].large}" id="zoom" rel="gallery" id = "jqzoom" >
-					<img class="medium" src="${goods.productImages[0].medium}" alt = "big" />
+				<a href="${goods.productImages[0].large}"  id="zoom" >
+					<img jqimg = "${goods.productImages[0].medium}" src="${goods.productImages[0].medium}" alt = "big" />
 				</a>
 			[#else]
-				<a href="${setting.defaultLargeProductImage}" id = "jqzoom" rel="gallery">
-					<img class="medium" src="${setting.defaultMediumProductImage}" alt = "big" />
+				<a href="${setting.defaultLargeProductImage}" id="zoom" >
+					<img jqimg = "${goods.productImages[0].medium}"  src="${setting.defaultMediumProductImage}" alt = "big" />
 				</a>
 			[/#if]
           </div>
         </div>
+        
+        
         <div class = "item-right fl">
           <div class = "title" >
-            <h2>法国原装下午茶茶壶</h2>
+            <h2>${goods.name}</h2>
             <p>
-              精致的银色，流线几何造型，给你一个精致的<br>
-              下午时光
+				[#if goods.caption?has_content]
+					${goods.caption}
+				[/#if]
             </p>
           </div>
-          <div class = "price" >
-            <h5><span>￥</span>869</h5>
-            <p>含税额123.00元&nbsp;&nbsp;4折&nbsp;<span>¥2187</span></p>
-          </div>
-          <div class = "item-sku" >
+          [#if goods.type == "general"]
+	          <div class = "price" >
+	            <h5>${currency(defaultProduct.price, true)}</h5>
+	            <p>
+					[#if setting.isShowMarketPrice]
+							<span>
+								<em>${message("Product.marketPrice")}:</em>
+								<del id="marketPrice">${currency(defaultProduct.marketPrice, true)}</del>
+							</span>
+					[/#if]
+				</p>
+	          </div>
+	          		[#if goods.validPromotions?has_content]
+	          			${message("Goods.promotions")}:	
+	          					[#list goods.validPromotions as promotion]
+									<a href="${base}${promotion.path}" target="_blank" title="${promotion.title}[#if promotion.beginDate?? || promotion.endDate??] (${promotion.beginDate} ~ ${promotion.endDate})[/#if]">${promotion.name}</a>
+								[/#list]
+	          		[/#if]
+					[#if defaultProduct.rewardPoint > 0]
+						${message("Product.rewardPoint")}:${defaultProduct.rewardPoint}
+	          		[/#if]
+			[#else]
+			  	[#if goods.type == "exchange"]
+			  		${message("Product.exchangePoint")}:${defaultProduct.exchangePoint}
+			  	[/#if]
+				[#if setting.isShowMarketPrice]
+					${message("Product.marketPrice")}:${currency(defaultProduct.marketPrice, true)}
+				[/#if]
+			[/#if]
+          
+          <p class = "sku-p">${message("Goods.sn")}:${goods.sn}</p>
+          <p class = "sku-p">${message("Goods.type")}:${message("Goods.Type." + goods.type)}</p>
+          [#if goods.scoreCount > 0]
+          <p class = "sku-p">${message("Goods.score")}:score${(goods.score * 2)?string("0")}</p>
+          [/#if]
+          [#if goods.type == "general"]
+          <p class = "sku-p">${message("Goods.sn")}:${goods.sn}</p>          
+          [/#if]
+          <p class = "sku-p">
+          		[#if goods.type == "general" || goods.type == "exchange"]
+					<div class="action">
+						[#if goods.hasSpecification()]
+							[#assign defaultSpecificationValueIds = defaultProduct.specificationValueIds /]
+							<div id="specification" class="specification clearfix">
+								<div class="title">${message("shop.goods.specificationTips")}</div>
+								[#list goods.specificationItems as specificationItem]
+									<dl>
+										<dt>
+											<span title="${specificationItem.name}">${abbreviate(specificationItem.name, 8)}:</span>
+										</dt>
+										[#list specificationItem.entries as entry]
+											[#if entry.isSelected]
+												<dd>
+													<a href="javascript:;"[#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
+														${entry.value}<span title="${message("shop.goods.selected")}">&nbsp;</span>
+													</a>
+												</dd>
+											[/#if]
+										[/#list]
+									</dl>
+								[/#list]
+							</div>
+						[/#if]
+						<form id="productNotifyForm" action="${base}/product_notify/save.jhtml" method="post">
+							<dl id="productNotify" class="productNotify hidden">
+								<dt>${message("shop.goods.productNotifyEmail")}:</dt>
+								<dd>
+									<input type="text" name="email" maxlength="200" />
+								</dd>
+							</dl>
+						</form>
+						<dl class="quantity[#if defaultProduct.isOutOfStock] hidden[/#if]">
+							<dt>${message("shop.goods.quantity")}:</dt>
+							<dd>
+								<input type="text" id="quantity" name="quantity" value="1" maxlength="4" onpaste="return false;" />
+								<div>
+									<span id="increase" class="increase">&nbsp;</span>
+									<span id="decrease" class="decrease">&nbsp;</span>
+								</div>
+							</dd>
+							<dd>
+								${goods.unit!message("shop.goods.defaultUnit")}
+							</dd>
+						</dl>
+						<div class="buy">
+							<input type="button" id="addProductNotify" class="addProductNotify[#if !defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addProductNotify")}" />
+							[#if goods.type == "general"]
+								<input type="button" id="addCart" class="addCart[#if defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addCart")}" />
+							[#else]
+								<input type="button" id="exchange" class="exchange[#if defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.exchange")}" />
+							[/#if]
+							<a href="javascript:;" id="addFavorite">${message("shop.goods.addFavorite")}</a>
+						</div>
+					</div>
+				[/#if]
+          </p>     
+                  
+          <div class = "item-sku" data-tag="formList">
             <dl class = "size clearfix">
               <dt>尺码</dt>
               <dd>
-                <ul>
+                <ul data-property="尺码">
                   <li class = "tb-selected" data-tag="size">
                     <a href = "javascript:void(0)" >
                       <span>120ml</span>
@@ -974,13 +1079,29 @@ $().ready(function() {
                 </ul>
               </dd>
             </dl>
-            <p class = "sku-p">运费免运费     （订单满288免运费）</p>
-            <p class = "sku-p">该商品由上海自贸区发出</p>
+
             <dl class = "color clearfix">
+            	[#--list goods.parameterValues as parameterValue]
+            		<dt>${parameterValue.group}</dt>
+            		<dd>
+		                <ul data-property="${parameterValue.group}">
+		                  [#list parameterValue.entries as parameterValueChild]
+                		  <li class = "${parameterValueChild.name}">
+		                    <a href = "javascript:void(0)" >
+		                      <span></span>
+		                      <i></i>
+		                      ${parameterValueChild.name}:${parameterValueChild.value}
+		                    </a>
+		                  </li>
+		                  [/#list]
+		                </ul>
+            	 	</dd>
+                [/#list--]
+                
               <dt>颜色</dt>
               <dd>
-                <ul>
-                  <li class = "tb-selected" data-tag="color">
+                <ul data-property="颜色">
+                  <li class="grap">
                     <a href = "javascript:void(0)" >
                       <span>灰色</span>
                       <i></i>
@@ -1000,12 +1121,13 @@ $().ready(function() {
                   </li>
                 </ul>
               </dd>
+              
             </dl>
             <dl class = "amount clearfix">
               <dt>数量</dt>
               <dd>
                 <a href = "javascript:void(0)" data-tag="minus" >-</a>
-                <input data-tag="number" value = "1">
+                <input type="text" id="quantity" name="quantity" data-tag="number" value = "1" maxlength="4" onpaste="return false;" />
                 <a href = "javascript:void(0)" data-tag="plus">+</a>
               </dd>
             </dl>
@@ -1014,19 +1136,31 @@ $().ready(function() {
               <dd>
                 <ul>
                   <li>
-                      <a href="javascript:;">
-                        <span>分享</span>
-                      </a>
+                      	<div class="share">
+							<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+								<a class="bds_qzone"></a>
+								<a class="bds_tsina"></a>
+								<a class="bds_tqq"></a>
+								<a class="bds_renren"></a>
+								<a class="bds_t163"></a>
+								<span class="bds_more"></span>
+								<a class="shareCount"></a>
+							</div>
+						</div>
                   </li>
               </dd>
             </dl>
             <div class = "button" data-tag="button" >
-              <button type = "button" class = "add" data-tag="addCart">
-                加入购物车
-              </button>
-              <button type = "button" class = "submit">
-                立即购买
-              </button>
+				<input type="button" id="addProductNotify" class="addProductNotify[#if !defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addProductNotify")}" />
+				[#if goods.type == "general"]
+					<button type="button" id="addCart" class="add" data-tag="addCart">${message("shop.goods.addCart")}</button>
+				[#else]
+					<button type="button" id="exchange" class="exchange[#if defaultProduct.isOutOfStock] hidden[/#if]">${message("shop.goods.exchange")}</button>
+				[/#if]
+				<!--a href="javascript:;" id="addFavorite">${message("shop.goods.addFavorite")}</a-->
+	            <button type = "button" class = "submit" data-tag="buyImmediately">
+	                立即购买
+	            </button>
             </div>
           </div>
         </div>
@@ -1040,135 +1174,294 @@ $().ready(function() {
         </div>
         <div class = "item-middle" >
           <div class = "item-box" >
-            <h3 class = "item-title">商品参数</h3>
+            <h3 class = "item-title">${message("shop.goods.parameter")}</h3>
             <p>
-              分为金色、银色、套装<br>
-              扫描本中二维码，可下载整张专辑<br>
-              成品尺寸130*180mm;<br>
-              金色款：亮金光膜，与250g单铜对裱，压凹，压线；<br>
-              银色款：亮银光膜 <br>
-              内文180P，印刷4色+专金，银色款内文印刷4色+专银，三边滚金滚银；<br>
+	              	<table>
+						[#list goods.parameterValues as parameterValue]
+							<tr>
+								<th class="group" colspan="2">${parameterValue.group}</th>
+							</tr>
+							[#list parameterValue.entries as entry]
+								<tr>
+									<th>${entry.name}</th>
+									<td>${entry.value}</td>
+								</tr>
+							[/#list]
+						[/#list]
+					</table>
             </p>
           </div>
           <div class = "item-box" >
-            <h3 class = "item-title">品牌介绍</h3>
-            <p>一年一张专辑的频率，羽泉携第11张全新专辑《不服》强势上线。良仓为此次发售亦量身定制专辑载体同名与第六季圣诞演唱会主题同名笔记本套装《不服》、《后台》。金银双面，两个人的故事。</p>
+            <h3 class = "item-title">${message("shop.goods.introduction")}</h3>
+            <p>
+				[#noescape]
+					<div>${goods.introduction}</div>
+				[/#noescape]
+			</p>
           </div>
           <div class = "item-box" >
-            <h3 class = "item-title">购买流程</h3>
+            <h3 class = "item-title">${message("shop.goods.review")}</h3>
             <p>
-              购买流程 退换货须知
+           		[#if goods.scoreCount > 0]
+					<div class="score">
+						<strong>${goods.score?string("0.0")}</strong>
+						<div>
+							<div class="score${(goods.score * 2)?string("0")}"></div>
+							<div>${message("Goods.scoreCount")}: ${goods.scoreCount}</div>
+						</div>
+					</div>
+					<div class="graph">
+						<span style="width: ${(goods.score * 20)?string("0.0")}%">
+							<em>${goods.score?string("0.0")}</em>
+						</span>
+						<div>&nbsp;</div>
+						<ul>
+							<li>${message("shop.goods.graph1")}</li>
+							<li>${message("shop.goods.graph2")}</li>
+							<li>${message("shop.goods.graph3")}</li>
+							<li>${message("shop.goods.graph4")}</li>
+							<li>${message("shop.goods.graph5")}</li>
+						</ul>
+					</div>
+					<div class="action">
+						<a href="${base}/review/add/${goods.id}.jhtml" id="addReview">${message("shop.goods.addReview")}</a>
+					</div>
+					[@review_list goodsId = goods.id count = 5]
+						[#if reviews?has_content]
+							<table>
+								[#list reviews as review]
+									<tr>
+										<th>
+											${review.content}
+											<div class="score${(review.score * 2)?string("0")}"></div>
+										</th>
+										<td>
+											[#if review.member??]
+												${review.member.username}
+											[#else]
+												${message("shop.goods.anonymous")}
+											[/#if]
+											<span title="${review.createDate?string("yyyy-MM-dd HH:mm:ss")}">${review.createDate?string("yyyy-MM-dd")}</span>
+										</td>
+									</tr>
+								[/#list]
+							</table>
+							<p>
+								<a href="${base}/review/content/${goods.id}.jhtml">[${message("shop.goods.viewReview")}]</a>
+							</p>
+						[/#if]
+					[/@review_list]
+				[#else]
+					<p>
+						${message("shop.goods.noReview")} <a href="${base}/review/add/${goods.id}.jhtml" id="addReview">[${message("shop.goods.addReview")}]</a>
+					</p>
+				[/#if]
             </p>
           </div>
           <div class = "item-box" >
-            <h3 class = "item-title">关于卖德好</h3>
-            <img src = "../../images_mdh/big.png"  alt = "big" />
-            <br/>
-            <img src = "../../images_mdh/big.png"  alt = "big" />
+            <h3 class = "item-title">${message("shop.goods.consultation")}</h3>
+           		 [@consultation_list goodsId = goods.id count = 5]
+					[#if consultations?has_content]
+						<ul>
+							[#list consultations as consultation]
+								<li>
+									${consultation.content}
+									<span>
+										[#if consultation.member??]
+											${consultation.member.username}
+										[#else]
+											${message("shop.goods.anonymous")}
+										[/#if]
+										<span title="${consultation.createDate?string("yyyy-MM-dd HH:mm:ss")}">${consultation.createDate?string("yyyy-MM-dd")}</span>
+									</span>
+									[#if consultation.replyConsultations?has_content]
+										<div class="arrow"></div>
+										<ul>
+											[#list consultation.replyConsultations as replyConsultation]
+												<li>
+													${replyConsultation.content}
+													<span title="${replyConsultation.createDate?string("yyyy-MM-dd HH:mm:ss")}">${replyConsultation.createDate?string("yyyy-MM-dd")}</span>
+												</li>
+											[/#list]
+										</ul>
+									[/#if]
+								</li>
+							[/#list]
+						</ul>
+						<p>
+							<a href="${base}/consultation/add/${goods.id}.jhtml" id="addConsultation">[${message("shop.goods.addConsultation")}]</a>
+							<a href="${base}/consultation/content/${goods.id}.jhtml">[${message("shop.goods.viewConsultation")}]</a>
+						</p>
+					[#else]
+						<p>
+							${message("shop.goods.noConsultation")} <a href="${base}/consultation/add/${goods.id}.jhtml" id="addConsultation">[${message("shop.goods.addConsultation")}]</a>
+						</p>
+					[/#if]
+				[/@consultation_list]
           </div>
         </div>
       </div>
     </div>
+    
+    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0"></script>
+	<script type="text/javascript" id="bdshell_js"></script>
+	<script type="text/javascript">
+		document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date() / 3600000)
+	</script>
+	
     <!-- main end -->	
 	[#include "/shop/${theme}/include/footer_mdh.ftl" /]
 </body>
 </html>
 
-<script type="text/javascript">
-      $().ready(function() {
+<script>
+	$(function () {
+		var $headerCart = $("#headerCart");
+		var $historyGoods = $("#historyGoods");
+		var $clearHistoryGoods = $("#historyGoods a.clear");
+		var $zoom = $("#zoom");
+		var $thumbnailScrollable = $("#thumbnailScrollable");
+		var $thumbnail = $("#thumbnailScrollable a");
+		var $dialogOverlay = $("#dialogOverlay");
+		var $preview = $("#preview");
+		var $previewClose = $("#preview a.close");
+		var $previewScrollable = $("#previewScrollable");
+		var $price = $("#price");
+		var $marketPrice = $("#marketPrice");
+		var $rewardPoint = $("#rewardPoint");
+		var $exchangePoint = $("#exchangePoint");
+		var $specification = $("#specification dl");
+		var $specificationTips = $("#specification div");
+		var $specificationValue = $("#specification a");
+		var $productNotifyForm = $("#productNotifyForm");
+		var $productNotify = $("#productNotify");
+		var $productNotifyEmail = $("#productNotify input");
+		var $addProductNotify = $("#addProductNotify");
+		var $quantity = $("#quantity");
+		var $increase = $("#increase");
+		var $decrease = $("#decrease");
+		var $addCart = $("#addCart");
+		var $exchange = $("#exchange");
+		var $addFavorite = $("#addFavorite");
+		var $window = $(window);
+		var $bar = $("#bar ul");
+		var $introductionTab = $("#introductionTab");
+		var $parameterTab = $("#parameterTab");
+		var $reviewTab = $("#reviewTab");
+		var $consultationTab = $("#consultationTab");
+		var $introduction = $("#introduction");
+		var $parameter = $("#parameter");
+		var $review = $("#review");
+		var $addReview = $("#addReview");
+		var $consultation = $("#consultation");
+		var $addConsultation = $("#addConsultation");
+//		var barTop = $bar.offset().top;
+//		var barWidth = $bar.width();
+		var productId = ${defaultProduct.id};
+		var productData = {};
+		
+		[#if goods.type == "general"]
+			// 加入购物车
+			$addCart.click(function() {
+				if (productId == null) {
+					//$specificationTips.fadeIn(150).fadeOut(150).fadeIn(150);
+					alert("No ProductId!");
+					return false;
+				}
+				var phone=getCookie("mobile");
+				alert(phone);
+				phone="15001932281";
+				if(!phone){alert("没有登录"); return false;}
+				
+				var quantity = $quantity.val();
+				
+				alert(productId+":"+quantity);
+				if (/^\d*[1-9]\d*$/.test(quantity)) {
+					$.ajax({
+						url: "${base}/cart/add.jhtml",
+						type: "POST",
+						data: {productId: productId, quantity: quantity},
+						dataType: "json",
+						cache: false,
+						success: function(message) {
+							alert(message);
+							if (message.type == "success" && $headerCart.size() > 0 && window.XMLHttpRequest) {
+								var $image = $zoom.find("img");
+								var cartOffset = $headerCart.offset();
+								var imageOffset = $image.offset();
+								$image.clone().css({
+									width: 300,
+									height: 300,
+									position: "absolute",
+									"z-index": 20,
+									top: imageOffset.top,
+									left: imageOffset.left,
+									opacity: 0.8,
+									border: "1px solid #dddddd",
+									"background-color": "#eeeeee"
+								}).appendTo("body").animate({
+									width: 30,
+									height: 30,
+									top: cartOffset.top,
+									left: cartOffset.left,
+									opacity: 0.2
+								}, 1000, function() {
+									$(this).remove();
+								});
+							}
+							console.log(message);
+							$.message(message);
+						}
+					});
+				} else {
+					$.message("warn", "${message("shop.goods.quantityPositive")}");
+				}
+			});
+		[#elseif goods.type == "exchange"]
+			// 积分兑换
+			$exchange.click(function() {
+				if (productId == null) {
+					$specificationTips.fadeIn(150).fadeOut(150).fadeIn(150);
+					return false;
+				}
+				var quantity = $quantity.val();
+				if (/^\d*[1-9]\d*$/.test(quantity)) {
+					$.ajax({
+						url: "${base}/order/check_exchange.jhtml",
+						type: "GET",
+						data: {productId: productId, quantity: quantity},
+						dataType: "json",
+						cache: false,
+						success: function(message) {
+							if (message.type == "success") {
+								location.href = "${base}/order/checkout.jhtml?type=exchange&productId=" + productId + "&quantity=" + quantity;
+							} else {
+								$.message(message);
+							}
+						}
+					});
+				} else {
+					$.message("warn", "${message("shop.goods.quantityPositive")}");
+				}
+			});
+		[/#if]
+		
+		// 添加商品收藏
+		$addFavorite.click(function() {
+			$.ajax({
+				url: "${base}/member/favorite/add.jhtml",
+				type: "POST",
+				data: {goodsId: ${goods.id}},
+				dataType: "json",
+				cache: false,
+				success: function(message) {
+					$.message(message);
+				}
+			});
+			return false;
+		});
 
-        var $addCart = $('[data-tag="addCart"]');  // 产品购物车document
-        var $headerCart = $('#headerCart');        // 右边固定购物车
-        var $jqzoom = $('#jqzoom');
-        
+	});
 
-        // 加入购物车
-        $('[data-tag="button"]').prepend($('[data-tag="small"] li:first img').clone().css({width: '0px', height: '0px'}));
-        $addCart.click(function() {
-          var $this = $(this);
-          var productId = $this.closest('[data-tag="item"]').attr("productId");  // 产品id
-           $.ajax({
-            url: "../../test/add.php",  //jshop/cart/add.jhtml
-            type: "POST",
-            data: {productId: productId, num: 1}, // 产品id，数量
-            dataType: "json",
-            cache: false,
-            success: function(message) {
-              if (message.type == "success") {
-                var $image = $this.parent().find("img");
-                var cartOffset = $headerCart.offset();
-                var imageOffset = $image.offset();
-                $image.clone().css({
-                  width: 120,
-                  height: 120,
-                  position: "absolute",
-                  "z-index": 20,
-                  top: imageOffset.top,
-                  left: imageOffset.left,
-                  opacity: 0.8,
-                  border: "1px solid #dddddd",
-                  "background-color": "#eeeeee",
-                  "display": "inline-block"
-                }).appendTo("body").animate({
-                  width: 30,
-                  height: 30,
-                  top: cartOffset.top,
-                  left: cartOffset.left,
-                  opacity: 0.2
-                 }, 800, function() {
-                   $(this).remove();
-                 });
-                 // 右边固定栏购物车显示
-                 $headerCart.find('span').html(message.content);
-               }
-             }
-           });
-           return false;
-         });
-        // 放大图片
-        $jqzoom.jqzoom({
-          zoomWidth:300,
-          zoomHeight:300,
-          position:"right",
-          lens:true,
-          imageOpacity:1.0,
-          title: false,
-          preloadText: null
-        });
-
-        // 切换图片
-        $('[data-tag="small"] li').bind('mouseover', function (event) {
-          if ($(this).attr('class') != 'tb-selected' ) {
-            $(this).addClass('tb-selected').siblings().removeClass('tb-selected');
-            var imgsrc = $(this).find('img').attr('src');
-            $jqzoom.find('img').attr('src', imgsrc);
-          }
-        });
-
-        // 减数量
-        $('[data-tag="minus"]').bind('click', function () {
-          var $number = $('[data-tag="number"]');
-          var num = parseInt($number.val());
-          if (num > 2 ) $number.val(--num);
-        });
-        // 加数量
-        $('[data-tag="plus"]').bind('click', function () {
-          var $number = $('[data-tag="number"]');
-          var num = parseInt($number.val());
-          if (num > 0 ) $number.val(++num);
-        });
-        // 数量框输入
-        $('[data-tag="number"]').bind('change keyup', function () {
-          var num = $(this).val();
-          var param = /^[1-9]{1}[0-9]*$/;
-          if (!param.test(num)) $(this).val(parseInt(num) || '1');
-        });
-
-        // 尺码
-        $('[data-tag="size"]').bind('click', function () {
-          $(this).addClass('tb-selected').siblings().removeClass('tb-selected');
-        });
-
-      });
-    </script>
+</script>
 [/#escape]

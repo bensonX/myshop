@@ -33,7 +33,8 @@ public class ProductCategoryController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(ModelMap model) {
 		model.addAttribute("rootProductCategories", productCategoryService.findRoots());
-		return "/shop/${theme}/product_category/index";
+		return "/shop/${theme}/product_category/index_mdh";
+		//return "/shop/${theme}/product_category/index";
 	}
 
 }
