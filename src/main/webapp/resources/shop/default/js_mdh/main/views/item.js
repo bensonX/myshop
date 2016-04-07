@@ -1,7 +1,7 @@
 // 页面特效
 $(function () {
 
-  var $jqzoom = $('#zoom');
+  var $jqzoom = $('#jqzoom');
   // 放大镜
   $jqzoom.jqueryzoom({xzoom:250,yzoom:250});
 
@@ -62,7 +62,7 @@ $(function () {
   ShoppingForm.fn.data = function () {
     return {
       arrayData: this.arrayData(),
-      quantity: $('[data-tag="number"]').val()
+      number: $('[data-tag="number"]').val()
     };
   };
 
@@ -170,13 +170,14 @@ $(function () {
       location.href = self.options.urlLogin;
     
     var data = $.extend({}, this.options.shoppingForm.data(), self.options.data);
-    
+
     console.log("cartPostData: ");
     console.log(data);
+
     $.ajax({
       url: self.options.urlCartPost,
       type: "POST",
-      data: self.options.data,
+      data: data,
       dataType: "json",
       cache: false,
       success: function(message) {
