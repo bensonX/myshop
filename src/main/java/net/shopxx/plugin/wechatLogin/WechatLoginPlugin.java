@@ -111,15 +111,21 @@ public class WechatLoginPlugin extends LoginPlugin {
 			request.getSession().removeAttribute(STATE_ATTRIBUTE_NAME);
 			PluginConfig pluginConfig = getPluginConfig();
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
-			parameterMap.put("grant_type", "authorization_code");
-			parameterMap.put("client_id", pluginConfig.getAttribute("oauthKey"));
-			parameterMap.put("client_secret", pluginConfig.getAttribute("oauthSecret"));
-			parameterMap.put("redirect_uri", getNotifyUrl());
+			parameterMap.put("appid", pluginConfig.getAttribute("oauthKey"));
+			parameterMap.put("secret", pluginConfig.getAttribute("oauthSecret"));
 			parameterMap.put("code", request.getParameter("code"));
-			String content = WebUtils.get("https://graph.qq.com/oauth2.0/token", parameterMap);
-			String accessToken = WebUtils.parse(content).get("access_token");
+			parameterMap.put("grant_type", "authorization_code");
+			String content = WebUtils.get("https://api.weixin.qq.com/sns/oauth2/access_token", parameterMap);
+			System.out.println(" leosu .. content is: " + content);
+			JsonNode jsonNode = JsonUtils.toTree(content);
+			String accessToken = jsonNode.get("access_token").textValue();
+			String openId = jsonNode.get("openid").textValue();
+			System.out.println(" leosu .. verifyNotify  accessToken is: " + accessToken);
+			System.out.println(" leosu .. verifyNotify  openid is: " + openId);
 			if (StringUtils.isNotEmpty(accessToken)) {
+				System.out.println(" leosu . set openId");
 				request.setAttribute("accessToken", accessToken);
+				request.setAttribute("openId", openId);
 				return true;
 			}
 		}
@@ -127,17 +133,9 @@ public class WechatLoginPlugin extends LoginPlugin {
 	}
 
 	@Override
-	public String getOpenId(HttpServletRequest request) {
-		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("access_token", request.getAttribute("accessToken"));
-		String content = WebUtils.get("https://graph.qq.com/oauth2.0/me", parameterMap);
-		Matcher matcher = OPEN_ID_PATTERN.matcher(content);
-		if (matcher.find()) {
-			String openId = matcher.group(1);
-			request.setAttribute("openId", openId);
-			return openId;
-		}
-		return null;
+	public String getOpenId(HttpServletRequest request) {		
+		String openId = request.getAttribute("openId").toString();
+		return openId;
 	}
 
 	@Override
@@ -147,12 +145,9 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public String getNickname(HttpServletRequest request) {
-		PluginConfig pluginConfig = getPluginConfig();
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("access_token", request.getAttribute("accessToken"));
-		parameterMap.put("oauth_consumer_key", pluginConfig.getAttribute("oauthKey"));
-		parameterMap.put("openid", request.getAttribute("openId"));
-		String content = WebUtils.get("https://graph.qq.com/user/get_user_info", parameterMap);
+		String content = WebUtils.get("https://api.weixin.qq.com/sns/userinfo", parameterMap);
 		JsonNode jsonNode = JsonUtils.toTree(content);
 		return jsonNode.has("nickname") ? jsonNode.get("nickname").textValue() : null;
 	}
