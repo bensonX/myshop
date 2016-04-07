@@ -27,15 +27,25 @@
         }, 300);
       });
       // 窗口固定区域开始
-      $('.fix li').mouseenter(function(event) {
-        $(this).find('.infix').stop().animate({
-          'right': 46
-        }, 300)
-      }).mouseleave(function(event) {
-        $(this).find('.infix').stop().animate({
-          'right': -120
-        }, 300)
-      });
+     $('.fix a.two').hover(function() {
+       $('.shopping-list').stop().animate({'right': 0}, 300);
+       $('.shopping-list2').stop().animate({'right': 0}, 300);
+     });
+
+     $('.shopping-list').mouseout(function(event) {
+       $(this).stop().animate({'right':-396},300);
+     });  
+
+      $('.shopping-list2').mouseout(function(event) {
+       $(this).stop().animate({'right':-396},300);
+     });
+     
+    $('.fix a.one').hover(function() {
+      $('fix .infix').stop().animate({'right':0},300);
+      $('fix .logged').stop().animate({'right':0},300);
+    });
+
+
 
       $('.news ul li:nth-child(4n)').css('margin-right', 0);
       $('.moods ul li:nth-child(4n)').css('margin-right', 0);

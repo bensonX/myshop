@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jshop>
 	<setting name="siteName" value="jshop购物商城" />
-	<setting name="siteUrl" value="http://127.0.0.1:8080/jshop" />
+	<setting name="siteUrl" value="http://wxdev.maidehao.com" />
 	<setting name="logo" value="/upload/image/logo.png" />
 	<setting name="hotSearch" value="苹果,三星,索尼,华为,魅族,佳能,华硕,美的,格力" />
 	<setting name="address" value="北京经济技术开发区" />
