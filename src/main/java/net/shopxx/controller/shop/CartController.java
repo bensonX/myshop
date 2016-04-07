@@ -12,6 +12,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import net.shopxx.Message;
 import net.shopxx.entity.Cart;
 import net.shopxx.entity.CartItem;
@@ -23,12 +29,6 @@ import net.shopxx.service.CartService;
 import net.shopxx.service.MemberService;
 import net.shopxx.service.ProductService;
 import net.shopxx.util.WebUtils;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Controller - 购物车
@@ -124,8 +124,9 @@ public class CartController extends BaseController {
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(ModelMap model) {
-		model.addAttribute("cart", cartService.getCurrent());
-		return "/shop/${theme}/cart/list";
+		Cart cart = cartService.getCurrent();
+		model.addAttribute("cart", cart);
+		return "/shop/${theme}/cart/list_mdh";
 	}
 
 	/**
@@ -180,6 +181,7 @@ public class CartController extends BaseController {
 	Map<String, Object> delete(Long id) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
+		
 		if (cart == null || cart.isEmpty()) {
 			data.put("message", Message.error("shop.cart.notEmpty"));
 			return data;
