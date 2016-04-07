@@ -113,10 +113,12 @@ public class LoginController extends BaseController {
 	public @ResponseBody
 	Message submit(String captchaId, String captcha, String mobile, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		String password = rsaService.decryptParameter("enPassword", request);
+		
 		System.out.println("mobile"+mobile);
 		System.out.println("password"+password);
 		System.out.println("captchaId"+captchaId);
 		System.out.println("captcha"+captcha);
+		
 		rsaService.removePrivateKey(request);
 
 		if (!captchaService.isValid(Setting.CaptchaType.memberLogin, captchaId, captcha)) {
@@ -217,7 +219,9 @@ public class LoginController extends BaseController {
 		if (StringUtils.isNotEmpty(member.getNickname())) {
 			WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
 		}
-		
+		if (StringUtils.isNotEmpty(member.getUsername())) {
+			WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
+		}
 		System.out.println("登录成功！");
 		return SUCCESS_MESSAGE;
 	}

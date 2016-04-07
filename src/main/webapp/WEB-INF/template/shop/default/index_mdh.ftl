@@ -157,9 +157,9 @@
 		--]
 		<!-- 新品上架开始 -->
 		<div class="news" data-tag=news>
-			<h2>${message("shop.index.newPromotion")}
+			<h2 class="mian-h2">${message("shop.index.newPromotion")}
 				<span>
-					<a href="">${message("shop.index.morePromotion")}></a>
+					<a href="#">${message("shop.index.morePromotion")}></a>
 				</span>
 			</h2>		
 			<ul class="clearfix">
@@ -173,23 +173,20 @@
 											<img src="${promotion.image}" alt="${promotion.title}" height="265" width="265">
 										</a>
 										<div class="about">
-											<a href="">
-												<h3>德国双心日夜护眼胶囊30粒</h3>
+											<a href="#">
+												<h3>${promotion.title}</h3>
 											</a>
-											<a href="">
-												<P>疲劳用眼人群需常备 日夜护眼胶囊 原装进口 原装进口原装进口原装进口</P>
+											<a href="#">
+												${promotion.name}
 											</a>
-											<span>￥55.00</span>
+											<span>${promotion.minimumPrice}</span>
 											<p class="last">
-												<strike>￥1899</strike>
-												<a href="">
-													<img src="../../images_mdh/icon/about3.png" >
+												<strike>${promotion.maximumPrice}</strike>
+												<a href="#">
+													<img src="${base}/resources/shop/${theme}/images_mdh/icon/about3.png" >
 												</a>
-												<a href="">
-													<img src="../../images_mdh/icon/about1.png" >
-												</a>
-												<a href="">
-													<img src="../../images_mdh/icon/about2.png" >
+												<a href="#">
+													<img src="${base}/resources/shop/${theme}/images_mdh/icon/about1.png" >
 												</a>
 											</p>
 										</div>		

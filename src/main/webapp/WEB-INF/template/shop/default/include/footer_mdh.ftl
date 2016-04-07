@@ -4,11 +4,27 @@
 	$().ready(function() {
 	
 		var $headerName = $("#headerName");
-		var phone = getCookie("phone");
+		
+		var username = getCookie("username");
+		var nickname = getCookie("nickname");
+		var mobile = getCookie("mobile");
+		//alert("初始化。。。");
+		//alert(username+"=cookie="+nickname+"="+mobile);
 
-		if ($.trim(phone) != "") {
-			$headerName.text(phone).show();
+		if ($.trim(nickname) != "") {
+			$headerName.text(nickname).show();
 
+			$("#login_in").removeClass().addClass("infix");
+			$("#login_out").removeClass().addClass("infix dn");
+		} else if ($.trim(mobile) != "") {
+			$headerName.text(mobile).show();
+
+			$("#login_in").removeClass().addClass("infix");
+			$("#login_out").removeClass().addClass("infix dn");
+		} else {
+			$headerLogin.show();
+			
+			$headerRegister.show();
 		}
 	});
 	</script>
@@ -113,18 +129,19 @@
 	
 	<!-- 窗口固定区开始 -->
 	<div class="fix">
-		<div class="infix">
+		<div id="login_out" class="infix">
 					<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
 					<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
-					<a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a>
 		</div>
-		<div class="logged dn">
-			<h6>156326985</h6>
+		
+		<div id="login_in" class="infix dn">
+			<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
 			<a href="javascript:;">个人中心</a>
 			<a href="javascript:;">账号安全</a>
 			<a href="javascript:;">我的订单</a>
-			<span>退出</span>
+			<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 		</div>
+		
 		<div class="tell">
 			846546848465
 		</div>
