@@ -243,6 +243,11 @@
 		--]
 		<!-- 模块商品开始 -->
 		<div class="moods">
+			<h2 class="mian-h2">人气商品
+				<span>
+					<a href="javascript:;" target="blank">更多></a>
+				</span>
+			</h2>
 			[@product_category_root_list count = 4]
 			[#--
 				[@ad_position id = 4]
@@ -253,11 +258,13 @@
 				--]
 				[#list productCategories as productCategory]
 					[@goods_list productCategoryId = productCategory.id tagId = 3 count = 10]
+					[#--
 					<h2>${productCategory.name}
 						<span>
 							<a href="${base}${productCategory.path}">${message("shop.index.morePromotion")}></a>
 						</span>
 					</h2>
+					--]
 					<ul class="clearfix" >
 						[#list goodsList as goods]
 							[#if goods_index < 4]
