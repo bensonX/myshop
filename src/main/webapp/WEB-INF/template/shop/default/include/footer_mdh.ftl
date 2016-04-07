@@ -63,9 +63,9 @@
 				<a href="">招商合作</a>
 				<a href="">销售联盟</a>
 			</li>
-			<li>
-				<a href="">
-					<img src="${base}/resources/shop/${theme}//images_mdh/footer.png" height="56" width="115">
+			<li class="last">
+				<a href="javascript:;" target="blank">
+					<img src="${base}/resources/shop/${theme}//images_mdh/footer.png" height="42" width="100">
 				</a>
 			</li>
 		</ol>
