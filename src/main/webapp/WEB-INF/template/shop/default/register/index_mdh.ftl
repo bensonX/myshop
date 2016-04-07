@@ -146,16 +146,14 @@
       data: {
         "mobile": $mobile.val()
       },
-      dataType: "text",
+      dataType: "json",
       cache: true,
       beforeSend: function() {
         requestPhone();
       },
       success: function(message) {
-      	      	for( i in message){
-      	//alert(i+"="+message[i]);
-      	}
-      	$("#compareCode").val(message);
+		//$.message(message);
+      	$("#compareCode").val(message.content);
         if (message.type != "success") {
           clearInterval(setInter);
           aginphoneText('获取验证码');
@@ -220,7 +218,6 @@
       }
     },
     submitHandler: function(form) {
-    	//alert("submitHandler");
     	$.ajax({
 				url: "${base}/common/public_key.jhtml",
 				type: "GET",
@@ -230,11 +227,10 @@
 					$submit.prop("disabled", true);
 				},
 				success: function(data) {
-					//alert("data"+data);
 					var rsaKey = new RSAKey();
 					rsaKey.setPublic(b64tohex(data.modulus), b64tohex(data.exponent));
 					var enPassword = hex2b64(rsaKey.encrypt($password.val()));
-					//alert("enPassword"+enPassword);
+
 					$.ajax({
 						url: $registerForm.attr("action"),
 						type: "POST",
@@ -261,7 +257,7 @@
   // 获取手机验证码按钮倒计时
   function requestPhone () {
       var time = 30;
-      aginphoneText(time+'秒');
+      aginphoneText(time);
       setInter = setInterval(function () {
           --time;
           if (time >= 0) {
@@ -277,7 +273,7 @@
   function aginphoneText (options) {
       if (typeof options == 'number')
           $codeButton
-              .html(options)
+              .html(options+'秒')
               .attr('disabled', 'disabled')
               .addClass('clickBackground');
       else 
@@ -291,37 +287,46 @@
 </script>
 </head>
 <body>
-		<input type="text" id="compareCode" value="关于验证码" style="display:none"/>
+		<input type="hidden" id="compareCode" value="关于手机验证码"/>
 		<div id = "header" class="landing"></div>
     	<div class="landing">
 			<h1></h1>
 			<span>欢迎注册</span>
 			<div class = "form" >
 				<form id="registerForm" action="${base}/register/submit.jhtml" method="post">
+				
+				
 					<div class = "username">
 						<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="11" />
 					</div>
+					
 					<div class = "password">
 						<input class="tet" type="password" placeholder="请输入密码" id="password" name="password" maxlength="20" autocomplete="off" />
 					</div>
+					
 					<div class = "re-password">
 						<input class="tet" type="password" placeholder="请重新输入密码" id="rePassword" name="rePassword" maxlength="20" autocomplete="off" />
 					</div>
+					
 					<div class = "code">
 						<input class="tet" type="text" placeholder="短信验证码" id = "code" name = "code" maxlength = "6"/>
 						<button class="register" type = "button" id = "codeButton" >获取验证码</button>
 					</div>
+					
 					<div class = "agreement">
 						<p class="clearfix register">
 							<input class="names" type="checkbox" id = "agreement" name="agreement"/>
 							<a href = "javascript:;">我已阅读并接受服务条款</a>
 						</p>
 					</div>
+					
 					<button class="registered" type = "submit" >立即注册</button>
+					
 					<p class="last clearfix">${message("shop.register.hasAccount")}　
 						<a href="${base}/login.jhtml">${message("shop.register.login")}</a>
 						<a class="email" href="javascrpt:;">通过邮箱注册》</a>
 					</p>
+					
 					<div class="register-fix">
 						<div class="register-infix  clearfix">
 							<span class="one"></span>
@@ -330,6 +335,8 @@
 						</div>
 						<p>弱中强</p>
 					</div>
+					
+					
 				</form>
 			</div>
 		</div>

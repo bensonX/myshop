@@ -288,7 +288,7 @@ div.flicking_con a.on {
 	top:50%;
 	margin-top:-50px;
 	display: none;
-	z-index: 11111;
+	z-index: 111;
 }
 #btn_prev {
 	background:#000 url(../images_mdh/icon/left.png) no-repeat center center;
@@ -598,27 +598,39 @@ div.flicking_con a.on {
 	top:50%;
 	right:0;
 	margin-top: -115px;
-	background: #000;
+	z-index:9999;
 }
-.fix>a{
+.fix li {
+  position: relative;
+  display: block;
+  left: 0;
+  top: 0px;
+}
+.fix a.ico {
+	background: #000;
+	display: block;
+	position: relative;
+	z-index: 9999999;
+}
+.fix a.ico i{
 	width: 46px;
 	height: 45px;
 	display: block;
 	border-bottom:1px solid #666;
 	background: url(../images_mdh/icon/fix1.png) no-repeat center center;
 	cursor:pointer;
+	z-index: 9999;
 }
-.fix a.two{
+.fix a.two i{
 	background: url(../images_mdh/icon/fix2.png) no-repeat center center;
-
 }
-.fix a.three{
+.fix a.three i{
 	background: url(../images_mdh/icon/fix3.png) no-repeat center center;
 }
-.fix a.fore{
+.fix a.fore i{
 	background: url(../images_mdh/icon/fix4.png) no-repeat center center;
 }
-.fix a.five{
+.fix a.five i{
 	width: 46px;
 	height: 45px;
 	background: url(../images_mdh/icon/fix5.png) no-repeat center center;
@@ -627,26 +639,28 @@ div.flicking_con a.on {
 .fix a.two span {
 	position: absolute;
 	color: red;
-	top: 27px;
-	right: 5px;
+	top: 75px;
+	right: 0;
 	font-size: 14px;
 }
 .shopping-list{
-	width: 320px;
+	width: 200px;
 	height: 100%;
-	padding:30px 61px 0 15px;
-	background:#241714;
+	padding:30px 46px 0 15px;
+	background:#e6e6e6;
 	position:fixed;
 	top:0;
-	right:-396;
-	z-index: -5;
+	right: 80px;
+	z-index: 99999;
+	visibility: hidden;
+	border-left: 1px solid #231815;
 	p{
 		font-size: @font;
-		color:#c8c8c8;
-		line-height:500px;
+		color:#666;
+		line-height: 100%;
 		text-align:center;
 	}
-	a{
+	a {
 		width: 100%;
 		height:60px;
 		position:absolute;
@@ -654,23 +668,36 @@ div.flicking_con a.on {
 		right:0;
 		cursor:pointer;
 		margin-top:15px;
-		background: url(../images_mdh/icon/shoppingcart.png) no-repeat 90px center;
 		font-size: 18px;
 		color:#f5a623;
 		text-align: center;
 		line-height:60px;
 		border-top:1px solid #c8c8c8;
+		background: #231815;
+		i{
+			width: 26px;
+			height: 22px;
+			background: url(../images_mdh/icon/shoppingcart.png) no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			padding-right: 10px;
+		}
+	}
+	a.no {
+		background: #666;
 	}
 }
 .shopping-list2{
-	width: 320px;
+	width: 246px;
 	height: 100%;
-	padding:15px 61px 0 15px;
-	background:#fff;
+	padding:15px 46px 0 0px;
 	position:fixed;
 	top:0px;
-	right:-396px;
-	z-index: -5;
+	z-index: 5;
+	right: -246px;
+	visibility: hidden;
+	background:#e6e6e6;
+	border-left: 1px solid #231815;
 	.warp{
 		background: #F3F3F3;
 		margin-bottom:10px;
@@ -702,7 +729,7 @@ div.flicking_con a.on {
 			font-weight: 16px;
 			color:#666;
 			line-height: 60px;
-			margin-right:10px;
+			margin-right:20px;
 		}
 		b{
 			position:absolute;
@@ -718,25 +745,66 @@ div.flicking_con a.on {
 		width: 100%;
 		height:60px;
 		position:absolute;
-		bottom:30px;
+		bottom:15px;
 		right:0;
 		cursor:pointer;
 		margin-top:15px;
-		background: url(../images_mdh/icon/shoppingcart.png) no-repeat 90px center;
 		font-size: 18px;
 		color:#f5a623;
 		text-align: center;
 		line-height:60px;
 		border-top:1px solid #c8c8c8;
+		background: #231815;
+		i{
+			width: 26px;
+			height: 22px;
+			background: url(../images_mdh/icon/shoppingcart.png) no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			padding-right: 10px;
+		}
 	}
 }
 .fix .infix{
+	  height: 38px;
+    line-height: 38px;
+    width: 120px;
+    position: absolute;
+    z-index: 2;
+    right: 80px;
+    top: 0;
+    background: #444851;
+    color: #d8d8d8;
+    text-align: center;
+    display: block;
+    visibility: hidden;
+}
+.fix .tell{
 	width: 120px;
 	height: 45px;
 	position:absolute;
-	top:0;
-	right:-120px;
-	z-index:-5;
+	top: 0px;
+	right: 80px;
+	z-index:5;
+	font-size:16px;
+	background: @background;
+	color:#ffc900;
+	text-align: center;
+	line-height: 45px;
+	visibility: hidden;
+}
+.fix .images{
+	width: 200px;
+	height: 195px;
+	padding-top:5px;
+	background: @background;
+	position:absolute;
+	top: 0px;
+	right: 80px;
+	z-index:53;
+	text-align: center;
+	visibility: hidden;
+	z-index: 5;
 }
 .fix .infix a{
 	display: inline-block;
@@ -748,14 +816,16 @@ div.flicking_con a.on {
 	color:#ffc900;
 	text-align: center;
 	float: left;
+	z-index:5;
 }
 .fix .logged{
 	width: 180px;
 	background: @background;
 	position:absolute;
 	top:0;
-	right:-180px;
-	z-index: -5;
+	right: 180px;
+	z-index: 5;
+	visibility: hidden;
 	h6{
 		height: 30px;
 		line-height: 30px;
@@ -785,11 +855,11 @@ div.flicking_con a.on {
 
 
 /* 登陆页面开始 */
-#header.landing{
+/* #header.landing{
 	width:100%;
 	height: 95px;
 	background: #ffc900;
-}
+} */
 div.landing{
 	margin:0 auto;
 	width: 346px;
@@ -799,7 +869,7 @@ div.landing h1{
 	background: url(../images_mdh/logo.png) no-repeat center center;
 	width: 346px;
 	height: 28px;
-	margin:100px 0 30px 0;
+	margin:200px 0 30px 0;
 	display: inline-block;
 }
 div.landing>span{
@@ -811,33 +881,22 @@ div.landing form{
 	width: 300px;
 	margin:0 auto;
 	font-size:@font;
-	color:#9FA0A0;
+	color:#828282;
 	position:relative;
 }
 div.landing input.tet{
 	width:285px;
-	height: 40px;
+	height: 45px;
 	padding-left:15px;
-	line-height: 40px;
+	line-height: 45px;
 	border-bottom:2px solid #cfd0d0; 
 	line-height: 40px;
-	margin-top: 15px;
+	margin-top: 35px;
 }
 div.landing .inlanding{
 	width: 300px;
 	height: 35px;
-	margin-top:20px;
-}
-div.landing button.landing{
-	width: 85px;
-	height: 30px;
-	border:1px solid #cfd0d0;
-	line-height: 30px;
-	text-align: center;
-	float: left;
-	font-size:@font;
-	color:#9FA0A0;
-	background: none;
+	margin-top:35px;
 }
 div.landing .inlanding span{
 	display: inline-block;
@@ -900,13 +959,13 @@ div.landing .other a {
 	height: 30px;
 	margin:0 auto;
 	margin-top:100px;
-	background:#fff url(../images_mdh/icon/weixin.png) no-repeat center center;
+	background:#f3f3f3 url(../images_mdh/icon/weixin.png) no-repeat center center;
 	position:relative;
 	top:15px;
 	display: inline-block;
 }
-div.landing .other h2:hover{
-	background:#fff url(../images_mdh/icon/weixin1.png) no-repeat center center;
+div.landing .other a:hover{
+	background:#f3f3f3 url(../images_mdh/icon/weixin1.png) no-repeat center center;
 }
 div.landing p{
 	text-align: center;
@@ -924,7 +983,7 @@ div.landing p{
 .login .password label,
 .login .inlanding label {
 	position: absolute;
-	top: 50px;
+	top: 85px;
 	left: 0px;
 	line-height: 30px;
 	color: red;
@@ -932,7 +991,7 @@ div.landing p{
 	font-size: 12px;
 }
 .login .inlanding label {
-	top: 24px;
+	top: 40px;
 }
 
 /* 注册页面开始 */ 
@@ -943,17 +1002,26 @@ div.landing .form {
     color: #9FA0A0;
     position: relative;
 }
-button.register{
-	position:absolute;
-	top:10px;
-	right: -95px;
-	width: 85px;
-	height: 30px;
-	border:1px solid #cfd0d0;
-	line-height: 30px;
-	text-align: center;
-	color:#9FA0A0;
-	background:none;
+.form .code{
+	.tet{
+		width: 185px;
+		margin-right: 12px;
+	}
+	.register{
+		width: 88px;
+		height: 30px;
+		margin-top:35px;
+		color:#828282;
+		background: #c8c8c8;
+	}
+	span{
+		width: 88px;
+		display: inline-block;
+		line-height: 15px;
+		font-size: 12px;
+		color:#444;
+		text-align: center;
+	}
 }
 
 .form p.register{
@@ -984,7 +1052,7 @@ button.register{
 	text-align: left;
 }
 .form p.last a{
-	color:#ffc900;
+	color:#844736;
 	cursor:pointer;
 }
 .form p.last a.email{
@@ -995,7 +1063,7 @@ button.register{
 .form .register-fix{
 	width: 100px;
 	position:absolute;
-	top:105px;
+	top:205px;
 	right:-110px;
 }
 .form .register-infix{
@@ -1007,19 +1075,19 @@ button.register{
 	float: left;
 	width: 30px;
 	height: 10px;
-	background: #FFC700;
+	background: #ffc900;
 	visibility: hidden;
 	
 }
 .form .register-infix span.two{
-	background: #FF8C00;
+	background: #ff4800;
 }
 .form .register-infix span.three{
-	background: #FF5500;
+	background: #444444;
 }
 .form .register-fix p{
 	font-size:12px;
-	color:#9FA0A0;
+	color:#444444;
 	letter-spacing: 17px;
 	text-align: center;
 	margin:5px 0;
@@ -1042,7 +1110,7 @@ button.register{
 .form .agreement label,
 .form .code label {
 	position: absolute;
-	top: 50px;
+	top: 85px;
 	left: 0px;
 	line-height: 30px;
 	font-size: 12px;
@@ -1896,7 +1964,7 @@ body.retrievepassword {
 }
 .wechat-refresh {
 	text-align: center;
-	position: absolute;
+	position: fixed;
 	width: 600px;
 	padding: 20px;
 	background: #F3F3F3;
@@ -1933,7 +2001,7 @@ body.retrievepassword {
   width:100%;
   height:100%;
   background:#000;
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   z-index:999;
@@ -1945,7 +2013,7 @@ body.retrievepassword {
 	border: 1px solid #B1B1B1;
 	width: 399px;
 	background: #F3F3F3;
-	position: absolute;
+	position: fixed;
 	display: none;
 	z-index: 99999;
 	.title {
@@ -2002,6 +2070,9 @@ body.retrievepassword {
 		div{
 			margin-top:20px;
 		}
+		.title {
+			display: none;
+		}
 		div.city{
 			.provinciala{
 				width: 150px;
@@ -2044,6 +2115,16 @@ body.retrievepassword {
 			background:@inputBackground; 
 			color:@inputColor;
 		}
+		textarea {
+			width: 310px;
+			height: 90px;
+			font-size: @font;
+			padding-left:10px;
+			line-height: 26px;
+			background:@inputBackground; 
+			color:@inputColor;
+			vertical-align: middle;
+		}
 		button{
 			width: 200px;
 			height: 45px;
@@ -2051,6 +2132,60 @@ body.retrievepassword {
 			font-size: 18px;
 			color:#ffc900;
 			margin-left: 95px;
+		}
+		.error {
+			width: 370px;
+			font-size: 0px;
+			margin-top: 5px;
+			i {
+				margin-left: 92px;
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				background: url('../images_mdh/icon/error.png') no-repeat;
+				vertical-align: middle;
+			}
+			span {
+				font-size: 14px;
+				color: #b2340d;
+				vertical-align: middle;
+				display: inline-block;
+				padding-left: 5px;
+				line-height: 20px;
+			}
+		}
+	}
+	.layer {
+		position: fixed;
+		z-index: 99999;
+		background: #F3F3F3;
+		border: 1px solid #B1B1B1;
+		padding: 0px;
+		div {
+			margin: 0px 145px 30px;
+		}
+		.title {
+			display: block;
+			width: 100%;
+			height: 40px;
+			background:#444;
+			border-bottom: 1px solid #D2D2D2;
+			margin: 0px 0px 20px;
+			span {
+				line-height: 40px;
+				font-size: 20px;
+				color: #FFF;
+				display: inline-block;
+				padding-left: 32px;
+			}
+			strong {
+				font-size: 20px;
+		    color: #fff;
+		   	margin-right: 19px;
+		   	margin-top: 5px;
+		    font-weight: 400;
+		    cursor: pointer;
+			}
 		}
 	}
 	.buy-address{
@@ -2082,6 +2217,11 @@ body.retrievepassword {
 				margin-top:-9px;
 				left:5px;
 			}
+		
+			li.selected {
+				border: 1px solid #F5A623;
+			}
+
 			button.right{
 				background: url(../images_mdh/icon/buy-right.png) no-repeat center center;
 				left:985px;
@@ -2198,7 +2338,7 @@ body.retrievepassword {
 			line-height: 50px;
 		}
 		textarea{
-			width: 760px;
+			width: 960px;
 			padding:20px;
 			min-height: 5px;
 			border:none;
@@ -2344,7 +2484,7 @@ body.retrievepassword {
 	}
 }
 /* 购物车页面开始 */
-.nav{
+/* .nav{
 	.shoppingcart{
 		height: 50px;
 		padding-right:100px;
@@ -2432,7 +2572,7 @@ body.retrievepassword {
 			}
 		}
 	}
-}
+} */
 .shoppingcart-list{
 	width: 1100px;
 	margin:0 auto;
@@ -2559,6 +2699,28 @@ body.retrievepassword {
 			color:#727171;
 			line-height: 100px; 
 		}
+	}
+	.null-cart{
+		width: 800px;
+		height: 100px;
+		margin:0 auto;
+		padding:0 50px 50px 350px;
+		text-align: left;
+		img{
+			display: inline-block;
+			vertical-align:middle;
+		}
+		p{
+			display: inline-block;
+			font-size: 16px;
+			line-height: 30px;
+			padding-left:100px;
+			a{
+			text-align: center;
+			font-size: 16px;
+			}
+		}
+		
 	}
 }
 

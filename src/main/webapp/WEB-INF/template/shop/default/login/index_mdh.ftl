@@ -258,13 +258,14 @@ $().ready(function() {
 			var $captcha = $("#captcha");
 			var $captchaImage = $("#captchaImage");
 			var $captchaImage2 = $("#captchaImage2");
+			
 			var $isRememberUsername = $("#isRememberUsername");
 			var $submit = $("input:submit");
 			
 			// 记住用户名
-			  if (getCookie("memberUsername") != null) {
+			  if (getCookie("mobile") != null) {
 			    $isRememberUsername.prop("checked", true);
-			    $mobile.val(getCookie("memberUsername"));
+			    $mobile.val(getCookie("mobile"));
 			    $password.focus();
 			  } else {
 			    $isRememberUsername.prop("checked", false);
@@ -351,17 +352,10 @@ $().ready(function() {
 								dataType: "json",
 								cache: false,
 								success: function(message) {
-								
-									//alert(message);
-									//for(t in message){
-									// alert(t+"==="+message.t);//t就是message的属性名  message.t就是属性值
-									//}
 									
 									if ($isRememberUsername.prop("checked")) {
-										alert("is");
 										addCookie("memberUsername", $mobile.val(), {expires: 7 * 24 * 60 * 60});
 									} else {
-										alert("not is");
 										removeCookie("memberUsername");
 									}
 									$submit.prop("disabled", false);
@@ -381,11 +375,6 @@ $().ready(function() {
 											$captchaImage.attr("src", "${base}/common/captcha.jhtml?captchaId=${captchaId}&timestamp=" + new Date().getTime());
 										[/#if]
 									}
-									var mobilecookie = getCookie("mobile");
-									alert("mobilecookie"+mobilecookie);
-									
-									var memberUsername = getCookie("memberUsername");
-									alert("memberUsername"+memberUsername);
 								}
 							});
 						}
@@ -401,6 +390,8 @@ $().ready(function() {
     	<div class="landing">
 			<h1></h1>
 			<form class="landing" id="loginForm" action="${base}/login/submit.jhtml" method="post">
+				
+				
 				<div class = "username" >
 					<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="20" />
 				</div>
@@ -417,6 +408,8 @@ $().ready(function() {
 					<a class="last" href="javascript:;">　免费注册</a>
 					<a href="javascript:;">忘记密码？|</a>
 				</p>
+				
+				
 			</form>
 			[#if loginPlugins?has_content]
 				<tr class="loginPlugin">

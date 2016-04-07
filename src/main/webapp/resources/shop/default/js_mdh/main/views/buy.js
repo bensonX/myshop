@@ -591,47 +591,288 @@ $(function() {
 
 
 /**
- * order
- * 订单页面效果和接口
+ * 地址验证和一些与地址有关的效果
+ * addressValidation
  */
 
 ;(function ($, window) {
 
   // 购物车
-  function Order (options) {
-    if (!(this instanceof Order)) return new Order(options);
+  function Klass (options) {
+    if (!(this instanceof Klass)) return new Klass(options);
     this.init.apply(this, arguments);
   };
 
-  Order.fn = Order.prototype;
+  Klass.fn = Klass.prototype;
   // 初始化
-  Order.fn.init = function (options) {
+  Klass.fn.init = function (options) {
     this.options = options;
     this.views();
     this.documentClick();
   };
 
   // 初始化视图
-  Order.fn.views = function () {
+  Klass.fn.views = function () {
+  	// document
+  	this.$userName = $('[data-tag="userName"]');
+  	this.$province = $('[data-tag="province"]');
+  	this.$city = $('[data-tag="city"]');
+  	this.$address = $('[data-tag="address"]');
+  	this.$idCard = $('[data-tag="idCard"]');
+  	this.$mobile = $('[data-tag="mobile"]');
+  	this.$addressSubmit = $('[data-tag="addressSubmit"]');
+  	this.addAddress = $('[data-tag="addAddress"]');
+  	this.popupClose = $('[data-tag="popupClose"]');
+
+  	// 显示收货地址还是显示输入地址
+  	var $addressForm = $('[data-tag="addressForm"]'),
+  		  $butAddress = $('[data-tag="butAddress"]');
   	// 如果不存在地址显示
   	var isShow = $('[data-address="items"] li').length || 0;
-  	if (!isShow) {
-  		$('[data-tag="addressForm"]').removeClass('dn');
+  	if (isShow <= 1) {
+  		$addressForm.removeClass('dn');
+  	}
+  	else {
+  		$butAddress.removeClass('dn');
   	}
   };
 
   //绑定事件
-  Order.fn.documentClick = function () {
+  Klass.fn.documentClick = function () {
   	// 显示添加地址栏
-  	$('[data-tag="addAddress"]').bind('click', $.proxy(this.addAddress, this));
+  	this.addAddress.bind('click', $.proxy(this.addAddressClick, this));
+
+  	// 关闭弹出框
+  	this.popupClose.bind('click', this.closeClick);
+
+  	//  绑定验证用户名失去焦点事件
+  	this.$userName.bind('blur', $.proxy(this.checkUserName, this));
+  	// 选择省份
+  	this.$province.bind('click', $.proxy(this.checkProvince, this));
+
+  	// 绑定验证地址事件
+  	this.$address.bind('blur', $.proxy(this.checkAddress, this));
+
+  	// 绑定身份证验证事件
+  	this.$idCard.bind('blur', $.proxy(this.checkIdCard, this));
+
+  	// 绑定手机号验证事件
+  	this.$mobile.bind('blur', $.proxy(this.checkMobile, this));
+
+  	// 地址提交事件
+  	this.$addressSubmit.bind('click', $.proxy(this.addressSubmitClick, this));
+
   };
+  // 用户姓名验证
+  Klass.fn.checkUserName = function () {
+  	this.prompt('username', false);
+  	var patternUser = /^[a-zA-Z\u4e00-\u9fa5_\-]{2,20}$/;
+  	var user = $.trim(this.$userName.val()) || '';
+  	if (!user || !patternUser.test(user)) {
+  		this.prompt('username', true, '请输入正确的用户名(2-20字符)');
+  		return false;
+  	}
+  	return true;
+  };
+
+  // 省验证
+  Klass.fn.checkProvince = function () {
+    this.prompt('province', false);
+  	var province = $.trim(this.$province.find(':selected').html());
+  	if (!province || province == "所在省份" ) {
+  	 this.prompt('province', true, '请选择省份');
+  	 return false;
+  	}
+  	return true;
+  };
+
+  // 详细地址验证
+  Klass.fn.checkAddress = function () {
+  	this.prompt('address', false);
+  	var patternAddress = /^[0-9a-zA-Z\u4e00-\u9fa5_\-]{4,60}$/;
+  	var address = $.trim(this.$address.val()) || '';
+  	if (!address || !patternAddress.test(address)) {
+  		this.prompt('address', true, '请输入正确的地址，4-60个字');
+  		return false;
+  	}
+  	return true;
+  };
+  // 手机号验证
+  Klass.fn.checkMobile = function () {
+  	this.prompt('mobile', false);
+  	var patternMobile = /^1[3|4|5|7|8|9]{1}\d{9}$/;
+  	var mobile = $.trim(this.$mobile.val()) || '';
+  	if (!mobile || !patternMobile.test(mobile)) {
+  		this.prompt('mobile', true, '请输入正确的手机号');
+  		return false;
+  	}
+  	return true;
+  };
+  // 身份证验证
+	Klass.fn.checkIdCard = function () {
+		this.prompt('idcard', false);
+		var idCard = $.trim(this.$idCard.val()) || '';
+
+		if (!idCard) {
+			this.prompt('idcard', true, '请输入正确的身份证号码');
+		  return false;
+		}
+		//15位和18位身份证号码的正则表达式
+		var regIdCard=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+
+		 //如果通过该验证，说明身份证格式正确，但准确性还需计算
+		if(regIdCard.test(idCard)){
+		  if(idCard.length==18){
+		   var idCardWi = new Array( 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ); //将前17位加权因子保存在数组里
+		   var idCardY = new Array( 1, 0, 10, 9, 8, 7, 6, 5, 4, 3, 2 ); //这是除以11后，可能产生的11位余数、验证码，也保存成数组
+		   var idCardWiSum = 0; //用来保存前17位各自乖以加权因子后的总和
+		   for(var i = 0;i < 17; i++){
+		    idCardWiSum+=idCard.substring(i,i+1)*idCardWi[i];
+		   }
+
+		   var idCardMod=idCardWiSum%11;//计算出校验码所在数组的位置
+		   var idCardLast=idCard.substring(17);//得到最后一位身份证号码
+
+		   //如果等于2，则说明校验码是10，身份证号码最后一位应该是X
+		   if(idCardMod == 2){
+		    if(idCardLast == "X"||idCardLast == "x"){
+		     return true;
+		    }else{
+		      this.prompt('idcard', true, '请输入正确的身份证号码');
+		      return false;
+		    }
+		   }else{
+		    //用计算出的验证码与最后一位身份证号码匹配，如果一致，说明通过，否则是无效的身份证号码
+		    if(idCardLast == idCardY[idCardMod]){
+		     return true;
+		    }else{
+		    	this.prompt('idcard', true, '请输入正确的身份证号码');
+		     	return false;
+		    }
+		   }
+		  }
+		}else{
+			this.prompt('idcard', true, '请输入正确的身份证号码');
+		  return false;
+		}
+	};
 
   // 添加地址
-  Order.fn.addAddress = function () {
-  	$('[data-tag="addressForm"]').removeClass('dn');
+  Klass.fn.addAddressClick = function () {
+  	// 弹出窗口随窗口改变
+    this.windowSize();
+    // 弹出窗口随窗口改变而改变
+    $(window).resize(this.windowSize);
   };
 
+  // 弹出窗口的位置
+  Klass.fn.windowSize = function () {
+    var $addressForm = $('[data-tag="addressForm"]');
+    var width = $addressForm.outerWidth();
+    var height = $addressForm.outerHeight();
 
-  window.Order = Order;
+    var windowWdith = $(window).width();
+    var windowHeight = $(window).height();
+    $addressForm.css({
+      top: (windowHeight-height)/2,
+      left: (windowWdith-width)/2,
+      display: 'block'
+    }).show().addClass('layer');;
+
+    $('[data-tag="shieldingLayer"]').css({
+      width: windowWdith,
+      height: windowHeight
+    }).show();
+  },
+
+  // 关闭窗口
+  Klass.fn.closeClick = function () {
+    $('[data-tag="addressForm"]').hide();
+    $('[data-tag="shieldingLayer"]').hide();
+  };
+
+  /**
+   * 提示错误
+   * @param  {[type]} type    [属于那个doc， mobile，address]
+   * @param  {[type]} status  [隐藏，还是显示]
+   * @param  {[type]} context [需要显示的错误]
+   * 
+   */
+  Klass.fn.prompt = function (type, status, context) {
+  	var $error = $('[data-tag="error"]');
+  	var isHidden = $error.hasClass('hidden');
+  	var isType = $error.attr('data-type');
+  	if ((!status && type == isType) || type == "all") {
+  		$error
+  			.addClass('hidden')
+  			.removeAttr('data-type')
+  			.find('span')
+  			.html('');
+  	}
+
+  	if (status && (!isType || type == isType)) {
+  		$error
+  			.removeClass('hidden')
+  			.attr('data-type', type)
+  			.find('span')
+  			.html(context);
+  	}
+  };
+
+  // 新增，添加地址提交
+  Klass.fn.addressSubmitClick = function () {
+  	var self = this;
+  	// 验证输入是否正确
+  	if (!this.checkUserName() || !this.checkProvince() 
+  		|| !this.checkAddress() || !this.checkIdCard() 
+  		|| !this.checkMobile()) return false;
+
+  	console.log('post edit-add address: ');
+  	console.log(self.options.addAddressData());
+
+  	$.ajax({
+  		url: this.options.urlAddAddress,
+  		type: "POST",
+  		data: this.options.addAddressData(),
+  		dataType: "json",
+  		cache: false,
+  		success: function (message) {
+  			console.log('edit-add address message: ');
+  			console.log(message);
+
+  			if (message.type == 'success') {
+  				self.getAddAddressSuccess(message.content);
+  			}
+  			else {
+  				self.prompt('all', true, 'message.content');
+  			}
+  		}
+  	})
+  };
+
+  // 数据返回后成功处理,添加
+  Klass.fn.getAddAddressSuccess = function (context) {
+  	var hl = '<li class="fl selected" data-id = "'+context.id+'">'
+						+'<p class="information">'+context.userName
+							+'<span class="fr">'+context.mobile+'</span>'
+						+'</P>'
+						+'<strong>'+context.idCard+'</strong>'
+						+'<em>'+context.province+'&nbsp;'+context.city+'<br>'+context.address+'</em>'
+						+'<p class="about">'
+							+'<a href="javascript:;" data-tag="defaultClick">默认地址</a>'
+							+'<a class="editor" href="javascript:;" data-tag="editClick">编辑</a>'
+							+'<a href="javascript:;" data-tag="deleteClick">删除</a>'
+						+'</p>'
+					+'</li>';
+		$('[data-address="items"]')
+			.prepend(hl)
+			.siblings('li')
+			.removeClass('selected');
+		// 关闭弹出框
+		//$('[data-tag="addressForm"]').removeClass('layer').addClass('dn');
+		this.closeClick();
+  }
+
+  window.addressValidation = Klass;
 
 })(jQuery, window);

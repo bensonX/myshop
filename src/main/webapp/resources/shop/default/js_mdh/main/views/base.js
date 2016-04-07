@@ -1,121 +1,139 @@
 // 所有header，footer的js动态
 
 ;$(function() {
-      if ($('.nav').offset()) {
-        var y = $('.nav').offset().top;
+  if ($('.nav').offset()) {
+    var y = $('.nav').offset().top;
 
-        $(window).scroll(function(event) {
-            var top = $(window).scrollTop();
-            if (top >= y) {
-              $('.nav').addClass('current');
-            } else {
-              $('.nav').removeClass('current');
-            }
-        });
-      }
-
-
-      $('.nav ul li').hover(function() {
-        $(this).find('.innav').stop().slideDown(300);
-      }, function() {
-        $(this).find('.innav').stop().slideUp(300);
-      });
-      // 返回顶部
-      $('.fix .five').click(function(event) {
-        $(this).parents('html,body').stop().animate({
-          'scrollTop': '0'
-        }, 300);
-      });
-      // 窗口固定区域开始
-     $('.fix a.two').hover(function() {
-       $('.shopping-list').stop().animate({'right': 0}, 300);
-       $('.shopping-list2').stop().animate({'right': 0}, 300);
-     });
-
-     $('.shopping-list').mouseout(function(event) {
-       $(this).stop().animate({'right':-396},300);
-     });  
-
-      $('.shopping-list2').mouseout(function(event) {
-       $(this).stop().animate({'right':-396},300);
-     });
-     
-    $('.fix a.one').hover(function() {
-      $('fix .infix').stop().animate({'right':0},300);
-      $('fix .logged').stop().animate({'right':0},300);
+    $(window).scroll(function(event) {
+        var top = $(window).scrollTop();
+        if (top >= y) {
+          $('.nav').addClass('current');
+        } else {
+          $('.nav').removeClass('current');
+        }
     });
+  }
 
 
+  $('.nav ul li').hover(function() {
+    $(this).find('.innav').stop().slideDown(300);
+  }, function() {
+    $(this).find('.innav').stop().slideUp(300);
+  });
+  // 返回顶部
+  $('.fix .five').click(function(event) {
+    $(this).parents('html,body').stop().animate({
+      'scrollTop': '0'
+    }, 300);
+  });
 
-      $('.news ul li:nth-child(4n)').css('margin-right', 0);
-      $('.moods ul li:nth-child(4n)').css('margin-right', 0);
+  $(".quick_links_panel li").mouseenter(function(){
+    $(this).children(".mp_tooltip").animate({right :46,queue:true});
+    $(this).children(".mp_tooltip").css("visibility","visible");
 
-      // 人气商品开始
-      $('.moods ul li').hover(function() {
-        $(this).find('.top').stop().fadeIn(400);
-      }, function() {
-        $(this).find('.top').stop().fadeOut(400);
-      });
+  });
+  $(".quick_links_panel li").mouseleave(function(){
+    $(this).children(".mp_tooltip").css("visibility","hidden");
+    $(this).children(".mp_tooltip").animate({right: 80,queue:true});
+  });
+ 
+   $(".quick_links_panel li[data-cart='shoppingcart']").mouseenter(function(){
+     $(this).children(".tooltip").animate({right: 0,queue:true});
+     $(this).children(".tooltip").css("visibility","visible");
+   });
 
-      // 图片区域初始化
-      $('.list-images li').eq(1).css('margin-right', '0');
-      $('.list-images li').eq(4).css('margin-right', '0');
+   $(".quick_links_panel li[data-cart='shoppingcart']").mouseleave(function(){
+      $(this).children(".tooltip").css("visibility","hidden");
+      $(this).children(".tooltip").animate({right: -307,queue:true});
+   });
 
-      // 侧边栏悬停效果
-      $('.list-nav li').mouseover(function() {
-        var num = $(this).index();
-        $(this).find('.list-twoCategory').show();
-        $(this).find('.list-twoCategory ul li').eq(num - 1).addClass('current').siblings().removeClass('current');
-      }).mouseout(function() {
-        var num = $(this).index();
-        $(this).find('.list-twoCategory').hide();
-      });
+   $(".quick_links_panel li").mouseenter(function(){
+     $(this).children(".wx_tooltip").animate({right: 46,queue:true});
+     $(this).children(".wx_tooltip").css("visibility","visible");
 
-      // 购买导航开始
-      // $('.goods-nav span').hover(function() {
-      //   $(this).find('.goods-opt').stop().slideDown(300);
-      // }, function() {
-      //   $(this).find('.goods-opt').stop().slideUp(300);
-      // });
+   });
+
+   $(".quick_links_panel li").mouseleave(function(){
+     $(this).children(".wx_tooltip").css("visibility","hidden");
+     $(this).children(".wx_tooltip").animate({right: 80,queue:true});
+   });
 
 
-      // $('.goods-opt a').click(function() {
-      //   var text = $(this).html();
-      //   $(this).parents('span').html(text);
+  $('.news ul li:nth-child(4n)').css('margin-right', 0);
+  $('.moods ul li:nth-child(4n)').css('margin-right', 0);
 
-      // });
+  // 人气商品开始
+  $('.moods ul li').hover(function() {
+    $(this).find('.top').stop().fadeIn(400);
+  }, function() {
+    $(this).find('.top').stop().fadeOut(400);
+  });
 
-       // placehloder兼容处理
-      if (!('placeholder' in document.createElement('input'))) {
+  // 图片区域初始化
+  $('.list-images li').eq(1).css('margin-right', '0');
+  $('.list-images li').eq(4).css('margin-right', '0');
 
-        $('input[placeholder],textarea[placeholder]').each(function() {
-          var that = $(this),
-            text = that.attr('placeholder');
+  // 侧边栏悬停效果
+  $('.list-nav li').mouseover(function() {
+    var num = $(this).index();
+    $(this).find('.list-twoCategory').show();
+    $(this).find('.list-twoCategory ul li').eq(num - 1).addClass('current').siblings().removeClass('current');
+  }).mouseout(function() {
+    var num = $(this).index();
+    $(this).find('.list-twoCategory').hide();
+  });
+
+  // 购买导航开始
+  // $('.goods-nav span').hover(function() {
+  //   $(this).find('.goods-opt').stop().slideDown(300);
+  // }, function() {
+  //   $(this).find('.goods-opt').stop().slideUp(300);
+  // });
+
+
+  // $('.goods-opt a').click(function() {
+  //   var text = $(this).html();
+  //   $(this).parents('span').html(text);
+
+  // });
+
+   // placehloder兼容处理
+  if (!('placeholder' in document.createElement('input'))) {
+
+    $('input[placeholder],textarea[placeholder]').each(function() {
+      var that = $(this),
+        text = that.attr('placeholder');
+      if (that.val() === "") {
+        that.val(text).addClass('placeholder');
+      }
+      that.focus(function() {
+          if (that.val() === text) {
+            that.val("").removeClass('placeholder');
+          }
+        })
+        .blur(function() {
           if (that.val() === "") {
             that.val(text).addClass('placeholder');
           }
-          that.focus(function() {
-              if (that.val() === text) {
-                that.val("").removeClass('placeholder');
-              }
-            })
-            .blur(function() {
-              if (that.val() === "") {
-                that.val(text).addClass('placeholder');
-              }
-            })
-            .closest('form').submit(function() {
-              if (that.val() === text) {
-                that.val('');
-              }
-            });
+        })
+        .closest('form').submit(function() {
+          if (that.val() === text) {
+            that.val('');
+          }
         });
-      }
+    });
+  }
 
-      // list初始化
-      $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
+  // list初始化
+  $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
 
-  });
+
+    // 注册页
+    $('.form .password input').focus(function(event) {
+      $('.form .register-fix').css('display', 'block');
+    });
+});
+
 
 /**
  * cookie

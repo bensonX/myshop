@@ -12,6 +12,10 @@ $().ready(function() {
 	
 	var username = getCookie("username");
 	var nickname = getCookie("nickname");
+	var mobile = getCookie("mobile");
+	//alert("初始化。。。");
+	//alert(username+"cookie"+nickname+"="+mobile);
+	
 	if ($.trim(nickname) != "") {
 		$headerName.text(nickname).show();
 		$headerLogout.show();
@@ -159,13 +163,12 @@ $().ready(function() {
 							[#list productCategories as productCategory]
 								<li>
 									<a href="${base}${productCategory.path}">
-										<h2>${productCategory.name}<br>${base}${productCategory.path}</h2>
+										<h2>${productCategory.name}<br></h2>
 									</a>
 									[@product_category_children_list productCategoryId = productCategory.id recursive = false count = 20]
 									[#list productCategories as productCategory]
 										<a href="${base}${productCategory.path}">
 											${productCategory.name}<br>
-											${base}${productCategory.path}
 										</a>
 									[/#list]
 									[/@product_category_children_list]

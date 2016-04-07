@@ -888,19 +888,20 @@ $().ready(function() {
 	
 	--]
 	
-<!--link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
+<link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jqueryzoom.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/item.js"></script-->
-
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/item.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
+[#--
 <link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.tools.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.jqzoom.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.validate.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
-
+--]
 </head>
 <body>
 	
@@ -1030,7 +1031,7 @@ $().ready(function() {
 						<dl class="quantity[#if defaultProduct.isOutOfStock] hidden[/#if]">
 							<dt>${message("shop.goods.quantity")}:</dt>
 							<dd>
-								<input type="text" id="quantity" name="quantity" value="1" maxlength="4" onpaste="return false;" />
+								<input type="text" data-tag="number" id="quantity" name="quantity" value="1" maxlength="4" onpaste="return false;" />
 								<div>
 									<span id="increase" class="increase">&nbsp;</span>
 									<span id="decrease" class="decrease">&nbsp;</span>
@@ -1313,7 +1314,53 @@ $().ready(function() {
 	[#include "/shop/${theme}/include/footer_mdh.ftl" /]
 </body>
 </html>
+    <script>
+      $(function () {
 
+        // 查看ajax发送和接收数据打开浏览器控制台
+
+        /**
+         * 产品表单初始化，验证和事件
+         * item.js   19-118
+         */
+        var shoppingForm = ShoppingForm();
+
+        /**
+         * 购物车验证和事件
+         * item.js   120-233
+         */
+        ShoppingCart({
+          shoppingForm: shoppingForm,    // 表单对象数据
+          usernameId: "15001932281";  // 用户cookie id
+          urlCartPost: '${base}/cart/add.jhtml',    // 购物车Ajax
+          urlLogin:    '/',  // 登录链接
+          data: {
+            // 对象
+            productId: ${defaultProduct.id},
+            quantity: $('[data-tag="number"]').val()
+          }
+        });
+
+        /**
+         * 立即购买验证和事件
+         * item.js   234-307
+         */
+        BuyImmediately({
+          shoppingForm: shoppingForm,    // 表单对象数据
+          usernameId: 123,  //getCookie('usernameId');  // 用户cookie id
+          urlBuyImmediatelyPost: '../../test/test.json',    // 购物车Ajax
+          urlLogin:    './landing.html',   // 登录链接
+          urlOrder:    '/',     // 订单页面
+          data: {
+            // 对象
+            productId: '1234567',
+
+          }
+        });
+
+      });
+    </script>
+[#--
 <script>
 	$(function () {
 		var $headerCart = $("#headerCart");
@@ -1464,4 +1511,5 @@ $().ready(function() {
 	});
 
 </script>
+--]
 [/#escape]

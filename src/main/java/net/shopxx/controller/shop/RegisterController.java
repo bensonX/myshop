@@ -6,6 +6,7 @@
 package net.shopxx.controller.shop;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -101,10 +102,10 @@ public class RegisterController extends BaseController {
 	 */
 	@RequestMapping(value = "/mobile_captcha", method = RequestMethod.GET)
 	public @ResponseBody
-	String sendPhoneCaptcha(String mobile,HttpServletRequest request, HttpServletResponse response, HttpSession session){
+	Message sendPhoneCaptcha(String mobile,HttpServletRequest request, HttpServletResponse response, HttpSession session){
 
 		if(StringUtils.isEmpty(mobile)){
-			return false+"";
+			return Message.error("shop.common.invalid");
 		}
 		Random random = new Random();
 		Double doub = random.nextDouble(); 
@@ -133,11 +134,12 @@ public class RegisterController extends BaseController {
 			// TODO: handle exception
 			System.out.println("leo in cache");
 			System.out.println(e.toString());
-			return "获取验证码失败！";
+			return Message.error("shop.common.invalid");
 		}
 		System.out.println("发送成功！");
-		request.setAttribute("phonecaptcha", strcode);
-		return strcode;
+
+	//  return Message.success("shop.register.success");
+		return Message.success(strcode);
 	}
 	
 	/**
@@ -196,6 +198,17 @@ public class RegisterController extends BaseController {
 //		}
 		System.out.println("注册提交。。。"+mobile);
 		
+		Date todayDate=new Date();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
+		String today=sdf.format(todayDate);
+		
+		String username,mob="";
+		
+		if(mobile.length()>6){
+			mob=mobile.substring(mobile.length()-5);
+		}
+		username="mdh_"+mob+"_"+today;
+		
 		Setting setting = SystemUtils.getSetting();
 		if (!setting.getIsRegisterEnabled()) {
 			return Message.error("shop.register.disabled");
@@ -222,7 +235,7 @@ public class RegisterController extends BaseController {
 			member.setAttributeValue(memberAttribute, memberAttributeValue);
 		}
 		member.setMobile(mobile);
-		member.setUsername("MDH_"+mobile);
+		member.setUsername(username);
 		member.setPassword(DigestUtils.md5Hex(password));
 		member.setEmail(" ");
 		member.setNickname(null);
@@ -255,17 +268,18 @@ public class RegisterController extends BaseController {
 		member.setOutMessages(null);
 		member.setPointLogs(null);
 		memberService.save(member);
-System.out.println("111111111111");
+		
+		System.out.println("111111111111");
 //		if (setting.getRegisterPoint() > 0) {
 //			memberService.addPoint(member, setting.getRegisterPoint(), PointLog.Type.reward, null, null);
 //		}
-System.out.println("2222222222");
+	System.out.println("2222222222");
 		Cart cart = cartService.getCurrent();
 		if (cart != null && cart.getMember() == null) {
 			cartService.merge(member, cart);
 			WebUtils.removeCookie(request, response, Cart.KEY_COOKIE_NAME);
 		}
-System.out.println("333333333333333333");
+		System.out.println("333333333333333333");
 		Map<String, Object> attributes = new HashMap<String, Object>();
 		Enumeration<?> keys = session.getAttributeNames();
 		while (keys.hasMoreElements()) {
@@ -287,6 +301,7 @@ System.out.println("333333333333333333");
 			WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
 		}
 		System.out.println("555555555555555555555");
+		
 		return Message.success("shop.register.success");
 	}
 

@@ -14,6 +14,8 @@
   ShoppingCart.fn.init = function (options) {
     this.options = options;
     this.documentClick();
+    this.oldShoppingId = 0;
+    this.clearClick = 0;
   };
 
   //绑定事件
@@ -57,7 +59,7 @@
     var num = parseInt($number.html());
     if (num >= 2 ) {
       $number.html(--num);
-      this.minusPlusPost(num, 'minus', shoopingId);
+      this.minusPlusPost(num, shoopingId);
       this.totalPrice();
     }
   };
@@ -68,23 +70,25 @@
     var num = parseInt($number.html());
     if (num > 0 ) {
       $number.html(++num);
-      this.minusPlusPost(num, 'plus', shoopingId);
+      this.minusPlusPost(num, shoopingId);
       this.totalPrice();
     }
   };
   // 删除产品
   ShoppingCart.fn.delClick = function (e) {
     var target = $(e.target).parents('tr');
-    var shoopingId = target.attr('data-list');
+    var shoppingId = target.attr('data-list');
     var checked = target.find('[data-tag="select"]').is(':checked');
     var self = this;
     var data = {};
 
-    $.extend(data, {shoopingId: shoopingId}, self.options.deleteData);
+    $.extend(data, {shoppingId: shoppingId}, self.options.deleteData);
 
     console.log("urlDeletePost: ");
     console.log(data);
-
+    if (this.clearClick == shoopingId)
+      return false;
+    this.clearClick = shoopingId;
     $.ajax({
       url: self.options.urlDeletePost,
       type: "POST",
@@ -98,6 +102,7 @@
 
         if (message.type == "success") {
           target.remove();
+          self.clearClick = 0;
           if (checked) self.totalPrice();  // 重新计算总价
         }
       }
@@ -118,14 +123,13 @@
     var times = 100;
     var $totalPrice = $('[data-tag="totalPrice"]');
     var count = 0;
-    var price = parseFloat($totalPrice.html());
-    var intPrice = parseInt(price*times);
     $('[data-tag="select"]:checked').each(function (num, context) {
       var price = $(context)
         .parents('tr')
         .find('[data-tag="priceAll"]')
         .html();
-      var timesPrice = price*times;
+      var singlePrice = parseFloat(price.substr(1));
+      var timesPrice = singlePrice*times;
       count += timesPrice;
     });
     $totalPrice.html((count/times).toFixed(2));
@@ -133,40 +137,43 @@
   };
 
   // 加减接口
-  ShoppingCart.fn.minusPlusPost = function (num, type, shoopingId) {
+  ShoppingCart.fn.minusPlusPost = function (num, shoppingId) {
     var self = this;
     var data = {};
-    var shoopingId = shoopingId;
+    var shoppingId = shoppingId;
+    var num = num;
+    // 判断是同个产品
+    if (!this.oldShoppingId && shoppingId == this.oldShoppingId) {
+      clearTimeout(this.clickTime);
+    }
 
-    $.extend(data, {num: num, type: type, shoopingId: shoopingId}, self.options.minusPlusData);
+    this.oldShoppingId = shoppingId;
+    this.clickTime = setTimeout(function (){
+      $.extend(data, {num: num, shoppingId: shoppingId}, self.options.minusPlusData);
 
-    console.log("urlMinusPlusPost: ");
-    console.log(data);
+      console.log("urlMinusPlusPost: ");
+      console.log(data);
 
-    $.ajax({
-      url: self.options.urlMinusPlusPost,
-      type: "POST",
-      data: data,
-      dataType: "json",
-      cache: false,
-      success: function(message) {
+      $.ajax({
+        url: self.options.urlMinusPlusPost,
+        type: "POST",
+        data: data,
+        dataType: "json",
+        cache: false,
+        success: function(message) {
 
-        console.log("message: ");
-        console.log(message);
+          console.log("message: ");
+          console.log(message);
 
-        if (message.type == "success") {
-          $('[data-list="'+shoopingId+'"]')
-            .find('[data-tag="priceAll"]')
-            .html(message.data.priceAll);
-          self.totalPrice();
+          if (message.type == "success") {
+            $('[data-list="'+shoppingId+'"]')
+              .find('[data-tag="priceAll"]')
+              .html(message.data.priceAll);
+            self.totalPrice();
+          }
         }
-      }
-    });
-  };
-
-  // 删除接口
-  ShoppingCart.fn.deletePost = function () {
-
+      });
+    }, 1000);
   };
 
   window.ShoppingCart = ShoppingCart;
