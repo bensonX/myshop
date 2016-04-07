@@ -599,6 +599,7 @@ div.flicking_con a.on {
 	right:0;
 	margin-top: -115px;
 	background: #000;
+	z-index:9999;
 }
 .fix>a{
 	width: 46px;
@@ -639,7 +640,7 @@ div.flicking_con a.on {
 	position:fixed;
 	top:0;
 	right:-396;
-	z-index: -5;
+	z-index: 5;
 	p{
 		font-size: @font;
 		color:#c8c8c8;
@@ -670,7 +671,7 @@ div.flicking_con a.on {
 	position:fixed;
 	top:0px;
 	right:-396px;
-	z-index: -5;
+	z-index: 5;
 	.warp{
 		background: #F3F3F3;
 		margin-bottom:10px;
@@ -702,7 +703,7 @@ div.flicking_con a.on {
 			font-weight: 16px;
 			color:#666;
 			line-height: 60px;
-			margin-right:10px;
+			margin-right:20px;
 		}
 		b{
 			position:absolute;
@@ -736,7 +737,31 @@ div.flicking_con a.on {
 	position:absolute;
 	top:0;
 	right:-120px;
-	z-index:-5;
+	z-index:5;
+}
+.fix .tell{
+	width: 120px;
+	height: 45px;
+	position:absolute;
+	top:90px;
+	right:-120px;
+	z-index:5;
+	font-size:16px;
+	background: @background;
+	color:#ffc900;
+	text-align: center;
+	line-height: 45px;
+}
+.fix .images{
+	width: 200px;
+	height: 195px;
+	padding-top:5px;
+	background: @background;
+	position:absolute;
+	top:135px;
+	right:-200px;
+	z-index:53;
+	text-align: center;
 }
 .fix .infix a{
 	display: inline-block;
@@ -755,7 +780,7 @@ div.flicking_con a.on {
 	position:absolute;
 	top:0;
 	right:-180px;
-	z-index: -5;
+	z-index: 5;
 	h6{
 		height: 30px;
 		line-height: 30px;
@@ -1896,7 +1921,7 @@ body.retrievepassword {
 }
 .wechat-refresh {
 	text-align: center;
-	position: absolute;
+	position: fixed;
 	width: 600px;
 	padding: 20px;
 	background: #F3F3F3;
@@ -1933,7 +1958,7 @@ body.retrievepassword {
   width:100%;
   height:100%;
   background:#000;
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;
   z-index:999;
@@ -1945,7 +1970,7 @@ body.retrievepassword {
 	border: 1px solid #B1B1B1;
 	width: 399px;
 	background: #F3F3F3;
-	position: absolute;
+	position: fixed;
 	display: none;
 	z-index: 99999;
 	.title {
@@ -2002,6 +2027,9 @@ body.retrievepassword {
 		div{
 			margin-top:20px;
 		}
+		.title {
+			display: none;
+		}
 		div.city{
 			.provinciala{
 				width: 150px;
@@ -2044,6 +2072,16 @@ body.retrievepassword {
 			background:@inputBackground; 
 			color:@inputColor;
 		}
+		textarea {
+			width: 310px;
+			height: 90px;
+			font-size: @font;
+			padding-left:10px;
+			line-height: 26px;
+			background:@inputBackground; 
+			color:@inputColor;
+			vertical-align: middle;
+		}
 		button{
 			width: 200px;
 			height: 45px;
@@ -2051,6 +2089,60 @@ body.retrievepassword {
 			font-size: 18px;
 			color:#ffc900;
 			margin-left: 95px;
+		}
+		.error {
+			width: 370px;
+			font-size: 0px;
+			margin-top: 5px;
+			i {
+				margin-left: 92px;
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				background: url('../images_mdh/icon/error.png') no-repeat;
+				vertical-align: middle;
+			}
+			span {
+				font-size: 14px;
+				color: #b2340d;
+				vertical-align: middle;
+				display: inline-block;
+				padding-left: 5px;
+				line-height: 20px;
+			}
+		}
+	}
+	.layer {
+		position: fixed;
+		z-index: 99999;
+		background: #F3F3F3;
+		border: 1px solid #B1B1B1;
+		padding: 0px;
+		div {
+			margin: 0px 145px 30px;
+		}
+		.title {
+			display: block;
+			width: 100%;
+			height: 40px;
+			background:#444;
+			border-bottom: 1px solid #D2D2D2;
+			margin: 0px 0px 20px;
+			span {
+				line-height: 40px;
+				font-size: 20px;
+				color: #FFF;
+				display: inline-block;
+				padding-left: 32px;
+			}
+			strong {
+				font-size: 20px;
+		    color: #fff;
+		   	margin-right: 19px;
+		   	margin-top: 5px;
+		    font-weight: 400;
+		    cursor: pointer;
+			}
 		}
 	}
 	.buy-address{
@@ -2082,6 +2174,11 @@ body.retrievepassword {
 				margin-top:-9px;
 				left:5px;
 			}
+		
+			li.selected {
+				border: 1px solid #F5A623;
+			}
+
 			button.right{
 				background: url(../images_mdh/icon/buy-right.png) no-repeat center center;
 				left:985px;
@@ -2198,7 +2295,7 @@ body.retrievepassword {
 			line-height: 50px;
 		}
 		textarea{
-			width: 760px;
+			width: 960px;
 			padding:20px;
 			min-height: 5px;
 			border:none;
