@@ -110,19 +110,63 @@
 		[#include "/shop/${theme}/include/statistics.ftl" /]
 		--]
 	</div>
+	
 	<!-- 窗口固定区开始 -->
-	<ul class="fix">
-		<li class="one">
-			<div class="infix">
-				<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
-				<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
-				<a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a>
-			</div>
-		</li>
-		<li class="two"></li>
-		<li class="three"></li>
-		<li class="fore"></li>
-		<li class="five"></li>
-	</ul>
+	<div class="fix">
+		<div class="infix">
+					<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
+					<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+					<a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a>
+		</div>
+		<div class="logged dn">
+			<h6>156326985</h6>
+			<a href="javascript:;">个人中心</a>
+			<a href="javascript:;">账号安全</a>
+			<a href="javascript:;">我的订单</a>
+			<span>退出</span>
+		</div>
+		<div class="tell">
+			846546848465
+		</div>
+		<div class="images">
+			<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
+		</div>
+		<a href="javascript:;" class="one"></a>
+		<a href="./shoppingcart.html" class="two"></a>
+		<a href="javascript:;" class="three"></a>
+		<a href="javascript:;" class="fore"></a>
+		<a href="javascript:;" class="five"></a>
+	</div>
+	<div class="shopping-list ">
+		<p>您的购物车暂时没有商品，快去买德国的好东西吧~</p>
+		<a href="./shoppingcart.html">查看我的购物车</a>
+	</div>
+	<div class="shopping-list2 dn">
+		<div class="warp clearfix">
+			<img class="fl" src="../../images_mdh/content3.png" height="60" width="60">
+			<span class="fl">-</span>
+			<strong class="fl">1</strong>
+			<span class="fl">+</span>
+			<p class="fr">2365.00</p>
+			<b>x</b>
+		</div>
+		<div class="warp clearfix">
+			<img class="fl" src="../../images_mdh/content3.png" height="60" width="60">
+			<span class="fl">-</span>
+			<strong class="fl">1</strong>
+			<span class="fl">+</span>
+			<p class="fr">2365.00</p>
+			<b>x</b>
+		</div>
+		<div class="warp clearfix">
+			<img class="fl" src="../../images_mdh/content3.png" height="60" width="60">
+			<span class="fl">-</span>
+			<strong class="fl">1</strong>
+			<span class="fl">+</span>
+			<p class="fr">2365.00</p>
+			<b>x</b>
+		</div>
+		<a href="./shoppingcart.html">查看我的购物车</a>
+	</div>
 </div>
 [/#escape]

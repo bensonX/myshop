@@ -57,7 +57,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public String getSiteUrl() {
-		return "http://www.maidehao.com";
+		return "http://wxdev.maidehao.com";
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public String getRequestUrl() {
-		return "https://graph.qq.com/oauth2.0/authorize";
+		return "https://open.weixin.qq.com/connect/qrconnect";
 	}
 
 	@Override
@@ -96,10 +96,11 @@ public class WechatLoginPlugin extends LoginPlugin {
 		String state = DigestUtils.md5Hex(UUID.randomUUID() + RandomStringUtils.randomAlphabetic(30));
 		request.getSession().setAttribute(STATE_ATTRIBUTE_NAME, state);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("response_type", "code");
-		parameterMap.put("client_id", pluginConfig.getAttribute("oauthKey"));
+		parameterMap.put("appid", pluginConfig.getAttribute("oauthKey"));
 		parameterMap.put("redirect_uri", getNotifyUrl());
-		parameterMap.put("state", state);
+		parameterMap.put("response_type", "code");
+		parameterMap.put("scope", "snsapi_login");		
+		parameterMap.put("state", state + "#wechat_redirect");
 		return parameterMap;
 	}
 

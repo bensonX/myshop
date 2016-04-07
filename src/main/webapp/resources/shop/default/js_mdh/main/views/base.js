@@ -27,15 +27,70 @@
         }, 300);
       });
       // 窗口固定区域开始
-      $('.fix li').mouseenter(function(event) {
-        $(this).find('.infix').stop().animate({
-          'right': 46
-        }, 300)
-      }).mouseleave(function(event) {
-        $(this).find('.infix').stop().animate({
-          'right': -120
-        }, 300)
-      });
+     $('.fix a.two').mouseover(function() {
+      $('.fix div').stop().animate({'right': -396}, 300)
+       $('.shopping-list').stop().animate({'right': 0}, 300);
+       $('.shopping-list2').stop().animate({'right': 0}, 300);
+     });
+
+     $('.shopping-list').hover(function() {
+       $('.shopping-list').stop().animate({'right': 0}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-396},300);
+     });
+
+     $('.shopping-list2').hover(function() {
+       $('.shopping-list2').stop().animate({'right': 0}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-396},300);
+     });
+     
+    $('.fix a.one').mouseover(function() {
+      $('.fix div').stop().animate({'right': -396}, 300);
+       $('.shopping-list2').stop().animate({'right': -396}, 300);
+       $('.shopping-list').stop().animate({'right': -396}, 300);
+      $('.fix .infix').stop().animate({'right':45},300);
+      $('.fix .logged').stop().animate({'right':45},300);
+    });
+
+    $('.fix .infix').hover(function() {
+       $(this).stop().animate({'right': 45}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-120},300);
+     });
+
+    $('.fix .logged').hover(function() {
+       $(this).stop().animate({'right': 45}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-180},300);
+     });
+
+    $('.fix a.three').mouseover(function() {
+       $('.shopping-list').stop().animate({'right': -396}, 300);
+       $('.shopping-list2').stop().animate({'right': -396}, 300);
+        $('.fix div').stop().animate({'right': -396}, 300)
+       $('.fix .tell').stop().animate({'right': 45}, 300);
+     });
+
+    $('.fix .tell').hover(function() {
+       $(this).stop().animate({'right': 45}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-180},300);
+     });
+
+    $('.fix a.fore').mouseover(function() {
+       $('.shopping-list').stop().animate({'right': -396}, 300);
+       $('.shopping-list2').stop().animate({'right': -396}, 300);
+      $('.fix div').stop().animate({'right': -396}, 300)
+       $('.fix .images').stop().animate({'right': 45}, 300);
+     });
+
+    $('.fix .images').hover(function() {
+       $(this).stop().animate({'right': 45}, 300);
+     }, function() {
+       $(this).stop().animate({'right':-396},300);
+     });
+
 
       $('.news ul li:nth-child(4n)').css('margin-right', 0);
       $('.moods ul li:nth-child(4n)').css('margin-right', 0);
