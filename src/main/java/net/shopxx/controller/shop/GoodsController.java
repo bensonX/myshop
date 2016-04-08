@@ -207,7 +207,8 @@ public class GoodsController extends BaseController {
 		model.addAttribute("pageNumber", pageNumber);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("page", goodsService.findPage(type, null, brand, promotion, tag, null, startPrice, endPrice, true, true, null, null, null, null, orderType, pageable));
-		return "/shop/${theme}/goods/list";
+//		return "/shop/${theme}/goods/list";
+		return "/shop/${theme}/goods/list_mdh";
 	}
 
 	/**

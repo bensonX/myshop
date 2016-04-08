@@ -909,7 +909,7 @@ $().ready(function() {
 	
 	<!-- main start -->
     <div class = "item-main">
-      <div class = "item-main-detail clearfix" data-tag="item" productId = "456789">
+      <div class = "item-main-detail clearfix" data-tag="item">
         
         <div class = "item-left fl">
           <ul data-tag="small">
@@ -917,14 +917,15 @@ $().ready(function() {
 			[#if goods.productImages?has_content]
 				[#list goods.productImages as productImage]
 				<li>
-					<a[#if productImage_index == 0] class="current"[/#if] href="javascript:;" rel="{gallery: 'gallery', smallimage: '${productImage.medium}', largeimage: '${productImage.large}'}">
-						<img src="${productImage.thumbnail}" jqimg = "${productImage.thumbnail}" title="${productImage.title}" alt = "one" />
+					[#--<a[#if productImage_index == 0] class="current"[/#if] href="javascript:;" rel="{gallery: 'gallery', smallimage: '${productImage.medium}', largeimage: '${productImage.large}'}">--]
+					<a href = "javascript:void(0)" >
+						<img src="${productImage.thumbnail}" jqimg = "${productImage.thumbnail}" title="${productImage.title}" />
 					</a>
 				</li>	
 				[/#list]
 			[#else]
 				<li>
-					<a href="javascript:;" class="current">
+					<a href="javascript:void(0);">
 						<img src="${setting.defaultThumbnailProductImage}" alt = "one" jqimg = "${productImage.thumbnail}" />
 					</a>
 				</li>
@@ -936,11 +937,13 @@ $().ready(function() {
         <div class = "item-middle fl">
           <div class = "item-big"  >
             [#if goods.productImages?has_content]
-				<a href="${goods.productImages[0].large}"  id="zoom" >
+				[#--<a href="${goods.productImages[0].large}"  id="zoom" >--]
+				<a href = "javascript:;" id = "jqzoom" class = "jqzoom">
 					<img jqimg = "${goods.productImages[0].medium}" src="${goods.productImages[0].medium}" alt = "big" />
 				</a>
 			[#else]
-				<a href="${setting.defaultLargeProductImage}" id="zoom" >
+				[#--<a href="${setting.defaultLargeProductImage}" id="zoom" >--]
+				<a href = "javascript:;" id = "jqzoom" class = "jqzoom">
 					<img jqimg = "${goods.productImages[0].medium}"  src="${setting.defaultMediumProductImage}" alt = "big" />
 				</a>
 			[/#if]
@@ -949,195 +952,68 @@ $().ready(function() {
         
         
         <div class = "item-right fl">
-          <div class = "title" >
-            <h2>${goods.name}</h2>
-            <p>
-				[#if goods.caption?has_content]
-					${goods.caption}
-				[/#if]
-            </p>
-          </div>
-          [#if goods.type == "general"]
-	          <div class = "price" >
-	            <h5>${currency(defaultProduct.price, true)}</h5>
-	            <p>
-					[#if setting.isShowMarketPrice]
-							<span>
-								<em>${message("Product.marketPrice")}:</em>
-								<del id="marketPrice">${currency(defaultProduct.marketPrice, true)}</del>
-							</span>
+			<div class = "title" >
+				<h2>${goods.name}</h2>
+				<p>
+					[#if goods.caption?has_content]
+						${goods.caption}
 					[/#if]
 				</p>
-	          </div>
-	          		[#if goods.validPromotions?has_content]
-	          			${message("Goods.promotions")}:	
-	          					[#list goods.validPromotions as promotion]
-									<a href="${base}${promotion.path}" target="_blank" title="${promotion.title}[#if promotion.beginDate?? || promotion.endDate??] (${promotion.beginDate} ~ ${promotion.endDate})[/#if]">${promotion.name}</a>
-								[/#list]
-	          		[/#if]
-					[#if defaultProduct.rewardPoint > 0]
-						${message("Product.rewardPoint")}:${defaultProduct.rewardPoint}
-	          		[/#if]
-			[#else]
-			  	[#if goods.type == "exchange"]
-			  		${message("Product.exchangePoint")}:${defaultProduct.exchangePoint}
-			  	[/#if]
+			</div>
+			
+		[#if goods.type == "general"]
+			<div class = "price" >
+			<h5>${currency(defaultProduct.price, true)}</h5>
+				<p>
 				[#if setting.isShowMarketPrice]
-					${message("Product.marketPrice")}:${currency(defaultProduct.marketPrice, true)}
+					<span>
+						<em>${message("Product.marketPrice")}:</em>
+						<del id="marketPrice">${currency(defaultProduct.marketPrice, true)}</del>
+					</span>
 				[/#if]
-			[/#if]
-          
-          <p class = "sku-p">${message("Goods.sn")}:${goods.sn}</p>
-          <p class = "sku-p">${message("Goods.type")}:${message("Goods.Type." + goods.type)}</p>
-          [#if goods.scoreCount > 0]
-          <p class = "sku-p">${message("Goods.score")}:score${(goods.score * 2)?string("0")}</p>
-          [/#if]
-          [#if goods.type == "general"]
-          <p class = "sku-p">${message("Goods.sn")}:${goods.sn}</p>          
-          [/#if]
-          <p class = "sku-p">
-          		[#if goods.type == "general" || goods.type == "exchange"]
-					<div class="action">
-						[#if goods.hasSpecification()]
-							[#assign defaultSpecificationValueIds = defaultProduct.specificationValueIds /]
-							<div id="specification" class="specification clearfix">
-								<div class="title">${message("shop.goods.specificationTips")}</div>
-								[#list goods.specificationItems as specificationItem]
-									<dl>
-										<dt>
-											<span title="${specificationItem.name}">${abbreviate(specificationItem.name, 8)}:</span>
-										</dt>
-										[#list specificationItem.entries as entry]
-											[#if entry.isSelected]
-												<dd>
-													<a href="javascript:;"[#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
-														${entry.value}<span title="${message("shop.goods.selected")}">&nbsp;</span>
-													</a>
-												</dd>
-											[/#if]
-										[/#list]
-									</dl>
-								[/#list]
-							</div>
-						[/#if]
-						<form id="productNotifyForm" action="${base}/product_notify/save.jhtml" method="post">
-							<dl id="productNotify" class="productNotify hidden">
-								<dt>${message("shop.goods.productNotifyEmail")}:</dt>
-								<dd>
-									<input type="text" name="email" maxlength="200" />
-								</dd>
-							</dl>
-						</form>
-						<dl class="quantity[#if defaultProduct.isOutOfStock] hidden[/#if]">
-							<dt>${message("shop.goods.quantity")}:</dt>
-							<dd>
-								<input type="text" data-tag="number" id="quantity" name="quantity" value="1" maxlength="4" onpaste="return false;" />
-								<div>
-									<span id="increase" class="increase">&nbsp;</span>
-									<span id="decrease" class="decrease">&nbsp;</span>
-								</div>
-							</dd>
-							<dd>
-								${goods.unit!message("shop.goods.defaultUnit")}
-							</dd>
-						</dl>
-						<div class="buy">
-							<input type="button" id="addProductNotify" class="addProductNotify[#if !defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addProductNotify")}" />
-							[#if goods.type == "general"]
-								<input type="button" id="addCart" class="addCart[#if defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addCart")}" />
-							[#else]
-								<input type="button" id="exchange" class="exchange[#if defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.exchange")}" />
-							[/#if]
-							<a href="javascript:;" id="addFavorite">${message("shop.goods.addFavorite")}</a>
-						</div>
-					</div>
+				</p>
+			</div>
+		[/#if]	
+			<div class = "item-sku" data-tag="formList">
+				[#if goods.type == "general" || goods.type == "exchange"]
+					[#if goods.hasSpecification()]
+						[#assign defaultSpecificationValueIds = defaultProduct.specificationValueIds /]
+	            <dl class = "size clearfix">
+	              [#list goods.specificationItems as specificationItem]
+	              <dt>${abbreviate(specificationItem.name, 8)}</dt>
+	              <dd>
+	                <ul data-property="${specificationItem.name}">
+	              	  [#list specificationItem.entries as entry]
+					  	[#if entry.isSelected]
+	                  <li>
+	                    <a href = "javascript:void(0)" >
+	                      <span>${entry.value}</span>
+	                      <i></i>
+	                    </a>
+	                  </li>
+	                  	[/#if]
+					  [/#list]
+	                </ul>
+	              </dd>
+	              [/#list]
+	            </dl>
+					[/#if]
 				[/#if]
-          </p>     
-                  
-          <div class = "item-sku" data-tag="formList">
-            <dl class = "size clearfix">
-              <dt>尺码</dt>
-              <dd>
-                <ul data-property="尺码">
-                  <li class = "tb-selected" data-tag="size">
-                    <a href = "javascript:void(0)" >
-                      <span>120ml</span>
-                      <i></i>
-                    </a>
-                  </li>
-                  <li data-tag="size">
-                    <a href = "javascript:void(0)" >
-                      <span>240ml</span>
-                      <i></i>
-                    </a>
-                  </li>
-                  <li data-tag="size">
-                    <a href = "javascript:void(0)" >
-                      <span>360ml</span>
-                      <i></i>
-                    </a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-
-            <dl class = "color clearfix">
-            	[#--list goods.parameterValues as parameterValue]
-            		<dt>${parameterValue.group}</dt>
-            		<dd>
-		                <ul data-property="${parameterValue.group}">
-		                  [#list parameterValue.entries as parameterValueChild]
-                		  <li class = "${parameterValueChild.name}">
-		                    <a href = "javascript:void(0)" >
-		                      <span></span>
-		                      <i></i>
-		                      ${parameterValueChild.name}:${parameterValueChild.value}
-		                    </a>
-		                  </li>
-		                  [/#list]
-		                </ul>
-            	 	</dd>
-                [/#list--]
-                
-              <dt>颜色</dt>
-              <dd>
-                <ul data-property="颜色">
-                  <li class="grap">
-                    <a href = "javascript:void(0)" >
-                      <span>灰色</span>
-                      <i></i>
-                    </a>
-                  </li>
-                  <li class = "white">
-                    <a href = "javascript:void(0)" >
-                      <span>灰色</span>
-                      <i></i>
-                    </a>
-                  </li>
-                  <li class = "yellow">
-                    <a href = "javascript:void(0)" >
-                      <span>灰色</span>
-                      <i></i>
-                    </a>
-                  </li>
-                </ul>
-              </dd>
-              
-            </dl>
-            <dl class = "amount clearfix">
-              <dt>数量</dt>
-              <dd>
-                <a href = "javascript:void(0)" data-tag="minus" >-</a>
-                <input type="text" id="quantity" name="quantity" data-tag="number" value = "1" maxlength="4" onpaste="return false;" />
-                <a href = "javascript:void(0)" data-tag="plus">+</a>
-              </dd>
-            </dl>
-            <dl class = "share clearfix">
-              <dt>分享</dt>
-              <dd>
-                <ul>
-                  <li>
-                      	<div class="share">
+					
+				<dl class = "amount clearfix">
+	              <dt>${message("shop.goods.quantity")}</dt>
+	              <dd>
+	                <a href = "javascript:void(0)" data-tag="minus" >-</a>
+	                <input data-tag="number" value = "1">
+	                <a href = "javascript:void(0)" data-tag="plus">+</a>
+	              </dd>
+	            </dl>
+            
+				<dl class = "share clearfix">
+	              <dt>分享</dt>
+	              <dd>
+	                  <a href="javascript:;">
+	                    <div class="share">
 							<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
 								<a class="bds_qzone"></a>
 								<a class="bds_tsina"></a>
@@ -1148,24 +1024,33 @@ $().ready(function() {
 								<a class="shareCount"></a>
 							</div>
 						</div>
-                  </li>
-              </dd>
-            </dl>
-            <div class = "button" data-tag="button" >
-				<input type="button" id="addProductNotify" class="addProductNotify[#if !defaultProduct.isOutOfStock] hidden[/#if]" value="${message("shop.goods.addProductNotify")}" />
-				[#if goods.type == "general"]
-					<button type="button" id="addCart" class="add" data-tag="addCart">${message("shop.goods.addCart")}</button>
-				[#else]
-					<button type="button" id="exchange" class="exchange[#if defaultProduct.isOutOfStock] hidden[/#if]">${message("shop.goods.exchange")}</button>
-				[/#if]
-				<!--a href="javascript:;" id="addFavorite">${message("shop.goods.addFavorite")}</a-->
-	            <button type = "button" class = "submit" data-tag="buyImmediately">
-	                立即购买
-	            </button>
+	                  </a>   
+	              </dd>
+	            </dl>
+            
+	            <div class = "button" data-tag="button" >
+	              [#if goods.type == "general"]
+	              <button type = "button" class = "add" data-tag="addCart">
+	               	 ${message("shop.goods.addCart")}
+	              </button>
+	              [#else]
+	              <button type = "button" class = "submit" data-tag="buyImmediately">
+	               	 ${message("shop.goods.exchange")}
+	              </button>
+	              [/#if]
+	              <button type = "button" class = "submit" data-tag="buyImmediately">
+	               	 立即购买
+	              </button>
+	            </div>
+	            
             </div>
-          </div>
+            
         </div>
-      </div>
+        
+      </div>   
+
+      
+      
       <div class = "item-main-grid clearfix" >
         <div class = "item-right fr" >
          
@@ -1316,7 +1201,11 @@ $().ready(function() {
 </html>
     <script>
       $(function () {
-
+		var username = getCookie("username") || '';
+		var nickname = getCookie("nickname") || '';
+		var mobile = getCookie("mobile") || '';
+		alert(username+"+"+nickname+"+"+mobile);
+		
         // 查看ajax发送和接收数据打开浏览器控制台
 
         /**
@@ -1331,7 +1220,7 @@ $().ready(function() {
          */
         ShoppingCart({
           shoppingForm: shoppingForm,    // 表单对象数据
-          usernameId: "15001932281";  // 用户cookie id
+          usernameId: getCookie('username');  // 用户cookie id
           urlCartPost: '${base}/cart/add.jhtml',    // 购物车Ajax
           urlLogin:    '/',  // 登录链接
           data: {
@@ -1347,14 +1236,14 @@ $().ready(function() {
          */
         BuyImmediately({
           shoppingForm: shoppingForm,    // 表单对象数据
-          usernameId: 123,  //getCookie('usernameId');  // 用户cookie id
+          usernameId: getCookie('username'),  //getCookie('usernameId');  // 用户cookie id
           urlBuyImmediatelyPost: '../../test/test.json',    // 购物车Ajax
           urlLogin:    './landing.html',   // 登录链接
           urlOrder:    '/',     // 订单页面
           data: {
             // 对象
-            productId: '1234567',
-
+            productId: ${defaultProduct.id},
+            quantity: $('[data-tag="number"]').val()
           }
         });
 

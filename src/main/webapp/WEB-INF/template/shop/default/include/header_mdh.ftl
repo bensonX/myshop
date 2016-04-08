@@ -153,7 +153,7 @@ $().ready(function() {
 			<div class="nav">
 				<ul class="clearfix">
 					<li>
-						<a href="${base}/product_category.jhtml">${message("shop.header.allHome")}</a>
+						<a href="${base}">${message("shop.header.allHome")}</a>
 					</li>
 					<li>
 						<a href="${base}/product_category.jhtml">${message("shop.header.allProductCategory")}</a>

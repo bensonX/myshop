@@ -158,11 +158,11 @@
 		<div class="news" data-tag=news>
 			<h2 class="mian-h2">${message("shop.index.newPromotion")}
 				<span>
-					<a href="#">${message("shop.index.morePromotion")}></a>
+					<a href="${base}/goods/list.jhtml?tagId = 3" target="blank">${message("shop.index.morePromotion")}></a>
 				</span>
 			</h2>		
 			<ul class="clearfix">
-				[@product_category_root_list count = 6]
+				[#--]@product_category_root_list count = 6]
 					[@promotion_list productCategoryId = productCategory.id hasEnded = false count = 4]
 						[#if promotions?has_content]
 							[#list promotions as promotion]
@@ -194,7 +194,37 @@
 							[/#list]
 						[/#if]
 					[/@promotion_list]
-				[/@product_category_root_list]
+				[/@product_category_root_list--]
+				
+				[@goods_list count = 4 OrderType = dateDesc][#--tagId = 3--]
+					[#list goodsList as goods]
+						[#if goods_index < 4]
+							<li>
+								<a href="${goods.url}" title="${goods.name}" target="_blank">
+									<img src="${goods.image}" height="265" width="265">
+								</a>
+								<div class="about">
+									<a href="#">
+										<h3>${abbreviate(goods.name, 24)}</h3>
+									</a>
+									<a href="#">
+										${abbreviate(goods.caption, 24)}
+									</a>
+									<span>${goods.price}</span>
+									<p class="last">
+										<strike>${good.marketPrice}</strike>
+										<a href="#">
+											<img src="${base}/resources/shop/${theme}/images_mdh/icon/about3.png" >
+										</a>
+										<a href="#">
+											<img src="${base}/resources/shop/${theme}/images_mdh/icon/about1.png" >
+										</a>
+									</p>
+								</div>
+							</li>
+						[/#if]
+					[/#list]
+				[/@goods_list]
 			</ul>
 			[#--
 			<ul class="clearfix" >
@@ -241,7 +271,7 @@
 		<div class="moods">
 			<h2 class="mian-h2">人气商品
 				<span>
-					<a href="javascript:;" target="blank">更多></a>
+					<a href="${base}/goods/list.jhtml" target="blank">${message("shop.index.morePromotion")}></a>
 				</span>
 			</h2>
 			[@product_category_root_list count = 4]

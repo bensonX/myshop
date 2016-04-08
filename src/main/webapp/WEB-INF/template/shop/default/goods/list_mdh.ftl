@@ -1047,6 +1047,8 @@ $().ready(function() {
     	<!-- 头部开始 -->
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]	
 		<form id="goodsForm" action="${base}${(productCategory.path)!"/goods/list.jhtml"}" method="get">
+			
+			
 			<input type="hidden" border="1" id="brandId" name="brandId" value="${(brand.id)!}" />
 			<input type="hidden" border="1" id="promotionId" name="promotionId" value="${(promotion.id)!}" />
 			<input type="hidden" border="1" id="orderType" name="orderType" value="${orderType}" />
@@ -1220,7 +1222,7 @@ $().ready(function() {
 				</span>
 				<button id="confirm">确&nbsp认</button>
 			</p>
-		
+		</form>
 		
 		<!-- 底部开始 -->
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
