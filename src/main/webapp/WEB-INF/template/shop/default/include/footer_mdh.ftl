@@ -5,11 +5,11 @@
 	
 		var $headerName = $("#headerName");
 		
-		var username = getCookie("username");
+		var username = getCookie("username") || '';
 		var nickname = getCookie("nickname") || '';
 		var mobile = getCookie("mobile") || '';
 		$headerName.text(mobile).show();
-		if ($.trim(nickname) || $.trim(mobile)) {
+		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
 			var userName = nickname || mobile;
 			$headerName.text(userName);
 			$("#login_out").removeClass().addClass('dn');

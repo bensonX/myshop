@@ -231,6 +231,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/plugin_submit", method = RequestMethod.GET)
 	public String pluginSubmit(String pluginId, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		System.out.println("lsu /plugin_submit pluginSubmit  pluginId is: " + pluginId);
 		LoginPlugin loginPlugin = pluginService.getLoginPlugin(pluginId);
 		if (loginPlugin == null || !loginPlugin.getIsEnabled()) {
 			return ERROR_VIEW;
@@ -250,6 +251,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "/plugin_notify/{pluginId}", method = RequestMethod.GET)
 	public String pluginNotify(@PathVariable String pluginId, HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model) {
+		System.out.println("lsu /plugin_notify/{pluginId} pluginNotify  pluginId is: " + pluginId);
 		LoginPlugin loginPlugin = pluginService.getLoginPlugin(pluginId);
 		if (loginPlugin != null && loginPlugin.getIsEnabled() && loginPlugin.verifyNotify(request)) {
 			Setting setting = SystemUtils.getSetting();
@@ -367,6 +369,10 @@ public class LoginController extends BaseController {
 			if (StringUtils.isNotEmpty(member.getNickname())) {
 				WebUtils.addCookie(request, response, Member.NICKNAME_COOKIE_NAME, member.getNickname());
 			}
+			if (StringUtils.isNotEmpty(member.getMobile())) {
+				WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getNickname());
+			}
+			System.out.println("lsu 登录成功！");
 		}
 		return "redirect:/";
 	}
