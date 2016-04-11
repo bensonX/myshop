@@ -166,9 +166,8 @@ $(function () {
   ShoppingCart.fn.clickCart = function (event) {
     var self = this;
     // 判断用户是否登录,不存在跳到用户登录页面
-    if (!self.options.mobile){    	
-    	location.href = self.options.urlLogin;
-    }
+    if (!self.options.usernameId)
+      location.href = self.options.urlLogin;
     
     var data = $.extend({}, this.options.shoppingForm.data(), self.options.data);
 

@@ -20,20 +20,20 @@
 	</script>
 	<!-- 底部开始 -->
 	<div id = "footer">
-		<ul class="clearfix">
-			<li>
-				<a class="one" href="">德国直采</a>
-			</li>
-			<li>
-				<a class="two" href="">价格更优</a>
-			</li>
-			<li>
-				<a class="three" href="">极速体验</a>
-			</li>
-			<li>
-				<a class="fore" href="">金牌服务</a>
-			</li>
-		</ul>
+		<ul class="clearfix features">
+  		  <li>
+  		    <a class="one" href="javascript:;" target="blank">德国直采</a>
+  		  </li>
+  		  <li>
+  		    <a class="two" href="javascript:;" target="blank">价格更优</a>
+  		  </li>
+  		  <li>
+  		    <a class="three" href="javascript:;" target="blank">极速体验</a>
+  		  </li>
+  		  <li>
+  		    <a class="fore" href="javascript:;" target="blank">金牌服务</a>
+  		  </li>
+  		</ul>
 		<ol class="clearfix">
 			<li>
 				<h4>买德好保障</h4>

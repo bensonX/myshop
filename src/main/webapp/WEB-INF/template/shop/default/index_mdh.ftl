@@ -31,6 +31,13 @@
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/index.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
+<script>
+	$(function () {
+		// 收藏
+		init.enshrine('${base}/member/favorite/add.jhtml');  // 里面收藏地址
+	})
+</script>
 </head>
 <body>
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
@@ -172,19 +179,19 @@
 											<img src="${promotion.image}" alt="${promotion.title}" height="265" width="265">
 										</a>
 										<div class="about">
-											<a href="#">
+											<a href="${base}${promotion.path}" title="${promotion.title}">
 												<h3>${promotion.title}</h3>
 											</a>
-											<a href="#">
+											<a href="${base}${promotion.path}" title="${promotion.title}">
 												${promotion.name}
 											</a>
 											<span>${promotion.minimumPrice}</span>
 											<p class="last">
 												<strike>${promotion.maximumPrice}</strike>
-												<a href="#">
+												<a href="javascript:;" data-goods="enshrine" goods="123456">
 													<img src="${base}/resources/shop/${theme}/images_mdh/icon/about3.png" >
 												</a>
-												<a href="#">
+												<a href="javascript:;" >
 													<img src="${base}/resources/shop/${theme}/images_mdh/icon/about1.png" >
 												</a>
 											</p>
@@ -204,20 +211,20 @@
 									<img src="${goods.image}" height="265" width="265">
 								</a>
 								<div class="about">
-									<a href="#">
+									<a href="${goods.url}" title="${goods.name}" target="_blank">
 										<h3>${abbreviate(goods.name, 24)}</h3>
 									</a>
-									<a href="#">
-										${abbreviate(goods.caption, 24)}
+									<a href="${goods.url}" title="${goods.name}" target="_blank">
+										<p>${abbreviate(goods.caption, 24)}</p>
 									</a>
 									<span>${goods.price}</span>
 									<p class="last">
 										<strike>${good.marketPrice}</strike>
-										<a href="#">
+										<a href="javascript:;" >
 											<img src="${base}/resources/shop/${theme}/images_mdh/icon/about3.png" >
 										</a>
-										<a href="#">
-											<img src="${base}/resources/shop/${theme}/images_mdh/icon/about1.png" >
+										<a href="javascript:;" >
+											<img src="${base}/resources/shop/${theme}/images_mdh/icon/index-top.png" data-goods="enshrine"  data-id="${goods.id}" >
 										</a>
 									</p>
 								</div>
@@ -294,7 +301,7 @@
 					<ul class="clearfix" >
 						[#list goodsList as goods]
 							[#if goods_index < 4]
-								<li>
+								<!--li>
 									<a href="${goods.url}" title="${goods.name}" target="_blank">
 											<img src="${goods.image}" height="270" width="265">
 										<P>${abbreviate(goods.name, 10)}
@@ -308,6 +315,23 @@
 											<div class="collect">
 												<a href=""></a>
 												<a class="last" href=""></a>
+											</div>
+										</div>
+									</a>
+								</li-->
+								<li productId = "123456" >
+									<a href="${goods.url}" title="${goods.name}" target="_blank" >
+										<img src="${goods.image}" height="270" width="265">
+										<p>${abbreviate(goods.name, 10)}
+											<span>${currency(goods.price, true)}</span>
+										</p>
+										<div class="top">
+											<div class="intop"></div>
+											<h3>${abbreviate(goods.name, 24)}</h3>
+											<p>${abbreviate(goods.caption, 24)}</p>
+											<div class="collect">
+												<button data-goods="enshrine"  data-id="${goods.id}" ></button>
+												<button class="last" ></button>
 											</div>
 										</div>
 									</a>

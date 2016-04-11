@@ -7,7 +7,7 @@
 @mainWidth: 1100px;
 @itemBoxColor: #505050;
 @itemBoxPColor: #727171;
-@inputBackground:#e6e6e6;
+@inputBackground:#f1f1f1;
 @inputColor:#8A8A8A;
 
 html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, input, button, fieldset, legend, img {
@@ -17,6 +17,7 @@ html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, input, butt
 * {
 	margin: 0;
 	padding: 0;
+	font-family: "Microsoft YaHei";
 }
 h1, h2, h3, h4, h5, h6 {
 	font-size: 20px;
@@ -64,10 +65,12 @@ a:hover {
 	color: #FFc900;
 }
 body {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: "Microsoft YaHei";
 	color: #333;
-	background: #f3f3f3;
+}
+.body-color{
+	background: #e2e2e2;
 }
 .white {
 	background-color: #fff;
@@ -162,12 +165,17 @@ h1{
 	text-indent: -9999px;
 }
 .search{
-	width: 468px;
+	width: 475px;
+	height:37px;
 	margin:0 auto;
-	position:relative;
 	padding-top: 35px;
 }
-
+.search form.current{
+	position:fixed;
+	top:6px;
+	right:430px;
+	z-index: 500;
+}
 .search input{
    width:430px;
    height: 35px;
@@ -181,10 +189,9 @@ h1{
 	width: 37px;
 	height: 37px;
 	background:@background url(../images_mdh/icon/search.png) no-repeat center center;
-	position:absolute;
-	top:35px;
-	right:0;
 	cursor:pointer;
+	vertical-align: top;
+	margin-left:-5px;
 }
 #header .index-nav{
 	width: 1100px;
@@ -206,7 +213,7 @@ h1{
 	top:-57px;
 	left:50%;
 	margin-left:-550px;
-	z-index: 9999;
+	z-index: 100;
 }
 #header .nav ul li{
 	float:left;
@@ -316,7 +323,7 @@ div.flicking_con .flicking_inner {
 	width: 300px; 
 	height: 21px; 
 	position: absolute; 
-	z-index: 999;
+	z-index: 20;
 	text-indent:-9999px;
 }
 div.flicking_con a {
@@ -425,7 +432,7 @@ div.flicking_con a.on {
 	font-size: 22px;
 	color:#EB9B42;
 	line-height: 30px;
-	font-weight: bold;
+	font-weight: normal;
 }
 .news ul li .about p.last{
 	color:#B6B6B6;
@@ -443,10 +450,10 @@ div.flicking_con a.on {
 }
 .main1 ul li.big{
 	float: left;
-	margin-right: 36px;
+	margin-right: 20px;
 }
 .main1 ul li:last-child{
-	margin-top: 16px;
+	margin-top: 15px;
 }
 .main1 ol{
 	margin-top: 20px;
@@ -519,20 +526,9 @@ div.flicking_con a.on {
 	display: inline-block;
 	width: 30px;
 	height: 30px;
-	background: #fff url(../images_mdh/icon/top1.png) no-repeat center center;
+	background: #fff url(../images_mdh/icon/index-top.png) no-repeat center center;
 }
 .moods ul li .top .collect button.last{
-	background: #fff url(../images_mdh/icon/top2.png) no-repeat center center;
-	margin-left: 5px;
-}
-.moods ul li .top .collect a {
-	margin: 0px;
-	display: inline-block;
-	width: 30px;
-	height: 30px;
-	background: #fff url(../images_mdh/icon/top1.png) no-repeat center center;
-}
-.moods ul li .top .collect a.last{
 	background: #fff url(../images_mdh/icon/top2.png) no-repeat center center;
 	margin-left: 5px;
 }
@@ -564,7 +560,7 @@ div.flicking_con a.on {
 	width: 1100px;
 	margin:0 auto;
 	margin-bottom:50px;
-	border-bottom:1px solid #DDDDDD;
+	border-bottom:2px solid #DDDDDD;
 }
 #footer .features li{
 	float: left;
@@ -577,7 +573,7 @@ div.flicking_con a.on {
 	line-height: 73px;
 	display: block;
 	height: 73px;
-	border-right:1px solid #DDDDDD;
+	border-right:2px solid #DDDDDD;
 	background:url(../images_mdh/icon/foot1.png) no-repeat 20px center;
 }
 #footer .features li a.two{
@@ -823,7 +819,7 @@ div.flicking_con a.on {
     width: 120px;
     position: absolute;
     z-index: 2;
-    right: 80px;
+    right: -80px;
     top: 0;
     background: #444851;
     color: #d8d8d8;
@@ -836,7 +832,7 @@ div.flicking_con a.on {
 	height: 45px;
 	position:absolute;
 	top: 0px;
-	right: 80px;
+	right: -80px;
 	z-index:5;
 	font-size:16px;
 	background: @background;
@@ -852,7 +848,7 @@ div.flicking_con a.on {
 	background: @background;
 	position:absolute;
 	top: 0px;
-	right: 80px;
+	right: -80px;
 	z-index:53;
 	text-align: center;
 	visibility: hidden;
@@ -875,7 +871,7 @@ div.flicking_con a.on {
 	background: @background;
 	position:absolute;
 	top:0;
-	right: 180px;
+	right: -180px;
 	z-index: 5;
 	visibility: hidden;
 	h6{
@@ -912,6 +908,9 @@ div.flicking_con a.on {
 	height: 95px;
 	background: #ffc900;
 } */
+body.login-body {
+	background: #e6e6e6;
+}
 div.landing{
 	margin:0 auto;
 	width: 346px;
@@ -921,7 +920,7 @@ div.landing h1{
 	background: url(../images_mdh/logo.png) no-repeat center center;
 	width: 346px;
 	height: 28px;
-	margin:100px 0 5px 0;
+	margin:252px 0 5px 0;
 	display: inline-block;
 }
 div.landing>span{
@@ -933,7 +932,7 @@ div.landing form{
 	width: 300px;
 	margin:0 auto;
 	font-size:@font;
-	color:#828282;
+	color:#808080;
 	position:relative;
 }
 div.landing input.tet{
@@ -943,6 +942,7 @@ div.landing input.tet{
 	line-height: 45px;; 
 	line-height: 40px;
 	margin-top: 35px;
+	background: #f1f1f1;
 }
 div.landing .inlanding{
 	width: 300px;
@@ -963,6 +963,7 @@ div.landing .inlanding input{
 	line-height:30px;
 	width:120px;
 	float:left;
+	background: #f1f1f1;
 }
 div.landing button.new{
 	line-height: 30px;
@@ -1005,21 +1006,21 @@ div.landing p.pass a.last{
 div.landing .other{
 	width: 300px;
 	border-bottom:1px solid #666;
-	margin:30px auto;
+	margin:0 auto;
 }
 div.landing .other a {
 	text-indent: -9999px;
 	width: 60px;
 	height: 30px;
 	margin:0 auto;
-	margin-top:100px;
-	background:#f3f3f3 url(../images_mdh/icon/weixin.png) no-repeat center center;
+	margin-top:57px;
+	background:#e2e2e2 url(../images_mdh/icon/weixin.png) no-repeat center center;
 	position:relative;
 	top:15px;
 	display: inline-block;
 }
 div.landing .other a:hover{
-	background:#f3f3f3 url(../images_mdh/icon/weixin1.png) no-repeat center center;
+	background:#e2e2e2 url(../images_mdh/icon/weixin1.png) no-repeat center center;
 }
 div.landing p{
 	text-align: center;
@@ -1053,7 +1054,7 @@ div.landing .form {
     width: 300px;
     margin: 0 auto;
     font-size: 14px;
-    color: #9FA0A0;
+    color: #808080;
     position: relative;
 }
 .form .code{
@@ -1065,8 +1066,8 @@ div.landing .form {
 		width: 88px;
 		height: 30px;
 		margin-top:35px;
-		color:#828282;
-		background: #c8c8c8;
+		color:#808080;
+		background: #c4c4c4;
 	}
 	span{
 		width: 88px;
@@ -1101,18 +1102,18 @@ div.landing .form {
 }
 .form p.last{
 	font-size:@font;
-	color:#9FA0A0;
+	color:#444;
 	line-height: 30px;
 	text-align: left;
 }
 .form p.last a{
-	color:#844736;
+	color:#804736;
 	cursor:pointer;
 }
 .form p.last a.email{
 	float: right;
 	font-size:@font;
-	color:#9FA0A0;
+	color:#444;
 }
 .form .register-fix{
 	width: 100px;
@@ -1348,6 +1349,7 @@ div.landing .form {
 			color: @itemBoxColor;
 			font-size: @font;
 			text-align: center;
+			vertical-align: top;
 		}
 		input {
 			display: inline-block;
@@ -1355,11 +1357,11 @@ div.landing .form {
 			height: 27px;
 			font-size: @font;
 			text-align: center;
-			background: #FFF;
+			background: #f0f0f0;
 			line-height: 27px;
 			border: 0px;
 			padding: 0px;
-			margin: 0px;
+			margin-top: 0px;
 		}
 	}
 	.share{
@@ -1387,13 +1389,13 @@ div.landing .form {
 
 		}
 		.add {
-			background: #CFCFCF;
-			color: @itemBoxColor;
+			background: #444;
+			color: #f1a223;
 			margin-right: 12px;
 		}
 		.submit {
-			background: #F5A623;
-			color: #FFF;
+			background: #f1a223;
+			color: #444;
 		}
 	}
 	.sku-p {
@@ -1552,7 +1554,7 @@ div.landing .form {
 	color: #ffc900;
 }
 .list-nav .category{
-	margin:45px 0;
+	margin:30px 0;
 	background: none;
 }
 .list-nav li{
@@ -1605,7 +1607,7 @@ div.landing .form {
 	display: inline;
 	margin-right:30px;
 }
-.goods-nav a:hover, .goods-nav a.selected{
+.goods-nav a:hover,{
 	color:#ffc900;
 }
 .goods-nav a{
@@ -1710,13 +1712,13 @@ body.emailverification {
 			margin-bottom:55px;
 			// input{
 			// 	width:800px;
-			// 	border-bottom:1px solid #c3c3c3;
+			// 	border-bottom:2px solid #bfbfbf;
 			// 	font-size:18px;
 			// 	color:#444444;
 			// }
 			span {
 				width:800px;
-				border-bottom:1px solid #c3c3c3;
+				border-bottom:2px solid #bfbfbf;
 				font-size:18px;
 				color:#444444;
 				display: block;
@@ -1730,8 +1732,8 @@ body.emailverification {
 				bottom:30px;
 			}
 			p{
-				font-size: 16px;
-				color:#a4a5a5;
+				font-size: 18px;
+				color:#9b9c9c;
 				line-height: 30px;
 			}
 		}
@@ -1792,9 +1794,6 @@ body.emailverification {
 	}
 }
 /* 找回密码开始 */
-body.retrievepassword {
-	background: #FFF;
-}
 .retrieve{
 	width: 1100px;
 	margin: 100px auto;
@@ -1864,11 +1863,12 @@ body.retrievepassword {
 			}
 			.codeImg{
 				width: 90px;
-				height: 45px;
+				height: 30px;
 				text-align:center;
 				margin-left:15px;
 				display: inline-block;
 				float: right;
+				background:#c4c4c4;
 				img {
 					width: 90px;
 					height: 30px;
@@ -2018,7 +2018,7 @@ body.retrievepassword {
 		}
 		span{
 			display: block;
-			width: 100px;
+			width: 120px;
 			height: 36px;
 			margin:20px auto;
 			text-align:left;
@@ -2314,7 +2314,7 @@ body.retrievepassword {
 			li.selected {
 				border: 1px solid #F5A623;
 				.default {
-					color: #F5A623;
+					color: #ae340d;
 				}
 			}
 			li{
@@ -2348,6 +2348,13 @@ body.retrievepassword {
 					a{
 						color:#828282;
 						font-size: @font;
+					}
+					a.last{
+						text-indent: -9999px;
+						display: inline-block;
+						width: 15px;
+						height: 17px;
+						background: url(../images_mdh/icon/buy-delete.png) no-repeat center center;
 					}
 					.editor{
 						margin:0 25px 0 110px;
