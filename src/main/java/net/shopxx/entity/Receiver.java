@@ -59,6 +59,11 @@ public class Receiver extends BaseEntity<Long> {
 
 	/** 会员 */
 	private Member member;
+	
+	/**
+	 * 收货人身份证号
+	 */
+	private String cardId;
 
 	/**
 	 * 获取收货人
@@ -254,4 +259,15 @@ public class Receiver extends BaseEntity<Long> {
 		}
 	}
 
+	@Length(max = 20)
+	@Column()
+	public String getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
+
+	
 }

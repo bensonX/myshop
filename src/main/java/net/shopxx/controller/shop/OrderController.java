@@ -228,7 +228,7 @@ public class OrderController extends BaseController {
 		model.addAttribute("cartToken", cart.getToken());
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
-		return "/shop/${theme}/order/checkout";
+		return "/shop/${theme}/order/checkout_mdh";
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class OrderController extends BaseController {
 		model.addAttribute("defaultReceiver", defaultReceiver);
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
-		return "/shop/${theme}/order/checkout";
+		return "/shop/${theme}/order/checkout_mdh";
 	}
 
 	/**
@@ -528,7 +528,7 @@ public class OrderController extends BaseController {
 			}
 		}
 		model.addAttribute("order", order);
-		return "/shop/${theme}/order/payment";
+		return "/shop/${theme}/order/payment_mdh";
 	}
 
 	/**

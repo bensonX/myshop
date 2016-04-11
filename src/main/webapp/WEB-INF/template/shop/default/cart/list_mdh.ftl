@@ -37,7 +37,7 @@
 			<a class="nav" href="javascript:;">购物车</a>
 			<a class="last nav" href="javascript:;">付款</a>
 			[#if cart?? && cart.cartItems?has_content]
-				<form action = "./buy.html" method = "post" data-data="form" >
+				<form action = "${base}/order/checkout.jhtml" method = "get" data-data="form" >
 					<table class="caption">
 						<tr>
 							<th class="first">
