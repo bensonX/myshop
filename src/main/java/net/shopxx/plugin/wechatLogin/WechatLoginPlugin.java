@@ -92,6 +92,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public Map<String, Object> getParameterMap(HttpServletRequest request) {
+		System.out.println(" lsu .. into getParameterMap: ");
 		PluginConfig pluginConfig = getPluginConfig();
 		String state = DigestUtils.md5Hex(UUID.randomUUID() + RandomStringUtils.randomAlphabetic(30));
 		request.getSession().setAttribute(STATE_ATTRIBUTE_NAME, state);
@@ -106,6 +107,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public boolean verifyNotify(HttpServletRequest request) {
+		System.out.println(" lsu .. into verifyNotify: ");
 		String state = (String) request.getSession().getAttribute(STATE_ATTRIBUTE_NAME);
 		if (StringUtils.isNotEmpty(state) && StringUtils.equals(state, request.getParameter("state")) && StringUtils.isNotEmpty(request.getParameter("code"))) {
 			request.getSession().removeAttribute(STATE_ATTRIBUTE_NAME);
@@ -116,14 +118,13 @@ public class WechatLoginPlugin extends LoginPlugin {
 			parameterMap.put("code", request.getParameter("code"));
 			parameterMap.put("grant_type", "authorization_code");
 			String content = WebUtils.get("https://api.weixin.qq.com/sns/oauth2/access_token", parameterMap);
-			System.out.println(" leosu .. content is: " + content);
+			System.out.println(" lsu .. content is: " + content);
 			JsonNode jsonNode = JsonUtils.toTree(content);
 			String accessToken = jsonNode.get("access_token").textValue();
 			String openId = jsonNode.get("openid").textValue();
-			System.out.println(" leosu .. verifyNotify  accessToken is: " + accessToken);
-			System.out.println(" leosu .. verifyNotify  openid is: " + openId);
+			System.out.println(" lsu .. verifyNotify  accessToken is: " + accessToken);
 			if (StringUtils.isNotEmpty(accessToken)) {
-				System.out.println(" leosu . set openId");
+				System.out.println(" lsu . verifyNotify  set openId");
 				request.setAttribute("accessToken", accessToken);
 				request.setAttribute("openId", openId);
 				return true;
