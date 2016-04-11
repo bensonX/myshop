@@ -135,8 +135,8 @@
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 				</div>
 			</li>
-			<li data-cart="shoppingcart">
-				<a href="./shoppingcart.html" class="two ico"><i></i></a>
+			<li data-cart="shoppingcart" >
+				<a href="./shoppingcart.html" class="two ico" id="headerCart"><i></i></a>
 				<div class="shopping-list tooltip dn">
 					<p>来都来了，不买点德国货吗~</p>
 					<a href="javascript:;" class = "no"><i></i>查看我的购物车</a>

@@ -234,13 +234,14 @@ public final class SystemUtils {
 		String cacheKey = "templateConfig_" + id;
 		Element cacheElement = cache.get(cacheKey);
 		if (cacheElement == null) {
-			TemplateConfig templateConfig = null;
+			TemplateConfig templateConfig = null;	// 模板配置
 			try {
 				File jshopXmlFile = new ClassPathResource(CommonAttributes.JSHOP_XML_PATH).getFile();
 				Document document = new SAXReader().read(jshopXmlFile);
 				org.dom4j.Element element = (org.dom4j.Element) document.selectSingleNode("/jshop/templateConfig[@id='" + id + "']");
 				if (element != null) {
-					templateConfig = getTemplateConfig(element);
+					System.out.println("element"+element.asXML());
+					templateConfig = getTemplateConfig(element);	// 获取模板配置
 				}
 			} catch (IOException e) {
 				throw new RuntimeException(e.getMessage(), e);
@@ -272,7 +273,7 @@ public final class SystemUtils {
 				Document document = new SAXReader().read(jshopXmlFile);
 				List<org.dom4j.Element> elements = document.selectNodes(type != null ? "/jshop/templateConfig[@type='" + type + "']" : "/shopxx/templateConfig");
 				for (org.dom4j.Element element : elements) {
-					templateConfigs.add(getTemplateConfig(element));
+					templateConfigs.add(getTemplateConfig(element));	// 获取模板配置
 				}
 			} catch (IOException e) {
 				throw new RuntimeException(e.getMessage(), e);
