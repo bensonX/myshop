@@ -14,6 +14,15 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import net.shopxx.Message;
 import net.shopxx.entity.Cart;
 import net.shopxx.entity.CartItem;
@@ -38,15 +47,7 @@ import net.shopxx.service.PluginService;
 import net.shopxx.service.ProductService;
 import net.shopxx.service.ReceiverService;
 import net.shopxx.service.ShippingMethodService;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import net.shopxx.util.JsonUtils;
 
 /**
  * Controller - 订单
@@ -211,28 +212,51 @@ public class OrderController extends BaseController {
 	}
 
 	/**
-	 * 结算
+	 * 结算，确认结算商品
+	 * 
+	 * @param model
+	 * @param cartItemIds
+	 *            结算的商品项ID
+	 * @return
 	 */
-	@RequestMapping(value = "/checkout", method = RequestMethod.GET)
-	public String checkout(ModelMap model) {
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public String checkout(ModelMap model, String[] cartItemIds) {
 		Cart cart = cartService.getCurrent();
-		if (cart == null || cart.isEmpty()) {
+		Set<CartItem> cartItems = null;
+		Set<CartItem> cartItemsBuy = new HashSet<CartItem>();
+		if (cart == null || cart.isEmpty() || cartItemIds == null || cartItemIds.length < 1) {
 			return "redirect:/cart/list.jhtml";
+		} else {
+			cartItems = cart.getCartItems();
 		}
-
+		for (CartItem cartItem : cartItems) {
+			Long cartItemdID = cartItem.getId();
+			if (cartItemdID == null || cartItemdID.equals(0)) continue;
+			for (int i = 0; i < cartItemIds.length; i++) {
+				if (StringUtils.isEmpty(cartItemIds[i]) || !StringUtils.isNumeric(cartItemIds[i])) continue;
+				Long cartItemId = Long.valueOf(cartItemIds[i]);
+				if (cartItemdID.equals(cartItemId)) cartItemsBuy.add(cartItem);
+			}
+		}
 		Member member = memberService.getCurrent();
-		Receiver defaultReceiver = receiverService.findDefault(member);
-		Order order = orderService.generate(Order.Type.general, cart, defaultReceiver, null, null, null, null, null, null);
+		Receiver defaultReceiver = receiverService.findDefault(member);//TODO 废除，移到 下一步？
+		Order order = orderService.generate(Order.Type.general, cart, defaultReceiver, null, null, null, null, null, null);//TODO 废除，移到 下一步
 		model.addAttribute("order", order);
 		model.addAttribute("defaultReceiver", defaultReceiver);
 		model.addAttribute("cartToken", cart.getToken());
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
+		model.addAttribute("receivers", JsonUtils.toJson(member.getReceivers()));
 		return "/shop/${theme}/order/checkout_mdh";
 	}
 
 	/**
-	 * 结算
+	 * 结算，修改结算商品
+	 * 
+	 * @param productId
+	 * @param quantity
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "/checkout", params = "type=exchange", method = RequestMethod.GET)
 	public String checkout(Long productId, Integer quantity, ModelMap model) {
@@ -375,11 +399,20 @@ public class OrderController extends BaseController {
 	}
 
 	/**
-	 * 创建
+	 * 创建,确认订单
+	 * 
+	 * @param cartToken
+	 * @param receiverId
+	 * @param paymentMethodId
+	 * @param shippingMethodId
+	 * @param code
+	 * @param invoiceTitle
+	 * @param balance
+	 * @param memo
+	 * @return
 	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> create(String cartToken, Long receiverId, Long paymentMethodId, Long shippingMethodId, String code, String invoiceTitle, BigDecimal balance, String memo) {
+	public @ResponseBody Map<String, Object> create(String cartToken, Long receiverId, Long paymentMethodId, Long shippingMethodId, String code, String invoiceTitle, BigDecimal balance, String memo) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
 		if (cart == null || cart.isEmpty()) {
@@ -429,14 +462,22 @@ public class OrderController extends BaseController {
 		}
 		Invoice invoice = StringUtils.isNotEmpty(invoiceTitle) ? new Invoice(invoiceTitle, null) : null;
 		Order order = orderService.create(Order.Type.general, cart, receiver, paymentMethod, shippingMethod, couponCode, invoice, balance, memo);
-
-		data.put("message", SUCCESS_MESSAGE);
 		data.put("sn", order.getSn());
+		data.put("message", SUCCESS_MESSAGE);
 		return data;
 	}
 
 	/**
-	 * 创建
+	 * 创建,修改创建订单
+	 * 
+	 * @param productId
+	 * @param quantity
+	 * @param receiverId
+	 * @param paymentMethodId
+	 * @param shippingMethodId
+	 * @param balance
+	 * @param memo
+	 * @return
 	 */
 	@RequestMapping(value = "/create", params = "type=exchange", method = RequestMethod.POST)
 	public @ResponseBody
