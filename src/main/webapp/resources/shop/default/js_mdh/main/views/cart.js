@@ -82,13 +82,13 @@
     var self = this;
     var data = {};
 
-    $.extend(data, {shoppingId: shoppingId}, self.options.deleteData);
+    $.extend(data, {id: shoppingId}, self.options.deleteData);
 
     console.log("urlDeletePost: ");
     console.log(data);
-    if (this.clearClick == shoopingId)
+    if (this.clearClick == shoppingId)
       return false;
-    this.clearClick = shoopingId;
+    this.clearClick = shoppingId;
     $.ajax({
       url: self.options.urlDeletePost,
       type: "POST",
@@ -96,9 +96,6 @@
       dataType: "json",
       cache: false,
       success: function(message) {
-
-        console.log("message: ");
-        console.log(message);
 
         if (message.type == "success") {
           target.remove();
@@ -149,10 +146,7 @@
 
     this.oldShoppingId = shoppingId;
     this.clickTime = setTimeout(function (){
-      $.extend(data, {num: num, shoppingId: shoppingId}, self.options.minusPlusData);
-
-      console.log("urlMinusPlusPost: ");
-      console.log(data);
+      $.extend(data, {quantity: num, id: shoppingId}, self.options.minusPlusData);
 
       $.ajax({
         url: self.options.urlMinusPlusPost,
@@ -160,12 +154,8 @@
         data: data,
         dataType: "json",
         cache: false,
-        success: function(message) {
-
-          console.log("message: ");
-          console.log(message);
-
-          if (message.type == "success") {
+        success: function(data) {
+          if (data.type == "success") {
             $('[data-list="'+shoppingId+'"]')
               .find('[data-tag="priceAll"]')
               .html(message.data.priceAll);

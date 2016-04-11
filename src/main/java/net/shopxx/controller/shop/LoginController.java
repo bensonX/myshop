@@ -372,7 +372,7 @@ public class LoginController extends BaseController {
 			if (StringUtils.isNotEmpty(member.getMobile())) {
 				WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getNickname());
 			}
-			System.out.println("lsu 登录成功！");
+			System.out.println("lsu login successful.");
 		}
 		return "redirect:/";
 	}

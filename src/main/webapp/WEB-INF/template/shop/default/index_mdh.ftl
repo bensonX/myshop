@@ -296,21 +296,21 @@
 							[#if goods_index < 4]
 								<li>
 									<a href="${goods.url}" title="${goods.name}" target="_blank">
-										<img src="${goods.image}" height="270" width="265">
-									</a>
-									<P>${abbreviate(goods.name, 10)}
-										<span>${currency(goods.price, true)}</span>
-									</P>
-									<div class="top">
-										<div class="intop"></div>
-										<h3>${abbreviate(goods.name, 24)}</h3>
-										<p>${abbreviate(goods.caption, 24)}
-										</p>
-										<div class="collect">
-											<a href=""></a>
-											<a class="last" href=""></a>
+											<img src="${goods.image}" height="270" width="265">
+										<P>${abbreviate(goods.name, 10)}
+											<span>${currency(goods.price, true)}</span>
+										</P>
+										<div class="top">
+											<div class="intop"></div>
+											<h3>${abbreviate(goods.name, 24)}</h3>
+											<p>${abbreviate(goods.caption, 24)}
+											</p>
+											<div class="collect">
+												<a href=""></a>
+												<a class="last" href=""></a>
+											</div>
 										</div>
-									</div>
+									</a>
 								</li>
 							[/#if]
 						[/#list]
