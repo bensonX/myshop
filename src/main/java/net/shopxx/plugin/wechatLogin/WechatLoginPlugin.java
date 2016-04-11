@@ -116,14 +116,13 @@ public class WechatLoginPlugin extends LoginPlugin {
 			parameterMap.put("code", request.getParameter("code"));
 			parameterMap.put("grant_type", "authorization_code");
 			String content = WebUtils.get("https://api.weixin.qq.com/sns/oauth2/access_token", parameterMap);
-			System.out.println(" leosu .. content is: " + content);
+			System.out.println(" lsu .. content is: " + content);
 			JsonNode jsonNode = JsonUtils.toTree(content);
 			String accessToken = jsonNode.get("access_token").textValue();
 			String openId = jsonNode.get("openid").textValue();
-			System.out.println(" leosu .. verifyNotify  accessToken is: " + accessToken);
-			System.out.println(" leosu .. verifyNotify  openid is: " + openId);
+			System.out.println(" lsu .. verifyNotify  accessToken is: " + accessToken);
 			if (StringUtils.isNotEmpty(accessToken)) {
-				System.out.println(" leosu . set openId");
+				System.out.println(" lsu . verifyNotify  set openId");
 				request.setAttribute("accessToken", accessToken);
 				request.setAttribute("openId", openId);
 				return true;
