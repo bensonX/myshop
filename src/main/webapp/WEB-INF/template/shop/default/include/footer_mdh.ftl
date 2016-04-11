@@ -10,7 +10,7 @@
 		var mobile = getCookie("mobile") || '';
 		$headerName.text(mobile).show();
 		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
-			var userName = nickname || mobile || username;
+			var userName = nickname || mobile;
 			$headerName.text(userName);
 			$("#login_out").removeClass().addClass('dn');
 		} else {
@@ -135,22 +135,22 @@
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 				</div>
 			</li>
-			<li data-cart="shoppingcart" >
-				<a href="./shoppingcart.html" class="two ico" id="headerCart"><i></i></a>
+			<li data-cart="shoppingcart">
+				<a href="${base}/cart/list.jhtml" class="two ico"><i></i></a>
 				<div class="shopping-list tooltip dn">
 					<p>来都来了，不买点德国货吗~</p>
-					<a href="javascript:;" class = "no"><i></i>查看我的购物车</a>
+					<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
 				</div>
 				<div class="shopping-list2 tooltip">
 					<div class="warp clearfix" data-product = "123456">
-						<img class="fl" src="../../images_mdh/content3.png" height="60" width="60">
+						<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
 						<span class="fl" data-right="minus">-</span>
 						<strong class="fl" data-right="num">1</strong>
 						<span class="fl" data-right="plus">+</span>
 						<p class="fr" data-right="priceAll">2365.00</p>
 						<b data-right="delete">x</b>
 					</div>
-					<a href="./shoppingcart.html"><i></i>查看我的购物车</a>
+					<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
 				</div>
 			</li>
 			<li>

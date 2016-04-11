@@ -37,7 +37,7 @@
 			<a class="nav" href="javascript:;">购物车</a>
 			<a class="last nav" href="javascript:;">付款</a>
 			[#if cart?? && cart.cartItems?has_content]
-				<form action = "${base}/order/checkout.jhtml" method = "get" data-data="form" >
+				<form action = "${base}/order/checkout.jhtml" method = "post" data-data="form" >
 					<table class="caption">
 						<tr>
 							<th class="first">
@@ -56,19 +56,16 @@
 						[#list cart.cartItems as cartItem]
 							<tr class="details" data-list="${cartItem.id}">
 								<td class="bl">
-									<input class="a" type="checkbox" data-tag="select">
+									<input class="a" type="checkbox" data-tag="select" name="cartItemIds" value="${cartItem.id}">
 								</td>
 								<td>
-								<!--
-								<img src="${base}/resources/shop/${theme}/images_mdh/content8.png" height="93" width="93"></td>
-								-->
-								<a href = "javascript:;" >
-								<img src="${cartItem.product.thumbnail!setting.defaultThumbnailProductImage}" height="93" width="93">
-								</a>
+									<a href="${cartItem.product.url}" title="${cartItem.product.name}" target="_blank">
+										<img src="${cartItem.product.thumbnail!setting.defaultThumbnailProductImage}" height="93" width="93" alt="${cartItem.product.name}">
+									</a>
 								</td>
 								<td class="text">
-									<a href="javascript:;" target="blank">
-									<h6>${abbreviate(cartItem.product.name, 50, "...")}</h6>
+									<a href="${cartItem.product.url}" title="${cartItem.product.name}" target="_blank">
+										<h6>${abbreviate(cartItem.product.name, 50, "...")}</h6>
 									</a>
 									[#if cartItem.product.specifications?has_content]
 										<strong>[${cartItem.product.specifications?join(", ")}]</strong>
@@ -82,7 +79,7 @@
 								</td>
 								<td class="nbr">
 									<a href = "javascript:;" data-tag="minus">-</a>
-									<span data-tag="count">${cartItem.quantity}</span>
+										<span data-tag="count">${cartItem.quantity}</span>
 									<a href = "javascript:;" data-tag="plus">+</a>
 								</td>
 								<td>
