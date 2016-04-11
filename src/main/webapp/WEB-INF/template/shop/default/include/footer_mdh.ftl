@@ -10,7 +10,7 @@
 		var mobile = getCookie("mobile") || '';
 		$headerName.text(mobile).show();
 		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
-			var userName = nickname || mobile;
+			var userName = nickname || mobile || username;
 			$headerName.text(userName);
 			$("#login_out").removeClass().addClass('dn');
 		} else {
