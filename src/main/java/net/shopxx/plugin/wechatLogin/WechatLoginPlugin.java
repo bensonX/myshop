@@ -92,6 +92,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public Map<String, Object> getParameterMap(HttpServletRequest request) {
+		System.out.println(" lsu .. into getParameterMap: ");
 		PluginConfig pluginConfig = getPluginConfig();
 		String state = DigestUtils.md5Hex(UUID.randomUUID() + RandomStringUtils.randomAlphabetic(30));
 		request.getSession().setAttribute(STATE_ATTRIBUTE_NAME, state);
@@ -106,6 +107,7 @@ public class WechatLoginPlugin extends LoginPlugin {
 
 	@Override
 	public boolean verifyNotify(HttpServletRequest request) {
+		System.out.println(" lsu .. into verifyNotify: ");
 		String state = (String) request.getSession().getAttribute(STATE_ATTRIBUTE_NAME);
 		if (StringUtils.isNotEmpty(state) && StringUtils.equals(state, request.getParameter("state")) && StringUtils.isNotEmpty(request.getParameter("code"))) {
 			request.getSession().removeAttribute(STATE_ATTRIBUTE_NAME);

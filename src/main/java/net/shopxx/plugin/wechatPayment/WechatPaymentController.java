@@ -83,11 +83,12 @@ public class WechatPaymentController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(String paymentName, String partner, String key, PaymentPlugin.FeeType feeType, BigDecimal fee, String logo, String description, @RequestParam(defaultValue = "false") Boolean isEnabled, Integer order, RedirectAttributes redirectAttributes) {
+	public String update(String paymentName, String appid, String mch_id, String key, PaymentPlugin.FeeType feeType, BigDecimal fee, String logo, String description, @RequestParam(defaultValue = "false") Boolean isEnabled, Integer order, RedirectAttributes redirectAttributes) {
 		PluginConfig pluginConfig = wechatPaymentPlugin.getPluginConfig();
 		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put(PaymentPlugin.PAYMENT_NAME_ATTRIBUTE_NAME, paymentName);
-		attributes.put("partner", partner);
+		attributes.put("appid", appid);
+		attributes.put("mch_id", mch_id);
 		attributes.put("key", key);
 		attributes.put(PaymentPlugin.FEE_TYPE_ATTRIBUTE_NAME, feeType.toString());
 		attributes.put(PaymentPlugin.FEE_ATTRIBUTE_NAME, fee.toString());
