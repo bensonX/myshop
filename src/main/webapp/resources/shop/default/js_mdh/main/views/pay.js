@@ -26,8 +26,6 @@
     // 是否弹出过期窗口
     this.setInter = setInterval(function () {
 
-      console.log("urlRefreshPost: ");
-      console.log(self.options.data);
       $.ajax({
         url: self.options.urlRefreshPost,
         type: "POST",
@@ -35,9 +33,6 @@
         dataType: "json",
         cache: false,
         success: function(message) {
-
-          console.log("message: ");
-          console.log(message);
 
           if (message.type == "success") {
             self.getSuccess();
@@ -119,8 +114,6 @@
     // 是否弹出过期窗口
     this.setInter = setInterval(function () {
 
-      console.log("urlPaySuccessPost: ");
-      console.log(self.options.data);
       $.ajax({
         url: self.options.urlPaySuccessPost,
         type: "POST",
@@ -128,9 +121,6 @@
         dataType: "json",
         cache: false,
         success: function(message) {
-
-          console.log("message: ");
-          console.log(message);
 
           if (message.type == "success") {
             self.getSuccess();

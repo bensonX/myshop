@@ -408,9 +408,9 @@
   }
 
   $(".main_visual").hover(function(){
-    $("#btn_prev,#btn_next").fadeIn()
+    $("#btn_prev,#btn_next").stop().fadeIn()
     },function(){
-    $("#btn_prev,#btn_next").fadeOut()
+    $("#btn_prev,#btn_next").stop().fadeOut()
   })
 
   $dragBln = false;

@@ -1,6 +1,3 @@
-/**
- * version 4.0.1
- */
 html,
 body,
 ul,
@@ -139,6 +136,63 @@ body {
     display: block
 }
 
+.common-shielding {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+    opacity: .3;
+    filter: alpha(opacity=30)
+}
+
+.common-popup {
+    margin: 0 auto;
+    border: 1px solid #B1B1B1;
+    width: 398px;
+    background: #F3F3F3;
+    position: fixed;
+    display: none;
+    z-index: 99999999
+}
+
+.common-popup .title {
+    width: 100%;
+    height: 40px;
+    background: #444;
+    border-bottom: 1px solid #D9D9D9;
+    position: relative
+}
+
+.common-popup .title h4 {
+    height: 40px;
+    text-indent: -9999px;
+    background: url(../images_mdh/icon/pop.png) no-repeat center center
+}
+
+.common-popup .title strong {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 400;
+    cursor: pointer
+}
+
+.common-popup .context {
+    padding: 32px 10px
+}
+
+.common-popup .context p {
+    text-align: center;
+    font-size: 16px;
+    color: #727171
+}
+
 #header {
     width: 1100px;
     margin: 0 auto;
@@ -202,7 +256,7 @@ h1 {
     top: -57px;
     left: 50%;
     margin-left: -550px;
-    z-index: 100
+    z-index: 9999
 }
 
 #header .nav ul li {
@@ -608,19 +662,19 @@ div.flicking_con a.on {
     width: 100%
 }
 
-#footer ul {
+#footer .features {
     width: 1100px;
     margin: 0 auto;
     margin-bottom: 50px;
     border-bottom: 1px solid #DDD
 }
 
-#footer ul li {
+#footer .features li {
     float: left;
     margin: 50px 20px
 }
 
-#footer ul li a {
+#footer .features li a {
     font-size: 18px;
     color: #454545;
     padding: 0 70px 0 80px;
@@ -631,15 +685,15 @@ div.flicking_con a.on {
     background: url(../images_mdh/icon/foot1.png) no-repeat 20px center
 }
 
-#footer ul li a.two {
+#footer .features li a.two {
     background: url(../images_mdh/icon/foot2.png) no-repeat 20px center
 }
 
-#footer ul li a.three {
+#footer .features li a.three {
     background: url(../images_mdh/icon/foot3.png) no-repeat 20px center
 }
 
-#footer ul li a.fore {
+#footer .features li a.fore {
     background: url(../images_mdh/icon/foot4.png) no-repeat 20px center;
     border-right: none
 }
@@ -978,7 +1032,7 @@ div.flicking_con a.on {
     border-bottom: 1px solid #ccc
 }
 
-.fix .logged a {
+.fix .logged .logged-news {
     display: block;
     line-height: 30px;
     text-align: center;
@@ -1006,7 +1060,7 @@ div.landing h1 {
     background: url(../images_mdh/logo.png) no-repeat center center;
     width: 346px;
     height: 28px;
-    margin: 200px 0 30px;
+    margin: 100px 0 5px;
     display: inline-block
 }
 
@@ -1029,7 +1083,6 @@ div.landing input.tet {
     height: 45px;
     padding-left: 15px;
     line-height: 45px;
-    border-bottom: 2px solid #cfd0d0;
     line-height: 40px;
     margin-top: 35px
 }
@@ -1069,11 +1122,11 @@ div.landing button.new {
 div.landing button.landings {
     width: 300px;
     height: 45px;
-    background: #ffc900;
+    background: #444;
     text-align: center;
     line-height: 45px;
-    font-size: 14px;
-    color: #fff;
+    font-size: 18px;
+    color: #f5a623;
     font-weight: 700;
     margin-top: 20px
 }
@@ -1083,6 +1136,10 @@ div.landing p.pass {
     line-height: 30px;
     margin: 10px 0;
     text-align: left
+}
+
+div.landing p.pass label {
+    color: #444
 }
 
 div.landing p.pass input {
@@ -1095,7 +1152,7 @@ div.landing p.pass a {
 }
 
 div.landing p.pass a.last {
-    color: #ffc900
+    color: #444
 }
 
 div.landing .other {
@@ -1196,11 +1253,11 @@ div.landing .form {
 .form .registered {
     width: 300px;
     height: 45px;
-    background: #ffc900;
+    background: #444;
     text-align: center;
     line-height: 45px;
-    font-size: 14px;
-    color: #fff;
+    font-size: 18px;
+    color: #f5a623;
     font-weight: 700
 }
 
@@ -2191,16 +2248,36 @@ body.retrievepassword {
     margin: 0 auto
 }
 
-.pay .order {
+.pay .pay-order {
     width: 1000px;
-    padding: 50px 50px 20px;
+    padding: 50px 50px 20px
+}
+
+.pay .pay-order p {
     font-size: 14px;
     color: #828282;
     line-height: 50px
 }
 
-.pay .order a {
-    color: #ffc900
+.pay .pay-order strong {
+    font-size: 14px;
+    color: #828282;
+    line-height: 50px;
+    font-weight: 400
+}
+
+.pay .pay-order span {
+    font-size: 14px;
+    color: #828282;
+    line-height: 50px
+}
+
+.pay .pay-order .order {
+    margin-right: 25px
+}
+
+.pay .pay-order a {
+    color: #844736
 }
 
 .pay .message {
@@ -2283,8 +2360,8 @@ body.retrievepassword {
     top: 0;
     left: 0;
     z-index: 999;
-    opacity: .2;
-    filter: alpha(opacity=20)
+    opacity: .3;
+    filter: alpha(opacity=30)
 }
 
 .popup-layer {
@@ -2358,7 +2435,8 @@ body.retrievepassword {
 }
 
 .buy .buyForm div {
-    margin-top: 20px
+    margin-top: 20px;
+    font-size: 0
 }
 
 .buy .buyForm .title {
@@ -2366,19 +2444,19 @@ body.retrievepassword {
 }
 
 .buy .buyForm div.city .provinciala {
-    width: 150px;
+    width: 100px;
     height: 45px;
     line-height: 45px;
     font-size: 14px;
     padding-left: 10px;
-    margin-right: 18px;
+    margin-right: 10px;
     border: none;
     background: #e6e6e6;
     color: #8a8a8a
 }
 
 .buy .buyForm div.city .citya {
-    width: 150px;
+    width: 100px;
     height: 45px;
     line-height: 45px;
     font-size: 14px;
@@ -2465,6 +2543,14 @@ body.retrievepassword {
     margin: 0 145px 30px
 }
 
+.buy .layer .error {
+    margin: 10px 145px
+}
+
+.buy .layer .mobile {
+    margin-bottom: 0
+}
+
 .buy .layer .title {
     display: block;
     width: 100%;
@@ -2493,7 +2579,8 @@ body.retrievepassword {
 
 .buy .buy-address {
     width: 1000px;
-    margin: 0 auto
+    margin: 0 auto;
+    position: relative
 }
 
 .buy .buy-address h5 {
@@ -2510,30 +2597,45 @@ body.retrievepassword {
     margin-right: 10px
 }
 
-.buy .buy-address ul {
-    width: 940px;
-    padding: 0 30px;
-    position: relative
-}
-
-.buy .buy-address ul button {
+.buy .buy-address button {
     width: 12px;
     height: 19px;
     border: none;
     background: url(../images_mdh/icon/buy-left.png) no-repeat center center;
     position: absolute;
     top: 50%;
-    margin-top: -9px;
-    left: 5px
+    left: 5px;
+    margin-top: 20px;
+    z-index: 999
+}
+
+.buy .buy-address button.right {
+    background: url(../images_mdh/icon/buy-right.png) no-repeat center center;
+    left: 985px;
+    z-index: 999
+}
+
+.buy .buy-address .scroll-address {
+    width: 940px;
+    height: 342px;
+    overflow: hidden;
+    margin: 0 30px;
+    position: relative
+}
+
+.buy .buy-address ul {
+    height: 342px;
+    top: 0;
+    left: 0;
+    position: absolute
 }
 
 .buy .buy-address ul li.selected {
     border: 1px solid #F5A623
 }
 
-.buy .buy-address ul button.right {
-    background: url(../images_mdh/icon/buy-right.png) no-repeat center center;
-    left: 985px
+.buy .buy-address ul li.selected .default {
+    color: #F5A623
 }
 
 .buy .buy-address ul li {
@@ -2541,7 +2643,8 @@ body.retrievepassword {
     height: 250px;
     padding: 20px;
     margin: 50px 0 0 10px;
-    border: 1px solid #B2B2B2
+    border: 1px solid #B2B2B2;
+    position: relative
 }
 
 .buy .buy-address ul li .information {
@@ -2985,11 +3088,10 @@ body.retrievepassword {
 }
 
 .shoppingcart-list .null-cart {
-    width: 800px;
+    width: 1000px;
     height: 100px;
-    margin: 0 auto;
-    padding: 0 50px 50px 350px;
-    text-align: left
+    margin: 50px auto;
+    text-align: center
 }
 
 .shoppingcart-list .null-cart img {
@@ -3001,7 +3103,7 @@ body.retrievepassword {
     display: inline-block;
     font-size: 16px;
     line-height: 30px;
-    padding-left: 100px
+    padding-left: 50px
 }
 
 .shoppingcart-list .null-cart p a {
