@@ -35,15 +35,8 @@ $(function () {
   };
   // 初始化视图
   ShoppingForm.fn.views = function () {
-
-    // 多项选择中默认选择第一个
-    $('[data-tag="formList"] ul').each(function (e) {
-      var $this = $(this).find('li:first');
-      var context = $this.find('span').html();
-      $this.find('a').attr('aria-label', context);
-      $this.addClass('tb-selected');
-    });
-
+	  
+	  
   };
 
   // 初始化事件
@@ -54,8 +47,7 @@ $(function () {
     $('[data-tag="plus"]').bind('click', this.plusProductClick);
     // 数量框输入
     $('[data-tag="number"]').bind('change keyup', this.numberProductClick);
-    // 选择类型
-    $('[data-tag="formList"] ul li').bind('click', this.selectedProductClick);
+
   };
 
   // 提起表单数据
@@ -108,17 +100,7 @@ $(function () {
     }
   };
 
-  // 选择框选择
-  ShoppingForm.fn.selectedProductClick = function () {
-    var context = $(this).find('span').html();
-    $(this).find('a').attr('aria-label', context);
-    $(this)
-      .addClass('tb-selected')
-      .siblings()
-      .removeClass('tb-selected')
-      .find('a')
-      .removeAttr('aria-label');
-  };
+
 
   window.ShoppingForm = ShoppingForm;
 
