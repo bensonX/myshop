@@ -25,6 +25,7 @@
 
 					urlDeletePost: '${base}/cart/delete.jhtml',
 					deleteData: {}
+
 				});
 
 			});
@@ -107,10 +108,6 @@
 					<button class="settlement" type  = "button" data-tag="submit" >立即结算</button>
 				</form>
 			[#else]
-				<!-- <div class="pop">
-					<h5>买德好</h5>
-					<p>加入购物车成功！</p>
-				</div> -->
 				
 				<div class="null-cart"><img src="${base}/resources/shop/${theme}/images_mdh/shop-cart.png" height="100" width="100">
 					<P>您的购物车什么都没有，<br>

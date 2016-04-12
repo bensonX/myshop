@@ -112,8 +112,7 @@
           if (checked) self.totalPrice();  // 重新计算总价
           var list = $('[data-tag="select"]').length || 0;
           if (!list) {
-            $('[data-data="form"]').hide();
-            $('[data-null="cart"]').show();
+            location.reload();
           }
         }
       }

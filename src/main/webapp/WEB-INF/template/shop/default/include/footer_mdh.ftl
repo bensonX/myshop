@@ -79,7 +79,7 @@
 			<P>增值电信业务经营许可证：沪B2-20160101-3 买德好公司版权所有©2015-2016　　　　　400-666-66666
 				<span>
 					<a href=""></a>
-					<a href=""></a>
+					<a href="" class = "last"></a>
 				</span>
 			</P>
 		</div>
@@ -129,9 +129,9 @@
 				</div>
 				<div class="logged mp_tooltip" id="login_in">
 					<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
-					<a href="javascript:;">个人中心</a>
-					<a href="javascript:;">账号安全</a>
-					<a href="javascript:;">我的订单</a>
+					<a href="javascript:;" class="logged-news">个人中心</a>
+					<a href="javascript:;" class="logged-news">账号安全</a>
+					<a href="javascript:;" class="logged-news">我的订单</a>
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 				</div>
 			</li>
