@@ -62,7 +62,7 @@
 
    $(".quick_links_panel li").mouseleave(function(){
      $(this).children(".wx_tooltip").css("visibility","hidden");
-     $(this).children(".wx_tooltip").animate({right: 0,queue:true});
+     $(this).children(".wx_tooltip").animate({right: 80,queue:true});
    });
 
 
@@ -272,45 +272,4 @@ function removeCookie(name, options) {
 
   window.layer = Layer;
 })(window, jQuery);
-
-
-/**
- * 基本功能
- */
-;(function ($, window) {
-
-  function Klass (options) {
-    if (!(this instanceof Klass)) return new Klass(options);
-  };
-
-  Klass.fn = Klass.prototype = {
-    constructor: constructor,
-
-    init: function (options) {
-      this.options = options;
-    },
-    // 收藏
-    enshrine: function (options) {
-      var options = options;
-      $('[data-goods="enshrine"]').bind('click', function(event) {
-        event.stopPropagation();
-        var id = $(event.target).attr('data-id');
-        $.ajax({
-          url: options,
-          type: "POST",
-          data: {goodsId: id},
-          dataType: "json",
-          cache: false,
-          success: function(message) {
-            layer(message.content);
-          }
-        });
-        return false;
-      });
-    }
-  };
-
-  window.init = new Klass;
- 
-})(jQuery, window);
 
