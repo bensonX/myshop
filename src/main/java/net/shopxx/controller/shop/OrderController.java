@@ -288,7 +288,6 @@ public class OrderController extends BaseController {
 		model.addAttribute("cartToken", cart.getToken());
 		model.addAttribute("paymentMethods", paymentMethodService.findAll());
 		model.addAttribute("shippingMethods", shippingMethodService.findAll());
-		model.addAttribute("receivers", JsonUtils.toJson(member.getReceivers()));
 		return "/shop/${theme}/order/checkout_mdh";
 	}
 
