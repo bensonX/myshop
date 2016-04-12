@@ -10,7 +10,7 @@
 		var mobile = getCookie("mobile") || '';
 		$headerName.text(mobile).show();
 		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
-			var userName = nickname || mobile || username;
+			var userName = nickname || mobile;
 			$headerName.text(userName);
 			$("#login_out").removeClass().addClass('dn');
 		} else {
@@ -20,20 +20,20 @@
 	</script>
 	<!-- 底部开始 -->
 	<div id = "footer">
-		<ul class="clearfix">
-			<li>
-				<a class="one" href="">德国直采</a>
-			</li>
-			<li>
-				<a class="two" href="">价格更优</a>
-			</li>
-			<li>
-				<a class="three" href="">极速体验</a>
-			</li>
-			<li>
-				<a class="fore" href="">金牌服务</a>
-			</li>
-		</ul>
+		<ul class="clearfix features">
+  		  <li>
+  		    <a class="one" href="javascript:;" target="blank">德国直采</a>
+  		  </li>
+  		  <li>
+  		    <a class="two" href="javascript:;" target="blank">价格更优</a>
+  		  </li>
+  		  <li>
+  		    <a class="three" href="javascript:;" target="blank">极速体验</a>
+  		  </li>
+  		  <li>
+  		    <a class="fore" href="javascript:;" target="blank">金牌服务</a>
+  		  </li>
+  		</ul>
 		<ol class="clearfix">
 			<li>
 				<h4>买德好保障</h4>
@@ -139,11 +139,11 @@
 				<a href="${base}/cart/list.jhtml" class="two ico" id="headerCart"><i></i></a>
 				<div class="shopping-list tooltip dn">
 					<p>来都来了，不买点德国货吗~</p>
-					<a href="javascript:;" class = "no"><i></i>查看我的购物车</a>
+					<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
 				</div>
 				<div class="shopping-list2 tooltip">
 					<div class="warp clearfix" data-product = "123456">
-						<img class="fl" src="../../images_mdh/content3.png" height="60" width="60">
+						<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
 						<span class="fl" data-right="minus">-</span>
 						<strong class="fl" data-right="num">1</strong>
 						<span class="fl" data-right="plus">+</span>

@@ -64,12 +64,18 @@ $().ready(function() {
 			</tr>
 			<tr>
 				<th>
-					<span class="requiredField">*</span>${message("admin.plugin.wechatPayment.partner")}:
+					<span class="requiredField">*</span>${message("admin.plugin.wechatPayment.appid")}:
 				</th>
 				<td>
-					<input type="text" name="partner" class="text" value="${pluginConfig.getAttribute("partner")}" maxlength="200" />
-					<a href="http://bizpartner.alipay.com/shopxx/" target="_blank">[${message("admin.plugin.wechatPayment.register")}]</a>
-					<a href="https://b.alipay.com/order/pidKey.htm?pid=2088101227516250&product=fastpay" target="_blank">[${message("admin.plugin.wechatPayment.query")}]</a>
+					<input type="text" name="appid" class="text" value="${pluginConfig.getAttribute("appid")}" maxlength="200" />
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span class="requiredField">*</span>${message("admin.plugin.wechatPayment.mch_id")}:
+				</th>
+				<td>
+					<input type="text" name="mch_id" class="text" value="${pluginConfig.getAttribute("mch_id")}" maxlength="200" />
 				</td>
 			</tr>
 			<tr>

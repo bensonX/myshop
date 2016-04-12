@@ -20,6 +20,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 收货地址
  * 
@@ -55,9 +57,11 @@ public class Receiver extends BaseEntity<Long> {
 	private Boolean isDefault;
 
 	/** 地区 */
+	@JsonIgnore
 	private Area area;
 
 	/** 会员 */
+	@JsonIgnore
 	private Member member;
 	
 	/**

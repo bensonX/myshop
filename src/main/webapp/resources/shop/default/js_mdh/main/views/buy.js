@@ -457,8 +457,8 @@
   // 数据返回后成功处理,添加
   Klass.fn.getAddAddressSuccess = function (context, id) {
   	var hl = '<li class="fl selected" data-id = "'+context.id+'">'
-						+'<p class="information">'+context.userName
-							+'<span class="fr">'+context.mobile+'</span>'
+						+'<p class="information">'+context.areaName
+							+'<span class="fr">'+context.phone+'</span>'
 						+'</P>'
 						+'<strong>'+context.idCard+'</strong>'
 						+'<em>'+context.province+'&nbsp;'+context.city+'<br>'+context.address+'</em>'
@@ -628,6 +628,7 @@
 
   // 提交表单
   Klass.fn.formSubmit = function (e) {
+  	var self = this;
   	var addressId = $('[data-address="items"] li.selected').attr("data-id");
   	var note = $('[data-tag="note"]').val();
   	if (!addressId) {
@@ -640,7 +641,33 @@
   	if (note)
   		$('[data-tag="inputNote"]').val(note);
 
-  	$(e.target).parents('form').submit();
+  	var dataPost = $(e.target).parents('form').serialize();
+  	$.ajax({
+  		url: self.options.urlSubmitPost,
+  		type: "POST",
+  		data: dataPost,
+  		dataType: "json",
+  		cache: false,
+  		beforeSend: function() {
+				$(e.target).prop("disabled", true);
+			},
+  		success: function (data) {
+
+  			self.isDeletePerform = false;
+  			if (data.message.type == 'success') {
+  				location.href = self.options.urlPayment+"?sn=" + data.sn;
+  			}
+  			else {
+  				layer(data.message);
+  				setTimeout(function() {
+						location.reload(true);
+					}, 3000);
+  			}
+  		},
+			complete: function() {
+				$(e.target).prop("disabled", false);
+			}
+  	})
 
   };
 

@@ -54,6 +54,7 @@ public class PaymentController extends BaseController {
 	 */
 	@RequestMapping(value = "/plugin_submit", method = RequestMethod.POST)
 	public String pluginSubmit(PaymentLog.Type type, String paymentPluginId, String sn, BigDecimal amount, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		System.out.println(" lsu ..payment plugin submit in paymentcontroller : ");
 		if (type == null) {
 			return ERROR_VIEW;
 		}
@@ -125,6 +126,7 @@ public class PaymentController extends BaseController {
 	 */
 	@RequestMapping("/plugin_notify/{pluginId}/{notifyMethod}")
 	public String pluginNotify(@PathVariable String pluginId, @PathVariable PaymentPlugin.NotifyMethod notifyMethod, HttpServletRequest request, ModelMap model) {
+		System.out.println(" lsu .. plugins notify for payment in paymentcontroller. : ");
 		PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(pluginId);
 		if (paymentPlugin != null && paymentPlugin.verifyNotify(notifyMethod, request)) {
 			String sn = paymentPlugin.getSn(request);

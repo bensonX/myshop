@@ -1,4 +1,4 @@
-[#escape x as x?html]
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,9 +13,13 @@
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/buy.js"></script>
+		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
+		 
    	 <script>
 	     // 地址json
-	      var addressJson = '${member.receivers?js_string}';
+	    
+	      var addressJson =  ${receivers};
+	      var defaultReceiverID=${defaultReceiver.id};// 默认地址
 	      $(function () {
 	        /**
 	         * 地址验证和提交
@@ -46,11 +50,21 @@
 	            };
 	          },
 	
-	          urlDeleteAddressPost: '../../test/delete.json',   // 删除地址
-	          urlDefaultAddressPost: '../../test/default.json'   // 默认地址
+	          urlDeleteAddressPost: '${base}/member/receiver/delete.jhtml',   // 删除地址
+	          urlDefaultAddressPost: '${base}' ,  // 默认地址
+	          urlSubmitPost: '${base}/order/create.jhtml',  // 提交地址
+          	  urlPayment: '${base}/order/payment.jhtml'   // 跳转地址
 	
 	        });
-	
+		  	/**
+	         * 城市选择接口
+	         */
+	        selectCity.init({
+	          province: '[data-tag="province"]',
+	          city: '[data-tag="city"]',
+	          town: '[data-tag="town"]',
+	          urlPost: "${base}/common/area.jhtml"   //  获取数据地址
+	        });
 	      });
     </script>
 	</head>
@@ -68,10 +82,15 @@
 				</div>
 				<div class="city">
 					<label for="city">省/市</label>
-					<select class="provinciala" data-tag="province"></select>
-   					<select class="citya" data-tag="city" areaId="">
-   				   		<option>所在市区</option>
-   					</select>
+					<select class="provinciala" data-tag="province" province = "2">
+            		<option>所在省</option>
+        			</select>
+ 					<select class="provinciala" data-tag="city" disabled="disabled">
+ 				   		<option>所在市区</option>
+ 					</select>
+		          <select class="citya" data-tag="town" disabled="disabled">
+		              <option>所在城镇</option>
+		          </select>
 				</div>
 				<div class="address">
 					<label for="address">详细地址</label>
@@ -209,17 +228,28 @@
 				</ul> -->
 				<p>
 				<!-- 	代金券减免：-10.00元<br> -->
-					付款总额:<span>￥800.00</span><br>
+					${message("Order.amount")}: <span>${currency(order.amount, true, true)}</span><br>
 					<!-- 为您节省：10.00元 -->
 				</p>
-				<form class="buy-pay" action = "./pay.html" method = "post">
-          <input type = "hidden" value = "" name = "note" data-tag="inputNote" />
-          <input type = "hidden" value = "" name = "addressId" data-tag="inputAddressId" />
-					<label for="buy">结算方式</label>
-					<input id="buy" type="radio" checked="checked" name="pay">
+				<form class="buy-pay" action = "#" method = "post">
+					[#if order.isDelivery]
+						<input type="hidden" id="receiverId" name="receiverId"[#if defaultReceiver??] value="${defaultReceiver.id}"[/#if] />
+						<!-- <input type = "hidden" value = "" name = "addressId" data-tag="inputAddressId" /> -->
+					[/#if]
+					[#if order.type == "general"]
+						<input type="hidden" name="cartToken" value="${cartToken}" />
+					[/#if]
+          			<input type = "hidden" value = "not" name = "memo" data-tag="inputNote" maxlength="350" />
+					<label for="buy">${message("Order.paymentMethod")}</label>
+					<input id="buy" type="radio" checked="checked" name="paymentMethodId" value="1" />
 					<img src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-1.png" height="56" width="55">
-					<input type="radio" name="pay">
+					<input type="radio" name="paymentMethodId" value="2">
 					<img src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-2.png" height="56" width="56"><br />
+					
+					<input type="hidden" id="shippingMethod_${shippingMethod.id}" name="shippingMethodId" value="1" />
+					<input type="hidden" id="code" name="code" maxlength="200" value="0" />
+					<input type="hidden" id="invoiceTitle" name="invoiceTitle" class="text" value="${message("shop.order.defaultInvoiceTitle")}" maxlength="200" disabled="disabled" />
+					<input type="hidden" id="balance" name="balance" class="balance" value="0" maxlength="16" onpaste="return false;" />
 					<button type="button" data-tag="formSubmit">结算</button>
 				</form>
 			</div>
@@ -231,4 +261,3 @@
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>
 </html>
-[/#escape]

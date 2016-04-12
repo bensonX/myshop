@@ -69,7 +69,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 
 	@Override
 	public String getRequestUrl() {
-		return "https://mapi.alipay.com/gateway.do";
+		return "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	}
 
 	@Override
@@ -84,12 +84,14 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 
 	@Override
 	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
+		System.out.println(" lsu .. into getParameterMap for wechat payment: ");
 		Setting setting = SystemUtils.getSetting();
 		PluginConfig pluginConfig = getPluginConfig();
 		PaymentLog paymentLog = getPaymentLog(sn);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("service", "create_direct_pay_by_user");
-		parameterMap.put("partner", pluginConfig.getAttribute("partner"));
+		parameterMap.put("partner", pluginConfig.getAttribute("appid"));
+		parameterMap.put("partner", pluginConfig.getAttribute("mch_id"));
 		parameterMap.put("_input_charset", "utf-8");
 		parameterMap.put("sign_type", "MD5");
 		parameterMap.put("return_url", getNotifyUrl(PaymentPlugin.NotifyMethod.sync));
@@ -111,6 +113,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 
 	@Override
 	public boolean verifyNotify(PaymentPlugin.NotifyMethod notifyMethod, HttpServletRequest request) {
+		System.out.println(" lsu .. into verifyNotify for paymentplugin ");
 		PluginConfig pluginConfig = getPluginConfig();
 		PaymentLog paymentLog = getPaymentLog(request.getParameter("out_trade_no"));
 		if (paymentLog != null && generateSign(request.getParameterMap()).equals(request.getParameter("sign")) && pluginConfig.getAttribute("partner").equals(request.getParameter("seller_id"))
