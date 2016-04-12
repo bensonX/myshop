@@ -136,6 +136,48 @@ public class OrderController extends BaseController {
 		data.put("address", receiver.getAddress());
 		data.put("zipCode", receiver.getZipCode());
 		data.put("phone", receiver.getPhone());
+		data.put("cardId", receiver.getCardId());
+		return data;
+	}
+	
+	/**
+	 * 编辑收货地址
+	 * 
+	 * @param receiver
+	 * @param id
+	 *            收货地址ID
+	 * @param areaId
+	 *            地址ID
+	 * @param redirectAttributes
+	 * @return
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> update(Receiver receiver, Long id, Long areaId) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		receiver.setArea(areaService.find(areaId));
+		if (!isValid(receiver)) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		Receiver pReceiver = receiverService.find(id);
+		if (pReceiver == null) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		Member member = memberService.getCurrent();
+		if (!member.equals(pReceiver.getMember())) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		receiverService.update(receiver, "areaName", "member");
+		data.put("message", SUCCESS_MESSAGE);
+		data.put("id", receiver.getId());
+		data.put("consignee", receiver.getConsignee());
+		data.put("areaName", receiver.getAreaName());
+		data.put("address", receiver.getAddress());
+		data.put("zipCode", receiver.getZipCode());
+		data.put("phone", receiver.getPhone());
+		data.put("cardId", receiver.getCardId());
 		return data;
 	}
 
