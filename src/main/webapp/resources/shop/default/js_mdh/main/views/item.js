@@ -92,6 +92,7 @@ $(function () {
     var $number = $('[data-tag="number"]');
     var num = parseInt($number.val());
     if (num > 0 ) $number.val(++num);
+    
   };
 
   // 数量框输入
@@ -166,8 +167,9 @@ $(function () {
   ShoppingCart.fn.clickCart = function (event) {
     var self = this;
     // 判断用户是否登录,不存在跳到用户登录页面
-    if (!self.options.usernameId)
-      location.href = self.options.urlLogin;
+    if (!self.options.usernameId){    	
+    	location.href = self.options.urlLogin;
+    }
     
     var data = $.extend({quantity: $('[data-tag="number"]').val()}, self.options.data);
 
@@ -190,6 +192,9 @@ $(function () {
         }
         else if (message.type == 'error') {
           self.getError(message);
+        }
+        else if(message.type == 'warn'){
+        	alert(message.content);
         }
        }
     });
