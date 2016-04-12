@@ -6,7 +6,6 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 [@seo type = "goodsContent"]
-	<title>[#if goods.seoTitle??]${goods.seoTitle}[#elseif seo.title??][@seo.title?interpret /][/#if][#if showPowered] - Powered By JSHOP[/#if]</title>
 	<meta name="author" content="JSHOP Team" />
 	<meta name="copyright" content="JSHOP" />
 	[#if goods.seoKeywords??]
@@ -963,7 +962,7 @@ $().ready(function() {
 			
 		[#if goods.type == "general"]
 			<div class = "price" >
-			<h5>${currency(defaultProduct.price, true)}</h5>
+			<h5  id="price">${currency(defaultProduct.price, true)}</h5>
 				<p>
 				[#if setting.isShowMarketPrice]
 					<span>
@@ -978,25 +977,25 @@ $().ready(function() {
 				[#if goods.type == "general" || goods.type == "exchange"]
 					[#if goods.hasSpecification()]
 						[#assign defaultSpecificationValueIds = defaultProduct.specificationValueIds /]
-	            <dl class = "size clearfix">
-	              [#list goods.specificationItems as specificationItem]
-	              <dt>${abbreviate(specificationItem.name, 8)}</dt>
-	              <dd>
-	                <ul data-property="${specificationItem.name}">
-	              	  [#list specificationItem.entries as entry]
-					  	[#if entry.isSelected]
-	                  <li>
-	                    <a href = "javascript:void(0)" >
-	                      <span>${entry.value}</span>
-	                      <i></i>
-	                    </a>
-	                  </li>
-	                  	[/#if]
-					  [/#list]
-	                </ul>
-	              </dd>
-	              [/#list]
-	            </dl>
+			            <dl class = "size clearfix"  id="specification">
+			              [#list goods.specificationItems as specificationItem]
+			              <dt>${abbreviate(specificationItem.name, 8)}</dt>
+			              <dd>
+			                <ul data-property="${specificationItem.name}">
+			              	  [#list specificationItem.entries as entry]
+							  	[#if entry.isSelected]
+				                  <li>
+				                    <a href = "javascript:void(0)" [#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
+				                      <span>${entry.value} [#if defaultSpecificationValueIds[specificationItem_index] == entry.id] selected[/#if]</span>
+				                      <i></i>
+				                    </a>
+				                  </li>
+			                  	[/#if]
+							  [/#list]
+			                </ul>
+			              </dd>
+			              [/#list]
+			            </dl>
 					[/#if]
 				[/#if]
 					
@@ -1201,10 +1200,96 @@ $().ready(function() {
 </html>
     <script>
       $(function () {
-		var username = getCookie("username") || '';
-		var nickname = getCookie("nickname") || '';
-		var mobile = getCookie("mobile") || '';
-		alert(username+"+"+nickname+"+"+mobile);
+      	var $specificationValue = $("#specification a");
+      	var $specification = $("#specification dd");
+      	var $price = $("#price");
+      	
+      	[#if goods.hasSpecification()]
+			[#list goods.products as product]
+				productData["${product.specificationValueIds?join(",")}"] = {
+					id: ${product.id},
+					price: ${product.price},
+					marketPrice: ${product.marketPrice},
+					rewardPoint: ${product.rewardPoint},
+					exchangePoint: ${product.exchangePoint},
+					isOutOfStock: ${product.isOutOfStock?string("true", "false")}
+				};
+			[/#list]
+			
+			// 锁定规格值
+			lockSpecificationValue();
+		[/#if]
+      	
+      	
+      	// 规格值选择
+		$specificationValue.click(function() {
+			var $this = $(this);
+			if ($this.hasClass("locked")) {
+				return false;
+			}
+			
+			//$this.toggleClass("selected").parent().siblings().children("a").removeClass("selected");
+			lockSpecificationValue();
+			return false;
+		});
+		
+		// 锁定规格值
+		function lockSpecificationValue() {
+			var currentSpecificationValueIds = $specification.map(function() {
+				$selected = $(this).find("a.selected");
+				return $selected.size() > 0 ? $selected.attr("val") : [null];
+			}).get();
+			$specification.each(function(i) {
+				$(this).find("a").each(function(j) {
+					var $this = $(this);
+					var specificationValueIds = currentSpecificationValueIds.slice(0);
+					specificationValueIds[i] = $this.attr("val");
+					//if (isValid(specificationValueIds)) {
+					//	$this.removeClass("locked");
+					//} else {
+					//	$this.addClass("locked");
+					//}
+				});
+			});
+			var product = productData[currentSpecificationValueIds.join(",")];
+			if (product != null) {
+				productId = product.id;
+				$price.text(currency(product.price, true));
+				
+			} else {
+				productId = null;
+			}
+		}
+		
+		// 判断规格值ID是否有效
+		function isValid(specificationValueIds) {
+			for(var key in productData) {
+				var ids = key.split(",");
+				if (match(specificationValueIds, ids)) {
+					return true;
+				}
+			}
+			return false;
+		}
+		
+      	// 判断数组是否配比
+		function match(array1, array2) {
+			if (array1.length != array2.length) {
+				return false;
+			}
+			for(var i = 0; i < array1.length; i ++) {
+				if (array1[i] != null && array2[i] != null && array1[i] != array2[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+      
+      
+      
+      
+      
+		var username = getCookie("username") || getCookie("nickname") || getCookie("mobile") || '';
 		
         // 查看ajax发送和接收数据打开浏览器控制台
 
@@ -1220,9 +1305,9 @@ $().ready(function() {
          */
         ShoppingCart({
           shoppingForm: shoppingForm,    // 表单对象数据
-          usernameId: getCookie('username');  // 用户cookie id
+          usernameId: username,  // 用户cookie id
           urlCartPost: '${base}/cart/add.jhtml',    // 购物车Ajax
-          urlLogin:    '/',  // 登录链接
+          urlLogin:    '${base}/login.jhtml',  // 登录链接
           data: {
             // 对象
             productId: ${defaultProduct.id},
@@ -1237,168 +1322,16 @@ $().ready(function() {
         BuyImmediately({
           shoppingForm: shoppingForm,    // 表单对象数据
           usernameId: getCookie('username'),  //getCookie('usernameId');  // 用户cookie id
-          urlBuyImmediatelyPost: '../../test/test.json',    // 购物车Ajax
-          urlLogin:    './landing.html',   // 登录链接
-          urlOrder:    '/',     // 订单页面
+          urlBuyImmediatelyPost: '${base}/logout.jhtml',    // 购物车Ajax
+          urlLogin:    '${base}/login.jhtml',   // 登录链接
+          urlOrder:    '${base}/login.jhtml',     // 订单页面
           data: {
             // 对象
             productId: ${defaultProduct.id},
-            quantity: $('[data-tag="number"]').val()
+            
           }
         });
 
       });
     </script>
-[#--
-<script>
-	$(function () {
-		var $headerCart = $("#headerCart");
-		var $historyGoods = $("#historyGoods");
-		var $clearHistoryGoods = $("#historyGoods a.clear");
-		var $zoom = $("#zoom");
-		var $thumbnailScrollable = $("#thumbnailScrollable");
-		var $thumbnail = $("#thumbnailScrollable a");
-		var $dialogOverlay = $("#dialogOverlay");
-		var $preview = $("#preview");
-		var $previewClose = $("#preview a.close");
-		var $previewScrollable = $("#previewScrollable");
-		var $price = $("#price");
-		var $marketPrice = $("#marketPrice");
-		var $rewardPoint = $("#rewardPoint");
-		var $exchangePoint = $("#exchangePoint");
-		var $specification = $("#specification dl");
-		var $specificationTips = $("#specification div");
-		var $specificationValue = $("#specification a");
-		var $productNotifyForm = $("#productNotifyForm");
-		var $productNotify = $("#productNotify");
-		var $productNotifyEmail = $("#productNotify input");
-		var $addProductNotify = $("#addProductNotify");
-		var $quantity = $("#quantity");
-		var $increase = $("#increase");
-		var $decrease = $("#decrease");
-		var $addCart = $("#addCart");
-		var $exchange = $("#exchange");
-		var $addFavorite = $("#addFavorite");
-		var $window = $(window);
-		var $bar = $("#bar ul");
-		var $introductionTab = $("#introductionTab");
-		var $parameterTab = $("#parameterTab");
-		var $reviewTab = $("#reviewTab");
-		var $consultationTab = $("#consultationTab");
-		var $introduction = $("#introduction");
-		var $parameter = $("#parameter");
-		var $review = $("#review");
-		var $addReview = $("#addReview");
-		var $consultation = $("#consultation");
-		var $addConsultation = $("#addConsultation");
-//		var barTop = $bar.offset().top;
-//		var barWidth = $bar.width();
-		var productId = ${defaultProduct.id};
-		var productData = {};
-		
-		[#if goods.type == "general"]
-			// 加入购物车
-			$addCart.click(function() {
-				if (productId == null) {
-					//$specificationTips.fadeIn(150).fadeOut(150).fadeIn(150);
-					alert("No ProductId!");
-					return false;
-				}
-				var phone=getCookie("mobile");
-				alert(phone);
-				phone="15001932281";
-				if(!phone){alert("没有登录"); return false;}
-				
-				var quantity = $quantity.val();
-				
-				alert(productId+":"+quantity);
-				if (/^\d*[1-9]\d*$/.test(quantity)) {
-					$.ajax({
-						url: "${base}/cart/add.jhtml",
-						type: "POST",
-						data: {productId: productId, quantity: quantity},
-						dataType: "json",
-						cache: false,
-						success: function(message) {
-							alert(message);
-							if (message.type == "success" && $headerCart.size() > 0 && window.XMLHttpRequest) {
-								var $image = $zoom.find("img");
-								var cartOffset = $headerCart.offset();
-								var imageOffset = $image.offset();
-								$image.clone().css({
-									width: 300,
-									height: 300,
-									position: "absolute",
-									"z-index": 20,
-									top: imageOffset.top,
-									left: imageOffset.left,
-									opacity: 0.8,
-									border: "1px solid #dddddd",
-									"background-color": "#eeeeee"
-								}).appendTo("body").animate({
-									width: 30,
-									height: 30,
-									top: cartOffset.top,
-									left: cartOffset.left,
-									opacity: 0.2
-								}, 1000, function() {
-									$(this).remove();
-								});
-							}
-							console.log(message);
-							$.message(message);
-						}
-					});
-				} else {
-					$.message("warn", "${message("shop.goods.quantityPositive")}");
-				}
-			});
-		[#elseif goods.type == "exchange"]
-			// 积分兑换
-			$exchange.click(function() {
-				if (productId == null) {
-					$specificationTips.fadeIn(150).fadeOut(150).fadeIn(150);
-					return false;
-				}
-				var quantity = $quantity.val();
-				if (/^\d*[1-9]\d*$/.test(quantity)) {
-					$.ajax({
-						url: "${base}/order/check_exchange.jhtml",
-						type: "GET",
-						data: {productId: productId, quantity: quantity},
-						dataType: "json",
-						cache: false,
-						success: function(message) {
-							if (message.type == "success") {
-								location.href = "${base}/order/checkout.jhtml?type=exchange&productId=" + productId + "&quantity=" + quantity;
-							} else {
-								$.message(message);
-							}
-						}
-					});
-				} else {
-					$.message("warn", "${message("shop.goods.quantityPositive")}");
-				}
-			});
-		[/#if]
-		
-		// 添加商品收藏
-		$addFavorite.click(function() {
-			$.ajax({
-				url: "${base}/member/favorite/add.jhtml",
-				type: "POST",
-				data: {goodsId: ${goods.id}},
-				dataType: "json",
-				cache: false,
-				success: function(message) {
-					$.message(message);
-				}
-			});
-			return false;
-		});
-
-	});
-
-</script>
---]
 [/#escape]

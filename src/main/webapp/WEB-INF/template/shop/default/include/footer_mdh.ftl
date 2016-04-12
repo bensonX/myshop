@@ -136,7 +136,7 @@
 				</div>
 			</li>
 			<li data-cart="shoppingcart" >
-				<a href="./shoppingcart.html" class="two ico" id="headerCart"><i></i></a>
+				<a href="${base}/cart/list.jhtml" class="two ico" id="headerCart"><i></i></a>
 				<div class="shopping-list tooltip dn">
 					<p>来都来了，不买点德国货吗~</p>
 					<a href="javascript:;" class = "no"><i></i>查看我的购物车</a>
@@ -150,7 +150,7 @@
 						<p class="fr" data-right="priceAll">2365.00</p>
 						<b data-right="delete">x</b>
 					</div>
-					<a href="./shoppingcart.html"><i></i>查看我的购物车</a>
+					<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
 				</div>
 			</li>
 			<li>
