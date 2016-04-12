@@ -36,7 +36,7 @@
 		<property name="packagesToScan" value="net.shopxx.entity" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="false" />
+				<property name="showSql" value="true" />
 				<property name="generateDdl" value="true" />
 			</bean>
 		</property>
@@ -74,7 +74,7 @@
 		<property name="cacheManager" ref="ehCacheManager" />
 	</bean>
 
-<!-- 	<cache:annotation-driven cache-manager="cacheManager" /> -->
+	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean" lazy-init="false">
 		<property name="cacheManager" ref="ehCacheManager" />
