@@ -57,7 +57,7 @@ public class ReceiverController extends BaseController {
 	/**
 	 * 添加
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String add(RedirectAttributes redirectAttributes) {
 		Member member = memberService.getCurrent();
 		if (Receiver.MAX_RECEIVER_COUNT != null && member.getReceivers().size() >= Receiver.MAX_RECEIVER_COUNT) {
@@ -90,7 +90,7 @@ public class ReceiverController extends BaseController {
 	/**
 	 * 编辑
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.POST)
 	public String edit(Long id, ModelMap model, RedirectAttributes redirectAttributes) {
 		Receiver receiver = receiverService.find(id);
 		if (receiver == null) {

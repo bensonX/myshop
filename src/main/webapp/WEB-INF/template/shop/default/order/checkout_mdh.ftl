@@ -25,33 +25,34 @@
 	         * 地址验证和提交
 	         */
 	        addressValidation({
-	          urlAddAddress: '../../test/address.json', // 添加
+	          urlAddAddress: '${base}/order/save_receiver.jhtml', // 添加
 	          addAddressData: function () {
 	            return {
-	              userName: $('[data-tag="userName"]').val(),
-	              province: $('[data-tag="province"]').find(':selected').html(),
-	              city: $('[data-tag="city"]').find(':selected').html(),
-	              address: $('[data-tag="address"]').val(),
-	              idCard: $('[data-tag="idCard"]').val(),
-	              mobile: $('[data-tag="mobile"]').val()
+	            	'areaId':$('[data-tag="town"]').attr('town') || $('[data-tag="city"]').attr('city') || $('[data-tag="province"]').attr('province'),
+	            	'consignee':$('[data-tag="userName"]').val(),
+	            	'address':$('[data-tag="address"]').val(),
+	            	'phone':$('[data-tag="mobile"]').val(),
+	            	'cardId':$('[data-tag="idCard"]').val(),
+	            	'zipCode':'0',
+	            	'isDefault':false
 	            };
 	          },
 	
-	          urlEditAddress: '../../test/address.json', // 编辑
+	          urlEditAddress: '${base}/member/receiver/edit.jhtml', // 编辑
 	          editAddressData: function () {
 	            return {
-	              id: $('[data-tag="addressForm"]').attr('data-id'),
-	              userName: $('[data-tag="userName"]').val(),
-	              province: $('[data-tag="province"]').find(':selected').html(),
-	              city: $('[data-tag="city"]').find(':selected').html(),
-	              address: $('[data-tag="address"]').val(),
-	              idCard: $('[data-tag="idCard"]').val(),
-	              mobile: $('[data-tag="mobile"]').val()
+	              	'areaId':$('[data-tag="town"]').attr('town') || $('[data-tag="city"]').attr('city') || $('[data-tag="province"]').attr('province'),
+	            	'consignee':$('[data-tag="userName"]').val(),
+	            	'address':$('[data-tag="address"]').val(),
+	            	'phone':$('[data-tag="mobile"]').val(),
+	            	'cardId':$('[data-tag="idCard"]').val(),
+	            	'zipCode':'0',
+	            	'isDefault':false
 	            };
 	          },
 	
 	          urlDeleteAddressPost: '${base}/member/receiver/delete.jhtml',   // 删除地址
-	          urlDefaultAddressPost: '${base}' ,  // 默认地址
+	          urlDefaultAddressPost: '${base}/member/receiver',  // 修改默认地址
 	          urlSubmitPost: '${base}/order/create.jhtml',  // 提交地址
           	  urlPayment: '${base}/order/payment.jhtml'   // 跳转地址
 	
@@ -113,8 +114,8 @@
 			</div>
       <div class = "shielding-layer" data-tag="shieldingLayer"></div>
 			<!-- 收货地址开始 -->
-			<div class="buy-address dn" data-tag="butAddress" >
-				<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" class = "fr">添加</a></h5>
+		<div class="buy-address dn" data-tag="butAddress" >
+		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" >添加</a></h5>
         <button class="left" type="button" data-tag="scrollLeft"></button>
         <button class="right" type="button" data-tag="scrollRight"></button>
         [#if order.isDelivery]

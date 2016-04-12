@@ -140,7 +140,7 @@ public class Receiver extends BaseEntity<Long> {
 	 */
 	@NotEmpty
 	@Length(max = 200)
-	@Pattern(regexp = "^\\d{6}$")
+	//@Pattern(regexp = "^\\d{6}$")
 	@Column(nullable = false)
 	public String getZipCode() {
 		return zipCode;
