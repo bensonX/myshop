@@ -273,3 +273,46 @@ function removeCookie(name, options) {
   window.layer = Layer;
 })(window, jQuery);
 
+
+/**
+ * 基本功能
+ */
+;(function ($, window) {
+
+  function Klass (options) {
+    if (!(this instanceof Klass)) return new Klass(options);
+  };
+
+  Klass.fn = Klass.prototype = {
+    constructor: constructor,
+
+    init: function (options) {
+      this.options = options;
+    },
+    // 收藏
+    enshrine: function (options) {
+      var options = options;
+      $('body').delegate('[data-goods="enshrine"]', 'click', function(event) {
+        event.stopPropagation();
+        var id = $(event.target).attr('goods');
+        console.log(event);
+        $.ajax({
+          url: options,
+          type: "POST",
+          data: {goodsId: id},
+          dataType: "json",
+          cache: false,
+          success: function(message) {
+            //$.message(message);
+            layer(message);
+          }
+        });
+        return false;
+      });
+    }
+  };
+
+  window.init = new Klass;
+ 
+})(jQuery, window);
+
