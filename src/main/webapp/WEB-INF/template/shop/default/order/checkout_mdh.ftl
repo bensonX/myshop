@@ -18,8 +18,8 @@
    	 <script>
 	     // 地址json
 	    
-	      var addressJson =  ${receivers};
-	      var defaultReceiverID=${defaultReceiver.id};// 默认地址
+	      var addressJson =  ${receivers![]};
+	      var defaultReceiverID=${defaultReceiver.id!0};// 默认地址
 	      $(function () {
 	        /**
 	         * 地址验证和提交
