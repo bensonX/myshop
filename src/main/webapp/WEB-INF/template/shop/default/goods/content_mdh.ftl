@@ -974,30 +974,32 @@ $().ready(function() {
 			</div>
 		[/#if]	
 			<div class = "item-sku" data-tag="formList">
+				
 				[#if goods.type == "general" || goods.type == "exchange"]
 					[#if goods.hasSpecification()]
 						[#assign defaultSpecificationValueIds = defaultProduct.specificationValueIds /]
-			            <dl class = "size clearfix"  id="specification">
-			              [#list goods.specificationItems as specificationItem]
-			              <dt>${abbreviate(specificationItem.name, 8)}</dt>
-			              <dd>
-			                <ul data-property="${specificationItem.name}">
-			              	  [#list specificationItem.entries as entry]
-							  	[#if entry.isSelected]
-				                  <li>
-				                    <a href = "javascript:void(0)" [#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
-				                      <span>${entry.value} [#if defaultSpecificationValueIds[specificationItem_index] == entry.id] selected[/#if]</span>
-				                      <i></i>
-				                    </a>
-				                  </li>
-			                  	[/#if]
-							  [/#list]
-			                </ul>
-			              </dd>
-			              [/#list]
-			            </dl>
+			              		<div id="specification" class="specification clearfix">
+								<div class="title">${message("shop.goods.specificationTips")}</div>
+								[#list goods.specificationItems as specificationItem]
+									<dl>
+										<dt>
+											<span title="${specificationItem.name}">${abbreviate(specificationItem.name, 8)}:</span>
+										</dt>
+										[#list specificationItem.entries as entry]
+											[#if entry.isSelected]
+												<dd>
+													<a href="javascript:;"[#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
+														${entry.id}=${entry.value}<span title="${message("shop.goods.selected")}">&nbsp;</span>
+													</a>
+												</dd>
+											[/#if]
+										[/#list]
+									</dl>
+								[/#list]
+							</div>
 					[/#if]
 				[/#if]
+				
 					
 				<dl class = "amount clearfix">
 	              <dt>${message("shop.goods.quantity")}</dt>
@@ -1200,9 +1202,23 @@ $().ready(function() {
 </html>
     <script>
       $(function () {
+	    // 选择类型
+	    $('[data-tag="formList"] ul li').bind('click', function () {
+		    var context = $(this).find('span').html();
+		    $(this).find('a').attr('aria-label', context);
+		    $(this)
+		      .addClass('tb-selected')
+		      .siblings()
+		      .removeClass('tb-selected')
+		      .find('a')
+		      .removeAttr('aria-label');
+		  });
+	  
       	var $specificationValue = $("#specification a");
       	var $specification = $("#specification dd");
       	var $price = $("#price");
+      	var productData = {};
+      	var productId = ${defaultProduct.id};
       	
       	[#if goods.hasSpecification()]
 			[#list goods.products as product]
@@ -1219,16 +1235,14 @@ $().ready(function() {
 			// 锁定规格值
 			lockSpecificationValue();
 		[/#if]
-      	
+
       	
       	// 规格值选择
 		$specificationValue.click(function() {
 			var $this = $(this);
-			if ($this.hasClass("locked")) {
-				return false;
-			}
-			
-			//$this.toggleClass("selected").parent().siblings().children("a").removeClass("selected");
+					
+					$this.toggleClass("selected").parent().siblings().children("a").removeClass("selected");
+					
 			lockSpecificationValue();
 			return false;
 		});
@@ -1237,26 +1251,53 @@ $().ready(function() {
 		function lockSpecificationValue() {
 			var currentSpecificationValueIds = $specification.map(function() {
 				$selected = $(this).find("a.selected");
+				
+					//alert("a.selected="+$selected.attr("val"));
+					
 				return $selected.size() > 0 ? $selected.attr("val") : [null];
 			}).get();
+			
+			//alert("currentSpecificationValueIds="+currentSpecificationValueIds);
+			
 			$specification.each(function(i) {
 				$(this).find("a").each(function(j) {
 					var $this = $(this);
 					var specificationValueIds = currentSpecificationValueIds.slice(0);
 					specificationValueIds[i] = $this.attr("val");
-					//if (isValid(specificationValueIds)) {
-					//	$this.removeClass("locked");
-					//} else {
-					//	$this.addClass("locked");
-					//}
+					
+					//alert("i="+i+";j="+j+";specificationValueIds[i]="+specificationValueIds[i]);
+					
+					if (isValid(specificationValueIds)) {
+						$this.removeClass("locked");
+					} else {
+						$this.addClass("locked");
+					}
 				});
 			});
-			var product = productData[currentSpecificationValueIds.join(",")];
+			
+			//alert(currentSpecificationValueIds+"=="+currentSpecificationValueIds.join(","));
+			
+			for(var i=0,len=currentSpecificationValueIds.length;i<len;i++){
+				if(!currentSpecificationValueIds[i]||currentSpecificationValueIds[i]==''||currentSpecificationValueIds[i] === undefined){
+					currentSpecificationValueIds.splice(i,1);
+					len--;
+					i--;
+				}
+			} 
+			
+			//var product = productData[currentSpecificationValueIds.join(",")];
+			var product = productData[currentSpecificationValueIds];
+			//alert(product);
+			
 			if (product != null) {
 				productId = product.id;
+				
+				//alert("----price----"+product.price);
+				
 				$price.text(currency(product.price, true));
 				
 			} else {
+				//alert("productId = null");
 				productId = null;
 			}
 		}

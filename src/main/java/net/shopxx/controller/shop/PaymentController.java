@@ -55,6 +55,7 @@ public class PaymentController extends BaseController {
 	@RequestMapping(value = "/plugin_submit", method = RequestMethod.POST)
 	public String pluginSubmit(PaymentLog.Type type, String paymentPluginId, String sn, BigDecimal amount, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		System.out.println(" lsu ..payment plugin submit in paymentcontroller : ");
+		System.out.println(" lsu .PaymentLog.Type is: " + type + "; paymentPluginId is: " + paymentPluginId + "; sn is: " + sn + "; amount is: " +amount);
 		if (type == null) {
 			return ERROR_VIEW;
 		}
@@ -115,6 +116,7 @@ public class PaymentController extends BaseController {
 		model.addAttribute("requestUrl", paymentPlugin.getRequestUrl());
 		model.addAttribute("requestMethod", paymentPlugin.getRequestMethod());
 		model.addAttribute("requestCharset", paymentPlugin.getRequestCharset());
+		request.setAttribute("sn", sn);	
 		if (StringUtils.isNotEmpty(paymentPlugin.getRequestCharset())) {
 			response.setContentType("text/html; charset=" + paymentPlugin.getRequestCharset());
 		}

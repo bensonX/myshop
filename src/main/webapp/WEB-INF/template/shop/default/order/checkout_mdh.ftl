@@ -17,7 +17,6 @@
 		 
    	 <script>
 	     // 地址json
-	    
 	      var addressJson =  ${receivers![]};
 	      var defaultReceiverID=${defaultReceiver.id!0};// 默认地址
 	      $(function () {
@@ -38,9 +37,10 @@
 	            };
 	          },
 	
-	          urlEditAddress: '${base}/member/receiver/edit.jhtml', // 编辑
+	          urlEditAddress: '${base}/order/update.jhtml', // 编辑
 	          editAddressData: function () {
 	            return {
+					id: $('[data-tag="addressForm"]').attr('data-id'),
 	              	'areaId':$('[data-tag="town"]').attr('town') || $('[data-tag="city"]').attr('city') || $('[data-tag="province"]').attr('province'),
 	            	'consignee':$('[data-tag="userName"]').val(),
 	            	'address':$('[data-tag="address"]').val(),
@@ -50,12 +50,10 @@
 	            	'isDefault':false
 	            };
 	          },
-	
 	          urlDeleteAddressPost: '${base}/member/receiver/delete.jhtml',   // 删除地址
-	          urlDefaultAddressPost: '${base}/member/receiver',  // 修改默认地址
+	          urlDefaultAddressPost: '${base}/member/receiver/updateDefault.jhtml',  // 修改默认地址
 	          urlSubmitPost: '${base}/order/create.jhtml',  // 提交地址
-          	  urlPayment: '${base}/order/payment.jhtml'   // 跳转地址
-	
+          	  urlPayment: '${base}/order/payment.jhtml'// 跳转地址
 	        });
 		  	/**
 	         * 城市选择接口
@@ -115,7 +113,7 @@
       <div class = "shielding-layer" data-tag="shieldingLayer"></div>
 			<!-- 收货地址开始 -->
 		<div class="buy-address dn" data-tag="butAddress" >
-		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" >添加</a></h5>
+		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress">添加</a></h5>
         <button class="left" type="button" data-tag="scrollLeft"></button>
         <button class="right" type="button" data-tag="scrollRight"></button>
         [#if order.isDelivery]

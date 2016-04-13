@@ -5,7 +5,17 @@
  */
 package net.shopxx.controller.shop.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.shopxx.Message;
 import net.shopxx.Pageable;
@@ -15,13 +25,6 @@ import net.shopxx.entity.Receiver;
 import net.shopxx.service.AreaService;
 import net.shopxx.service.MemberService;
 import net.shopxx.service.ReceiverService;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller - 会员中心 - 收货地址
@@ -57,7 +60,7 @@ public class ReceiverController extends BaseController {
 	/**
 	 * 添加
 	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String add(RedirectAttributes redirectAttributes) {
 		Member member = memberService.getCurrent();
 		if (Receiver.MAX_RECEIVER_COUNT != null && member.getReceivers().size() >= Receiver.MAX_RECEIVER_COUNT) {
@@ -90,7 +93,7 @@ public class ReceiverController extends BaseController {
 	/**
 	 * 编辑
 	 */
-	@RequestMapping(value = "/edit", method = RequestMethod.POST)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(Long id, ModelMap model, RedirectAttributes redirectAttributes) {
 		Receiver receiver = receiverService.find(id);
 		if (receiver == null) {
@@ -122,9 +125,37 @@ public class ReceiverController extends BaseController {
 			return ERROR_VIEW;
 		}
 		receiverService.update(receiver, "areaName", "member");
+		receiver.getIsDefault();
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
 	}
+	
+	/**
+	 * 设置默认地址
+	 * 
+	 * @param id
+	 *            收货地址ID
+	 * @return
+	 */
+	@RequestMapping(value = "/updateDefault", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> updateDefault(Long id) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		Receiver pReceiver = receiverService.find(id);
+		if (pReceiver == null) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		Member member = memberService.getCurrent();
+		if (!member.equals(pReceiver.getMember())) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		pReceiver.setIsDefault(true);
+		receiverService.update(pReceiver);
+		data.put("message", SUCCESS_MESSAGE);
+		return data;
+	}
+	
 
 	/**
 	 * 删除
