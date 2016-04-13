@@ -441,10 +441,11 @@
   		data: postData,
   		dataType: "json",
   		cache: false,
-  		success: function (message) {
+  		success: function (data) {
+        console.log(data);
   			self.isAddPost = false;
-  			if (message.type == 'success') {
-  				self.getAddAddressSuccess(message.content, id);
+  			if (data.message.type == 'success') {
+  				self.getAddAddressSuccess(data, id);
   				self.isShowAddress();
   			}
   			else {
@@ -457,11 +458,11 @@
   // 数据返回后成功处理,添加
   Klass.fn.getAddAddressSuccess = function (context, id) {
   	var hl = '<li class="fl selected" data-id = "'+context.id+'">'
-						+'<p class="information">'+context.areaName
-							+'<span class="fr">'+context.phone+'</span>'
+						+'<p class="information">'+(context.consignee || '')
+							+'<span class="fr">'+(context.phone || '')+'</span>'
 						+'</P>'
-						+'<strong>'+context.idCard+'</strong>'
-						+'<em>'+context.province+'&nbsp;'+context.city+'<br>'+context.address+'</em>'
+						+'<strong>'+(context.idCard || '')+'</strong>'
+						+'<em>'+(context.areaName || '')+'</em>'
 						+'<p class="about">'
 							+'<a href="javascript:;" class = "default" data-address="default">默认地址</a>'
 							+'<a class="editor" href="javascript:;" data-address="edit">编辑</a>'

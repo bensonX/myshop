@@ -24,8 +24,9 @@
 					minusPlusData: {},
 
 					urlDeletePost: '${base}/cart/delete.jhtml',
-					deleteData: {}
+					deleteData: {},
 
+					disabled: 1   // 1选中禁止，0, 不选择不禁止
 				});
 
 			});

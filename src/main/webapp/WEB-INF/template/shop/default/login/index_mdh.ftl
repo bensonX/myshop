@@ -252,6 +252,8 @@ $().ready(function() {
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		<script type="text/javascript">
 		$().ready(function() {
+
+
 			var $loginForm = $("#loginForm");
 			var $mobile = $("#mobile");
 			var $password = $("#password");
@@ -385,17 +387,21 @@ $().ready(function() {
 		});
 		</script>
 	</head>
-    <body>
+    <body class="body-color">
     	<div id = "header" class="landing"></div>
-    	<div class="landing">
-			<h1></h1>
+    	<div class="landing login">
+    	<a href = "/" >
+				<h1></h1>
+			</a>
 			<form class="landing" id="loginForm" action="${base}/login/submit.jhtml" method="post">
 				
 				
 				<div class = "username" >
 					<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="20" />
 				</div>
+				<div class = "password" >
 					<input class="tet" type="password" placeholder="请输入密码" id="password" name="password" maxlength="200" autocomplete="off" />
+				</div>
 				<div class="inlanding clearfix">
 					<input class="landing" type="text" placeholder="输入验证码" id="captcha" name="captcha" maxlength="4" autocomplete="off" />
 					<img id="captchaImage" class="captchaImage" src="${base}/common/captcha.jhtml?captchaId=${captchaId}" title="${message("shop.captcha.imageTitle")}" />
@@ -412,14 +418,10 @@ $().ready(function() {
 				
 			</form>
 			[#if loginPlugins?has_content]
-				<tr class="loginPlugin">
-					<th>
-						&nbsp;
-					</th>
-					<td>
-						<ul>
+						<ul class="loginPlugin" >
 							[#list loginPlugins as loginPlugin]
 								<li>
+									<div class="other">
 									<a href="${base}/login/plugin_submit.jhtml?pluginId=${loginPlugin.id}"[#if loginPlugin.description??] title="${loginPlugin.description}"[/#if]>
 										[#if loginPlugin.logo?has_content]
 											<img src="${loginPlugin.logo}" alt="${loginPlugin.loginMethodName}" />
@@ -427,18 +429,15 @@ $().ready(function() {
 											${loginPlugin.loginMethodName}
 										[/#if]
 									</a>
+									</div>
 								</li>
 							[/#list]
 						</ul>
-					</td>
-				</tr>
 			[/#if]
-			<div class="other">
-				<h2>微信登陆</h2>
-			</div>
 			<p>
 				<a href = "javascript:;">其它登录方式</a>
 			</p>
+			
 		</div>
     </body>
 </html>
