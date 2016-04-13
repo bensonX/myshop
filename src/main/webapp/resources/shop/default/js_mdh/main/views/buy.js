@@ -442,7 +442,6 @@
   		dataType: "json",
   		cache: false,
   		success: function (data) {
-        console.log(data);
   			self.isAddPost = false;
   			if (data.message.type == 'success') {
   				self.getAddAddressSuccess(data, id);
@@ -457,12 +456,13 @@
 
   // 数据返回后成功处理,添加
   Klass.fn.getAddAddressSuccess = function (context, id) {
-  	var hl = '<li class="fl selected" data-id = "'+context.id+'">'
+    var isSelected = context.isDefault ? selected : "";
+  	var hl = '<li class="fl '+isSelected+'" data-id = "'+context.id+'">'
 						+'<p class="information">'+(context.consignee || '')
 							+'<span class="fr">'+(context.phone || '')+'</span>'
 						+'</P>'
-						+'<strong>'+(context.idCard || '')+'</strong>'
-						+'<em>'+(context.areaName || '')+'</em>'
+            +'<strong>'+(context.cardId || '')+'</strong>'
+						+'<em>'+(context.areaName || '')+'<br />'+(context.address || '')+'</em>'
 						+'<p class="about">'
 							+'<a href="javascript:;" class = "default" data-address="default">默认地址</a>'
 							+'<a class="editor" href="javascript:;" data-address="edit">编辑</a>'
@@ -567,18 +567,29 @@
   	var jn = addressJson;
   	var $target = $(e.target).parents('[data-id]');
   	var id = $target.attr('data-id');
-  	for (var i = 0, len = jn.length; i < len; i++) {
-  		if (jn[i]['id'] == id) {
-  			self.editViews(jn[i]);
-  			// 弹出窗口随窗口改变
-		    self.windowSize();
-		    // 弹出窗口随窗口改变而改变
-		    $(window).resize(self.windowSize);
-		    $('[data-tag="title"]').html('编辑地址');
+  	console.log(id);
+  	$.ajax({
+  		url: this.options.urlEditPost,
+  		type: "POST",
+  		data: {id: id},
+  		dataType: "json",
+  		cache: false,
+  		success: function (data) {
+  			console.log(data);
+  			return false;
+  			if (data.type == 'success') {
+  				self.editViews(data);
+  	  			// 弹出窗口随窗口改变
+  			    self.windowSize();
+  			    // 弹出窗口随窗口改变而改变
+  			    $(window).resize(self.windowSize);
+  			    $('[data-tag="title"]').html('编辑地址');
+  			}
+  			else {
+  				layer('获取编辑地址失败');
+  			}
   		}
-  	}
-
-  	
+  	});
   };
 
   Klass.fn.editViews = function (data) {

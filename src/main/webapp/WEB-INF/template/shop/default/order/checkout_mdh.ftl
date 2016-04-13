@@ -33,21 +33,21 @@
 	            	'phone':$('[data-tag="mobile"]').val(),
 	            	'cardId':$('[data-tag="idCard"]').val(),
 	            	'zipCode':'0',
-	            	'isDefault':false
+	            	'isDefault': $('[data-tag="isdefault"]').is(':checked')
 	            };
 	          },
-	
+			  urlEditPost: '${base}/member/receiver/info.jhtml',
 	          urlEditAddress: '${base}/order/update.jhtml', // 编辑
 	          editAddressData: function () {
 	            return {
-					id: $('[data-tag="addressForm"]').attr('data-id'),
-	              	'areaId':$('[data-tag="town"]').attr('town') || $('[data-tag="city"]').attr('city') || $('[data-tag="province"]').attr('province'),
+				  id: $('[data-tag="addressForm"]').attr('data-id'),
+	              'areaId':$('[data-tag="town"]').attr('town') || $('[data-tag="city"]').attr('city') || $('[data-tag="province"]').attr('province'),
 	            	'consignee':$('[data-tag="userName"]').val(),
 	            	'address':$('[data-tag="address"]').val(),
 	            	'phone':$('[data-tag="mobile"]').val(),
 	            	'cardId':$('[data-tag="idCard"]').val(),
 	            	'zipCode':'0',
-	            	'isDefault':false
+	            	'isDefault': $('[data-tag="isdefault"]').is(':checked')
 	            };
 	          },
 	          urlDeleteAddressPost: '${base}/member/receiver/delete.jhtml',   // 删除地址
@@ -103,6 +103,10 @@
 					<label for="mobile">手机号码</label>
 					<input id="mobile" type="text" data-tag="mobile" placeholder="请输入收货的手机号码">
 				</div>
+				<div class="isdefault">
+					<input id="isdefault" type="checkbox" data-tag="isdefault" >
+					<label for="isdefault">默认地址</label>
+				</div>
        			<div class = "error hidden" data-tag="error">
          			 <i></i><span></span>
        			 </div>
@@ -113,7 +117,7 @@
       <div class = "shielding-layer" data-tag="shieldingLayer"></div>
 			<!-- 收货地址开始 -->
 		<div class="buy-address dn" data-tag="butAddress" >
-		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress">添加</a></h5>
+		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" class = "fr">添加</a></h5>
         <button class="left" type="button" data-tag="scrollLeft"></button>
         <button class="right" type="button" data-tag="scrollRight"></button>
         [#if order.isDelivery]
