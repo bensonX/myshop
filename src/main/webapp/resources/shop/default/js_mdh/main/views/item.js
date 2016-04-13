@@ -149,34 +149,22 @@ $(function () {
   ShoppingCart.fn.clickCart = function (event) {
     var self = this;
     // 判断用户是否登录,不存在跳到用户登录页面
-    if (!self.options.usernameId){    	
+    if (!$.checkLogin()){    	
     	location.href = self.options.urlLogin;
     }
-    
-    var data = $.extend({quantity: $('[data-tag="number"]').val()}, self.options.data);
-
-    console.log("cartPostData: ");
-    console.log(data);
-
     $.ajax({
       url: self.options.urlCartPost,
       type: "POST",
-      data: data,
+      data: self.options.data(),
       dataType: "json",
       cache: false,
       success: function(message) {
 
-        console.log("message: ");
-        console.log(message);
-
         if (message.type == "success") {
           self.getSuccess(message);
         }
-        else if (message.type == 'error') {
-          self.getError(message);
-        }
-        else if(message.type == 'warn'){
-        	alert(message.content);
+        else {
+          layer(message.content);
         }
        }
     });
@@ -255,22 +243,16 @@ $(function () {
   BuyImmediately.fn.clickBuyImmediately = function (event) {
     var self = this;
     // 判断用户是否登录,不存在跳到用户登录页面
-    if (!self.options.usernameId)
+    if (!$.checkLogin())
       location.href = self.options.urlLogin;
-
-    var data = $.extend({}, this.options.shoppingForm.data(), self.options.data);
-
-    console.log("BuyImmediatelyPost: ");
-    console.log(data);
 
     $.ajax({
       url: self.options.urlBuyImmediatelyPost,
       type: "POST",
-      data: data,
+      data: self.options.data(),
       dataType: "json",
       cache: false,
       success: function(message) {
-
         console.log("message: ");
         console.log(message);
 
@@ -278,7 +260,7 @@ $(function () {
           location.href = self.options.urlOrder;
         }
         else if (message.type == 'error') {
-          self.getError(message);
+        	layer(message.content);
         }
        }
     });
@@ -291,7 +273,7 @@ $(function () {
       location.href = this.options.urlLogin;
     }
     else {
-      console.log(message.content);
+      layer(message.content);
     }
   };
 

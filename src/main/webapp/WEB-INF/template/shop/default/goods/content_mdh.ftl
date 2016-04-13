@@ -981,7 +981,7 @@ $().ready(function() {
 			              		<div id="specification" class="specification clearfix">
 								<div class="title">${message("shop.goods.specificationTips")}</div>
 								[#list goods.specificationItems as specificationItem]
-									<dl>
+									<dl class = "clearfix">
 										<dt>
 											<span title="${specificationItem.name}">${abbreviate(specificationItem.name, 8)}:</span>
 										</dt>
@@ -989,7 +989,8 @@ $().ready(function() {
 											[#if entry.isSelected]
 												<dd>
 													<a href="javascript:;"[#if defaultSpecificationValueIds[specificationItem_index] == entry.id] class="selected"[/#if] val="${entry.id}">
-														${entry.id}=${entry.value}<span title="${message("shop.goods.selected")}">&nbsp;</span>
+														${entry.value}<span title="${message("shop.goods.selected")}">&nbsp;</span>
+														<i></i>
 													</a>
 												</dd>
 											[/#if]
@@ -1012,20 +1013,18 @@ $().ready(function() {
             
 				<dl class = "share clearfix">
 	              <dt>分享</dt>
-	              <dd>
-	                  <a href="javascript:;">
-	                    <div class="share">
-							<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
-								<a class="bds_qzone"></a>
-								<a class="bds_tsina"></a>
-								<a class="bds_tqq"></a>
-								<a class="bds_renren"></a>
-								<a class="bds_t163"></a>
-								<span class="bds_more"></span>
-								<a class="shareCount"></a>
-							</div>
+	              <dd>   
+                   
+						<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+							<a class="bds_qzone"></a>
+							<a class="bds_tsina"></a>
+							<a class="bds_tqq"></a>
+							<a class="bds_renren"></a>
+							<a class="bds_t163"></a>
+							<span class="bds_more"></span>
+							<a class="shareCount"></a>
 						</div>
-	                  </a>   
+					
 	              </dd>
 	            </dl>
             
@@ -1346,13 +1345,13 @@ $().ready(function() {
          */
         ShoppingCart({
           shoppingForm: shoppingForm,    // 表单对象数据
-          usernameId: username,  // 用户cookie id
           urlCartPost: '${base}/cart/add.jhtml',    // 购物车Ajax
           urlLogin:    '${base}/login.jhtml',  // 登录链接
-          data: {
-            // 对象
-            productId: ${defaultProduct.id},
-            quantity: $('[data-tag="number"]').val()
+          data: function () {
+          	return {
+          		productId: productId,
+          		quantity: $('[data-tag="number"]').val()
+          	}
           }
         });
 
@@ -1362,14 +1361,14 @@ $().ready(function() {
          */
         BuyImmediately({
           shoppingForm: shoppingForm,    // 表单对象数据
-          usernameId: getCookie('username'),  //getCookie('usernameId');  // 用户cookie id
-          urlBuyImmediatelyPost: '${base}/logout.jhtml',    // 购物车Ajax
+          urlBuyImmediatelyPost: '${base}/logout.jhtml',    
           urlLogin:    '${base}/login.jhtml',   // 登录链接
-          urlOrder:    '${base}/login.jhtml',     // 订单页面
-          data: {
-            // 对象
-            productId: ${defaultProduct.id},
-            
+          urlOrder:    '${base}/order/checkout.jhtml',     // 订单页面
+          data: function (){
+            return {
+          		productId: productId,
+          		quantity: $('[data-tag="number"]').val()
+          	} 
           }
         });
 

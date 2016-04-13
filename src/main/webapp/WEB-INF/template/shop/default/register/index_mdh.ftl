@@ -137,7 +137,7 @@
     var mobile = $.trim($mobile.val());
     var pattern = /1[3|4|5|7|8|9]\d{9}/;
     if (!pattern.test(mobile)) {
-      alert('请输入正确的手机号码');
+      layer('请输入正确的手机号码');
       return ;
     }
     $.ajax({
@@ -176,7 +176,7 @@
       },
       password: {
         required: true,
-        pattern: /.{4}/,
+        pattern: /.{6,}/,
       },
       rePassword: {
         required: true,
@@ -240,13 +240,17 @@
 							},
 						dataType: "json",
 						cache: false,
-						success: function(message) {
-							setTimeout(function() {
-									$submit.prop("disabled", false);
+						success: function(data) {
+							if (data.type == "success") {
+								setTimeout(function() {
 									location.href = "${base}/";
-							}, 1000);
-							$submit.prop("disabled", false);	
-							alert("注册成功！");
+								}, 1000);
+								layer(data.content);
+							}
+							else {
+								$submit.prop("disabled", false);	
+								layer(data.content);
+							}	
 						}
 					});
 				}
@@ -286,11 +290,12 @@
 });
 </script>
 </head>
-<body>
+<body class="body-color">
 		<input type="hidden" id="compareCode" value="关于手机验证码"/>
-		<div id = "header" class="landing"></div>
     	<div class="landing">
-			<h1></h1>
+    		<a href = "/" >
+				<h1></h1>
+			</a>
 			<span>欢迎注册</span>
 			<div class = "form" >
 				<form id="registerForm" action="${base}/register/submit.jhtml" method="post">
@@ -298,6 +303,11 @@
 				
 					<div class = "username">
 						<input class="tet" type="text" placeholder="请输入手机号" id="mobile" name="mobile" maxlength="11" />
+					</div>
+					
+					<div class = "code clearfix">
+						<input class="tet fl" type="text" placeholder="短信验证码" id = "code" name = "code" maxlength = "6"/>
+						<button class="register fl" type = "button" id = "codeButton" >获取验证码</button>
 					</div>
 					
 					<div class = "password">
@@ -308,15 +318,12 @@
 						<input class="tet" type="password" placeholder="请重新输入密码" id="rePassword" name="rePassword" maxlength="20" autocomplete="off" />
 					</div>
 					
-					<div class = "code">
-						<input class="tet" type="text" placeholder="短信验证码" id = "code" name = "code" maxlength = "6"/>
-						<button class="register" type = "button" id = "codeButton" >获取验证码</button>
-					</div>
+					
 					
 					<div class = "agreement">
 						<p class="clearfix register">
-							<input class="names" type="checkbox" id = "agreement" name="agreement"/>
-							<a href = "javascript:;">我已阅读并接受服务条款</a>
+							<input class="names fl" type="checkbox" id = "agreement" name="agreement"/>
+							<a href = "javascript:;" class = "fl">我已阅读并接受服务条款</a>
 						</p>
 					</div>
 					

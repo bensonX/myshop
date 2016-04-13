@@ -353,15 +353,13 @@ $().ready(function() {
 								},
 								dataType: "json",
 								cache: false,
-								success: function(message) {
-									
-									if ($isRememberUsername.prop("checked")) {
-										addCookie("memberUsername", $mobile.val(), {expires: 7 * 24 * 60 * 60});
-									} else {
-										removeCookie("memberUsername");
-									}
-									$submit.prop("disabled", false);
+								success: function(message) {		
 									if (message.type == "success") {
+										if ($isRememberUsername.prop("checked")) {
+											addCookie("memberUsername", $mobile.val(), {expires: 7 * 24 * 60 * 60});
+										} else {
+											removeCookie("memberUsername");
+										}
 										[#noescape]
 											[#if redirectUrl??]
 												location.href = "${redirectUrl?js_string}";
@@ -370,8 +368,9 @@ $().ready(function() {
 											[/#if]
 										[/#noescape]
 									} else {
-										alert("密码或验证码错误！");
-										$.message(message);
+										layer(message.content);
+										$submit.prop("disabled", false);
+										//$.message(message);
 										[#if setting.captchaTypes?? && setting.captchaTypes?seq_contains("memberLogin")]
 											$captcha.val("");
 											$captchaImage.attr("src", "${base}/common/captcha.jhtml?captchaId=${captchaId}&timestamp=" + new Date().getTime());
@@ -388,7 +387,6 @@ $().ready(function() {
 		</script>
 	</head>
     <body class="body-color">
-    	<div id = "header" class="landing"></div>
     	<div class="landing login">
     	<a href = "/" >
 				<h1></h1>
@@ -404,14 +402,14 @@ $().ready(function() {
 				</div>
 				<div class="inlanding clearfix">
 					<input class="landing" type="text" placeholder="输入验证码" id="captcha" name="captcha" maxlength="4" autocomplete="off" />
-					<img id="captchaImage" class="captchaImage" src="${base}/common/captcha.jhtml?captchaId=${captchaId}" title="${message("shop.captcha.imageTitle")}" />
+					<img id="captchaImage" height = "45"  class="captchaImage fr" src="${base}/common/captcha.jhtml?captchaId=${captchaId}" title="${message("shop.captcha.imageTitle")}" />
 				</div>
 				<button type="button" class="new" id="captchaImage2">换一张</button>
 				<button type="submit" class="landings">登　录</button>
 				<p class="clearfix pass">
 					<input class="names" type="checkbox"  id="isRememberUsername" name="isRememberUsername" value="false" />
 					<label>${message("shop.login.isRememberUsername")}</label>
-					<a class="last" href="javascript:;">　免费注册</a>
+					<a class="last" href="${base}/register.jhtml">　免费注册</a>
 					<a href="javascript:;">忘记密码？|</a>
 				</p>
 				

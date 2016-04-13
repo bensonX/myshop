@@ -937,12 +937,15 @@ div.landing form{
 }
 div.landing input.tet{
 	width:285px;
-	height: 45px;
+	height: 43px;
 	padding-left:15px;
-	line-height: 45px;; 
-	line-height: 40px;
+	line-height: 43px;; 
 	margin-top: 35px;
 	background: #f1f1f1;
+}
+div.landing input.tet {
+	border: 1px solid #f1f1f1;
+	box-shadow: inset 0px 0px 23px 23px #f1f1f1;
 }
 div.landing .inlanding{
 	width: 300px;
@@ -959,11 +962,16 @@ div.landing .inlanding span{
 div.landing .inlanding input{
 	border:1px solid #ccc;
 	padding-left:15px;
-	height:30px;
-	line-height:30px;
-	width:120px;
+	height:43px;
+	line-height:43px;
+	width:134px;
 	float:left;
 	background: #f1f1f1;
+}
+div.landing .inlanding img {
+	height: 45px;
+	display: inline-block;
+	cursor: pointer;
 }
 div.landing button.new{
 	line-height: 30px;
@@ -972,6 +980,9 @@ div.landing button.new{
 	margin-left:258px;
 	font-size:@font;
 	color:#9FA0A0;
+}
+div.landing button.new:hover {
+	color: #f5a623;
 }
 div.landing button.landings{
 	width: 300px;
@@ -1038,15 +1049,18 @@ div.landing p{
 .login .password label,
 .login .inlanding label {
 	position: absolute;
-	top: 85px;
+	top: 88px;
 	left: 0px;
-	line-height: 30px;
-	color: red;
+	line-height: 20px;
+	color: #ae340d;
 	display: inline-block;
-	font-size: 12px;
+	font-size: 14px;
+	background: url(../images_mdh/icon/error.png) no-repeat;
+	padding-left: 25px;
+	vertical-align: middle;
 }
 .login .inlanding label {
-	top: 40px;
+	top: 50px;
 }
 
 /* 注册页面开始 */ 
@@ -1060,12 +1074,12 @@ div.landing .form {
 .form .code{
 	.tet{
 		width: 185px;
-		margin-right: 12px;
+		margin-right: 10px;
 	}
 	.register{
 		width: 88px;
-		height: 30px;
-		margin-top:35px;
+		height: 45px;
+		margin-top:30px;
 		color:#808080;
 		background: #c4c4c4;
 	}
@@ -1078,10 +1092,12 @@ div.landing .form {
 		text-align: center;
 	}
 }
-
+div.landing #registerForm input.tet {
+	margin-top: 30px;
+}
 .form p.register{
 	text-align: left;
-	margin:40px 0 20px 0;
+	margin:30px 0 20px;
 	line-height: 0;
 	cursor: pointer;
 }
@@ -1118,7 +1134,7 @@ div.landing .form {
 .form .register-fix{
 	width: 100px;
 	position:absolute;
-	top:205px;
+	top:190px;
 	right:-110px;
 }
 .form .register-infix{
@@ -1165,14 +1181,17 @@ div.landing .form {
 .form .agreement label,
 .form .code label {
 	position: absolute;
-	top: 85px;
+	top: 80px;
 	left: 0px;
-	line-height: 30px;
-	font-size: 12px;
-	color: red;
+	line-height: 20px;
+	color: #ae340d;
+  display: inline-block;
+  font-size: 14px;
+	background: url(../images_mdh/icon/error.png) no-repeat;
+ 	padding-left: 25px;
 }
 .form .agreement label {
-	top: 8px;
+	top: 13px;
 }
 
 
@@ -1274,70 +1293,47 @@ div.landing .form {
 	
 }
 .item-sku {
-	.size, .color, .amount, .share {
+	.specification, .color, .amount, .share {
 		margin-top: 24px;
 		dt {
 			float: left;
-			width: 48px;
+			width: 72px;
 			line-height: 27px;
 			font-size: @font;
 			color: @itemBoxColor;
 		}
 		dd {
 			float: left;
-			width: 355px;
-			li {
-				float: left;
-			}
 		}
 	}
-	.size {
-		dd {
-			li {
-				margin-right: 10px;
-				display: inline-block;
-				width: 52px;
-				height: 28px;
+	.specification  {
+		dl {
+			margin-top: 20px;
+		}
+		dd {	
+			margin-right: 10px;
+			display: inline-block;
+			a {
+				padding: 5px 10px;
+				display: block;
 				background: #CFCFCF;
 				border: 1px solid #b8b7bd;
-				a {
-					display: block;
-					span {
-						font-size: @font;
-						line-height: 27px;
-						display: block;
-						text-align: center;
-					}
-				}
+				text-align: center;
+				// span {
+				// 	font-size: @font;
+				// 	line-height: 27px;
+				// 	display: block;
+				// 	text-align: center;
+				// }
+
 			}
+			a:hover {
+					color: #FFF;
+				}
+			
 		}
 	}
-	.color {
-		dd {
-			li {
-				margin-right: 10px;
-				display: inline-block;
-				width: 25px;
-				height: 26px;
-				background: #CFCFCF;
-				border: 1px solid #b8b7bd;
-				a {
-					display: block;
-					span {
-						display: block;
-						text-indent: -9999px;
-						line-height: 25px;
-					}
-				}
-			}
-			.white {
-				background: #FFF;
-			}
-			.yellow {
-				background: #C6A87F;
-			}
-		}
-	}
+	
 	.amount {
 		font-size: 0px;
 		a {
@@ -1404,11 +1400,9 @@ div.landing .form {
 		color: @itemBoxColor;
 	}
 }
-.item-sku dl ul li {
-	position: relative;
-}
-.item-sku dl ul li.tb-selected a {
+.item-sku dl a.selected {
 	  border: 2px solid #be0106;
+	  position: relative;
     margin: -1px;
     i {
 		    position: absolute;
@@ -2188,6 +2182,9 @@ body.emailverification {
 		}
 		.isdefault {
 			font-size: 0px;
+			height: 20px;
+			margin-top: 10px;
+			margin-bottom: 10px;
 		}
 		.isdefault {
 			input {
@@ -2255,7 +2252,7 @@ body.emailverification {
 		border: 1px solid #B1B1B1;
 		padding: 0px;
 		div {
-			margin: 0px 145px 30px;
+			margin: 0px 145px 20px;
 		}
 		.error {
 			margin: 10px 145px 10px;
@@ -2366,7 +2363,9 @@ body.emailverification {
 					margin-left:5px;
 				}
 				.about{
-					margin:130px 0 0 5px;
+					position: absolute;
+					bottom: 20px;
+					left: 20px;
 					a{
 						color:#828282;
 						font-size: @font;
