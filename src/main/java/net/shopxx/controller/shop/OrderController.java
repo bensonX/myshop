@@ -47,7 +47,6 @@ import net.shopxx.service.PluginService;
 import net.shopxx.service.ProductService;
 import net.shopxx.service.ReceiverService;
 import net.shopxx.service.ShippingMethodService;
-import net.shopxx.util.JsonUtils;
 
 /**
  * Controller - 订单
@@ -137,6 +136,7 @@ public class OrderController extends BaseController {
 		data.put("zipCode", receiver.getZipCode());
 		data.put("phone", receiver.getPhone());
 		data.put("cardId", receiver.getCardId());
+		data.put("isDefault", receiver.getIsDefault());
 		return data;
 	}
 	
@@ -178,6 +178,7 @@ public class OrderController extends BaseController {
 		data.put("zipCode", receiver.getZipCode());
 		data.put("phone", receiver.getPhone());
 		data.put("cardId", receiver.getCardId());
+		data.put("isDefault", receiver.getIsDefault());
 		return data;
 	}
 
@@ -281,8 +282,8 @@ public class OrderController extends BaseController {
 			}
 		}
 		Member member = memberService.getCurrent();
-		Receiver defaultReceiver = receiverService.findDefault(member);//TODO 废除，移到 下一步？
-		Order order = orderService.generate(Order.Type.general, cart, defaultReceiver, null, null, null, null, null, null);//TODO 废除，移到 下一步
+		Receiver defaultReceiver = receiverService.findDefault(member);
+		Order order = orderService.generate(Order.Type.general, cart, defaultReceiver, null, null, null, null, null, null);
 		model.addAttribute("order", order);
 		model.addAttribute("defaultReceiver", defaultReceiver);
 		model.addAttribute("cartToken", cart.getToken());

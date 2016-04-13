@@ -396,5 +396,31 @@ public class OrderItem extends BaseEntity<Long> {
 	@Converter
 	public static class SpecificationConverter extends BaseAttributeConverter<List<String>> implements AttributeConverter<Object, String> {
 	}
+	
+	/**
+	 * 获取综合税税率
+	 */
+	@Transient
+	public BigDecimal getComprehensiveTaxRate() {
+		return getProduct() != null && getProduct().getGoods() != null && getProduct().getGoods().getTaxRates() != null ? getProduct().getGoods().getTaxRates().getComprehensiveTaxRate() : BigDecimal.ZERO;
+	}
+	
+	/**
+	 * 获取税费
+	 */
+	@Transient
+	public BigDecimal getTax() {
+		System.out.println(getSubtotal().multiply(getComprehensiveTaxRate()));
+		return getSubtotal().multiply(getComprehensiveTaxRate());
+	}
+	
+	/**
+	 * 获取综合费用
+	 */
+	@Transient
+	public BigDecimal getComprehensivePrice() {
+		System.out.println(getSubtotal().add(getTax()));
+		return getSubtotal().add(getTax());
+	}
 
 }

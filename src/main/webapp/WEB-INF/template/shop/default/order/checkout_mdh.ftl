@@ -170,8 +170,8 @@
 							[#else]
 								<strong>-<strong>
 							[/#if]
-							<strong>税费￥10.00</strong>
-							<strong>小计￥800.00</strong>
+							<strong>税费${currency(orderItem.tax, true)}</strong>
+							<strong>小计${currency(orderItem.comprehensivePrice, true)}</strong>
 						</p>
 					</li>
 					[/#list]

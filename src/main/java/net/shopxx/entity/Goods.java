@@ -29,6 +29,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -359,6 +360,11 @@ public class Goods extends BaseEntity<Long> {
 	/** 商品 */
 	private Set<Product> products = new HashSet<Product>();
 
+	/**
+	 * 税率
+	 */
+	private TaxRates taxRates;
+	
 	/**
 	 * 获取编号
 	 * 
@@ -1694,6 +1700,27 @@ public class Goods extends BaseEntity<Long> {
 	 */
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+	
+	
+	/**
+	 * 税率
+	 * 
+	 * @return 税率
+	 */
+	@OneToOne(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	public TaxRates getTaxRates() {
+		return taxRates;
+	}
+
+	/**
+	 * 税率
+	 * 
+	 * @param taxRates
+	 *            税率
+	 */
+	public void setTaxRates(TaxRates taxRates) {
+		this.taxRates = taxRates;
 	}
 
 	/**

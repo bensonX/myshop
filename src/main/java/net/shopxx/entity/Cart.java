@@ -326,7 +326,7 @@ public class Cart extends BaseEntity<Long> {
 		BigDecimal price = BigDecimal.ZERO;
 		if (getCartItems() != null) {
 			for (CartItem cartItem : getCartItems()) {
-				price = price.add(cartItem.getSubtotal());
+				price = price.add(cartItem.getComprehensivePrice());
 			}
 		}
 		return price;
