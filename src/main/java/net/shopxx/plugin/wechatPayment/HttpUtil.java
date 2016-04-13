@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -82,11 +83,14 @@ public class HttpUtil {
 		Writer out = null;
 		BufferedReader in = null;
 		String result = "";
+		HttpURLConnection conn=null;
 		try {
 			URL realUrl = new URL(url);
 			// 打开和URL之间的连接
-			URLConnection conn = realUrl.openConnection();
+			conn = (HttpURLConnection) realUrl.openConnection();
 			// 设置通用的请求属性
+			System.out.println("lsu  set POST \n");
+			conn.setRequestMethod("POST");
 			conn.setRequestProperty("accept", "*/*");
 			conn.setRequestProperty("connection", "Keep-Alive");
 			conn.setRequestProperty("user-agent",
@@ -114,12 +118,16 @@ public class HttpUtil {
 		}
 		// 使用finally块来关闭输出流、输入流
 		finally {
+			System.out.println(conn.getRequestMethod());
 			try {
 				if (out != null) {
 					out.close();
 				}
 				if (in != null) {
 					in.close();
+				}
+				if (conn!=null) {
+					conn.disconnect();
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
