@@ -140,9 +140,13 @@ public class ReceiverController extends BaseController {
 		data.put("phone", receiver.getPhone());
 		data.put("zipCode", receiver.getZipCode());
 		data.put("address", receiver.getAddress());
-		List<String> areaStr = new ArrayList<String>();
+		data.put("isDefault", receiver.getIsDefault());
+		List<Map<String,String>> areaStr = new ArrayList<Map<String,String>>();
 		do {
-			areaStr.add("{areaId:" + area.getId() + ",areaName:" + area.getName() + "}");
+			Map<String,String> tmp=new HashMap<String,String>();
+			tmp.put("areaId", area.getId().toString());
+			tmp.put("areaName", area.getName());
+			areaStr.add(tmp);
 			area = area.getParent();
 		} while (area != null);
 		data.put("area", JsonUtils.toJson(areaStr));

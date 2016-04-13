@@ -59,6 +59,7 @@ public class MemberController extends BaseController {
 	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(Integer pageNumber, ModelMap model) {
+		System.out.println("===会员中心===");
 		Member member = memberService.getCurrent();
 		model.addAttribute("pendingPaymentOrderCount", orderService.count(null, Order.Status.pendingPayment, member, null, null, null, null, null, null, false));
 		model.addAttribute("pendingShipmentOrderCount", orderService.count(null, Order.Status.pendingShipment, member, null, null, null, null, null, null, null));
@@ -69,7 +70,7 @@ public class MemberController extends BaseController {
 		model.addAttribute("reviewCount", reviewService.count(member, null, null, null));
 		model.addAttribute("consultationCount", consultationService.count(member, null, null));
 		model.addAttribute("newOrders", orderService.findList(null, null, member, null, null, null, null, null, null, null, NEW_ORDER_COUNT, null, null));
-		return "/shop/${theme}/member/index";
+		return "/shop/${theme}/member/index_mdh";
 	}
 
 }

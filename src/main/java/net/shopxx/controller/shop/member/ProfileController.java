@@ -57,6 +57,7 @@ public class ProfileController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit(ModelMap model) {
+		
 		model.addAttribute("genders", Member.Gender.values());
 		return "/shop/${theme}/member/profile/edit";
 	}

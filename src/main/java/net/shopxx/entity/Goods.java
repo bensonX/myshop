@@ -29,6 +29,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -359,6 +360,11 @@ public class Goods extends BaseEntity<Long> {
 	/** 商品 */
 	private Set<Product> products = new HashSet<Product>();
 
+	/**
+	 * 税率
+	 */
+	private TaxRates taxRates;
+	
 	/**
 	 * 获取编号
 	 * 
@@ -1695,6 +1701,27 @@ public class Goods extends BaseEntity<Long> {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
+	
+	
+	/**
+	 * 税率
+	 * 
+	 * @return 税率
+	 */
+	@OneToOne(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	public TaxRates getTaxRates() {
+		return taxRates;
+	}
+
+	/**
+	 * 税率
+	 * 
+	 * @param taxRates
+	 *            税率
+	 */
+	public void setTaxRates(TaxRates taxRates) {
+		this.taxRates = taxRates;
+	}
 
 	/**
 	 * 获取路径
@@ -1704,9 +1731,42 @@ public class Goods extends BaseEntity<Long> {
 	@Transient
 	public String getPath() {
 		TemplateConfig templateConfig = SystemUtils.getTemplateConfig("goodsContent");
+		System.out.println("templateConfig:type="+templateConfig.getType()+
+							";id="+templateConfig.getId()+
+							";name="+templateConfig.getName()+
+							";templatePath"+templateConfig.getTemplatePath()+
+							";staticPath"+templateConfig.getStaticPath()+
+							";description"+templateConfig.getDescription());
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("goods", this);
+		System.out.println("this:"+this);
 		return templateConfig.getRealStaticPath(model);
+		
+		
+//		String endFile="";
+//		try {
+//			//创建一个合适的Configration对象
+//			Configuration configuration = new Configuration();
+//			configuration.setDirectoryForTemplateLoading(new File("C:\\workspace\\jshop\\src\\main\\webapp\\WEB-INF\\template\\shop\\default\\goods"));
+//			configuration.setObjectWrapper(new DefaultObjectWrapper());
+//			configuration.setDefaultEncoding("UTF-8");   //这个一定要设置，不然在生成的页面中 会乱码
+//			//获取或创建一个模版。
+//			Template template = configuration.getTemplate("content_mdh.ftl");
+//			Map<String, Object> paramMap = new HashMap<String, Object>();
+//			paramMap.put("goods", this);
+//			
+//			endFile="C:\\workspace\\jshop\\src\\main\\webapp\\goods\\content\\201604\\"+this.getId()+".html";
+//			Writer writer  = new OutputStreamWriter(new FileOutputStream(endFile),"UTF-8");
+//			template.process(paramMap, writer);
+//			
+//			System.out.println("恭喜，生成成功~~");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (TemplateException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return endFile;
 	}
 
 	/**

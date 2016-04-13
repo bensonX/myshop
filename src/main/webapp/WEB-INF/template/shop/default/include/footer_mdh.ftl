@@ -129,9 +129,11 @@
 				</div>
 				<div class="logged mp_tooltip" id="login_in">
 					<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
-					<a href="javascript:;" class="logged-news">个人中心</a>
-					<a href="javascript:;" class="logged-news">账号安全</a>
-					<a href="javascript:;" class="logged-news">我的订单</a>
+					[@navigation_list position = "top"]
+						[#list navigations as navigation]
+							<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
+						[/#list]
+					[/@navigation_list]
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 				</div>
 			</li>

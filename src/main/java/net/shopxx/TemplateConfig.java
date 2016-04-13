@@ -195,8 +195,10 @@ public class TemplateConfig implements Serializable {
 		try {
 			return FreeMarkerUtils.process(getTemplatePath(), model);
 		} catch (IOException e) {
+			System.out.println("1"+e);
 			throw new RuntimeException(e.getMessage(), e);
 		} catch (TemplateException e) {
+			System.out.println("2"+e);
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
