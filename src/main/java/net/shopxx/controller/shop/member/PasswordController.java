@@ -6,12 +6,15 @@
 package net.shopxx.controller.shop.member;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import net.shopxx.Setting;
 import net.shopxx.controller.shop.BaseController;
 import net.shopxx.entity.Member;
 import net.shopxx.service.MemberService;
 import net.shopxx.util.SystemUtils;
+import net.shopxx.util.WebUtils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
@@ -52,7 +55,7 @@ public class PasswordController extends BaseController {
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit() {
-		return "/shop/${theme}/member/password/edit";
+		return "/shop/${theme}/member/password/edit_mdh";
 	}
 
 	/**
@@ -77,6 +80,28 @@ public class PasswordController extends BaseController {
 		member.setPassword(DigestUtils.md5Hex(password));
 		memberService.update(member);
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
+		return "redirect:edit.jhtml";
+	}
+	
+	/**
+	 * 更新
+	 */
+	@RequestMapping(value = "/update2", method = RequestMethod.POST)
+	public String update2(String currentMobile, String newMobile, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("update2");
+		boolean flag=memberService.mobileExists(newMobile);
+		System.out.println(flag);
+		Member member = memberService.getCurrent();
+		if (flag) {
+			return ERROR_VIEW;
+		}
+		member.setMobile(newMobile);
+		memberService.update(member);
+		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
+		
+		if (StringUtils.isNotEmpty(member.getMobile())) {
+			WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getMobile());
+		}
 		return "redirect:edit.jhtml";
 	}
 
