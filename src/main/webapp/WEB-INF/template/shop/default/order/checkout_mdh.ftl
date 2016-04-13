@@ -1,5 +1,4 @@
-
-
+[#escape x as x?html]
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,8 +16,6 @@
 		 
    	 <script>
 	     // 地址json
-	      var addressJson =  ${receivers![]};
-	      var defaultReceiverID=${defaultReceiver.id!0};// 默认地址
 	      $(function () {
 	        /**
 	         * 地址验证和提交
@@ -173,8 +170,8 @@
 							[#else]
 								<strong>-<strong>
 							[/#if]
-							<strong>税费￥10.00</strong>
-							<strong>小计￥800.00</strong>
+							<strong>税费${currency(orderItem.tax, true)}</strong>
+							<strong>小计${currency(orderItem.comprehensivePrice, true)}</strong>
 						</p>
 					</li>
 					[/#list]
@@ -260,3 +257,4 @@
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>
 </html>
+[/#escape]

@@ -230,5 +230,29 @@ public class CartItem extends BaseEntity<Long> {
 			setQuantity(quantity);
 		}
 	}
+	
+	/**
+	 * 获取综合税税率
+	 */
+	@Transient
+	public BigDecimal getComprehensiveTaxRate() {
+		return getProduct() != null && getProduct().getGoods() != null && getProduct().getGoods().getTaxRates() != null ? getProduct().getGoods().getTaxRates().getComprehensiveTaxRate() : BigDecimal.ZERO;
+	}
+	
+	/**
+	 * 获取税费
+	 */
+	@Transient
+	public BigDecimal getTax() {
+		return getSubtotal().multiply(getComprehensiveTaxRate());
+	}
+	
+	/**
+	 * 获取综合费用
+	 */
+	@Transient
+	public BigDecimal getComprehensivePrice() {
+		return getSubtotal().add(getTax());
+	}
 
 }

@@ -5,7 +5,9 @@
  */
 package net.shopxx.controller.shop.member;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -20,11 +22,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import net.shopxx.Message;
 import net.shopxx.Pageable;
 import net.shopxx.controller.shop.BaseController;
+import net.shopxx.entity.Area;
 import net.shopxx.entity.Member;
 import net.shopxx.entity.Receiver;
 import net.shopxx.service.AreaService;
 import net.shopxx.service.MemberService;
 import net.shopxx.service.ReceiverService;
+import net.shopxx.util.JsonUtils;
 
 /**
  * Controller - 会员中心 - 收货地址
@@ -105,6 +109,48 @@ public class ReceiverController extends BaseController {
 		}
 		model.addAttribute("receiver", receiver);
 		return "/shop/${theme}/member/receiver/edit";
+	}
+	
+	/**
+	 * 编辑收货地址
+	 * 
+	 * @param id
+	 *            收货地址ID
+	 * @return
+	 */
+	@RequestMapping(value = "/info", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> info(Long id) {
+		Map<String, Object> data = new HashMap<String, Object>();
+		Receiver receiver = receiverService.find(id);
+		if (receiver == null) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		Member member = memberService.getCurrent();
+		if (!member.equals(receiver.getMember())) {
+			data.put("message", ERROR_MESSAGE);
+			return data;
+		}
+		Area area = receiver.getArea();
+		data.put("message", SUCCESS_MESSAGE);
+		data.put("id", receiver.getId());
+		data.put("consignee", receiver.getConsignee());
+		data.put("cardId", receiver.getCardId());
+		data.put("isDefault", receiver.getIsDefault());
+		data.put("phone", receiver.getPhone());
+		data.put("zipCode", receiver.getZipCode());
+		data.put("address", receiver.getAddress());
+		data.put("isDefault", receiver.getIsDefault());
+		List<Map<String,String>> areaStr = new ArrayList<Map<String,String>>();
+		do {
+			Map<String,String> tmp=new HashMap<String,String>();
+			tmp.put("areaId", area.getId().toString());
+			tmp.put("areaName", area.getName());
+			areaStr.add(tmp);
+			area = area.getParent();
+		} while (area != null);
+		data.put("area", JsonUtils.toJson(areaStr));
+		return data;
 	}
 
 	/**

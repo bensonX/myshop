@@ -24,8 +24,9 @@
 					minusPlusData: {},
 
 					urlDeletePost: '${base}/cart/delete.jhtml',
-					deleteData: {}
+					deleteData: {},
 
+					disabled: 1   // 1选中禁止，0, 不选择不禁止
 				});
 
 			});
@@ -87,13 +88,13 @@
 									<span>${currency(cartItem.price, true)}</span>
 								</td>
 								<td>
-									<span>0%</span>
+									<span>${cartItem.comprehensiveTaxRate!0.0}</span>
 								</td>
 								<td>
-									<span>￥0</span>
+									<span>${currency(cartItem.tax, true)}</span>
 								</td>
 								<td>
-									<span data-tag="priceAll">${currency(cartItem.subtotal, true)}</span>
+									<span data-tag="priceAll">${currency(cartItem.comprehensivePrice, true)}</span>
 								</td>
 								<td>保税区发货</td>
 								<td class="br">
