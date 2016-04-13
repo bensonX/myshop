@@ -28,6 +28,7 @@
         checked: 'checked',
         disabled: 'disabled'
       });
+    this.totalPrice();
   };
 
   //绑定事件
@@ -105,7 +106,7 @@
       data: data,
       dataType: "json",
       cache: false,
-      success: function(message) {
+      success: function(data) {
         if (data.message.type == "success") {
           target.remove();
           self.clearClick = 0;
@@ -122,6 +123,10 @@
   ShoppingCart.fn.submitClick = function (e) {
     var $form = $('[data-data="form"]')
     var len = $form.find('[data-tag="select"]:checked').length;
+    if (this.options.disabled == 1) {
+      $form.find('[data-tag="select"]:checked').removeAttr('disabled');
+    }
+
     if (len)
       $form.submit();
     else
