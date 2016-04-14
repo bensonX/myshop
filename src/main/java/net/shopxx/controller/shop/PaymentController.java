@@ -5,6 +5,7 @@
  */
 package net.shopxx.controller.shop;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 
 import javax.annotation.Resource;
@@ -140,7 +141,9 @@ public class PaymentController extends BaseController {
 	public String pluginNotify(@PathVariable String pluginId, @PathVariable PaymentPlugin.NotifyMethod notifyMethod, HttpServletRequest request, ModelMap model) {
 		System.out.println(" lsu .. plugins notify for payment in paymentcontroller. : ");
 		PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(pluginId);
+		System.out.println(" lsu pluginId is: " + pluginId + "; PaymentPlugin.NotifyMethod is: " + notifyMethod + " ; ");
 		if (paymentPlugin != null && paymentPlugin.verifyNotify(notifyMethod, request)) {
+			System.out.println(" lsu after verifyNotify, sn is: " + paymentPlugin.getSn(request));
 			String sn = paymentPlugin.getSn(request);
 			PaymentLog paymentLog = paymentLogService.findBySn(sn);
 			if (paymentLog != null) {
@@ -149,6 +152,41 @@ public class PaymentController extends BaseController {
 				model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
 			}
 		}
+		return "/shop/${theme}/payment/plugin_notify";
+	}
+	
+	/**
+	 * 微信插件通知
+	 */
+	@RequestMapping("/wechat_plugin_notify/{pluginId}/{notifyMethod}")
+	public String wechatPluginNotify(@PathVariable String pluginId, @PathVariable PaymentPlugin.NotifyMethod notifyMethod, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+		System.out.println(" lsu .. plugins notify for payment in paymentcontroller. : ");
+		PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(pluginId);
+		System.out.println(" lsu pluginId is: " + pluginId + "; PaymentPlugin.NotifyMethod is: " + notifyMethod + " ; ");
+		if (paymentPlugin != null && paymentPlugin.verifyNotify(notifyMethod, request)) {
+			System.out.println(" lsu after verifyNotify, sn is: " + paymentPlugin.getSn(request));
+			String sn = paymentPlugin.getSn(request);
+			PaymentLog paymentLog = paymentLogService.findBySn(sn);
+			if (paymentLog != null) {
+				paymentLogService.handle(paymentLog);
+				model.addAttribute("paymentLog", paymentLog);
+				model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
+			}
+		}
+		// 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答。
+		String rs = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			pw.write(rs);
+			pw.flush();
+			pw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+
+		}
+
 		return "/shop/${theme}/payment/plugin_notify";
 	}
 

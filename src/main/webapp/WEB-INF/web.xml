@@ -11,6 +11,7 @@
 	    <param-name>webAppRootKey</param-name>
 	    <param-value>mdh_dev.root</param-value>
 	    <!--param-value>mdh_test.root</param-value-->
+	    <!--param-value>mdh.root</param-value-->
 	</context-param>
 
 	<context-param>

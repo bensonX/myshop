@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.SortedMap;
 
 
@@ -96,10 +97,6 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		return "UTF-8";
 	}
 	
-	private String getNotifyUrl() {
-		return "http://www.maidehao.com:8080/wechatpay-pox/payResultServlet";
-	}
-	
 	private String getTradeType() {
 		return "NATIVE";
 	}
@@ -108,7 +105,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		try {
 			InetAddress addr = InetAddress.getLocalHost();
 			System.out.println("lsu local address is: " + addr.getHostAddress());
-			//return addr.getHostAddress();
+			return addr.getHostAddress();
 		} catch (Exception e) {
 			System.out.println(e.toString());
 			//return "127.0.0.1";
@@ -146,11 +143,14 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		// 创建支付二维码
 		String path = request.getSession().getServletContext().getRealPath("/");
 		System.out.println("lsu  path is: " + path);
-		String code = createCode(path, orderReturn);
-		System.out.println("lsu  code is: " + code);
+		String codeFilePath = createCode(path, orderReturn);
+		if (null == codeFilePath) {
+			System.out.println("lsu  create code failed.  and codeFilePath is: " + codeFilePath);
+		}
+		System.out.println("lsu  code is: " + codeFilePath);
 		
-		request.setAttribute("code", code);
-		parameterMap.put("code", code);
+		request.setAttribute("code", codeFilePath);
+		parameterMap.put("code", codeFilePath);
 
 		return parameterMap;
 	}
@@ -159,8 +159,34 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	public boolean verifyNotify(PaymentPlugin.NotifyMethod notifyMethod, HttpServletRequest request) {
 		System.out.println(" lsu .. into verifyNotify for paymentplugin ");
 		PluginConfig pluginConfig = getPluginConfig();
-		PaymentLog paymentLog = getPaymentLog(request.getParameter("out_trade_no"));
-		if (paymentLog != null && generateSign(request.getParameterMap()).equals(request.getParameter("sign")) && pluginConfig.getAttribute("partner").equals(request.getParameter("seller_id"))
+		
+		String line = null;
+		String result = "";
+		java.io.BufferedReader bis = null;
+		try {
+			bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
+			while ((line = bis.readLine()) != null) {
+				result += line + "\r\n";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				bis.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println(" lsu ..exception here, : " + e.toString() );
+				e.printStackTrace();
+			}
+		}
+		System.out.println(" lsu the return result is:      " + result);
+		//temp return true;
+		return true;
+		
+		//PaymentLog paymentLog = getPaymentLog(request.getParameter("out_trade_no"));
+		//System.out.println(" lsu .paymentLog is: " + paymentLog.toString());
+
+/*		if (paymentLog != null && generateSign(request.getParameterMap()).equals(request.getParameter("sign")) && pluginConfig.getAttribute("appid").equals(request.getParameter("appid"))
 				&& ("TRADE_SUCCESS".equals(request.getParameter("trade_status")) || "TRADE_FINISHED".equals(request.getParameter("trade_status"))) && paymentLog.getAmount().compareTo(new BigDecimal(request.getParameter("total_fee"))) == 0) {
 			Map<String, Object> parameterMap = new HashMap<String, Object>();
 			parameterMap.put("service", "notify_verify");
@@ -170,7 +196,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 				return true;
 			}
 		}
-		return false;
+		return false;*/
 	}
 
 	@Override
@@ -184,6 +210,23 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 			return "success";
 		}
 		return null;
+	}
+	
+	/**
+	 * 获取通知URL
+	 * 
+	 * @param notifyMethod
+	 *            通知方法
+	 * @return 通知URL
+	 */
+	@Override
+	protected String getNotifyUrl(PaymentPlugin.NotifyMethod notifyMethod) {
+		Setting setting = SystemUtils.getSetting();
+		if (notifyMethod != null) {
+			return setting.getSiteUrl() + "/payment/wechat_plugin_notify/" + getId() + "/" + notifyMethod + ".jhtml";
+		} else {
+			return setting.getSiteUrl() + "/payment/wechat_plugin_notify/" + getId() + "/" + PaymentPlugin.NotifyMethod.general + ".jhtml";
+		}
 	}
 
 	/**
@@ -214,11 +257,15 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	 */
 	private WechatUnifiedorderReturn placeOrder(String body, String out_trade_no, String total_fee) {
 		PluginConfig pluginConfig = getPluginConfig();
-		System.out.println("lsu total_fee is： " + total_fee);
+		System.out.println("lsu total_fee is:  " + total_fee  + ";  notify url is: " + getNotifyUrl(PaymentPlugin.NotifyMethod.async));
 		// 判断有没有输入订单总金额，没有输入默认1分钱
 		if (total_fee != null && !total_fee.equals("")) {
 			total_fee = "1";
 		}
+		//Setting setting = SystemUtils.getSetting();
+		//String notifyURL = setting.getSiteUrl();
+		//notifyURL = getNotifyUrl(PaymentPlugin.NotifyMethod.async); 
+		
 		// 生成订单对象
 		WechatUnifiedorder o = new WechatUnifiedorder();
 		// 随机字符串
@@ -226,7 +273,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		o.setAppid(pluginConfig.getAttribute("appid"));
 		o.setBody(body);
 		o.setMch_id(pluginConfig.getAttribute("mch_id"));
-		o.setNotify_url(getNotifyUrl());
+		o.setNotify_url(getNotifyUrl(PaymentPlugin.NotifyMethod.async));
 		o.setOut_trade_no(out_trade_no);
 		o.setTotal_fee(Integer.parseInt(total_fee));
 		o.setNonce_str(nonce_str);
@@ -240,7 +287,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		p.put("out_trade_no", out_trade_no);
 		p.put("total_fee", total_fee);
 		p.put("spbill_create_ip", getLocalIp());
-		p.put("notify_url", getNotifyUrl());
+		p.put("notify_url", getNotifyUrl(PaymentPlugin.NotifyMethod.async));
 		p.put("trade_type", getTradeType());
 		// 得到签名
 		String sign = Sign.createSign("utf-8", p, pluginConfig.getAttribute("key"));
@@ -252,12 +299,12 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 			String xml = XmlUtil.object2Xml(o, WechatUnifiedorder.class);
 			// 统一下单地址
 			String url = getRequestUrl();
-			System.out.println("lsu  RequestUrl is: \n" + url);
-			System.out.println("lsu  Request parameter is: \n" + xml);
+			System.out.println("lsu  RequestUrl is:  " + url);
+			System.out.println("lsu  Request parameter is:  " + xml);
 
 			// 调用微信统一下单地址
 			String returnXml = HttpUtil.sendPost(url, xml);
-			System.out.println("lsu  order result is: \n" + returnXml);
+			System.out.println("lsu  order result is:  " + returnXml);
 
 			// XML转换为Object
 			or = (WechatUnifiedorderReturn) XmlUtil.xml2Object(returnXml, WechatUnifiedorderReturn.class);
@@ -281,28 +328,28 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	 * @return: String
 	 */
 	private String createCode(String path, WechatUnifiedorderReturn orderReturn) {
-		String partPath = "upload\\QRCode";
+		String partPath = "upload/QRCode";
 		File file = new File(path + partPath);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		String filePath = "";
+		String filePath = null;
 		try {
 			QRCode q = new QRCode();
 			String fileName = UUID.randomUUID().toString();
-			filePath = partPath + "\\" + fileName + ".png";
+			filePath = partPath + "/" + fileName + ".png";
 			String imgPath = path + filePath;
 	
 			System.out.println("lsu  imgPath is: \n" + imgPath);
 			System.out.println("lsu  orderReturn.getCode_url() is: \n" + orderReturn.getCode_url());
 				
 			q.encoderQRCode(orderReturn.getCode_url(), imgPath);
-			System.out.println("lsu get encoder");			
+			System.out.println("lsu get encoder");
 
 		} catch (Exception e1) {
 			System.out.println("lsu into exception");
 			e1.printStackTrace();
-			filePath = "";
+			filePath = null;
 		}
 		finally {
 			System.out.println("lsu into finally");			
