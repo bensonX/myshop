@@ -239,11 +239,11 @@ $().ready(function() {
 	<div class="personal clearfix">
 		<!-- 个人中心左侧导航开始 -->
 		<ul class="personal-nav fl">
-			<li><a href="./personal.html">我的信息</a></li>
-			<li><a href="./personal-item.html">我的订单</a></li>
-			<li><a href="javascript:;">我的收藏</a></li>
-			<li><a href="./personal-address.html">收件地址</a></li>
-			<li  class="current"><a href="javascript:;">安全中心</a></li>
+			<li><a href="${base}/member/index.jhtml">我的信息</a></li>
+			<li><a href="${base}/member/order/list.jhtml">我的订单</a></li>
+			<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
+			<li><a href="#">收件地址</a></li>
+			<li  class="current"><a href="#">安全中心</a></li>
 		</ul>
 		<!-- 安全中心开始 -->
 		<div class="personal-security fr">

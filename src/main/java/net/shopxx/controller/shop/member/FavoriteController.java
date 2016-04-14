@@ -70,7 +70,7 @@ public class FavoriteController extends BaseController {
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", goodsService.findPage(member, pageable));
-		return "/shop/${theme}/member/favorite/list";
+		return "/shop/${theme}/member/favorite/list_mdh";
 	}
 
 	/**

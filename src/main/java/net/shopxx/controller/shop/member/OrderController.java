@@ -104,7 +104,7 @@ public class OrderController extends BaseController {
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", orderService.findPage(null, null, member, null, null, null, null, null, null, null, pageable));
-		return "/shop/${theme}/member/order/list";
+		return "/shop/${theme}/member/order/list_mdh";
 	}
 
 	/**

@@ -26,20 +26,27 @@
 		<div class="personal clearfix">
 			<ul class="personal-nav fl">
 				<li class="current"><a href="javascript:;">我的信息</a></li>
-				<li><a href="./personal-item.html">我的订单</a></li>
-				<li><a href="javascript:;">我的收藏</a></li>
-				<li><a href="./personal-address.html">收件地址</a></li>
+				<li><a href="${base}/member/order/list.jhtml">我的订单</a></li>
+				<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
+				<li><a href="#">收件地址</a></li>
 				<li><a href="${base}/member/password/edit.jhtml">安全中心</a></li>
 			</ul>
 			<!-- 个人信息详情开始 -->
 			<div class="personal-item fr">
 				<div class="title">
-					<p>亲爱的【<span>慕冰玉</span>】，欢迎来到买德好。</p>
-					<p>您已和买德相识<span>120天</span>，买过<span>68</span>件德国好物，超越了<span>55%</span>的用户。</p>
+					[#assign y1=.now?string("yyyy") /]
+					[#assign y2=member.createDate?string("yyyy") /]
+					[#assign m1=.now?string("MM") /]
+					[#assign m2=member.createDate?string("MM") /]
+					[#assign d1=.now?string("dd") /]
+					[#assign d2=member.createDate?string("dd") /]
+					
+					<p>亲爱的【<span>${member.mobile}</span>】，欢迎来到买德好。</p>
+					<p>您已和买德相识<span>[#if (y1?number-y2?number)==0?number]${y1?number-y2?number}年[/#if]${m1?number-m2?number}月${d1?number-d2?number}天</span>，买过<span>${member.orders?size}</span>件德国好物，超越了<span>55%</span>的用户。</p>
 				</div>
 				<div class="personal-integral about din">
 					<p>您的积分</p>
-					<span>258</span>
+					<span>${member.point}</span>
 				</div>
 				<div class="personal-wx about din">
 					<p>绑定微信</p>
@@ -55,28 +62,32 @@
 				<div class="personal-orde">
 					<p class="orde">最近订单</p>
 					<ul class="personal-orde-list">
+					[#list member.orders as order]
 						<li class="first">
-							<img class="din" src="../../images_mdh/content8.png" height="95" width="95">
+							[#list order.orderItems as orderItem]
+								<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" class="din" alt="${orderItem.name}" height="95" width="95" />
+								[#if orderItem_index == 0]
+									[#break /]
+								[/#if]
+							[/#list]
 							<div class="content din">
-								<h6>ladmirable香氛蜡烛（清新古龙水）</h6>
+								<h6>${order.orderItems[0].name}</h6>
 								<p>您的快件已由日月光集团招聘中心(家乐福店)菜鸟驿站代收。请注意查收</p>
-								<span>2016-03-29 <em>12:36:05</em></span>
+								<span>${order.createDate?string("yyyy-MM-dd")}<em>${order.createDate?string("HH:mm:ss")}</em></span>
 								<a href="javascript:;">查看物流明细</a>
 							</div>
-							<button type="button">确认收货</button>
+								[#if order.hasExpired()]
+									<button type="button">${message("shop.member.order.hasExpired")}</button>
+								[#else]
+									<button type="button">${message("Order.Status." + order.status)}</button>
+								[/#if]
 							<strong>x3</strong>
 						</li>
-						<li>
-							<img class="din" src="../../images_mdh/content8.png" height="95" width="95">
-							<div class="content din">
-								<h6>ladmirable香氛蜡烛（清新古龙水）</h6>
-								<p>您的快件已由日月光集团招聘中心(家乐福店)菜鸟驿站代收。请注意查收</p>
-								<span>2016-03-29 <em>12:36:05</em></span>
-								<a href="javascript:;">查看物流明细</a>
-							</div>
-							<button type="button">确认收货</button>
-							<strong>x3</strong>
-						</li>
+						[#if order_index == 3]
+									[#break /]
+						[/#if]
+					[/#list]	
+
 					</ul>
 				</div>
 			</div>

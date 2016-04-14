@@ -61,15 +61,16 @@ public class MemberController extends BaseController {
 	public String index(Integer pageNumber, ModelMap model) {
 		System.out.println("===会员中心===");
 		Member member = memberService.getCurrent();
-		model.addAttribute("pendingPaymentOrderCount", orderService.count(null, Order.Status.pendingPayment, member, null, null, null, null, null, null, false));
-		model.addAttribute("pendingShipmentOrderCount", orderService.count(null, Order.Status.pendingShipment, member, null, null, null, null, null, null, null));
-		model.addAttribute("messageCount", messageService.count(member, false));
-		model.addAttribute("couponCodeCount", couponCodeService.count(null, member, null, false, false));
-		model.addAttribute("favoriteCount", goodsService.count(null, member, null, null, null, null, null));
-		model.addAttribute("productNotifyCount", productNotifyService.count(member, null, null, null));
-		model.addAttribute("reviewCount", reviewService.count(member, null, null, null));
-		model.addAttribute("consultationCount", consultationService.count(member, null, null));
-		model.addAttribute("newOrders", orderService.findList(null, null, member, null, null, null, null, null, null, null, NEW_ORDER_COUNT, null, null));
+		model.addAttribute("pendingPaymentOrderCount", orderService.count(null, Order.Status.pendingPayment, member, null, null, null, null, null, null, false)); // 查询订单数量  false是否已过期
+		model.addAttribute("pendingShipmentOrderCount", orderService.count(null, Order.Status.pendingShipment, member, null, null, null, null, null, null, null)); // 
+		model.addAttribute("messageCount", messageService.count(member, false)); // 查找消息数量
+		model.addAttribute("couponCodeCount", couponCodeService.count(null, member, null, false, false)); // 查找优惠码数量
+		model.addAttribute("favoriteCount", goodsService.count(null, member, null, null, null, null, null)); // 查询货品数量
+		model.addAttribute("productNotifyCount", productNotifyService.count(member, null, null, null)); // 查找到货通知数量
+		model.addAttribute("reviewCount", reviewService.count(member, null, null, null)); // 查找评论数量
+		model.addAttribute("consultationCount", consultationService.count(member, null, null)); // 查找咨询数量
+		model.addAttribute("newOrders", orderService.findList(null, null, member, null, null, null, null, null, null, null, NEW_ORDER_COUNT, null, null)); // 查找订单
+		model.addAttribute("member",member);
 		return "/shop/${theme}/member/index_mdh";
 	}
 

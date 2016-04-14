@@ -7,9 +7,6 @@
 
 'use strict';
 
-$(function(){
-    $("#region").ProvinceCity({});
-});
 
 $(function() {
     // 收藏列表
@@ -18,4 +15,6 @@ $(function() {
   }, function() {
     $(this).find('.top').stop().fadeOut(400);
   });
+  
+  $('.personal-collect ul li:nth-child(3n)').css('margin-right',0);
 });

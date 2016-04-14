@@ -11,6 +11,7 @@
 <link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css"/>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 </head>
 <body>
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
@@ -82,7 +83,7 @@
 											<h3>${abbreviate(goods.name, 52)}</h3>
 											<p>${abbreviate(goods.caption, 100)}</p>
 											<div class="collect">
-												<button data-tag="addCart" ></button>
+												<button data-tag="addCart" class="addFavorite" data-list = "${goods.id}"></button>
 												<button class="last" ></button>
 											</div>
 										</div>
@@ -100,4 +101,25 @@
 	[#include "/shop/${theme}/include/footer_mdh.ftl"/]
 </body>
 </html>
+<script type="text/javascript">
+$().ready(function() {
+	var $addFavorite = $(".addFavorite");
+	// 添加商品收藏
+	$addFavorite.click(function(e) {
+		var goodsId = $(this).attr("data-list");
+		$.ajax({
+			url: "${base}/member/favorite/add.jhtml",
+			type: "POST",
+			data: {goodsId: goodsId},
+			dataType: "json",
+			cache: false,
+			success: function(message) {
+				layer(message.content);
+			}
+		});
+		return false;
+	});
+	
+});
+</script>
 [/#escape]
