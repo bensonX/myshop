@@ -54,6 +54,7 @@ input,button,select,option,textarea {
 }
 button{
 	cursor: pointer;
+	font-family: "Microsoft YaHei";
 }
 a {
 	color: #515151;
@@ -65,10 +66,12 @@ a:hover {
 	color: #FFc900;
 }
 body {
-	font-size: 12px;
+	font-size: 14px;
 	font-family: "Microsoft YaHei";
 	color: #333;
-	background: #f3f3f3;
+}
+.body-color{
+	background: #e2e2e2;
 }
 .white {
 	background-color: #fff;
@@ -98,7 +101,7 @@ body {
 }
 .din{
 	display:inline-block;
-	*display:inline-block;
+	*display:inline;
 	*zoom:1;
 }
 
@@ -116,12 +119,17 @@ h1{
 	text-indent: -9999px;
 }
 .search{
-	width: 468px;
+	width: 475px;
+	height:37px;
 	margin:0 auto;
-	position:relative;
 	padding-top: 35px;
 }
-
+.search form.current{
+	position:fixed;
+	top:8px;
+	right:430px;
+	z-index: 500;
+}
 .search input{
    width:430px;
    height: 35px;
@@ -131,14 +139,18 @@ h1{
    font-size: 16px;
    line-height: 35px;
 }
+.search input.current{
+	width: 160px;
+	border:none;
+	background: #f3f2f2;
+}
 .search button{
 	width: 37px;
 	height: 37px;
 	background:@background url(../images_mdh/icon/search.png) no-repeat center center;
-	position:absolute;
-	top:35px;
-	right:0;
 	cursor:pointer;
+	vertical-align: top;
+	margin-left:-5px;
 }
 #header .index-nav{
 	width: 1100px;
@@ -249,9 +261,6 @@ h1{
 
 		}
 		.about{
-			display: inline-block;
-			*display: inline-block;
-			*zoom:1;
 			text-align:center;
 			vertical-align: top;
 			margin:25px 0 110px 0;
@@ -314,9 +323,6 @@ h1{
 					padding:14px;
 					position:relative;
 					img{
-						display: inline-block;
-						*display:inline-block;
-						*zoom:1;
 						margin-right:30px;
 					}
 					button{
@@ -352,9 +358,6 @@ h1{
 }
 .personal-orde-list li .content{
 			width: 480px;
-			display:inline-block;
-			*display:inline-block;
-			*zoom:1;
 			margin-right:80px;
 			h6{
 				width: 480px;
@@ -442,7 +445,7 @@ h1{
 		width: 125px;
 	}
 	.state{
-		width: 90px;
+		width: 85px;
 	}
 }
 .order-list{
@@ -470,8 +473,8 @@ h1{
 				vertical-align:top;
 			}
 			.item{
-				margin-left:6px;
-				width: 190px;
+				margin-left:10px;
+				width: 185px;
 				font-size: @font;
 				color:@itemBoxPColor;
 				h6{
@@ -606,7 +609,6 @@ h1{
 	.personal-state-plan{
 		margin-top:35px;
 		.one,.two,.threen,.four{
-			display: inline-block;
 			width:140px;
 			margin-left:-41px;
 		}
@@ -646,12 +648,11 @@ h1{
 			}
 		}
 		.next{
-			display: inline-block;
 			width: 160px;
 			height:13px;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat center center;
-			vertical-align: 470%;
-			margin-left:-40px;		
+			vertical-align: 390%;
+			margin-left:-45px;		
 		}
 	}
 }
@@ -691,7 +692,6 @@ h1{
 		margin-top:35px;
 		position:relative;
 		.one,.two,.threen,.four{
-			display: inline-block;
 			width:140px;
 			margin-left:-38px;
 		}
@@ -731,12 +731,11 @@ h1{
 			}
 		}
 		.next{
-			display: inline-block;
 			width: 100px;
 			height:13px;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat right center;
-			vertical-align: 470%;
-			margin-left:-40px;		
+			vertical-align:390%;
+			margin-left:-45px;		
 		}
 		a{
 			position:absolute;
@@ -774,7 +773,6 @@ h1{
 		margin-top:35px;
 		position:relative;
 		.one,.two,.threen,.four{
-			display: inline-block;
 			width:140px;
 			margin-left:-38px;
 		}
@@ -814,12 +812,11 @@ h1{
 			}
 		}
 		.next{
-			display: inline-block;
 			width: 100px;
 			height:13px;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat right center;
-			vertical-align: 470%;
-			margin-left:-40px;		
+			vertical-align: 390%;
+			margin-left:-45px;		
 		}
 		a{
 			position:absolute;
@@ -909,7 +906,6 @@ h1{
 	.goods{
 		margin-right:130px;
 		div{
-			display: inline-block;
 			text-align:center;
 		}
 		h6{
@@ -947,7 +943,299 @@ h1{
 	border-top:1px solid #afafaf;
 }
 }
+/* 安全中心开始 */
+.personal-security{
+	width:820px;
+	.password{
+		margin-left:112px;
+		input{
+			width: 270px;
+			height:45px;
+			line-height: 45px;
+			font-size: @font;
+			color:#808080;
+			background: #f1f1f1;
+			padding-left:15px;
+		}
+		label{
+			height: 40px;
+			display: block;
+			font-size: @font;
+			color:#ae340d;
+			line-height: 40px;
+			padding-left:27px;
+		}
+	}
+	.confirm{
+		width: 285px;
+		height: 45px;
+		font-size:18px;
+		color:#444;
+		margin-left:112px;
+		background:#f1a223;
+		margin-bottom:183px;
+	}
+	.phone{
+		width: 430px;
+		label{
+			width: 88px;
+			padding-right:24px;
+			text-align:right;
+			font-size:@font;
+			color:#808080;
+			margin-top:15px;
+			line-height: 45px;
+		}
+		input{
+			width: 270px;
+			height: 45px;
+			line-height: 45px;
+			font-size:@font;
+			color:#808080;
+			background: #f1f1f1;
+			padding-left:15px;
+			margin-top:15px;
+		}
+		select{
+			width: 285px;
+			height: 45px;
+			font-size:@font;
+			color:#808080;
+			background: #f1f1f1;
+			padding-left:15px;
+			margin-top:15px;
+		}
+		.mobileNumber{
+			background: #fff;
+		}
+		.mobileCode{
+			width: 168px;
+			margin-left:4px;
+		}
+		.codeButton{
+			width: 85px;
+			height: 45px;
+			background: #c4c4c4;
+			font-size:@font;
+			color:#808080;
+			display:block;
+			margin:15px 0 0 15px;
+		}
+		.send{
+			line-height: 18px;
+			margin-left:15px;
+			font-size:12px;
+			color:#444;
+			width: 85px;
+			text-align:center;
+		}
+	}
+	.newCode{
+		margin-bottom:37px;
+	}
+	.sub{
+		letter-spacing: 25px;
+		text-align:center;
+	}
 
+}
+/* 收货地址开始 */
+.personal-address{
+	width: 820px;
+	.address{
+		li{
+			border:1px solid #A7A7A7;
+			border-top:none;
+			padding:15px 0 15px 30px;
+			line-height: 30px;
+			.message{
+				width: 420px;
+				margin-right:100px;
+				font-size: @font;
+				color:#808080;
+				vertical-align: middle;
+				span{
+					margin-right:14px;
+				}
+				strong{
+					font-weight: normal;
+					padding-left:25px;
+					margin-right:14px;
+					background: url(../images_mdh/icon/personal-address1.png) no-repeat left center;
+				}
+				em{
+					padding:20px;
+					background: url(../images_mdh/icon/personal-address2.png) no-repeat left center;
+				}
+				p{	
+					width: 420px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					b{
+						font-weight:normal;
+					}
+				}
+			}
+			span{
+				margin-right:65px;
+				color:#808080;
+			}
+			strong{
+				font-weight: normal;
+				color:#804736;
+				margin-right:28px;
+				cursor:pointer;
+			}
+			a{
+				margin-right:37px;
+				color:#804736;
+			}
+			em{
+				text-indent:-9999px;
+				cursor:pointer;
+				background: url(../images_mdh/icon/buy-delete.png) no-repeat center center;
+			}
+		}
+		.first{
+			border-top:1px solid #A7A7A7;
+		}
+	}
+}
+/* 新增收货地址开始 */
+.add{
+	font-size: @font;
+	color:#808080;
+	h6{
+		font-size: 18px;
+		color:#505050;
+		margin:45px 0;
+	}
+	label{
+		width: 65px;
+		line-height: 45px;
+		padding-right:15px;
+		text-align:right;
+	}
+	input{
+		width: 272px;
+		height: 45px;
+		line-height: 45px;
+		font-size: @font;
+		color:#808080;
+		background: #e2e2e2;
+		margin-top:22px;
+		padding-left:15px;
+	}
+	select{
+		width: 137px;
+		height: 45px;
+		line-height:45px;
+		background: #e2e2e2;
+		margin-top:22px;
+		padding-left:15px;
+		margin-right:10px;
+		font-size: @font;
+		color:#808080;
+	}
+	.dist{
+		margin-right:0;
+	}
+	span{
+		color:#ae340d;
+		line-height: 45px;
+		padding-left:25px;
+		margin-left:30px;
+	}
+	button{
+		width: 203px;
+		height: 45px;
+		font-size: 18px;
+		color:#444;
+		background: #f1a223;
+		margin:30px 0 0 84px;
+		letter-spacing: 10px;
+		text-align:center;
+	}
+}
+/* 收藏列表开始 */
+.personal-collect{
+	li:nth-child(4n){
+		margin-right: 0;
+	}
+	li{
+		margin-right: 20px;
+		position:relative;
+		.top{
+			position:absolute;
+			top:0;
+			left:0;
+			width: 220px;
+			height: 190px;
+			padding:50px 20px 20px 20px;
+			display: none;
+			.intop{
+				position:absolute;
+				background: #000;
+				opacity:0.6;
+				filter:alpha(opacity=60);
+				top:0;
+				left:0;
+				width: 260px;
+				height:260px;
+				z-index:0;
+			}
+			h3{
+				font-size: 18px;
+				color:#fff;
+				text-align: center;
+				padding-top: 38px;
+				line-height: 40px;
+				z-index: 5;
+				position: relative;
+			}
+			p{
+				font-size: 14px;
+				line-height: 20px;
+				color:#fff;
+				z-index: 5;
+				position:relative;
+			}
+			.collect{
+				position:absolute;
+				bottom:20px;
+				right:20px;
+				width: 80px;
+				z-index: 5;
+				button {
+					margin: 0px;
+					display: inline-block;
+					width: 30px;
+					height: 30px;
+					background: #fff url(../images_mdh/icon/index-top.png) no-repeat center center;
+				}
+				button.last{
+					background: #fff url(../images_mdh/icon/top2.png) no-repeat center center;
+					margin-left: 5px;
+				}
+			}
+		}
+		p{
+			font-size: 14px;
+			color:#727171;
+			line-height: 50px;
+			padding-left: 5px;
+			span{
+				font-size: 18px;
+				background: url(../images_mdh/icon/personal-collect.png) no-repeat right center;
+				color:#e58e29;
+				float:right;
+				padding-right: 25px;
+				margin-right:10px;
+			}
+		}
+	}
+}
 
 /* 底部开始 */
 #footer{

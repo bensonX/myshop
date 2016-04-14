@@ -55,7 +55,9 @@ public class PaymentController extends BaseController {
 	@RequestMapping(value = "/plugin_submit", method = RequestMethod.POST)
 	public String pluginSubmit(PaymentLog.Type type, String paymentPluginId, String sn, BigDecimal amount, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
 		System.out.println(" lsu ..payment plugin submit in paymentcontroller : ");
-		System.out.println(" lsu .PaymentLog.Type is: " + type + "; paymentPluginId is: " + paymentPluginId + "; sn is: " + sn + "; amount is: " +amount);
+		System.out.println(" lsu .PaymentLog.Type is: " + type + "; paymentPluginId is: " + paymentPluginId + "; sn is: " + sn + "; amount is: " + amount);
+		System.out.println(" lsu  set attribute for sn  " + request.getParameter("sn") + " paymentPluginId is: " + request.getParameter("paymentPluginId"));
+
 		if (type == null) {
 			return ERROR_VIEW;
 		}
@@ -113,14 +115,22 @@ public class PaymentController extends BaseController {
 			break;
 		}
 		}
-		model.addAttribute("requestUrl", paymentPlugin.getRequestUrl());
-		model.addAttribute("requestMethod", paymentPlugin.getRequestMethod());
-		model.addAttribute("requestCharset", paymentPlugin.getRequestCharset());
-		request.setAttribute("sn", sn);	
-		if (StringUtils.isNotEmpty(paymentPlugin.getRequestCharset())) {
-			response.setContentType("text/html; charset=" + paymentPlugin.getRequestCharset());
+		if (paymentPluginId.contains("wechat")) {
+			// request.setAttribute("code", code);
+			// request.getRequestDispatcher("/WEB-INF/jsp/pay.jsp").forward(request,
+			// response);
+			System.out.println("lsu  jump to  is: wechat_paying");
+			return "/shop/${theme}/payment/wechat_paying";
+		} else {
+
+			model.addAttribute("requestUrl", paymentPlugin.getRequestUrl());
+			model.addAttribute("requestMethod", paymentPlugin.getRequestMethod());
+			model.addAttribute("requestCharset", paymentPlugin.getRequestCharset());
+			if (StringUtils.isNotEmpty(paymentPlugin.getRequestCharset())) {
+				response.setContentType("text/html; charset=" + paymentPlugin.getRequestCharset());
+			}
+			return "/shop/${theme}/payment/plugin_submit";
 		}
-		return "/shop/${theme}/payment/plugin_submit";
 	}
 
 	/**

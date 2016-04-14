@@ -17,9 +17,11 @@ import java.util.SortedMap;
 
 import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import net.shopxx.Setting;
+import net.shopxx.entity.Order;
 import net.shopxx.entity.PaymentLog;
 import net.shopxx.entity.PluginConfig;
 import net.shopxx.plugin.PaymentPlugin;
@@ -29,6 +31,7 @@ import net.shopxx.util.WebUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
+import net.shopxx.service.OrderService;
 
 
 /**
@@ -40,6 +43,9 @@ import org.springframework.stereotype.Component;
 @Component("wechatPaymentPlugin")
 public class WechatPaymentPlugin extends PaymentPlugin {
 
+	@Resource(name = "orderServiceImpl")
+	private OrderService orderService;
+	
 	@Override
 	public String getName() {
 		return "微信支付";
@@ -113,27 +119,37 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	
 	@Override
 	public Map<String, Object> getParameterMap(String sn, String description, HttpServletRequest request) {
-		System.out.println(" lsu .. into getParameterMap for wechat payment: ");
+		System.out.println(" lsu .. into getParameterMap for wechat payment:  sn is: " + sn);
 		Setting setting = SystemUtils.getSetting();
 		PluginConfig pluginConfig = getPluginConfig();
 		PaymentLog paymentLog = getPaymentLog(sn);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
+		Order order = orderService.findBySn(sn);
 		
-		//OrderService orderService = new OrderServiceImpl();
+		
 		// 商品描述
 		String body = request.getParameter("sn");
 		// 商户订单号
 		String out_trade_no = request.getParameter("sn");
 		// 订单总金额，单位为分
-		String total_fee = request.getParameter("total_fee");
+		System.out.println(" lsu .total_fee is: " + paymentLog.getAmount().intValue());
+		String total_fee = String.valueOf((paymentLog.getAmount().multiply(new BigDecimal(100))).intValue()); //String.valueOf(order.getAmount().intValue()); //request.getParameter("totalfee");
+		System.out.println("lsu  total_fee is: " + total_fee);
 		// 统一下单
 		WechatUnifiedorderReturn orderReturn = placeOrder(body, out_trade_no, total_fee);
+		System.out.println("lsu  return code is: " + orderReturn.getReturn_code() + "  result code is: " + orderReturn.getResult_code());
+		if (orderReturn == null || !(orderReturn.getReturn_code().equals("SUCCESS") && orderReturn.getResult_code().equals("SUCCESS"))) {
+			//error happened here!!!
+			System.out.println("lsu  Error happened!");
+		}
 		
 		// 创建支付二维码
 		String path = request.getSession().getServletContext().getRealPath("/");
+		System.out.println("lsu  path is: " + path);
 		String code = createCode(path, orderReturn);
+		System.out.println("lsu  code is: " + code);
 		
-		request.setAttribute("code", code);		
+		request.setAttribute("code", code);
 		parameterMap.put("code", code);
 
 		return parameterMap;
@@ -198,6 +214,11 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	 */
 	private WechatUnifiedorderReturn placeOrder(String body, String out_trade_no, String total_fee) {
 		PluginConfig pluginConfig = getPluginConfig();
+		System.out.println("lsu total_fee is： " + total_fee);
+		// 判断有没有输入订单总金额，没有输入默认1分钱
+		if (total_fee != null && !total_fee.equals("")) {
+			total_fee = "1";
+		}
 		// 生成订单对象
 		WechatUnifiedorder o = new WechatUnifiedorder();
 		// 随机字符串
@@ -207,12 +228,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		o.setMch_id(pluginConfig.getAttribute("mch_id"));
 		o.setNotify_url(getNotifyUrl());
 		o.setOut_trade_no(out_trade_no);
-		// 判断有没有输入订单总金额，没有输入默认1分钱
-		if (total_fee != null && !total_fee.equals("")) {
-			o.setTotal_fee(Integer.parseInt(total_fee));
-		} else {
-			o.setTotal_fee(1);
-		}
+		o.setTotal_fee(Integer.parseInt(total_fee));
 		o.setNonce_str(nonce_str);
 		o.setTrade_type(getTradeType());
 		o.setSpbill_create_ip(getLocalIp());
@@ -265,7 +281,8 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	 * @return: String
 	 */
 	private String createCode(String path, WechatUnifiedorderReturn orderReturn) {
-		File file = new File(path + "upload/QRCode");
+		String partPath = "upload\\QRCode";
+		File file = new File(path + partPath);
 		if (!file.exists()) {
 			file.mkdirs();
 		}
@@ -273,7 +290,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		try {
 			QRCode q = new QRCode();
 			String fileName = UUID.randomUUID().toString();
-			filePath = "upload/QRCode/" + fileName + ".png";
+			filePath = partPath + "\\" + fileName + ".png";
 			String imgPath = path + filePath;
 	
 			System.out.println("lsu  imgPath is: \n" + imgPath);
