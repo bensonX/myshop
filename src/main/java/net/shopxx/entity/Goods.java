@@ -29,7 +29,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -41,12 +40,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
-import net.shopxx.BaseAttributeConverter;
-import net.shopxx.BigDecimalNumericFieldBridge;
-import net.shopxx.Setting;
-import net.shopxx.TemplateConfig;
-import net.shopxx.util.SystemUtils;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -60,6 +53,12 @@ import org.hibernate.search.annotations.NumericField;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import net.shopxx.BaseAttributeConverter;
+import net.shopxx.BigDecimalNumericFieldBridge;
+import net.shopxx.Setting;
+import net.shopxx.TemplateConfig;
+import net.shopxx.util.SystemUtils;
 
 /**
  * Entity - 货品
@@ -363,7 +362,7 @@ public class Goods extends BaseEntity<Long> {
 	/**
 	 * 税率
 	 */
-	private TaxRates taxRates;
+	private TaxRate taxRate;
 	
 	/**
 	 * 获取编号
@@ -1708,19 +1707,20 @@ public class Goods extends BaseEntity<Long> {
 	 * 
 	 * @return 税率
 	 */
-	@OneToOne(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	public TaxRates getTaxRates() {
-		return taxRates;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinTable(name = "xx_goods_taxrate", joinColumns = @JoinColumn(name = "goods") , inverseJoinColumns = @JoinColumn(name = "tax_rate") )
+	public TaxRate getTaxRate() {
+		return taxRate;
 	}
 
 	/**
 	 * 税率
 	 * 
-	 * @param taxRates
+	 * @param taxRate
 	 *            税率
 	 */
-	public void setTaxRates(TaxRates taxRates) {
-		this.taxRates = taxRates;
+	public void setTaxRate(TaxRate taxRate) {
+		this.taxRate = taxRate;
 	}
 
 	/**

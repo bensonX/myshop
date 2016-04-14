@@ -77,7 +77,7 @@
 	<setting name="stockAlertCount" value="5" />
 	<setting name="stockAllocationTime" value="order" />
 	<setting name="defaultPointScale" value="1" />
-	<setting name="isDevelopmentEnabled" value="false" />
+	<setting name="isDevelopmentEnabled" value="true" />
 	<setting name="isReviewEnabled" value="true" />
 	<setting name="isReviewCheck" value="true" />
 	<setting name="reviewAuthority" value="purchased" />
