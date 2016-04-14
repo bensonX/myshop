@@ -236,7 +236,7 @@ public class CartItem extends BaseEntity<Long> {
 	 */
 	@Transient
 	public BigDecimal getComprehensiveTaxRate() {
-		return getProduct() != null && getProduct().getGoods() != null && getProduct().getGoods().getTaxRates() != null ? getProduct().getGoods().getTaxRates().getComprehensiveTaxRate() : BigDecimal.ZERO;
+		return getProduct() != null && getProduct().getGoods() != null && getProduct().getGoods().getTaxRate() != null ? getProduct().getGoods().getTaxRate().getComprehensiveTaxRate() : BigDecimal.ZERO;
 	}
 	
 	/**
