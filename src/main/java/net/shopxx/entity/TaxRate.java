@@ -6,13 +6,15 @@
 package net.shopxx.entity;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
@@ -23,9 +25,9 @@ import javax.validation.constraints.Min;
  *
  */
 @Entity
-@Table(name = "xx_tax_rates")
-@SequenceGenerator(name = "sequenceGenerator", sequenceName = "seq_tax_rates")
-public class TaxRates extends BaseEntity<Long> {
+@Table(name = "xx_tax_rate")
+@SequenceGenerator(name = "sequenceGenerator", sequenceName = "seq_tax_rate")
+public class TaxRate extends BaseEntity<Long> {
 
 	/**
 	 * 
@@ -36,6 +38,10 @@ public class TaxRates extends BaseEntity<Long> {
 	 * 商品税率Code
 	 */
 	private String hsCode;
+	/**
+	 * 商品种类
+	 */
+	private String categrory;
 	/**
 	 * 关税税率
 	 */
@@ -55,7 +61,7 @@ public class TaxRates extends BaseEntity<Long> {
 	/**
 	 * 货品
 	 */
-	private Goods goods;
+	private Set<Goods> goods;
 
 	/**
 	 * 获取商品税率Code
@@ -75,6 +81,26 @@ public class TaxRates extends BaseEntity<Long> {
 	 */
 	public void setHsCode(String hsCode) {
 		this.hsCode = hsCode;
+	}
+
+	/**
+	 * 获取商品种类
+	 * 
+	 * @return
+	 */
+	@Column(nullable = false)
+	public String getCategrory() {
+		return categrory;
+	}
+
+	/**
+	 * 设置商品种类
+	 * 
+	 * @param categrory
+	 *            商品种类
+	 */
+	public void setCategrory(String categrory) {
+		this.categrory = categrory;
 	}
 
 	/**
@@ -166,23 +192,46 @@ public class TaxRates extends BaseEntity<Long> {
 	}
 
 	/**
-	 * 获取货品
+	 * 获取所有货品
 	 * 
-	 * @return 货品
+	 * @return
 	 */
-	@OneToOne(fetch = FetchType.LAZY)
-	public Goods getGoods() {
+	@OneToMany(mappedBy = "taxRate", fetch = FetchType.LAZY)
+	public Set<Goods> getGoods() {
 		return goods;
 	}
 
 	/**
-	 * 设置货品
+	 * 设置所有货品
 	 * 
 	 * @param goods
-	 *            货品
 	 */
-	public void setGoods(Goods goods) {
+	public void setGoods(Set<Goods> goods) {
 		this.goods = goods;
+	}
+
+	/**
+	 * 添加商品
+	 * 
+	 * @param goods
+	 *            商品
+	 * @return 是否成功
+	 */
+	@Transient
+	public boolean addGoods(Goods goods) {
+		return this.goods.add(goods);
+	}
+
+	/**
+	 * 移除商品
+	 * 
+	 * @param goods
+	 *            商品
+	 * @return 是否成功
+	 */
+	@Transient
+	public boolean removeGoods(Goods goods) {
+		return this.goods.remove(goods);
 	}
 
 }
