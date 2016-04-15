@@ -13,12 +13,47 @@
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/buy.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
+		
+		<script type="text/javascript">
+		var timer1;
+		/* 查询是否支付成功 */
+		function payResult() {
+			$.get("${base}/payment/payResultSearch/${out_trade_no}.jhtml", function(data) {
+			    console.log("lsu into timer: type is: " + data.result.type + "  content is: " + data.result.content);
+			    console.log(data);
+				if (data.result.type == "SUCCESS") {
+				    console.log("lsu pay success, will kill timer!");
+					$("#paying").html("Hello: <b>PAY SUCCESS</b>!");
+					//stop the timer;
+					clearInterval(timer1);
+				}
+				else {
+				    console.log("lsu pay failed");
+					$("#paying").html("the check result is : " + data.result.content );
+				}
+			});
+		}
+		$(function() {
+			/* 每隔2秒查一次 */
+			timer = window.setInterval("payResult()", 4000);
+		});
+		</script>
 	</head>
+	
     <body>
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]	
-		<div>
+		<div >
 		<h> is paying......</h>	
 		</div>
+		
+		<div  id = "paying" class = "paying">
+		<h> is ....</h>	
+		</div>
+		
+		<div>		
+		<h> out_trade_no is:  ${out_trade_no}</h>
+		</div>
+		
 		<div>
 	    <img src="${base}/${code}"> url is: ${base}/${code} </img>
 	    </div>

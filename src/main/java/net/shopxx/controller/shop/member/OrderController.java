@@ -112,6 +112,7 @@ public class OrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public String view(String sn, ModelMap model) {
+		System.out.println(" lsu into member/order/view ");
 		Order order = orderService.findBySn(sn);
 		if (order == null) {
 			return ERROR_VIEW;
@@ -121,6 +122,7 @@ public class OrderController extends BaseController {
 			return ERROR_VIEW;
 		}
 		Setting setting = SystemUtils.getSetting();
+		System.out.println(" lsu .. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
 		model.addAttribute("isKuaidi100Enabled", StringUtils.isNotEmpty(setting.getKuaidi100Key()));
 		model.addAttribute("order", order);
 		return "/shop/${theme}/member/order/view";

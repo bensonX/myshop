@@ -151,7 +151,8 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		
 		request.setAttribute("code", codeFilePath);
 		parameterMap.put("code", codeFilePath);
-
+		request.setAttribute("out_trade_no", out_trade_no);
+		parameterMap.put("out_trade_no", out_trade_no);
 		return parameterMap;
 	}
 
@@ -160,26 +161,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		System.out.println(" lsu .. into verifyNotify for paymentplugin ");
 		PluginConfig pluginConfig = getPluginConfig();
 		
-		String line = null;
-		String result = "";
-		java.io.BufferedReader bis = null;
-		try {
-			bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
-			while ((line = bis.readLine()) != null) {
-				result += line;// + "\r\n";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				bis.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println(" lsu ..exception here, : " + e.toString() );
-				e.printStackTrace();
-			}
-		}
-		System.out.println(" lsu the return result is:      " + result);
+
 		//temp return true;
 		return true;
 		
