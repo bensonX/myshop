@@ -1027,8 +1027,9 @@ $().ready(function() {
 					
 	              </dd>
 	            </dl>
-            
+            	<form method="post" action="${base}/member/order/checkout.jhtml">
 	            <div class = "button" data-tag="button" >
+	              
 	              [#if goods.type == "general"]
 	              <button type = "button" class = "add" data-tag="addCart">
 	               	 ${message("shop.goods.addCart")}
@@ -1038,16 +1039,16 @@ $().ready(function() {
 	               	 ${message("shop.goods.exchange")}
 	              </button>
 	              [/#if]
-	              <form method="post" action="${base}/member/order/checkout.jhtml">
+	            
 	              <input type="hidden" id ="productId" name="productId" value=""/>
 	              <input type="hidden" id ="quantity" name="quantity" value=""/>
 	              
 	              <button type = "button" class = "submit" data-tag="buyImmediately">
 	               	 立即购买
 	              </button>
-	              </form>
+	              
 	            </div>
-	            
+	            </form>
             </div>
             
         </div>
