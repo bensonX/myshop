@@ -104,7 +104,57 @@ body {
 	*display:inline;
 	*zoom:1;
 }
-
+/*  common layer */
+.common-shielding {
+	display:none;
+  width:100%;
+  height:100%;
+  background:#000;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:9999999;
+  opacity:0.3;
+  filter:alpha(opacity=30);
+}
+.common-popup {
+	margin: 0 auto;
+	border: 1px solid #B1B1B1;
+	width: 398px;
+	background: #F3F3F3;
+  position: fixed;
+	display: none;
+	z-index: 99999999;
+	.title {
+		width: 100%;
+		height: 40px;
+		background:#444;
+		border-bottom: 1px solid #D9D9D9;
+		position: relative;
+		h4 {
+			height: 40px;
+			text-indent:-9999px;
+			background: url(../images_mdh/icon/pop.png) no-repeat center center; 
+		}
+		strong {
+			position: absolute;
+			top: 8px;
+			right: 16px;
+			font-size: 16px;
+	    color: #fff;
+	    font-weight: 400;
+	    cursor: pointer;
+		}
+	}
+	.context {
+		padding: 32px 10px 32px;
+		p {
+			text-align: center;
+			font-size: 16px;
+			color: #727171;
+		}
+	}
+}
 /* 头部样式开始 */
 #header{ 
 		width: 1100px;
@@ -974,8 +1024,11 @@ h1{
 /* 安全中心开始 */
 .personal-security{
 	width:820px;
+	margin-bottom: 20px;
 	.password{
 		margin-left:112px;
+		position: relative;
+		margin-bottom: 40px;
 		input{
 			width: 270px;
 			height:45px;
@@ -990,8 +1043,13 @@ h1{
 			display: block;
 			font-size: @font;
 			color:#ae340d;
-			line-height: 40px;
-			padding-left:27px;
+			position: absolute;
+			top: 48px;
+			left: 0px;
+			line-height: 20px;
+			background: url(../images_mdh/icon/error.png) no-repeat;
+			padding-left: 25px;
+			vertical-align: middle;
 		}
 	}
 	.confirm{
@@ -1001,9 +1059,9 @@ h1{
 		color:#444;
 		margin-left:112px;
 		background:#f1a223;
-		margin-bottom:183px;
 	}
 	.phone{
+		position: relative;
 		width: 430px;
 		label{
 			width: 88px;
@@ -1012,7 +1070,25 @@ h1{
 			font-size:@font;
 			color:#808080;
 			margin-top:15px;
+			margin-bottom: 30px;
 			line-height: 45px;
+			
+		}
+		label.fieldError {
+			height: 20px;
+			display: block;
+			font-size: @font;
+			color:#ae340d;
+			position: absolute;
+			top: 48px;
+			left: 0px;
+			line-height: 20px;
+			background: url(../images_mdh/icon/error.png) no-repeat;
+			padding-left: 25px;
+			vertical-align: middle;
+			margin-left: 120px;
+			width: 200px;
+			text-align: left;
 		}
 		input{
 			width: 270px;
@@ -1058,6 +1134,7 @@ h1{
 			text-align:center;
 		}
 	}
+
 	.newCode{
 		margin-bottom:37px;
 	}

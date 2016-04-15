@@ -25,6 +25,7 @@ $().ready(function() {
 		rules: {
 			currentPassword: {
 				required: true,
+				pattern: /.{6,}/,
 				remote: {
 					url: "check_current_password.jhtml",
 					cache: false
@@ -32,13 +33,32 @@ $().ready(function() {
 			},
 			password: {
 				required: true,
+				pattern: /.{6,}/,
 				minlength: ${setting.passwordMinLength}
 			},
 			rePassword: {
 				required: true,
+				pattern: /.{6,}/,
 				equalTo: "#password"
 			}
-		}
+		},
+		
+		messages: {
+	      currentPassword: {
+	        required : "六位数以上的密码",
+	        pattern: "六位数以上的密码",
+	        remote: "旧密码输入错误"
+	      },
+	      password: {
+	        required : "六位数以上的密码",
+	        pattern: "请输入六位数以上的密码"
+	      },
+	      rePassword: {
+	        required : "六位数以上的密码",
+	        pattern: "请输入六位数以上的密码",
+	        equalTo: "与输入的新密码不相同"
+	      }
+	    }
 	});
 	
 	
@@ -212,6 +232,7 @@ $().ready(function() {
 		rules: {
 			currentPassword: {
 				required: true,
+				pattern: /.{6,}/,
 				remote: {
 					url: "check_current_password.jhtml",
 					cache: false
@@ -251,57 +272,14 @@ $().ready(function() {
 			<form id="inputForm" action="update.jhtml" method="post">
 				<div class="current password">
 					<input type="password" placeholder="${message("shop.member.password.currentPassword")}"  name="currentPassword" class="text" maxlength="200" autocomplete="off" >
-					<label>请输入2-16位密码</label>
 				</div>
 				<div class="new password">
 					<input type="password" placeholder="${message("shop.member.password.newPassword")}" name="password" class="text" maxlength="${setting.passwordMaxLength}" autocomplete="off"  id="password" >
-					<label>新旧密码不能相同，请重新输入</label>
 				</div>
 				<div class="news password">
 					<input type="password" placeholder="${message("shop.member.password.rePassword")}"  name="rePassword" class="text" maxlength="${setting.passwordMaxLength}" autocomplete="off" >
-					<label>两次输入的密码不一致，请重新输入</label>
 				</div>
 				<button class="confirm" type="submit">确认修改</button>
-			</form>				
-			
-			
-			<form id="inputMobileForm" action="${base}/member/password/update2.jhtml" method="post">	
-				<div class="phone pattern">
-					<label class="din" for="mobile">验证方式</label>
-					<select>
-						<option value="mobile" selected="selected">手机短信验证</option>
-						<option value="email">
-							通过邮箱验证
-						</option>
-					</select>
-				</div>
-				<div class="phoneVerification">
-					<div class="phone number">
-						<label class="din" for="number">手机号</label>
-						<input type="text" class="mobileNumber" id="currentMobile" name="currentMobile" placeholder="请输入您的手机号码">
-					</div>
-					<div class="phone code clearfix">
-						<label class="din fl" for="code">手机验证码</label>
-						<input class="mobileCode fl" type="text" id="currentCode" name="currentCode" placeholder="请填写手机验证码">
-						
-						<button type="button" class="codeButton fl" id = "codeCurrentButton">获取验证码</button>
-						<span class="send fl">验证码已发送</span>
-					</div>
-					<div class="phone newNumber">
-						<label class="din" for="newNumber">新手机号</label>
-						<input type="text" id="newMobile" name="newMobile" placeholder="请输入新的手机号码">
-					</div>
-					<div class="phone newCode clearfix">
-						<label class="din fl" for="newCode">新手机验证码</label>
-						<input class="mobileCode fl" type="text" id="newCode" name="newCode" placeholder="请填写新手机验证码">
-						
-						<button type="button" class="codeButton fl" id = "codeNewButton">获取验证码</button>
-						<span class="send fl">验证码已发送</span>
-					</div>
-				</div>
-				<button class="confirm sub" type="submit">提交</button>
-				<input type="hidden" id="compareCurrentCode"/>
-				<input type="hidden" id="compareNewCode"/>
 			</form>
 			
 		</div>
