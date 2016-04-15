@@ -1038,9 +1038,14 @@ $().ready(function() {
 	               	 ${message("shop.goods.exchange")}
 	              </button>
 	              [/#if]
+	              <form method="post" action="${base}/member/order/checkout.jhtml">
+	              <input type="hidden" id ="productId" name="productId" value=""/>
+	              <input type="hidden" id ="quantity" name="quantity" value=""/>
+	              
 	              <button type = "button" class = "submit" data-tag="buyImmediately">
 	               	 立即购买
 	              </button>
+	              </form>
 	            </div>
 	            
             </div>
@@ -1360,10 +1365,8 @@ $().ready(function() {
          * item.js   234-307
          */
         BuyImmediately({
-          shoppingForm: shoppingForm,    // 表单对象数据
-          urlBuyImmediatelyPost: '${base}/logout.jhtml',    
+          shoppingForm: shoppingForm,    // 表单对象数据   
           urlLogin:    '${base}/login.jhtml',   // 登录链接
-          urlOrder:    '${base}/order/checkout.jhtml',     // 订单页面
           data: function (){
             return {
           		productId: productId,

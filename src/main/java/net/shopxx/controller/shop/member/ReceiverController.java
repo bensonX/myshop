@@ -58,7 +58,9 @@ public class ReceiverController extends BaseController {
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
 		model.addAttribute("page", receiverService.findPage(member, pageable));
-		return "/shop/${theme}/member/receiver/list";
+		model.addAttribute("member",member);
+		
+		return "/shop/${theme}/member/receiver/list_mdh2";
 	}
 
 	/**

@@ -6,7 +6,9 @@
 package net.shopxx.controller.shop.member;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -14,11 +16,20 @@ import net.shopxx.Message;
 import net.shopxx.Pageable;
 import net.shopxx.Setting;
 import net.shopxx.controller.shop.BaseController;
+import net.shopxx.entity.Cart;
+import net.shopxx.entity.CartItem;
+import net.shopxx.entity.Goods;
 import net.shopxx.entity.Member;
 import net.shopxx.entity.Order;
+import net.shopxx.entity.Product;
+import net.shopxx.entity.Receiver;
 import net.shopxx.entity.Shipping;
 import net.shopxx.service.MemberService;
 import net.shopxx.service.OrderService;
+import net.shopxx.service.PaymentMethodService;
+import net.shopxx.service.ProductService;
+import net.shopxx.service.ReceiverService;
+import net.shopxx.service.ShippingMethodService;
 import net.shopxx.service.ShippingService;
 import net.shopxx.util.SystemUtils;
 
@@ -48,6 +59,18 @@ public class OrderController extends BaseController {
 	private OrderService orderService;
 	@Resource(name = "shippingServiceImpl")
 	private ShippingService shippingService;
+
+	@Resource(name = "productServiceImpl")
+	private ProductService productService;
+	
+	@Resource(name = "receiverServiceImpl")
+	private ReceiverService receiverService;
+	
+	@Resource(name = "paymentMethodServiceImpl")
+	private PaymentMethodService paymentMethodService;
+	
+	@Resource(name = "shippingMethodServiceImpl")
+	private ShippingMethodService shippingMethodService;
 
 	/**
 	 * 检查锁定
@@ -172,6 +195,64 @@ public class OrderController extends BaseController {
 		}
 		orderService.receive(order, null);
 		return SUCCESS_MESSAGE;
+	}
+
+	/**
+	 * 结算，修改结算商品
+	 * 
+	 * @param productId
+	 * @param quantity
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
+	public String checkout(Long productId, Integer quantity, ModelMap model) {
+		System.out.println(productId+"=hahahh="+quantity);
+		
+		if (quantity == null || quantity < 1) {
+			return ERROR_VIEW;
+		}
+		Product product = productService.find(productId);
+		if (product == null) {
+			return ERROR_VIEW;
+		}
+//		if (!Goods.Type.exchange.equals(product.getType())) {
+//			return ERROR_VIEW;
+//		}
+		if (!product.getIsMarketable()) {
+			return ERROR_VIEW;
+		}
+		if (quantity > product.getAvailableStock()) {
+			return ERROR_VIEW;
+		}
+		Member member = memberService.getCurrent();
+		if (member.getPoint() < product.getExchangePoint() * quantity) {
+			return ERROR_VIEW;
+		}
+		System.out.println(product+"="+member);
+		
+		Set<CartItem> cartItems = new HashSet<CartItem>();
+		CartItem cartItem = new CartItem();
+		cartItem.setProduct(product);
+		cartItem.setQuantity(quantity);
+		cartItems.add(cartItem);
+		
+		Cart cart = new Cart();
+		cart.setMember(member);
+		cart.setCartItems(cartItems);
+		
+		Receiver defaultReceiver = receiverService.findDefault(member);
+		Order order = orderService.generate(Order.Type.exchange, cart, defaultReceiver, null, null, null, null, null, null);
+		model.addAttribute("productId", productId);
+		model.addAttribute("quantity", quantity);
+		model.addAttribute("order", order);
+		model.addAttribute("defaultReceiver", defaultReceiver);
+		model.addAttribute("paymentMethods", paymentMethodService.findAll());
+		model.addAttribute("shippingMethods", shippingMethodService.findAll());
+		
+		System.out.println("checkout_mdh");
+		
+		return "/shop/${theme}/order/checkout_mdh";
 	}
 
 }

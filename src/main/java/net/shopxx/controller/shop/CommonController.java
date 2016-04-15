@@ -84,8 +84,11 @@ public class CommonController {
 	public @ResponseBody
 	List<Map<String, Object>> area(Long parentId) {
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		System.out.println(parentId);
 		Area parent = areaService.find(parentId);
+		System.out.println(parent);
 		Collection<Area> areas = parent != null ? parent.getChildren() : areaService.findRoots();
+		System.out.println(areas.size());
 		for (Area area : areas) {
 			Map<String, Object> item = new HashMap<String, Object>();
 			item.put("name", area.getName());

@@ -24,13 +24,9 @@
 	<!-- 主体内容开始 -->
 			<!-- 个人中心左侧导航开始 -->
 		<div class="personal clearfix">
-			<ul class="personal-nav fl">
-				<li class="current"><a href="javascript:;">我的信息</a></li>
-				<li><a href="${base}/member/order/list.jhtml">我的订单</a></li>
-				<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
-				<li><a href="#">收件地址</a></li>
-				<li><a href="${base}/member/password/edit.jhtml">安全中心</a></li>
-			</ul>
+
+			[#assign indexLeft=1]
+			[#include "/shop/${theme}/member/index_left.ftl" /]
 			<!-- 个人信息详情开始 -->
 			<div class="personal-item fr">
 				<div class="title">
