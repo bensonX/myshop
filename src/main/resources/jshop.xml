@@ -2,7 +2,7 @@
 <jshop>
 	<setting name="siteName" value="jshop购物商城" />
 	<setting name="siteUrl" value="http://127.0.0.1:8080/jshop"/>
-	<!--setting name="siteUrl" value="http://wxdev.maidehao.com/jshop"/-->
+	<!--setting name="siteUrl" value="http://wxdev.maidehao.com:29463/jshop"/-->
 	<!--setting name="siteUrl" value="http://test.maidehao.com"/-->
 	<!--setting name="siteUrl" value="http://www.maidehao.com/jshop"/-->
 	<setting name="logo" value="/upload/image/logo.png" />

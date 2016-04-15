@@ -213,6 +213,7 @@ $().ready(function() {
 	var $top = $('<a href="javascript:;">&nbsp;<\/a>').appendTo($goTop);
 	var $addFavorite = $('<a href="javascript:;">&nbsp;<\/a>').appendTo($goTop);
 	var $headerCartQuantity = $("#headerCart em");
+	var $topCartQuantity = $("#topCart em");
 	
 	// 返回顶部
 	$window.scroll(function() {
@@ -256,17 +257,22 @@ $().ready(function() {
 				global: false,
 				success: function(data) {
 					if ($headerCartQuantity.text() != data.quantity && "opacity" in document.documentElement.style) {
-						$headerCartQuantity.fadeOut(function() {
-							$headerCartQuantity.text(data.quantity).fadeIn();
-						});
+						//$headerCartQuantity.fadeOut(function() {
+						//	$headerCartQuantity.text(data.quantity).fadeIn();
+						//	$topCartQuantity.text(data.quantity).fadeIn();
+						//});
+						$headerCartQuantity.text(data.quantity).addClass('selected');
+						$topCartQuantity.text(data.quantity);
 					} else {
-						$headerCartQuantity.text(data.quantity);
+						$headerCartQuantity.text(data.quantity).addClass('selected');
+						$topCartQuantity.text(data.quantity);
 					}
 					addCookie("cartQuantity", data.quantity);
 				}
 			});
 		} else {
-			$headerCartQuantity.text(cartQuantity);
+			$headerCartQuantity.text(cartQuantity).addClass('selected');
+			$topCartQuantity.text(cartQuantity)
 		}
 	}
 	

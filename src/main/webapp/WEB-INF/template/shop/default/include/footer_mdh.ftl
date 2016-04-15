@@ -4,17 +4,23 @@
 	$().ready(function() {
 	
 		var $headerName = $("#headerName");
+		var $topName = $("#topName");
 		
 		var username = getCookie("username") || '';
 		var nickname = getCookie("nickname") || '';
 		var mobile = getCookie("mobile") || '';
-		$headerName.text(mobile).show();
+		//$headerName.text(mobile).show();
 		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
-			var userName = nickname || mobile;
+			var userName =  mobile || nickname || username;
 			$headerName.text(userName);
+			$topName.text(userName);
 			$("#login_out").removeClass().addClass('dn');
+			$("#noLogin").hide();
+			$("#isLogin").show();
 		} else {
 			$("#login_in").removeClass().addClass('dn');
+			$("#isLogin").hide();
+			$("#noLogin").show();
 		}
 	});
 	</script>
@@ -116,156 +122,80 @@
 		[#include "/shop/${theme}/include/statistics.ftl" /]
 		--]
 	</div>
+	</div>
 	
 	<!-- 窗口固定区开始 -->
+	
+		<div class = "fix" data-side="main">			
+					
+					<ul data-side="isShow">
+						<li data-side="login">
+							<a href="javascript:;" class="one ico" ><i></i></a>
+							<div class="infix" data-side="noLogin" id="login_out">
+								<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
+								<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+							</div>
+							<div class="logged" data-side="isLogin" id="login_in">
+								<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
+									[@navigation_list position = "top"]
+										[#list navigations as navigation]
+											<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
+										[/#list]
+									[/@navigation_list]
+									<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
+							</div>
+						</li>
+						<li>
+							<a href="javascript:;" class="two ico" data-side="cart" data-isshow = "1" id="headerCart" >
+								<i></i>
+								<em ></em>
+							</a>	
+							<div style = "position: relative">
+								<div class="shopping-list tooltip" data-side="noCart">
+									<p>来都来了，不买点德国货吗~</p>
+									<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
+								</div>
+								<div class="shopping-list2 tooltip" data-side="isCart">
+									<div>
+										<div class="warp clearfix" data-product = "123456">
+											<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
+											<span class="fl" data-right="minus">-</span>
+											<strong class="fl" data-right="num">1</strong>
+											<span class="fl" data-right="plus">+</span>
+											<p class="fr" data-right="priceAll">2365.00</p>
+											<b data-right="delete">x</b>
+										</div>
+									</div>
+									<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
+								</div>
+							</div>
+						</li>
+						<li data-side="mobile">
+							<a href="javascript:;" class="three ico" ><i></i></a>
+							<div class="tell" data-side="isMobile">
+								846546848465
+							</div>
+						</li>
+						<li data-side="weixin">
+							<a href="javascript:;" class="fore ico" ><i></i></a>
+							<div class="images" data-side="isWeixin">
+								<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
+							</div>
+						</li>
+						<li>
+							<a href="javascript:;" class="five ico"><i></i></a>
+						</li>
+					</ul>
+				</div>
 
-	<div class="fix">
-		<ul class = "quick_links_panel">
-			<li>
-				<a href="javascript:;" class="one ico"><i></i></a>
-				<div class="infix mp_tooltip" id="login_out">
-					<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
-					<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
-				</div>
-				<div class="logged mp_tooltip" id="login_in">
-					<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
-					[@navigation_list position = "top"]
-						[#list navigations as navigation]
-							<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
-						[/#list]
-					[/@navigation_list]
-					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
-				</div>
-			</li>
-			<li data-cart="shoppingcart" >
-				<a href="${base}/cart/list.jhtml" class="two ico" id="headerCart"><i></i></a>
-				<div class="shopping-list tooltip dn">
-					<p>来都来了，不买点德国货吗~</p>
-					<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
-				</div>
-				<div class="shopping-list2 tooltip">
-					<div class="warp clearfix" data-product = "123456">
-						<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
-						<span class="fl" data-right="minus">-</span>
-						<strong class="fl" data-right="num">1</strong>
-						<span class="fl" data-right="plus">+</span>
-						<p class="fr" data-right="priceAll">2365.00</p>
-						<b data-right="delete">x</b>
-					</div>
-					<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
-				</div>
-			</li>
-			<li>
-				<a href="javascript:;" class="three ico"><i></i></a>
-				<div class="tell mp_tooltip" >
-					846546848465
-				</div>
-			</li>
-			<li>
-				<a href="javascript:;" class="fore ico"><i></i></a>
-				<div class="images wx_tooltip">
-					<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
-				</div>
-			</li>
-			<li>
-				<a href="javascript:;" class="five ico"><i></i></a>
-			</li>
-		</ul>
-	</div>
+	
 	
 	
 	<script>
-		$(function () {
-			// 购物车加减产品事件
-		  function minusPlusShopping(data) {
-
-		    console.log("post: ");
-		    console.log(data);
-
-		    $.ajax({
-		      url: '../../test/minusplus.json',
-		      type: "POST",
-		      data: data,
-		      dataType: "json",
-		      cache: false,
-		      success: function(message) {
-		      	console.log(message)
-		      }
-		    });
-		  };
-
-    // 加
-    $('[data-right="plus"]').bind('click', function (e) {
-      var times = 100;
-      var $number = $(this).siblings('[data-right="num"]');
-      var $priceAll = $(this).siblings('[data-right="priceAll"]');
-      var num = parseInt($number.html());
-      var priceAll = parseInt($priceAll.html())*times;
-      var price = priceAll/num;
-      if (num > 0 ) {
-        $number.html(++num);
-        $priceAll.html(((priceAll+price)/times).toFixed(2));
-        // ajax 收集数据
-        data = {
-        	productId: $(this).parents('.warp').attr('data-product'),
-        	num: num
-        }
-        minusPlusShopping(data);  // ajax
-      }
-    });
-
-    // 减
-    $('[data-right="minus"]').bind('click', function () {
-      var times = 100;
-      var $number = $(this).siblings('[data-right="num"]');
-      var $priceAll = $(this).siblings('[data-right="priceAll"]');
-      var num = parseInt($number.html());
-      var priceAll = parseInt($priceAll.html())*times;
-      var price = priceAll/num;
-      if (num >= 2 ) {
-        $number.html(--num);
-        $priceAll.html(((priceAll-price)/times).toFixed(2));
-
-         // ajax 收集数据
-        data = {
-        	productId: $(this).parents('.warp').attr('data-product'),
-        	num: num
-        }
-        minusPlusShopping(data);  // ajax
-      }
-    });
-
-    $('[data-right="delete"]').bind('click', function () {
-    	var target = $(this).parents('.warp');
-		    var productId = target.attr('data-product');
-		    var checked = target.find('[data-tag="select"]').is(':checked');
-		    var self = this;
-		    var data = {
-		    	productId: productId
-		    };
-
-			    console.log("post: ");
-			    console.log(data);
-
-			    $.ajax({
-			      url: "../../test/test.json",
-			      type: "POST",
-			      data: data,
-			      dataType: "json",
-			      cache: false,
-			      success: function(message) {
-
-			        console.log("message: ");
-			        console.log(message);
-
-			        if (message.type == "success") {
-			          target.remove();
-			        }
-			      }
-			    });
-        });
+			$(function () {
 
 
+				Side({});
 			});
-		</script>
+	</script>
 [/#escape]

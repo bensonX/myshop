@@ -134,22 +134,61 @@ $().ready(function() {
 --]
 	
 </div>
-
-
-
-
 		<!-- 头部开始 -->
 		<div id = "header">
-			<a href = "">
-				<h1>买德好</h1>
-			</a>
-			<div class="search">
-				<form action="${base}/goods/search.jhtml" method="get">
-					<input type="text" placeholder="${goodsKeyword!message("shop.header.keyword")}....."  name="keyword" class="keyword" />
-					<button type="submit">&nbsp;</button>
-				</form>
+			<div id = "top" class = "clearfix" >
+				<div class = "fl"></div>
+				<div class = "fr right">
+					<div class = "is-login" id = "isLogin">
+						<a href = "${base}/logout.jhtml" >[${message("shop.header.logout")}]</a>
+						<i></i>
+						[@navigation_list position = "top"]
+							[#list navigations?reverse as navigation]
+								<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] >${navigation.name}</a>
+								<i></i>
+							[/#list]
+						[/@navigation_list]
+						<a href = "${base}/cart/list.jhtml" id="topCart" >购物车<em>0</em>件</a>
+						<i></i>
+						<a href = "javascript:;" id="topName">小康</a>
+					</div>
+					<div class = "no-login dn" id="noLogin">
+						<!--a href = "javascript:;" class = "last">消息</a>
+						<i></i-->
+						<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+						<i></i>
+						<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
+						
+					</div>
+				</div>
 			</div>
+			<div class = "clearfix" >
+				<div>
+					<a href = "${base}" class = "fl">
+						<h1>买德好</h1>
+					</a>
+					<div class="search fr" >
+						<form action="${base}/goods/search.jhtml" method="get">
+							<input type="text" placeholder="${goodsKeyword!message("shop.header.keyword")}....."  name="keyword" class="keyword" />
+							<button type="submit"></button>
+						</form>
+						<div class = "keyword-search">
+							<a href = "javascript:;" >爱他美</a>
+							<a href = "javascript:;" >滤水壶</a>
+							<a href = "javascript:;" >辅食</a>
+							<a href = "javascript:;" >儿童座椅</a>
+							<a href = "javascript:;" >剃须刀</a>
+						</div>
+					</div>
+				</div>
+		
+			</div>
+
+
+		
+		
 			<!-- 导航开始 -->
+		<div class="index-nav">
 			<div class="nav">
 				<ul class="clearfix">
 					<li>
@@ -180,5 +219,6 @@ $().ready(function() {
 					</li>
 				</ul>
 			</div>			
-		</div id = "header">
+		</div>
+	</div>
 [/#escape]

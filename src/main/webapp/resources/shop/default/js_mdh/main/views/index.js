@@ -404,7 +404,7 @@
 ;$(function () {
 
   for (var i = 0, len = $('.main_image li').length; i < len; i++) {
-    $('.flicking_inner').append('<a href="javascript:void 0;">'+(i+1)+'</a>');
+    //$('.flicking_inner').append('<a href="javascript:void 0;">'+(i+1)+'</a>');
   }
 
   $(".main_visual").hover(function(){
@@ -459,24 +459,3 @@
     }, 5000);
   });
 });
-
-/**
- * 收藏
- */
-;(function ($, window) {
-  $('body').bind('[data-goods="enshrine"]', 'click', function(e) {
-    var id = $(e.target).attr('goods');
-    $.ajax({
-      url: "${base}/member/favorite/add.jhtml",
-      type: "POST",
-      data: {goodsId: id},
-      dataType: "json",
-      cache: false,
-      success: function(message) {
-        //$.message(message);
-        layer(message);
-      }
-    });
-    return false;
-  });
-})(jQuery, window);
