@@ -112,7 +112,8 @@
 				</div>
 			</div>
       <div class = "shielding-layer" data-tag="shieldingLayer"></div>
-			<!-- 收货地址开始 -->
+      
+		<!-- 收货地址开始 -->
 		<div class="buy-address dn" data-tag="butAddress" >
 		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" class = "fr">添加</a></h5>
         <button class="left" type="button" data-tag="scrollLeft"></button>

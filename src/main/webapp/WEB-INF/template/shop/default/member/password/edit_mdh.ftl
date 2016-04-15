@@ -238,13 +238,9 @@ $().ready(function() {
 	<!-- 主体内容开始 -->
 	<div class="personal clearfix">
 		<!-- 个人中心左侧导航开始 -->
-		<ul class="personal-nav fl">
-			<li><a href="${base}/member/index.jhtml">我的信息</a></li>
-			<li><a href="${base}/member/order/list.jhtml">我的订单</a></li>
-			<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
-			<li><a href="#">收件地址</a></li>
-			<li  class="current"><a href="#">安全中心</a></li>
-		</ul>
+
+		[#assign indexLeft=5]
+		[#include "/shop/${theme}/member/index_left.ftl" /]
 		<!-- 安全中心开始 -->
 		<div class="personal-security fr">
 		

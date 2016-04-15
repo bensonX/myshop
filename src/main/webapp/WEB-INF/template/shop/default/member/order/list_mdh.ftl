@@ -34,13 +34,9 @@ $().ready(function() {
 	<!-- 主体内容开始 -->
 			<!-- 个人中心左侧导航开始 -->
 		<div class="personal clearfix">
-			<ul class="personal-nav fl">
-				<li><a href="${base}/member/index.jhtml">我的信息</a></li>
-				<li class="current"><a href="javascript:;">我的订单</a></li>
-				<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
-				<li><a href="#">收件地址</a></li>
-				<li><a href="${base}/member/password/edit.jhtml">安全中心</a></li>
-			</ul>
+
+			[#assign indexLeft=2]
+			[#include "/shop/${theme}/member/index_left.ftl" /]
 			<!-- 我的订单详情开始 -->
 			<div class="personal-item fr">
 				<p class="order-title">您目前暂无订单，您可以前往：
