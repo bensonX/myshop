@@ -199,13 +199,13 @@ body {
 			border-left: 0px;
 			padding: 0px 12px;
 		}
-		.search .keyword {
+		.search .keyword-search {
 			font-size: 12px;
 			color: #828282;
 			padding-left: 10px;
 			padding-top: 10px;
 		}
-		.search .keyword a {
+		.search .keyword-search a {
 			display: inline-block;
 			padding-left: 18px;
 		}
@@ -217,7 +217,6 @@ body {
 	padding-top: 18px;
 	.right {
 		width: 50%;
-		text-align: right;
 		a {
 			padding: 0 8px;
 			line-height: 18px;
@@ -244,7 +243,7 @@ body {
 	margin-left: 187px;
 	margin-top: 8px;
 	z-index: 99999999999;
-	.keyword {
+	.keyword-search {
 		display: none;
 	}
 }
@@ -487,6 +486,7 @@ div.flicking_con a.on {
 	line-height: 30px;
 	color:#505050;
 	text-align: center;
+	margin-bottom: 18px;
 	// border-bottom:4px solid #ffc900;
 }
 .mian-h2 span{
@@ -781,7 +781,10 @@ div.flicking_con a.on {
 .fix a.two i{
 	background: url(../images_mdh/icon/side2.png) no-repeat center center;
 }
-.fix a.two span.selected {
+.fix a.two em {
+	display: none;
+}
+.fix a.two em.selected {
 	position: absolute;
 	background: #1E1E1E;
 	// background: url(../images_mdh/icon/side3.png) no-repeat center center;
@@ -790,6 +793,7 @@ div.flicking_con a.on {
 	display: inline-block;
 	top: 0px;
 	right: 0px;
+	display: inline-block;
 	font-size: 14px;
 	text-align: center;
 	color: #FFF;
@@ -798,10 +802,10 @@ div.flicking_con a.on {
 
 }
 .fix a.three i{
-	background: url(../images_mdh/icon/side4.png) no-repeat center center;
+	background: url(../images_mdh/icon/side5.png) no-repeat center center;
 }
 .fix a.fore i{
-	background: url(../images_mdh/icon/side5.png) no-repeat center center;
+	background: url(../images_mdh/icon/side4.png) no-repeat center center;
 }
 .fix a.five i{
 	border-bottom: 1px solid #CFCFCF;
@@ -811,13 +815,13 @@ div.flicking_con a.on {
 .shopping-list{
 	width: 200px;
 	height: 100%;
-	padding:30px 46px 0 15px;
-	background:#e6e6e6;
-	position:fixed;
-	top:0;
-	right: 80px;
+	padding:15px 0px 0 0px;
+  position: absolute;
+  top:0px;
 	z-index: 99999999;
+	right: -200px;
 	visibility: hidden;
+	background:#e6e6e6;
 	border-left: 1px solid #231815;
 	p{
 		font-size: @font;
@@ -829,7 +833,7 @@ div.flicking_con a.on {
 		width: 100%;
 		height:60px;
 		position:absolute;
-		bottom:30px;
+		bottom:15px;
 		right:0;
 		cursor:pointer;
 		margin-top:15px;

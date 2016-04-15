@@ -163,7 +163,7 @@
 		--]
 		<!-- 新品上架开始 -->
 		<div class="news" data-tag=news>
-			<h2 class="mian-h2">${message("shop.index.newPromotion")}
+			<h2 class="mian-h2 clearfix">${message("shop.index.newPromotion")}
 				<span>
 					<a href="${base}/goods/list.jhtml?tagId = 3" target="blank">${message("shop.index.morePromotion")}></a>
 				</span>
@@ -276,7 +276,7 @@
 		--]
 		<!-- 模块商品开始 -->
 		<div class="moods">
-			<h2 class="mian-h2">人气商品
+			<h2 class="mian-h2 clearfix">人气商品
 				<span>
 					<a href="${base}/goods/list.jhtml" target="blank">${message("shop.index.morePromotion")}></a>
 				</span>
