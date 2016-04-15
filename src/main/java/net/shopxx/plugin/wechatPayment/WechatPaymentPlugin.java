@@ -166,7 +166,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		try {
 			bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
 			while ((line = bis.readLine()) != null) {
-				result += line + "\r\n";
+				result += line;// + "\r\n";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,9 +223,9 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 	protected String getNotifyUrl(PaymentPlugin.NotifyMethod notifyMethod) {
 		Setting setting = SystemUtils.getSetting();
 		if (notifyMethod != null) {
-			return setting.getSiteUrl() + "/payment/wechat_plugin_notify/" + getId() + "/" + notifyMethod + ".jhtml";
+			return setting.getSiteUrl() + "/payment/plugin_notify/" + getId() + "/" + notifyMethod + ".jhtml";
 		} else {
-			return setting.getSiteUrl() + "/payment/wechat_plugin_notify/" + getId() + "/" + PaymentPlugin.NotifyMethod.general + ".jhtml";
+			return setting.getSiteUrl() + "/payment/plugin_notify/" + getId() + "/" + PaymentPlugin.NotifyMethod.general + ".jhtml";
 		}
 	}
 
@@ -279,13 +279,14 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		o.setNonce_str(nonce_str);
 		o.setTrade_type(getTradeType());
 		o.setSpbill_create_ip(getLocalIp());
+		
 		SortedMap<Object, Object> p = new TreeMap<Object, Object>();
 		p.put("appid", pluginConfig.getAttribute("appid"));
 		p.put("mch_id", pluginConfig.getAttribute("mch_id"));
 		p.put("body", body);
 		p.put("nonce_str", nonce_str);
 		p.put("out_trade_no", out_trade_no);
-		p.put("total_fee", total_fee);
+		p.put("total_fee", Integer.parseInt(total_fee));
 		p.put("spbill_create_ip", getLocalIp());
 		p.put("notify_url", getNotifyUrl(PaymentPlugin.NotifyMethod.async));
 		p.put("trade_type", getTradeType());

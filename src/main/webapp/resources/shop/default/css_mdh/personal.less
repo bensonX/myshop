@@ -63,7 +63,7 @@ a {
 	cursor: pointer;
 }
 a:hover {
-	color: #FFc900;
+	color: #F1a233;
 }
 body {
 	font-size: 14px;
@@ -244,11 +244,27 @@ h1{
 		li{
 			font-size: 18px;
 			color:@itemBoxColor;
-			line-height: 35px;
+			line-height: 45px;
 			text-align:center;
+			a{
+				display:block;
+			}
+			span{
+				display: block;
+			}
+			.innav{
+				font-size: 16px;
+				padding-left:55px;
+				font-weight: normal;
+				text-align:left;
+			}
 		}
 		.current{
-			background: url(../images_mdh/icon/personal-nav.png) no-repeat right center;
+			font-weight:bold;
+			color:#f1a233;
+		}
+		.nav{
+			background: url(../images_mdh/icon/personal-item.png) no-repeat right 20px;
 		}
 	}
 	/* 个人信息详情开始 */
@@ -258,6 +274,10 @@ h1{
 			font-size:@font;
 			color:@itemBoxPColor;
 			line-height: 28px;
+			span{
+				color:#f1a223;
+				cursor: pointer;
+			}
 
 		}
 		.about{
@@ -270,48 +290,39 @@ h1{
 				margin-bottom:28px;
 			}
 			span{
-				display:inline-block;
+				display:inline-block;;
 			}
 		}
 		.personal-integral{
 			margin-right:70px;
-			span{
+			a{
 				font-size: 28px;
 				color:#858585;
+			}
+			a:hover{
+				color:#f1a223;
 			}
 		}
 		.personal-wx{
 			margin-right:70px;
-			span{
-				width: 39px;
-				height: 35px;
-				background: url(../images_mdh/icon/personal-wx.png) no-repeat center center;
-			}
 		}
 		.personal-service{
 			text-align: left;
-			span{
-				width: 35px;
-				height: 35px;
+			img{
 				margin-right:13px;
-				background: url(../images_mdh/icon/personal-about1.png) no-repeat center center;
 			}
-			.two{
-				background: url(../images_mdh/icon/personal-about2.png) no-repeat center center;
-			}
-			.three{
-
-				background: url(../images_mdh/icon/personal-about3.png) no-repeat center center;
-			}
-			.four{
-				background: url(../images_mdh/icon/personal-about4.png) no-repeat center center;
+		}
+		.banner{
+			margin-bottom:40px;
+			img.first{
+				margin-right:15px;
 			}
 		}
 		.personal-orde{
 			.orde{
 				font-size:@font;
 				color:@itemBoxPColor;
-				line-height: 25px;
+				line-height: 40px;
 			}
 			.personal-orde-list{
 				border:1px solid #bbb;
@@ -324,6 +335,7 @@ h1{
 					position:relative;
 					img{
 						margin-right:30px;
+						vertical-align: top;
 					}
 					button{
 						width: 85px;
@@ -361,14 +373,15 @@ h1{
 			margin-right:80px;
 			h6{
 				width: 480px;
-				font-size: 16px;
+				font-size: 14px;
+				line-height: 20px;
 				color:@itemBoxPColor;
 				white-space:nowrap;
 				overflow:hidden;
 				text-overflow:ellipsis;
 			}
 			span{
-				font-size: @font;
+				font-size: 12px;
 				color:@itemBoxPColor;
 				margin-right:35px;
 				em{
@@ -380,19 +393,34 @@ h1{
 			}
 			p{	
 				width: 480px;
-				font-size: 16px;
+				font-size: 12px;
 				display: block;
 				color:@itemBoxPColor;
 				white-space:nowrap;
 				overflow:hidden;
 				text-overflow:ellipsis;
-				margin-bottom:28px;
+				margin-bottom:35px;
 			}
 			a{
 				font-size: 12px;
 				color:#804736;
 			}
 		}
+.personal-orde-list .price{
+	span{
+		display: block;
+		font-size: 16px;
+		color:#f1a223;
+		text-align: center;
+		line-height: 60px;
+	}
+	a{
+		display: block;
+		font-size: 12px;
+		color:#804736;
+		text-align: center;
+	}
+}
 /* 订单中心详情开始 */
 .personal-item .order-title{
 	font-size:@font;
@@ -1042,68 +1070,76 @@ h1{
 /* 收货地址开始 */
 .personal-address{
 	width: 820px;
-	.address{
-		li{
-			border:1px solid #A7A7A7;
-			border-top:none;
-			padding:15px 0 15px 30px;
-			line-height: 30px;
-			.message{
-				width: 420px;
-				margin-right:100px;
-				font-size: @font;
-				color:#808080;
-				vertical-align: middle;
-				span{
-					margin-right:14px;
-				}
-				strong{
-					font-weight: normal;
-					padding-left:25px;
-					margin-right:14px;
-					background: url(../images_mdh/icon/personal-address1.png) no-repeat left center;
-				}
-				em{
-					padding:20px;
-					background: url(../images_mdh/icon/personal-address2.png) no-repeat left center;
-				}
-				p{	
-					width: 420px;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					b{
-						font-weight:normal;
-					}
-				}
-			}
+	h5{
+		font-size: 18px;
+		color:#444;
+		margin-bottom:23px;
+	}
+	li{
+		width: 235px;
+		height: 236px;
+		border:1px solid #AFAFAF;
+		padding:0 13px;
+		margin-right:10px;
+		.information{
+			font-size: 14px;
+			color:#808080;
+			line-height: 45px;
+			border-bottom:1px solid #afafaf;
 			span{
-				margin-right:65px;
-				color:#808080;
+				padding-left:20px;
+				background: url(../images_mdh/icon/personal-address2.png) no-repeat left center;
 			}
-			strong{
+		}
+		strong{
+			padding-left:25px;
+			font-size: @font;
+			color:#808080;
+			line-height:45px;
+			font-weight: normal;
+			background: url(../images_mdh/icon/personal-address1.png) no-repeat left center;
+		}
+		.address{
+			font-size: @font;
+			color:#808080;
+			b{
+				margin-right:10px;
 				font-weight: normal;
-				color:#804736;
-				margin-right:28px;
-				cursor:pointer;
 			}
-			a{
-				margin-right:37px;
-				color:#804736;
+		}
+		.about{
+			margin-top:45px;
+			.default{
+				font-size: @font;
+				color:#ae340d;
+				line-height: 60px;
 			}
-			em{
+			.editor{
+				color:#808080;
+				line-height: 60px;
+				margin-left:55px;
+			}
+			.last{
 				text-indent:-9999px;
-				cursor:pointer;
+				line-height: 60px;
+				margin-right:10px;
 				background: url(../images_mdh/icon/buy-delete.png) no-repeat center center;
 			}
 		}
-		.first{
-			border-top:1px solid #A7A7A7;
+		button{
+			display: block;
+			margin:0 auto;
+			font-size: 18px;
+			line-height: 236px;
+			color:#929292;
+			padding-left:30px;
+			background: url(../images_mdh/icon/buy.png) no-repeat left center ;
 		}
 	}
 }
 /* 新增收货地址开始 */
 .add{
+	padding-top:70px;
 	font-size: @font;
 	color:#808080;
 	h6{
@@ -1112,7 +1148,7 @@ h1{
 		margin:45px 0;
 	}
 	label{
-		width: 65px;
+		width: 80px;
 		line-height: 45px;
 		padding-right:15px;
 		text-align:right;
@@ -1143,9 +1179,10 @@ h1{
 	}
 	span{
 		color:#ae340d;
-		line-height: 45px;
+		line-height: 50px;
 		padding-left:25px;
-		margin-left:30px;
+		margin-left:15px;
+		background: url(../images_mdh/icon/falsh.png) no-repeat left center;
 	}
 	button{
 		width: 203px;
@@ -1160,9 +1197,7 @@ h1{
 }
 /* 收藏列表开始 */
 .personal-collect{
-	li:nth-child(4n){
-		margin-right: 0;
-	}
+	width:820px;
 	li{
 		margin-right: 20px;
 		position:relative;
