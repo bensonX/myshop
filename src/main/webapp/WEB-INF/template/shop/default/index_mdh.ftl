@@ -175,7 +175,7 @@
 							[#list promotions as promotion]
 								[#if promotion.image?has_content]
 				                    <li>
-										<a href="${base}${promotion.path}" title="${promotion.title}">
+										<a href="${base}${promotion.path}" title="${promotion.title}" >
 											<img src="${promotion.image}" alt="${promotion.title}" height="265" width="265">
 										</a>
 										<div class="about">

@@ -264,6 +264,7 @@ public class OrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkout", method = RequestMethod.POST)
 	public String checkout(ModelMap model, String[] cartItemIds) {
+		
 		Cart cart = cartService.getCurrent();
 		Set<CartItem> cartItems = null;
 		Set<CartItem> cartItemsBuy = new HashSet<CartItem>();
@@ -302,6 +303,7 @@ public class OrderController extends BaseController {
 	 */
 	@RequestMapping(value = "/checkout", params = "type=exchange", method = RequestMethod.GET)
 	public String checkout(Long productId, Integer quantity, ModelMap model) {
+		System.out.println(productId+"=="+quantity);
 		if (quantity == null || quantity < 1) {
 			return ERROR_VIEW;
 		}
@@ -327,9 +329,11 @@ public class OrderController extends BaseController {
 		cartItem.setProduct(product);
 		cartItem.setQuantity(quantity);
 		cartItems.add(cartItem);
+		
 		Cart cart = new Cart();
 		cart.setMember(member);
 		cart.setCartItems(cartItems);
+		
 		Receiver defaultReceiver = receiverService.findDefault(member);
 		Order order = orderService.generate(Order.Type.exchange, cart, defaultReceiver, null, null, null, null, null, null);
 		model.addAttribute("productId", productId);

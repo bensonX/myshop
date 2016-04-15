@@ -242,29 +242,18 @@ $(function () {
   // 立即购买事件
   BuyImmediately.fn.clickBuyImmediately = function (event) {
     var self = this;
+    var data = self.options.data();
     // 判断用户是否登录,不存在跳到用户登录页面
     if (!$.checkLogin())
-      location.href = self.options.urlLogin;
-
-    $.ajax({
-      url: self.options.urlBuyImmediatelyPost,
-      type: "POST",
-      data: self.options.data(),
-      dataType: "json",
-      cache: false,
-      success: function(message) {
-        console.log("message: ");
-        console.log(message);
-
-        if (message.type == "success") {
-          location.href = self.options.urlOrder;
-        }
-        else if (message.type == 'error') {
-        	layer(message.content);
-        }
-       }
-    });
-    return false;
+    {
+    	location.href = self.options.urlLogin;    	
+    }
+    
+    $('#productId').val(data.productId);
+    $('#quantity').val(data.quantity);
+    
+    
+    $(event.target).parents('form').submit();
   };
 
   // 立即购买事件返回错误的数据处理
