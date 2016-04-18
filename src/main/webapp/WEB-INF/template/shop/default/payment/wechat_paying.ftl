@@ -34,17 +34,15 @@
 			});
 		}
 		$(function() {
-			/* 每隔2秒查一次 */
-			timer = window.setInterval("payResult()", 4000);
+			/* 每隔4秒查一次 */
+			timer1 = window.setInterval("payResult()", 4000);
 		});
 		</script>
 	</head>
 	
     <body>
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]	
-		<div >
-		<h> is paying......</h>	
-		</div>
+
 		
 		<div  id = "paying" class = "paying">
 		<h> is ....</h>	

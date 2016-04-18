@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 
+import javassist.bytecode.Descriptor.Iterator;
 import net.shopxx.plugin.wechatPayment.HttpUtil;
 import net.shopxx.plugin.wechatPayment.WechatPayResult;
 import net.shopxx.plugin.wechatPayment.WechatUnifiedorder;
@@ -125,7 +127,9 @@ public class PaymentController extends BaseController {
 			paymentLog.setPaymentPluginName(paymentPlugin.getName());
 			paymentLog.setOrder(order);
 			paymentLog.setMember(null);
+			System.out.println("lsu  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
 			paymentLogService.save(paymentLog);
+			System.out.println("lsu  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
 			model.addAttribute("parameterMap", paymentPlugin.getParameterMap(paymentLog.getSn(), message("shop.payment.paymentDescription", order.getSn()), request));
 			break;
 		}
@@ -192,7 +196,7 @@ public class PaymentController extends BaseController {
 			}
 			
 			//检查返回值, 并设置到数据库中。。
-			String sn = null;
+			String orderSn = null;
 			if (null == payResult) {
 				System.out.println(" lsu  didn't get the result xml object.");
 				return "failed."; 
@@ -205,19 +209,28 @@ public class PaymentController extends BaseController {
 					//TODO
 					
 					// 第一次收到支付结果反馈， 我们需要处理；
-					sn = payResult.getOut_trade_no();
-					System.out.println(" lsu after verifyNotify, sn is: " + sn);
-					PaymentLog paymentLog = paymentLogService.findBySn(sn);
-					if (paymentLog != null) {
-						System.out.println(" lsu  begin to handle paymentlog : ");
-						paymentLogService.handle(paymentLog);
-						model.addAttribute("paymentLog", paymentLog);
-						model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
-					} else {
-						System.out.println(" lsu not exist Out_trade_no,  failed! ");
+					orderSn = payResult.getOut_trade_no();
+					System.out.println(" lsu after verifyNotify, orderSn is: " + orderSn);
+					Order order = orderService.findBySn(orderSn);
+					if (order == null) {
 						//return "failed."; 	
+						System.out.println(" lsu we didn't get the order");
 						return "/shop/${theme}/payment/plugin_notify";	
-					}					
+					}
+					//String paymentLogSn = paymentPlugin.getSn(request);
+					System.out.println(" lsu  paymentlogs size is: " + order.getPaymentLogs().size());
+					for (PaymentLog paymentLog:  order.getPaymentLogs()) {
+						if (paymentLog != null) {
+							System.out.println(" lsu  begin to handle paymentlog : ");
+							paymentLogService.handle(paymentLog);
+							model.addAttribute("paymentLog", paymentLog);
+							model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
+						} else {
+							System.out.println(" lsu : not exist Out_trade_no,  failed! ");
+							//return "failed."; 	
+							return "/shop/${theme}/payment/plugin_notify";	
+						}	
+					}								
 				}
 				else {
 					System.out.println(" lsu  payment failed! ");
@@ -265,7 +278,7 @@ public class PaymentController extends BaseController {
 	}
 	
 	/**
-	 * 检查是否支持成功；
+	 * 检查是否支付成功；
 	 */
 	@RequestMapping(value = "/payResultSearch/{out_trade_no}", method = RequestMethod.GET)
 	public @ResponseBody
@@ -273,27 +286,22 @@ public class PaymentController extends BaseController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		System.out.println(" lsu .. into payResult for check whether the pay is successful. out_trade_no is: " + out_trade_no);
 		Member member = memberService.getCurrent();
-		PaymentLog paymentLog = paymentLogService.findBySn(out_trade_no);
-		if (member == null || paymentLog == null) {
-			System.out.println(" lsu mumber is null or paymentLog is null;");
-			data.put("result", ERROR_MESSAGE);
-			return data;
-		}
 		
 		Order order = orderService.findBySn(out_trade_no);
-		System.out.println(" lsu .. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
-		if (order == null || !member.equals(order.getMember()) || orderService.isLocked(order, member, true)) {
+		if (member == null || order == null || !member.equals(order.getMember()) || orderService.isLocked(order, member, true)) {
 			System.out.println(" lsu order is null or member is wrong");
 			data.put("result", ERROR_MESSAGE);
 			return data;
 		}
 
-		if (paymentLog.getStatus() == PaymentLog.Status.success) {
+		System.out.println(" lsu .. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
+		if (order.getStatus() == Order.Status.pendingShipment) {
 			System.out.println(" lsu we get the successful result");
 			data.put("result", SUCCESS_MESSAGE);
 			return data;
 		}
-		System.out.println(" lsu we didn't handle the request  status is: " + paymentLog.getStatus());
+		
+		System.out.println(" lsu we didn't handle the request  status is: " + order.getStatus());
 		data.put("result", ERROR_MESSAGE);
 		return data;
 	}

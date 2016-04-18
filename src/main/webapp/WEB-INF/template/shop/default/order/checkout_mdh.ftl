@@ -242,10 +242,10 @@
 					[/#if]
           			<input type = "hidden" value = "not" name = "memo" data-tag="inputNote" maxlength="350" />
 					<label for="buy">${message("Order.paymentMethod")}</label>
-					<input id="buy" type="radio" checked="checked" name="paymentMethodId" value="1" />
-					<img src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-1.png" height="56" width="55">
-					<input type="radio" name="paymentMethodId" value="2">
-					<img src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-2.png" height="56" width="56"><br />
+					<input    id="buy" type="radio" checked="checked" name="paymentMethodId" value="1" />
+					<!--img  type="hidden"  src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-1.png" height="56" width="55"-->
+					<input    type="radio" name="paymentMethodId" value="2">
+					<!--img  type="hidden"  src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-2.png" height="56" width="56"><br /-->
 					
 					<input type="hidden" id="shippingMethod_${shippingMethod.id}" name="shippingMethodId" value="1" />
 					<input type="hidden" id="code" name="code" maxlength="200" value="0" />

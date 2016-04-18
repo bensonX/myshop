@@ -169,11 +169,11 @@
 				收货信息：上海市，浦东新区，祖冲之路2305号天之骄子B栋508室，xxx，手机：xxxxxxxxxxx
 			</p>
 			-->
-			<div class="wechat">
+			<div class="wechat"  type="hidden" >
 				<P>微信支付</P>
-				<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" width="190" height="190">
-				<span>请使用微信扫一扫<br>扫描二维码支付</span>
-				<a href="javascript:;">选择支付宝进行结算</a>
+				<!--img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" width="190" height="190"-->
+				<!--span>请使用微信扫一扫<br>扫描二维码支付</span-->
+				<!--a href="javascript:;">选择支付宝进行结算</a-->
 			</div>
 			
 	<div id="dialogOverlay" class="dialogOverlay"></div>
