@@ -456,6 +456,7 @@ $().ready(function() {
 				rewardPoint: $this.find("input.rewardPoint").val(),
 				exchangePoint: $this.find("input.exchangePoint").val(),
 				stock: $this.find("input.stock").val(),
+				skuCode: $this.find("input.skuCode").val(),
 				isDefault: $this.find("input.isDefault").prop("checked"),
 				isEnabled: $this.find("input.isEnabled").prop("checked")
 			};
@@ -477,6 +478,9 @@ $().ready(function() {
 				(type == "exchange" ? '<th>${message("Product.exchangePoint")}<\/th>' : '') + '
 				<th>
 					${message("Product.stock")}
+				<\/th>
+				<th>
+					SKU码
 				<\/th>
 				<th>
 					${message("Product.isDefault")}
@@ -508,6 +512,7 @@ $().ready(function() {
 			var rewardPoint = productValue != null && productValue.rewardPoint != null ? productValue.rewardPoint : "";
 			var exchangePoint = productValue != null && productValue.exchangePoint != null ? productValue.exchangePoint : "";
 			var stock = productValue != null && productValue.stock != null ? productValue.stock : "";
+			var skuCode = productValue != null && productValue.skuCode != null ? productValue.skuCode : "";
 			var isDefault = productValue != null && productValue.isDefault != null ? productValue.isDefault : false;
 			var isEnabled = productValue != null && productValue.isEnabled != null ? productValue.isEnabled : false;
 			$productTr.append(
@@ -523,6 +528,9 @@ $().ready(function() {
 					(type == "exchange" ? '<td><input type="text" name="productList[' + i + '].exchangePoint" class="text exchangePoint" value="' + exchangePoint + '" maxlength="9" style="width: 50px;" \/><\/td>' : '') + '
 					<td>
 						<input type="text" name="productList[' + i + '].stock" class="text stock" value="' + stock + '" maxlength="9" style="width: 50px;" \/>
+					<\/td>
+					<td>
+						<input type="text" name="productList[' + i + '].skuCode" class="text skuCode" value="' + skuCode + '" maxlength="50" style="width: 150px;" \/>
 					<\/td>
 					<td>
 						<input type="checkbox" name="productList[' + i + '].isDefault" class="isDefault" value="true"' + (isDefault ? ' checked="checked"' : '') + ' \/>
@@ -742,6 +750,7 @@ $().ready(function() {
 				<input type="button" value="${message("admin.goods.specification")}" />
 			</li>
 		</ul>
+		[#--1、基本信息--]
 		<table class="input tabContent">
 			<tr>
 				<th>
@@ -980,6 +989,7 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 2、商品介绍 --]			
 		<table class="input tabContent">
 			<tr>
 				<td>
@@ -987,6 +997,7 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 3、商品图片 --]		
 		<table id="productImageTable" class="item tabContent">
 			<tr>
 				<td colspan="4">
@@ -1008,6 +1019,7 @@ $().ready(function() {
 				</th>
 			</tr>
 		</table>
+		[#-- 4、商品参数 --]	
 		<table id="parameterTable" class="parameterTable input tabContent">
 			<tr>
 				<th>
@@ -1019,7 +1031,9 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 5、商品属性 --]	
 		<table id="attributeTable" class="input tabContent"></table>
+		[#-- 6、商品规格 --]			
 		<div class="tabContent">
 			<table id="specificationTable" class="specificationTable input">
 				<tr>
@@ -1033,6 +1047,7 @@ $().ready(function() {
 			</table>
 			<table id="productTable" class="productTable item"></table>
 		</div>
+		[#-- 确定提交&返回 --]	
 		<table class="input">
 			<tr>
 				<th>

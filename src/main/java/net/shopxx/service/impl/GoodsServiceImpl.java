@@ -565,6 +565,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 			product.setGoods(pGoods);
 			product.setCartItems(null);
 			product.setOrderItems(null);
+			System.out.println("1."+product.getSkuCode());
+			product.setSkuCode(product.getSkuCode());
 			product.setShippingItems(null);
 			product.setProductNotifies(null);
 			product.setStockLogs(null);
@@ -581,6 +583,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 				Product pProduct = find(pGoods.getProducts(), product.getSpecificationValueIds());
 				if (pProduct != null) {
 					pProduct.setPrice(product.getPrice());
+					System.out.println("2."+product.getSkuCode());
+					pProduct.setSkuCode(product.getSkuCode());
 					pProduct.setCost(product.getCost());
 					pProduct.setMarketPrice(product.getMarketPrice());
 					pProduct.setRewardPoint(product.getRewardPoint());
