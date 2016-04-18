@@ -16,6 +16,26 @@
 <script type="text/javascript" src="${base}/resources/admin/js/common.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/input.js"></script>
 <style type="text/css">
+	* {
+		padding: 0px;
+		margin: 0px;
+	}
+	.get-number {
+		position: relative;
+	}
+	.get-number .pull-down {	
+	}
+	.scroll-pull {
+		width: 200px;
+		height: 100px;
+		overflow: auto;
+		position: absolute;
+		top: 20px;
+		left: 0px;
+		background: #FFF;
+		z-index: 9999;
+	}
+	
 	.parameterTable table th {
 		width: 146px;
 	}
@@ -28,6 +48,71 @@
 		border: 1px solid #dde9f5;
 	}
 </style>
+<script>
+			$(function () {
+
+				var $number = $('[data-tag="number"]');
+				var $pull = $('[data-tag="pull"]');
+				var setTime;
+
+				$number.bind('change keyup', getNumber);
+				$pull.delegate('li','click', getContext);
+
+				function getNumber (event) {
+					var $this = $(this);
+					var context = $this.val();
+					var pattan = /^[0-9]+$/;
+					if (!pattan.test(context) || context.length < 4)
+						return false;
+					
+					clearTimeout(setTime);
+					setTime = setTimeout(function () {
+					
+						$.ajax({
+							url: '${base}/admin/taxRate/findTaxRate.jhtml',
+							type: 'POST',
+							data: {hsCode: context},
+							dataType: 'json',
+							success: function (data) {
+								debugger;
+								if (data.result) process(data.result);
+							}
+						})
+					}, 1000);
+				}
+
+				function process (data) {
+					var hl = '';
+					$pull.html('');
+					console.log(data);
+					console.log(data.length);
+					if (data.length == 1) {
+						insertContent(data[0].hsCode, data[0].id, data[0].comprehensiveTaxRate);
+					} else {
+						for (var k in data) {
+							hl += '<li data-hscode="'+data[k].id+'" data-rate="'+data[k].comprehensiveTaxRate+'">'+data[k].hsCode+'</li>';
+						}
+					}
+					
+					$pull.append(hl);
+				}
+
+				function getContext (event) {
+					var $this = $(this);
+					insertContent($this.html(), $this.attr('[data-hscode]'), $this.attr('[data-rate]'));
+					$pull.html('');
+				}
+
+				function insertContent (context, id, rate) {
+					var $number = $('[data-tag="number"]');
+					var $hscode = $('[data-hscode="id"]');
+					var $rate = $('[data-hscode="rate"]');
+					$number.val(context);
+					$hscode.val(id);
+					$rate.html(rate);
+				}
+			})
+		</script>
 <script type="text/javascript">
 $().ready(function() {
 
@@ -895,6 +980,21 @@ $().ready(function() {
 							</option>
 						[/#list]
 					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>
+				 HSCode ：
+				</th>
+				<td>
+					<div class = "get-number">
+						<input type = "hidden" value = "" name="taxRate.id" data-hscode = "id" />
+						<input type = "text" data-tag="number"/>
+						<span>税率：</span><span data-hscode="rate"></span>
+						<div class = "scroll-pull" >
+							<ul class = "pull-down" data-tag="pull"></ul>
+						</div>
+					</div>
 				</td>
 			</tr>
 			[#if promotions?has_content]

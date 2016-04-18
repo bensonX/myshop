@@ -68,11 +68,13 @@ public class InitListener implements ServletContextAware, ApplicationListener<Co
 			configService.init();
 			File installInitConfigFile = new File(servletContext.getRealPath(INSTALL_INIT_CONFIG_FILE_PATH));
 			if (installInitConfigFile.exists()) {
+				LogUtil.debug(this, "初始化所有静态内容");
 				staticService.generateAll();
 				searchService.purge();
 				searchService.index();
 				installInitConfigFile.delete();
 			} else {
+				LogUtil.debug(this, "初始化首页");
 				staticService.generateIndex();
 				staticService.generateOther();
 			}

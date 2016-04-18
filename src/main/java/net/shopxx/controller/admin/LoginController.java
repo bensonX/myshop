@@ -47,11 +47,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping
 	public String index(HttpServletRequest request, ModelMap model) {
-		System.out.println("admin登录"+model.toString());
 		String loginToken = WebUtils.getCookie(request, Admin.LOGIN_TOKEN_COOKIE_NAME);
-		System.out.println("loginToken==>"+loginToken+
-							"===adminService.getLoginToken()==>"+adminService.getLoginToken()+
-							"===adminService.isAuthenticated()==>"+adminService.isAuthenticated());
 		if (!StringUtils.equalsIgnoreCase(loginToken, adminService.getLoginToken())) {
 			return "redirect:/";
 		}
@@ -60,7 +56,6 @@ public class LoginController extends BaseController {
 		}
 		Message failureMessage = null;
 		String loginFailure = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-		System.out.println("loginFailure--start:"+loginFailure);
 		if (StringUtils.isNotEmpty(loginFailure)) {
 			if (loginFailure.equals("net.shopxx.exception.IncorrectCaptchaException")) {
 				failureMessage = Message.error("admin.captcha.invalid");
@@ -83,7 +78,6 @@ public class LoginController extends BaseController {
 				failureMessage = Message.error("admin.login.authentication");
 			}
 		}
-		System.out.println("loginFailure--end:"+loginFailure);
 		RSAPublicKey publicKey = rsaService.generateKey(request);
 		model.addAttribute("modulus", Base64.encodeBase64String(publicKey.getModulus().toByteArray()));
 		model.addAttribute("exponent", Base64.encodeBase64String(publicKey.getPublicExponent().toByteArray()));

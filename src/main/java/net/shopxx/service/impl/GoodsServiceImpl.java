@@ -52,6 +52,7 @@ import net.shopxx.service.GoodsService;
 import net.shopxx.service.ProductImageService;
 import net.shopxx.service.SpecificationValueService;
 import net.shopxx.service.StaticService;
+import net.shopxx.util.LogUtil;
 import net.shopxx.util.SystemUtils;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -326,7 +327,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		goods.setProducts(null);
 		setValue(goods);
 		goodsDao.persist(goods);
-
+		int insertTax = goodsDao.insertGoodsTaxRate(goods);
+		LogUtil.debug(this, insertTax + "");
 		setValue(product);
 		productDao.persist(product);
 		stockIn(product, operator);

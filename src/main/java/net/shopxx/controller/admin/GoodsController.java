@@ -177,7 +177,6 @@ public class GoodsController extends BaseController {
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(Goods goods, ProductForm productForm, ProductListForm productListForm, Long productCategoryId, Long brandId, Long[] promotionIds, Long[] tagIds, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-		System.out.println("-----保存goods开始-----");
 		productImageService.filter(goods.getProductImages());	// 商品图片过滤
 		parameterValueService.filter(goods.getParameterValues());	// 参数值过滤
 		specificationItemService.filter(goods.getSpecificationItems());	// 规格项过滤
@@ -203,7 +202,6 @@ public class GoodsController extends BaseController {
 		}
 
 		Admin admin = adminService.getCurrent();
-		System.out.println("当前管理员："+admin.getUsername());
 		if (goods.hasSpecification()) {
 			List<Product> products = productListForm.getProductList();
 			if (CollectionUtils.isEmpty(products) || !isValid(products, getValidationGroup(goods.getType()), BaseEntity.Save.class)) {
@@ -217,9 +215,7 @@ public class GoodsController extends BaseController {
 			}
 			goodsService.save(goods, product, admin);
 		}
-
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);	// 添加瞬时消息
-		System.out.println("-----保存goods结束-----");
 		return "redirect:list.jhtml";
 	}
 

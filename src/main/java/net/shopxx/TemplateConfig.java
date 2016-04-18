@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import net.shopxx.util.FreeMarkerUtils;
+import net.shopxx.util.LogUtil;
 import freemarker.template.TemplateException;
 
 /**
@@ -195,10 +196,10 @@ public class TemplateConfig implements Serializable {
 		try {
 			return FreeMarkerUtils.process(getTemplatePath(), model);
 		} catch (IOException e) {
-			System.out.println("1"+e);
+			LogUtil.error(this, e.getMessage(), e);
 			throw new RuntimeException(e.getMessage(), e);
 		} catch (TemplateException e) {
-			System.out.println("2"+e);
+			LogUtil.error(this, e.getMessage(), e);
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
