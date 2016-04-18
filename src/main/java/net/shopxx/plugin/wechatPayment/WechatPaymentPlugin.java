@@ -119,15 +119,16 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		System.out.println(" lsu .. into getParameterMap for wechat payment:  sn is: " + sn);
 		Setting setting = SystemUtils.getSetting();
 		PluginConfig pluginConfig = getPluginConfig();
+		String orderSn = request.getParameter("sn");
 		PaymentLog paymentLog = getPaymentLog(sn);
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		Order order = orderService.findBySn(sn);
+		Order order = orderService.findBySn(orderSn);
 		
 		
 		// 商品描述
-		String body = request.getParameter("sn");
+		String body = orderSn;
 		// 商户订单号
-		String out_trade_no = request.getParameter("sn");
+		String out_trade_no = orderSn;
 		// 订单总金额，单位为分
 		System.out.println(" lsu .total_fee is: " + paymentLog.getAmount().intValue());
 		String total_fee = String.valueOf((paymentLog.getAmount().multiply(new BigDecimal(100))).intValue()); //String.valueOf(order.getAmount().intValue()); //request.getParameter("totalfee");
@@ -151,7 +152,8 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		
 		request.setAttribute("code", codeFilePath);
 		parameterMap.put("code", codeFilePath);
-
+		request.setAttribute("out_trade_no", out_trade_no);
+		parameterMap.put("out_trade_no", out_trade_no);
 		return parameterMap;
 	}
 
@@ -160,26 +162,7 @@ public class WechatPaymentPlugin extends PaymentPlugin {
 		System.out.println(" lsu .. into verifyNotify for paymentplugin ");
 		PluginConfig pluginConfig = getPluginConfig();
 		
-		String line = null;
-		String result = "";
-		java.io.BufferedReader bis = null;
-		try {
-			bis = new java.io.BufferedReader(new java.io.InputStreamReader(request.getInputStream()));
-			while ((line = bis.readLine()) != null) {
-				result += line;// + "\r\n";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				bis.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println(" lsu ..exception here, : " + e.toString() );
-				e.printStackTrace();
-			}
-		}
-		System.out.println(" lsu the return result is:      " + result);
+
 		//temp return true;
 		return true;
 		

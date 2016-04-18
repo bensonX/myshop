@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<groupId>com.jshop</groupId>
 	<artifactId>jshop</artifactId>
 	<version>1.0</version>
@@ -35,7 +34,7 @@
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<springframework.version>4.2.4.RELEASE</springframework.version>
-		<!--  jersey support for leo test  -->
+		<!-- jersey support for leo test -->
 		<jersey.version>2.17</jersey.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -49,7 +48,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
-		</dependency>     
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -342,6 +341,12 @@
 			<groupId>com.aliyun.oss</groupId>
 			<artifactId>aliyun-sdk-oss</artifactId>
 			<version>2.0.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -372,86 +377,99 @@
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha-api</artifactId>
 			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.octo.captcha</groupId>
 			<artifactId>jcaptcha</artifactId>
 			<version>1.0</version>
 		</dependency>
-        <dependency> 
-            <groupId>emayclient</groupId> 
-            <artifactId>emayclient</artifactId> 
-            <version>4.3.2</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/emayclient-4.3.2.jar</systemPath> 
-        </dependency>
-        <dependency> 
-            <groupId>IKAnalyzer</groupId> 
-            <artifactId>IKAnalyzer</artifactId> 
-            <version>1.0</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKAnalyzer2012_u6.jar</systemPath> 
-        </dependency>
-        <dependency> 
-            <groupId>taobao-sdk-java</groupId> 
-            <artifactId>taobao-sdk-java</artifactId> 
-            <version>20160315</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20160315.jar</systemPath> 
-        </dependency>
-        <dependency> 
-            <groupId>QRCode</groupId> 
-            <artifactId>QRCode</artifactId> 
-            <version>20160315</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/QRCode.jar</systemPath> 
-        </dependency>
-        <dependency> 
-            <groupId>xmlpull_1_0_5</groupId> 
-            <artifactId>xmlpull_1_0_5</artifactId> 
-            <version>20160315</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xmlpull_1_0_5.jar</systemPath> 
-        </dependency>
-            <dependency> 
-            <groupId>xpp3-1.1.4c</groupId> 
-            <artifactId>xpp3-1.1.4c</artifactId> 
-            <version>20160315</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xpp3-1.1.4c.jar</systemPath> 
-        </dependency>
-                <dependency> 
-            <groupId>xstream-1.4.8</groupId> 
-            <artifactId>xstream-1.4.8</artifactId> 
-            <version>20160315</version> 
-            <scope>system</scope> 
-            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xstream-1.4.8.jar</systemPath> 
-        </dependency>
-                        
-        <!--  jersey support -->
-        <dependency>
-           <groupId>org.glassfish.jersey.containers</groupId>
-           <artifactId>jersey-container-servlet</artifactId>
-        </dependency>
-        <!--  jersey jason  support -->
+		<dependency>
+			<groupId>emayclient</groupId>
+			<artifactId>emayclient</artifactId>
+			<version>4.3.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/emayclient-4.3.2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>IKAnalyzer</groupId>
+			<artifactId>IKAnalyzer</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/IKAnalyzer2012_u6.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>taobao-sdk-java</groupId>
+			<artifactId>taobao-sdk-java</artifactId>
+			<version>20160315</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20160315.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>QRCode</groupId>
+			<artifactId>QRCode</artifactId>
+			<version>20160315</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/QRCode.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>xmlpull_1_0_5</groupId>
+			<artifactId>xmlpull_1_0_5</artifactId>
+			<version>20160315</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xmlpull_1_0_5.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>xpp3-1.1.4c</groupId>
+			<artifactId>xpp3-1.1.4c</artifactId>
+			<version>20160315</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xpp3-1.1.4c.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>xstream-1.4.8</groupId>
+			<artifactId>xstream-1.4.8</artifactId>
+			<version>20160315</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/xstream-1.4.8.jar</systemPath>
+		</dependency>
+
+		<!-- jersey support -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+		</dependency>
+		<!-- jersey jason support -->
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId>
 		</dependency>
+
+		<!-- 配合log4j做性能分析 -->
+		<dependency>
+			<groupId>org.perf4j</groupId>
+			<artifactId>perf4j</artifactId>
+			<version>0.9.16</version>
+		</dependency>
 	</dependencies>
-	
-	<!--  jersey support for leo test  -->
-    <dependencyManagement>
-       <dependencies>
-               <dependency>
-                       <groupId>org.glassfish.jersey</groupId>
-                       <artifactId>jersey-bom</artifactId>
-                       <version>${jersey.version}</version>
-                       <type>pom</type>
-                       <scope>import</scope>
-               </dependency>
-       </dependencies>
-    </dependencyManagement>
+
+	<!-- jersey support for leo test -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<profiles>
 		<profile>

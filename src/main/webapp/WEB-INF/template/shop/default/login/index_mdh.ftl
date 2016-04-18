@@ -262,7 +262,7 @@ $().ready(function() {
 			var $captchaImage2 = $("#captchaImage2");
 			
 			var $isRememberUsername = $("#isRememberUsername");
-			var $submit = $("input:submit");
+			var $submit = $("button:submit");
 			
 			// 记住用户名
 			  if (getCookie("mobile") != null) {
@@ -353,7 +353,7 @@ $().ready(function() {
 								},
 								dataType: "json",
 								cache: false,
-								success: function(message) {		
+								success: function(message) {
 									if (message.type == "success") {
 										if ($isRememberUsername.prop("checked")) {
 											addCookie("memberUsername", $mobile.val(), {expires: 7 * 24 * 60 * 60});

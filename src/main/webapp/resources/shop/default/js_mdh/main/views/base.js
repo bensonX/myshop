@@ -260,7 +260,7 @@ function removeCookie(name, options) {
       var options = options;
       $('body').delegate('[data-goods="enshrine"]', 'click', function(event) {
         event.stopPropagation();
-        var id = $(event.target).attr('goods');
+        var id = $(event.target).attr('data-id');
         $.ajax({
           url: options,
           type: "POST",
@@ -269,7 +269,7 @@ function removeCookie(name, options) {
           cache: false,
           success: function(message) {
             //$.message(message);
-            layer(message);
+            layer(message.content);
           }
         });
         return false;
@@ -317,16 +317,17 @@ function removeCookie(name, options) {
 
     documentEvent: function () {
       //鼠标移动到登录按钮
+      var username = getCookie("username") || getCookie("nickname") || getCookie("mobile") || '';
       $('[data-side="login"]').bind({
         mouseenter: $.proxy(function () {
-          if ($.checkLogin())
+          if (username)
             this.mouseenterEvent($('[data-side="isLogin"]'), 46);
           else
             this.mouseenterEvent($('[data-side="noLogin"]'), 46);
         }, this),
 
         mouseleave: $.proxy(function () {
-          if ($.checkLogin())
+          if (username)
             this.mouseleaveEvent($('[data-side="isLogin"]'), -46);
           else
             this.mouseleaveEvent($('[data-side="noLogin"]'), -46);
