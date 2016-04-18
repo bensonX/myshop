@@ -3,6 +3,8 @@
 <configuration scan="true" scanPeriod="3600000" debug="false">
 	<!-- 定义日志文件属性 -->
 	<property name="LOG_HOME" value="${catalina.home}/logs/jshop/logback" />
+	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop_wxdev/logback" /-->
+	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop_test/logback" /-->
 	<property name="LOG_NAME" value="${LOG_HOME}/jshop" />
 
 	<!-- 定义一个时间戳变量 bySecond:yyyyMMdd'T'HHmmss -->

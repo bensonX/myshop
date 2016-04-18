@@ -52,6 +52,10 @@
 		<h> out_trade_no is:  ${out_trade_no}</h>
 		</div>
 		
+		<div>		
+		<h> return_code is(success or failed):  ${return_code}</h>
+		</div>
+		
 		<div>
 	    <img src="${base}/${code}"> url is: ${base}/${code} </img>
 	    </div>

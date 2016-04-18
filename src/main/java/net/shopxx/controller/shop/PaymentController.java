@@ -28,6 +28,7 @@ import net.shopxx.service.MemberService;
 import net.shopxx.service.OrderService;
 import net.shopxx.service.PaymentLogService;
 import net.shopxx.service.PluginService;
+import net.shopxx.util.LogUtil;
 import net.shopxx.util.SystemUtils;
 
 import org.apache.commons.lang.StringUtils;
@@ -71,9 +72,9 @@ public class PaymentController extends BaseController {
 	 */
 	@RequestMapping(value = "/plugin_submit", method = RequestMethod.POST)
 	public String pluginSubmit(PaymentLog.Type type, String paymentPluginId, String sn, BigDecimal amount, HttpServletRequest request, HttpServletResponse response, ModelMap model) {
-		System.out.println(" lsu ..payment plugin submit in paymentcontroller : ");
-		System.out.println(" lsu .PaymentLog.Type is: " + type + "; paymentPluginId is: " + paymentPluginId + "; sn is: " + sn + "; amount is: " + amount);
-		System.out.println(" lsu  set attribute for sn  " + request.getParameter("sn") + " paymentPluginId is: " + request.getParameter("paymentPluginId"));
+		LogUtil.info(this, "wechat: ..payment plugin submit in paymentcontroller : ");
+		LogUtil.info(this, "wechat: .PaymentLog.Type is: " + type + "; paymentPluginId is: " + paymentPluginId + "; sn is: " + sn + "; amount is: " + amount);
+		LogUtil.info(this, "wechat:  set attribute for sn  " + request.getParameter("sn") + " paymentPluginId is: " + request.getParameter("paymentPluginId"));
 
 		if (type == null) {
 			return ERROR_VIEW;
@@ -127,18 +128,15 @@ public class PaymentController extends BaseController {
 			paymentLog.setPaymentPluginName(paymentPlugin.getName());
 			paymentLog.setOrder(order);
 			paymentLog.setMember(null);
-			System.out.println("lsu  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
+			LogUtil.info(this, "wechat:  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
 			paymentLogService.save(paymentLog);
-			System.out.println("lsu  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
+			LogUtil.info(this, "wechat:  sn is: " + sn + "paymentLog.getSn() is: " + paymentLog.getSn());
 			model.addAttribute("parameterMap", paymentPlugin.getParameterMap(paymentLog.getSn(), message("shop.payment.paymentDescription", order.getSn()), request));
 			break;
 		}
 		}
 		if (paymentPluginId.contains("wechat")) {
-			// request.setAttribute("code", code);
-			// request.getRequestDispatcher("/WEB-INF/jsp/pay.jsp").forward(request,
-			// response);
-			System.out.println("lsu  jump to  is: wechat_paying");
+			LogUtil.info(this, "wechat: jump to  is: wechat_paying");
 			return "/shop/${theme}/payment/wechat_paying";
 		} else {
 
@@ -174,12 +172,12 @@ public class PaymentController extends BaseController {
 				}
 				bis.close();
 			} catch (Exception e) {
-				System.out.println(" lsu ...into exception!");
+				LogUtil.info(this, "wechat: ...into exception!");
 				e.printStackTrace();
 			} finally {
-				System.out.println(" lsu ..into finally");
+				LogUtil.info(this, "wechat: ..into finally");
 			}
-			System.out.println(" lsu the return result is:      " + returnXml);
+			LogUtil.info(this, "wechat: the return result is:      " + returnXml);
 			// XML转换为Object
 			WechatPayResult payResult = null;
 			try {
@@ -190,7 +188,7 @@ public class PaymentController extends BaseController {
 				// XML转换为Object
 				//payResult = (WechatPayResult) XmlUtil.xml2Object(returnXml, WechatPayResult.class);
 			} catch (Exception e) {
-				System.out.println(" lsu into exception");
+				LogUtil.info(this, "wechat: into exception");
 				e.printStackTrace();
 				payResult = null;
 			}
@@ -198,7 +196,7 @@ public class PaymentController extends BaseController {
 			//检查返回值, 并设置到数据库中。。
 			String orderSn = null;
 			if (null == payResult) {
-				System.out.println(" lsu  didn't get the result xml object.");
+				LogUtil.info(this, "wechat:  didn't get the result xml object.");
 				return "failed."; 
 			}
 			else {
@@ -214,26 +212,26 @@ public class PaymentController extends BaseController {
 					Order order = orderService.findBySn(orderSn);
 					if (order == null) {
 						//return "failed."; 	
-						System.out.println(" lsu we didn't get the order");
+						LogUtil.info(this, "wechat: we didn't get the order");
 						return "/shop/${theme}/payment/plugin_notify";	
 					}
 					//String paymentLogSn = paymentPlugin.getSn(request);
 					System.out.println(" lsu  paymentlogs size is: " + order.getPaymentLogs().size());
 					for (PaymentLog paymentLog:  order.getPaymentLogs()) {
 						if (paymentLog != null) {
-							System.out.println(" lsu  begin to handle paymentlog : ");
+							LogUtil.info(this, "wechat:  begin to handle paymentlog : ");
 							paymentLogService.handle(paymentLog);
 							model.addAttribute("paymentLog", paymentLog);
 							model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
 						} else {
-							System.out.println(" lsu : not exist Out_trade_no,  failed! ");
+							LogUtil.info(this, "wechat: not exist Out_trade_no,  failed! ");
 							//return "failed."; 	
 							return "/shop/${theme}/payment/plugin_notify";	
 						}	
 					}								
 				}
 				else {
-					System.out.println(" lsu  payment failed! ");
+					LogUtil.info(this, "wechat:  payment failed! ");
 					//return "failed.";
 					return "/shop/${theme}/payment/plugin_notify";	
 					
@@ -245,7 +243,7 @@ public class PaymentController extends BaseController {
 			String rs = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>";
 			PrintWriter pw = null;
 			try {
-				System.out.println(" lsu  the return is : " + rs);
+				LogUtil.info(this, "wechat:  the return is : " + rs);
 				pw = response.getWriter();
 				pw.write(rs);
 				pw.flush();
@@ -255,7 +253,7 @@ public class PaymentController extends BaseController {
 			} finally {
 
 			}
-			System.out.println(" lsu   has successfully handled the pay result.");
+			LogUtil.info(this, "wechat:   has successfully handled the pay result.");
 			//return "successful";
 			return "/shop/${theme}/payment/plugin_notify";			
 		} else {
@@ -263,7 +261,7 @@ public class PaymentController extends BaseController {
 			PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(pluginId);			
 			if (paymentPlugin != null && paymentPlugin.verifyNotify(notifyMethod, request)) {
 				String sn = paymentPlugin.getSn(request);
-				System.out.println(" lsu after verifyNotify, sn is: " + sn);
+				LogUtil.info(this, "wechat: after verifyNotify, sn is: " + sn);
 				PaymentLog paymentLog = paymentLogService.findBySn(sn);
 				if (paymentLog != null) {
 					System.out.println(" lsu  begin to handle paymentlog : ");
@@ -272,7 +270,7 @@ public class PaymentController extends BaseController {
 					model.addAttribute("notifyMessage", paymentPlugin.getNotifyMessage(notifyMethod, request));
 				}
 			}
-			System.out.println(" lsu   will jump to payment/plugin_notify ");
+			LogUtil.info(this, "wechat:   will jump to payment/plugin_notify ");
 			return "/shop/${theme}/payment/plugin_notify";	
 		}
 	}
@@ -284,24 +282,24 @@ public class PaymentController extends BaseController {
 	public @ResponseBody
 	Map<String, Object> payResult(@PathVariable String out_trade_no, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> data = new HashMap<String, Object>();
-		System.out.println(" lsu .. into payResult for check whether the pay is successful. out_trade_no is: " + out_trade_no);
+		LogUtil.info(this, "wechat:.. into payResult for check whether the pay is successful. out_trade_no is: " + out_trade_no);
 		Member member = memberService.getCurrent();
 		
 		Order order = orderService.findBySn(out_trade_no);
 		if (member == null || order == null || !member.equals(order.getMember()) || orderService.isLocked(order, member, true)) {
-			System.out.println(" lsu order is null or member is wrong");
+			LogUtil.info(this, "wechat: order is null or member is wrong");
 			data.put("result", ERROR_MESSAGE);
 			return data;
 		}
 
-		System.out.println(" lsu .. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
+		LogUtil.info(this, "wechat:.. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
 		if (order.getStatus() == Order.Status.pendingShipment) {
-			System.out.println(" lsu we get the successful result");
+			LogUtil.info(this, "wechat: we get the successful result");
 			data.put("result", SUCCESS_MESSAGE);
 			return data;
 		}
 		
-		System.out.println(" lsu we didn't handle the request  status is: " + order.getStatus());
+		LogUtil.info(this, "wechat: we didn't handle the request  status is: " + order.getStatus());
 		data.put("result", ERROR_MESSAGE);
 		return data;
 	}
