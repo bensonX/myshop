@@ -6,14 +6,9 @@
 package net.shopxx.listener;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
-
-import net.shopxx.service.ConfigService;
-import net.shopxx.service.SearchService;
-import net.shopxx.service.StaticService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -21,20 +16,21 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.ServletContextAware;
 
+import net.shopxx.service.ConfigService;
+import net.shopxx.service.SearchService;
+import net.shopxx.service.StaticService;
+import net.shopxx.util.LogUtil;
+
 /**
  * Listener - 初始化
  * 
- * @author JSHOP Team
- \* @version 3.X
+ * @author JSHOP Team \* @version 3.X
  */
 @Component("initListener")
 public class InitListener implements ServletContextAware, ApplicationListener<ContextRefreshedEvent> {
 
 	/** 安装初始化配置文件 */
 	private static final String INSTALL_INIT_CONFIG_FILE_PATH = "/install_init.conf";
-
-	/** Logger */
-	private static final Logger LOGGER = Logger.getLogger(InitListener.class.getName());
 
 	/** ServletContext */
 	private ServletContext servletContext;
@@ -67,7 +63,8 @@ public class InitListener implements ServletContextAware, ApplicationListener<Co
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		if (servletContext != null && contextRefreshedEvent.getApplicationContext().getParent() == null) {
 			String info = "I|n|i|t|i|a|l|i|z|i|n|g| |S|H|O|P|+|+| |" + systemVersion;
-			LOGGER.info(info.replace("|", ""));
+			String infoStr = info.replace("|", "");
+			LogUtil.debug(this, infoStr);
 			configService.init();
 			File installInitConfigFile = new File(servletContext.getRealPath(INSTALL_INIT_CONFIG_FILE_PATH));
 			if (installInitConfigFile.exists()) {

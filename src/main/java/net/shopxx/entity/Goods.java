@@ -1731,15 +1731,15 @@ public class Goods extends BaseEntity<Long> {
 	@Transient
 	public String getPath() {
 		TemplateConfig templateConfig = SystemUtils.getTemplateConfig("goodsContent");
-		System.out.println("templateConfig:type="+templateConfig.getType()+
-							";id="+templateConfig.getId()+
-							";name="+templateConfig.getName()+
-							";templatePath"+templateConfig.getTemplatePath()+
-							";staticPath"+templateConfig.getStaticPath()+
-							";description"+templateConfig.getDescription());
+//		System.out.println("templateConfig:type="+templateConfig.getType()+
+//							";id="+templateConfig.getId()+
+//							";name="+templateConfig.getName()+
+//							";templatePath"+templateConfig.getTemplatePath()+
+//							";staticPath"+templateConfig.getStaticPath()+
+//							";description"+templateConfig.getDescription());
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("goods", this);
-		System.out.println("this:"+this);
+//		System.out.println("this:"+this);
 		return templateConfig.getRealStaticPath(model);
 		
 		

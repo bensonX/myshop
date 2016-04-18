@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="false">
-
-	<diskStore path="${webapp.root}/WEB-INF/cache" />
+	<!-- <diskStore path="${webapp.root}/WEB-INF/cache" /> -->
+	<diskStore path="${catalina.home}/temp/chcache" />
 
 	<cache name="setting" maxElementsInMemory="100" eternal="true" overflowToDisk="true" copyOnRead="true" />
 	<cache name="logConfig" maxElementsInMemory="100" eternal="true" overflowToDisk="true" />
