@@ -303,7 +303,9 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		product.setProductNotifies(null);
 		product.setStockLogs(null);
 		product.setGiftPromotions(null);
-
+		System.out.println(goods.getSn()+"");
+		product.setSkuCode(goods.getSn()+"sn");
+		
 		goods.setPrice(product.getPrice());
 		goods.setMarketPrice(product.getMarketPrice());
 		goods.setScore(0F);
@@ -477,7 +479,9 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		product.setProductNotifies(null);
 		product.setStockLogs(null);
 		product.setGiftPromotions(null);
-
+		System.out.println("SSS"+goods.getSn()+"NNN");
+		product.setSkuCode(goods.getSn()+"");
+		
 		if (pGoods.hasSpecification()) {
 			for (Product pProduct : pGoods.getProducts()) {
 				productDao.remove(pProduct);
