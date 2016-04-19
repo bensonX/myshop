@@ -9,7 +9,7 @@ $(function () {
   $('[data-tag="small"] li').bind('mouseover', function (event) {
     if ($(this).attr('class') != 'tb-selected' ) {
       $(this).addClass('tb-selected').siblings().removeClass('tb-selected');
-      var imgsrc = $(this).find('img').attr('src');
+      var imgsrc = $(this).find('img').attr('largeimg');
       var jqimgsrc = $(this).find('img').attr('jqimg');
       $jqzoom.find('img').attr({src: imgsrc, jqimg: jqimgsrc});
     }

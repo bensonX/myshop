@@ -918,14 +918,14 @@ $().ready(function() {
 				<li>
 					[#--<a[#if productImage_index == 0] class="current"[/#if] href="javascript:;" rel="{gallery: 'gallery', smallimage: '${productImage.medium}', largeimage: '${productImage.large}'}">--]
 					<a href = "javascript:void(0)" >
-						<img src="${productImage.thumbnail}" jqimg = "${productImage.thumbnail}" title="${productImage.title}" />
+						<img src="${productImage.thumbnail}" largeimg = "${productImage.large}" jqimg = "${productImage.source}" title="${productImage.title}" />
 					</a>
 				</li>	
 				[/#list]
 			[#else]
 				<li>
 					<a href="javascript:void(0);">
-						<img src="${setting.defaultThumbnailProductImage}" alt = "one" jqimg = "${productImage.thumbnail}" />
+						<img src="${setting.defaultThumbnailProductImage}" largeimg = "${productImage.large}" alt = "one" jqimg = "${productImage.source}" />
 					</a>
 				</li>
 			[/#if]
@@ -938,12 +938,12 @@ $().ready(function() {
             [#if goods.productImages?has_content]
 				[#--<a href="${goods.productImages[0].large}"  id="zoom" >--]
 				<a href = "javascript:;" id = "jqzoom" class = "jqzoom">
-					<img jqimg = "${goods.productImages[0].medium}" src="${goods.productImages[0].medium}" alt = "big" />
+					<img jqimg = "${goods.productImages[0].source}" src="${goods.productImages[0].large}" alt = "big" />
 				</a>
 			[#else]
 				[#--<a href="${setting.defaultLargeProductImage}" id="zoom" >--]
 				<a href = "javascript:;" id = "jqzoom" class = "jqzoom">
-					<img jqimg = "${goods.productImages[0].medium}"  src="${setting.defaultMediumProductImage}" alt = "big" />
+					<img jqimg = "${goods.productImages[0].source}"  src="${setting.defaultMediumProductImage}" alt = "big" />
 				</a>
 			[/#if]
           </div>
