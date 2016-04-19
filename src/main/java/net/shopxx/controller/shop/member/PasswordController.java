@@ -53,21 +53,60 @@ public class PasswordController extends BaseController {
 	/**
 	 * 安全中心
 	 */
-//	public String first(){
-//		
-//		return "/shop/${theme}/member/password/";
-//	}
+	@RequestMapping(value = "/securityCenter", method = RequestMethod.GET)
+	public String securityCenter(HttpServletRequest request){
+		Member member = memberService.getCurrent();
+		request.setAttribute("mobile", member.getMobile());
+		
+		return "/shop/${theme}/member/password/security_center_mdh";
+	}
 
 	/**
-	 * 编辑
+	 * 编辑  密码
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String edit() {
 		return "/shop/${theme}/member/password/edit_mdh";
 	}
-
+	
 	/**
-	 * 更新
+	 * 编辑  手机号
+	 */
+	@RequestMapping(value = "/validate", method = RequestMethod.GET)
+	public String validate(HttpServletRequest request){
+
+		try{
+			Member member = memberService.getCurrent();
+			request.setAttribute("mobile", member.getMobile());
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "/shop/${theme}/member/password/validate_mdh";
+	}
+	@RequestMapping(value = "/newMobileMdh", method = RequestMethod.POST)
+	public String newMobileMdh(HttpServletRequest request,String mobile){
+		try{
+			Member member = memberService.getCurrent();
+			System.out.println(mobile);
+			if(!mobile.equals(member.getMobile())){
+				return "redirect:securityCenter.jhtml";
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "/shop/${theme}/member/password/new_mobile_mdh";
+	}
+	/**
+	 * 添加  手机号
+	 */
+	@RequestMapping(value= "/addMobileMdh", method = RequestMethod.GET)
+	public String addMobileMdh(HttpServletRequest request){
+		return "/shop/${theme}/member/password/new_mobile_mdh";
+	}
+	/**
+	 * 更新  密码
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(String currentPassword, String password, RedirectAttributes redirectAttributes) {
@@ -88,14 +127,14 @@ public class PasswordController extends BaseController {
 		member.setPassword(DigestUtils.md5Hex(password));
 		memberService.update(member);
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
-		return "redirect:edit.jhtml";
+		return "redirect:securityCenter.jhtml";
 	}
 	
 	/**
-	 * 更新
+	 * 更新  手机号
 	 */
 	@RequestMapping(value = "/update2", method = RequestMethod.POST)
-	public String update2(String currentMobile, String newMobile, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response) {
+	public String update2( String newMobile, RedirectAttributes redirectAttributes,HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("update2");
 		boolean flag=memberService.mobileExists(newMobile);
 		System.out.println(flag);
@@ -110,7 +149,7 @@ public class PasswordController extends BaseController {
 		if (StringUtils.isNotEmpty(member.getMobile())) {
 			WebUtils.addCookie(request, response, Member.MOBILE_COOKIE_NAME, member.getMobile());
 		}
-		return "redirect:edit.jhtml";
+		return "redirect:securityCenter.jhtml";
 	}
 
 }

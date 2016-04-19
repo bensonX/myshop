@@ -17,67 +17,57 @@
 $().ready(function() {
 
 	var $inputMobileForm = $("#inputMobileForm");
-	$currentMobile = $("#currentMobile");
-	//$newMobile = $("#newMobile");
-	$codeCurrentButton = $("#codeCurrentButton");
-	$submit = $("button:submit");
-	//$codeNewButton = $("#codeNewButton");
+	$newMobile = $("#newMobile");
+	$codeNewButton = $("#codeNewButton");
 	[@flash_message /]
 	
 	
 	// 表单验证
 	$inputMobileForm.validate({
 	    rules: {
-	      currentCode: {
+	      newMobile: {
+	        required: true,
+	        pattern: /^1[3|4|5|7|8|9]\d{9}$/,
+	        remote: {
+	        	data:{
+                 mobile:function(){return $("#newMobile").val();}
+               	},
+				url: "${base}/register/check_mobile.jhtml",
+				cache: false
+			}
+	      },
+	      newCode: {
 	        required: true,
 	        pattern: /.{4,}/,
-	        digits : true
+	        digits : true,
+	        equalTo: "#compareNewCode"
 	      }
 	    },
 	    messages: {
-	      currentCode: {
+	      newMobile: {
+	        required: "请输入手机号码",
+	        pattern: "请输入正确的手机号",
+	        remote: "手机号已被注册"
+	      },
+	      newCode: {
 	        required : "请输入验证码",
 	        pattern: "请输入四位验证码",
-	        digits : "验证码应该输入数字"
+	        digits: "验证码应该输入数字",
+	        equalTo: "验证码错误"
 	      }
 	    }
-	    /**,
-	    submitHandler: function(form) {
-	    	$.ajax({
-				url: $inputMobileForm.attr("action"),
-				type: "POST",
-				dataType: "json",
-				cache: false,
-				beforeSend: function() {
-					console.log('ok');
-					$submit.prop("disabled", true);
-				},
-				success: function(data) {
-					console.log(data);
-					if (data.message.type == 'success') {
-						location.href = "./editMobile.html";
-					} 
-					else {
-						$submit.prop("disabled", false);
-						layer(data.content);
-					}	
-				}
-			});
-		}**/	
 	 });
-
 	
-	var mobile = getCookie("mobile") || '';
-	if(mobile){
-		$currentMobile.val(mobile);
-	}
 	
 	// 1.获取手机验证码
-  	$codeCurrentButton.bind('click', function (e){
-	    var mobile = $.trim($currentMobile.val());
-	    var pattern = /1[3|4|5|7|8|9]\d{9}/;
+  	$codeNewButton.bind('click', function (e){
+	    var mobile = $.trim($newMobile.val());
+	    var pattern = /^1[3|4|5|7|8|9]\d{9}$/;
+	    if (!$.trim(mobile) && !$('#newMobile-error').length) {
+	    	$newMobile.after('<label id="newMobile-error" class="fieldError" for="newMobile">请输入手机号码</label>');	
+	    	return false;
+	    }
 	    if (!pattern.test(mobile)) {
-	      layer('请输入正确的手机号码');
 	      return false;
 	    }
 	    $.ajax({
@@ -92,7 +82,8 @@ $().ready(function() {
 	        requestPhone($(e.target));
 	      },
 	      success: function(message) {
-	      //  $("#compareCurrentCode").val(message.content);
+
+	      	$("#compareNewCode").val(message.content);
 	        if (message.type != "success") {
 	          clearInterval(setInter);
 	          aginphoneText('获取验证码');
@@ -101,8 +92,8 @@ $().ready(function() {
 	      }
 	    });
 	  });
-		
-	  // 获取手机验证码按钮倒计时
+	
+	// 获取手机验证码按钮倒计时
 	  function requestPhone (event) {
 	      var time = 30;
 	      aginphoneText(time,event);
@@ -178,31 +169,26 @@ $().ready(function() {
 	<!-- 主体内容开始 -->
 	<div class="personal clearfix">
 		<!-- 个人中心左侧导航开始 -->
-		<ul class="personal-nav fl">
-			<li><a href="${base}/member/index.jhtml">我的信息</a></li>
-			<li><a href="${base}/member/order/list.jhtml">我的订单</a></li>
-			<li><a href="${base}/member/favorite/list.jhtml">我的收藏</a></li>
-			<li><a href="#">收件地址</a></li>
-			<li  class="current"><a href="#">安全中心</a></li>
-		</ul>
+		[#assign indexLeft=5]
+		[#include "/shop/${theme}/member/index_left.ftl" /]
 		<!-- 安全中心开始 -->
 		<div class="personal-security fr">
-						
+			
 			<form id="inputMobileForm" action="${base}/member/password/update2.jhtml" method="post">	
 				<div class="phoneVerification">
-					<div class="phone number">
-						<label class="din" for="number">手机号</label>
-						<input type="text" class="mobileNumber" id="currentMobile" name="currentMobile" disabled = "disabled">
+					<div class="phone newNumber">
+						<label class="din" for="newNumber">新手机号</label>
+						<input type="text" id="newMobile" autofocus="autofocus" name="newMobile" placeholder="请输入新的手机号码">
 					</div>
-					<div class="phone code clearfix">
-						<label class="din fl" for="code">手机验证码</label>
-						<input class="mobileCode fl" type="text" id="currentCode" name="currentCode" placeholder="请填写手机验证码">
-						<button type="button" class="codeButton fl" id = "codeCurrentButton">获取验证码</button>
+					<div class="phone newCode clearfix">
+						<label class="din fl" for="newCode">新手机验证码</label>
+						<input class="mobileCode fl" type="text" id="newCode" name="newCode" placeholder="请填写新手机验证码">	
+						<button type="button" class="codeButton fl" id = "codeNewButton">获取验证码</button>
 					</div>
 				</div>
 				<button class="confirm sub" type="submit">提交</button>
-				<!--input type="hidden" id="compareCurrentCode" value = "1234" />
-				<input type="hidden" id="compareNewCode"/-->
+				<input type="hidden" id="mobile" value=""/>
+				<input type="hidden" id="compareNewCode"/>
 			</form>
 			
 		</div>
