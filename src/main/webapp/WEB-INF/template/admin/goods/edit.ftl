@@ -79,6 +79,7 @@ $().ready(function() {
 				rewardPoint: ${product.rewardPoint},
 				exchangePoint: ${product.exchangePoint},
 				stock: ${product.stock},
+				skuCode: "${product.skuCode}",
 				allocatedStock: ${product.allocatedStock},
 				isDefault: ${product.isDefault?string("true", "false")},
 				isEnabled: true
@@ -448,6 +449,7 @@ $().ready(function() {
 					rewardPoint: $this.find("input.rewardPoint").val(),
 					exchangePoint: $this.find("input.exchangePoint").val(),
 					stock: $this.find("input.stock").val(),
+					skuCode: $this.find("input.skuCode").val(),
 					isDefault: $this.find("input.isDefault").prop("checked"),
 					isEnabled: $this.find("input.isEnabled").prop("checked")
 				};
@@ -514,6 +516,7 @@ $().ready(function() {
 			var rewardPoint = productValue != null && productValue.rewardPoint != null ? productValue.rewardPoint : "";
 			var exchangePoint = productValue != null && productValue.exchangePoint != null ? productValue.exchangePoint : "";
 			var stock = productValue != null && productValue.stock != null ? productValue.stock : "";
+			var skuCode = productValue != null && productValue.skuCode != null ? productValue.skuCode : "";			
 			var isDefault = productValue != null && productValue.isDefault != null ? productValue.isDefault : false;
 			var isEnabled = productValue != null && productValue.isEnabled != null ? productValue.isEnabled : false;
 			$productTr.append(
@@ -542,6 +545,9 @@ $().ready(function() {
 					<td>
 						<input type="text" name="productList[' + i + '].stock" class="text stock" value="' + (initProductValue != null ? initProductValue.stock : stock) + '" maxlength="9"' + (initProductValue != null ? ' title="${message("Product.allocatedStock")}: ' + initProductValue.allocatedStock + '" readonly="readonly"' : '') + ' style="width: 50px;" \/>
 						' + (initProductValue != null ? '<a href="..\/stock\/stock_in.jhtml?productId=' + initProductValue.id + '" title="${message("admin.goods.stockIn")}">+<\/a> <a href="..\/stock\/stock_out.jhtml?productId=' + initProductValue.id + '" title="${message("admin.goods.stockOut")}">-<\/a>' : '') + '
+					<\/td>
+					<td>
+						<input type="text" name="productList[' + i + '].skuCode" class="text skuCode" value="' + skuCode + '" maxlength="50" style="width: 150px;" \/>
 					<\/td>
 					<td>
 						<input type="checkbox" name="productList[' + i + '].isDefault" class="isDefault" value="true"' + (isDefault ? ' checked="checked"' : '') + ' \/>

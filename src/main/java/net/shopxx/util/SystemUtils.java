@@ -240,7 +240,6 @@ public final class SystemUtils {
 				Document document = new SAXReader().read(jshopXmlFile);
 				org.dom4j.Element element = (org.dom4j.Element) document.selectSingleNode("/jshop/templateConfig[@id='" + id + "']");
 				if (element != null) {
-					System.out.println("element"+element.asXML());
 					templateConfig = getTemplateConfig(element);	// 获取模板配置
 				}
 			} catch (IOException e) {

@@ -52,6 +52,7 @@ import net.shopxx.service.GoodsService;
 import net.shopxx.service.ProductImageService;
 import net.shopxx.service.SpecificationValueService;
 import net.shopxx.service.StaticService;
+import net.shopxx.util.LogUtil;
 import net.shopxx.util.SystemUtils;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -326,7 +327,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		goods.setProducts(null);
 		setValue(goods);
 		goodsDao.persist(goods);
-
+		int insertTax = goodsDao.insertGoodsTaxRate(goods);
+		LogUtil.debug(this, insertTax + "");
 		setValue(product);
 		productDao.persist(product);
 		stockIn(product, operator);
@@ -565,6 +567,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 			product.setGoods(pGoods);
 			product.setCartItems(null);
 			product.setOrderItems(null);
+			System.out.println("1."+product.getSkuCode());
+			product.setSkuCode(product.getSkuCode());
 			product.setShippingItems(null);
 			product.setProductNotifies(null);
 			product.setStockLogs(null);
@@ -581,6 +585,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 				Product pProduct = find(pGoods.getProducts(), product.getSpecificationValueIds());
 				if (pProduct != null) {
 					pProduct.setPrice(product.getPrice());
+					System.out.println("2."+product.getSkuCode());
+					pProduct.setSkuCode(product.getSkuCode());
 					pProduct.setCost(product.getCost());
 					pProduct.setMarketPrice(product.getMarketPrice());
 					pProduct.setRewardPoint(product.getRewardPoint());

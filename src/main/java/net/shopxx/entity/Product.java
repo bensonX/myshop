@@ -76,6 +76,9 @@ public class Product extends BaseEntity<Long> {
 
 	/** 编号 */
 	private String sn;
+	
+	/** 商品标识码 **/
+	private String skuCode;
 
 	/** 销售价 */
 	private BigDecimal price;
@@ -103,7 +106,7 @@ public class Product extends BaseEntity<Long> {
 
 	/** 货品 */
 	private Goods goods;
-
+	
 	/** 规格值 */
 	private List<SpecificationValue> specificationValues = new ArrayList<SpecificationValue>();
 
@@ -143,6 +146,26 @@ public class Product extends BaseEntity<Long> {
 	 */
 	public void setSn(String sn) {
 		this.sn = sn;
+	}
+
+	/**
+	 * 商品表示码
+	 * 
+	 * @return skuCode
+	 * 				标识码
+	 */
+	@Column(nullable = false, updatable = true, unique = true)
+	public String getSkuCode() {
+		return skuCode;
+	}
+	
+	/**
+	 *	设置标识码
+	 *
+	 * @param skuCode
+	 */
+	public void setSkuCode(String skuCode) {
+		this.skuCode = skuCode;
 	}
 
 	/**

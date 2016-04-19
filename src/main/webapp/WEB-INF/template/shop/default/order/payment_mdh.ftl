@@ -153,7 +153,6 @@
 				[#else]
 					${message("shop.order.pending")}
 				[/#if]
-				</p>
 			</div>
 			<div class="settlement">
 					[#if order.paymentMethod.method == "online"]

@@ -54,7 +54,8 @@
 				<prop key="hibernate.search.lucene_version">LUCENE_36</prop>
 				<prop key="hibernate.search.analyzer">org.wltea.analyzer.lucene.IKAnalyzer</prop>
 				<prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.impl.FSDirectoryProvider</prop>
-				<prop key="hibernate.search.default.indexBase">${webapp.root}/WEB-INF/index</prop>
+				<!-- <prop key="hibernate.search.default.indexBase">${webapp.root}/WEB-INF/index</prop> -->
+				<prop key="hibernate.search.default.indexBase">${catalina.home}/temp/hibernate/index</prop>
 			</props>
 		</property>
 	</bean>

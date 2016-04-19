@@ -16,6 +16,26 @@
 <script type="text/javascript" src="${base}/resources/admin/js/common.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/input.js"></script>
 <style type="text/css">
+	* {
+		padding: 0px;
+		margin: 0px;
+	}
+	.get-number {
+		position: relative;
+	}
+	.get-number .pull-down {	
+	}
+	.scroll-pull {
+		width: 200px;
+		height: 100px;
+		overflow: auto;
+		position: absolute;
+		top: 20px;
+		left: 0px;
+		background: #FFF;
+		z-index: 9999;
+	}
+	
 	.parameterTable table th {
 		width: 146px;
 	}
@@ -28,6 +48,71 @@
 		border: 1px solid #dde9f5;
 	}
 </style>
+<script>
+			$(function () {
+
+				var $number = $('[data-tag="number"]');
+				var $pull = $('[data-tag="pull"]');
+				var setTime;
+
+				$number.bind('change keyup', getNumber);
+				$pull.delegate('li','click', getContext);
+
+				function getNumber (event) {
+					var $this = $(this);
+					var context = $this.val();
+					var pattan = /^[0-9]+$/;
+					if (!pattan.test(context) || context.length < 4)
+						return false;
+					
+					clearTimeout(setTime);
+					setTime = setTimeout(function () {
+					
+						$.ajax({
+							url: '${base}/admin/taxRate/findTaxRate.jhtml',
+							type: 'POST',
+							data: {hsCode: context},
+							dataType: 'json',
+							success: function (data) {
+								debugger;
+								if (data.result) process(data.result);
+							}
+						})
+					}, 1000);
+				}
+
+				function process (data) {
+					var hl = '';
+					$pull.html('');
+					console.log(data);
+					console.log(data.length);
+					if (data.length == 1) {
+						insertContent(data[0].hsCode, data[0].id, data[0].comprehensiveTaxRate);
+					} else {
+						for (var k in data) {
+							hl += '<li data-hscode="'+data[k].id+'" data-rate="'+data[k].comprehensiveTaxRate+'">'+data[k].hsCode+'</li>';
+						}
+					}
+					
+					$pull.append(hl);
+				}
+
+				function getContext (event) {
+					var $this = $(this);
+					insertContent($this.html(), $this.attr('[data-hscode]'), $this.attr('[data-rate]'));
+					$pull.html('');
+				}
+
+				function insertContent (context, id, rate) {
+					var $number = $('[data-tag="number"]');
+					var $hscode = $('[data-hscode="id"]');
+					var $rate = $('[data-hscode="rate"]');
+					$number.val(context);
+					$hscode.val(id);
+					$rate.html(rate);
+				}
+			})
+		</script>
 <script type="text/javascript">
 $().ready(function() {
 
@@ -456,6 +541,7 @@ $().ready(function() {
 				rewardPoint: $this.find("input.rewardPoint").val(),
 				exchangePoint: $this.find("input.exchangePoint").val(),
 				stock: $this.find("input.stock").val(),
+				skuCode: $this.find("input.skuCode").val(),
 				isDefault: $this.find("input.isDefault").prop("checked"),
 				isEnabled: $this.find("input.isEnabled").prop("checked")
 			};
@@ -477,6 +563,9 @@ $().ready(function() {
 				(type == "exchange" ? '<th>${message("Product.exchangePoint")}<\/th>' : '') + '
 				<th>
 					${message("Product.stock")}
+				<\/th>
+				<th>
+					SKU码
 				<\/th>
 				<th>
 					${message("Product.isDefault")}
@@ -508,6 +597,7 @@ $().ready(function() {
 			var rewardPoint = productValue != null && productValue.rewardPoint != null ? productValue.rewardPoint : "";
 			var exchangePoint = productValue != null && productValue.exchangePoint != null ? productValue.exchangePoint : "";
 			var stock = productValue != null && productValue.stock != null ? productValue.stock : "";
+			var skuCode = productValue != null && productValue.skuCode != null ? productValue.skuCode : "";
 			var isDefault = productValue != null && productValue.isDefault != null ? productValue.isDefault : false;
 			var isEnabled = productValue != null && productValue.isEnabled != null ? productValue.isEnabled : false;
 			$productTr.append(
@@ -523,6 +613,9 @@ $().ready(function() {
 					(type == "exchange" ? '<td><input type="text" name="productList[' + i + '].exchangePoint" class="text exchangePoint" value="' + exchangePoint + '" maxlength="9" style="width: 50px;" \/><\/td>' : '') + '
 					<td>
 						<input type="text" name="productList[' + i + '].stock" class="text stock" value="' + stock + '" maxlength="9" style="width: 50px;" \/>
+					<\/td>
+					<td>
+						<input type="text" name="productList[' + i + '].skuCode" class="text skuCode" value="' + skuCode + '" maxlength="50" style="width: 150px;" \/>
 					<\/td>
 					<td>
 						<input type="checkbox" name="productList[' + i + '].isDefault" class="isDefault" value="true"' + (isDefault ? ' checked="checked"' : '') + ' \/>
@@ -742,6 +835,7 @@ $().ready(function() {
 				<input type="button" value="${message("admin.goods.specification")}" />
 			</li>
 		</ul>
+		[#--1、基本信息--]
 		<table class="input tabContent">
 			<tr>
 				<th>
@@ -888,6 +982,21 @@ $().ready(function() {
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<th>
+				 HSCode ：
+				</th>
+				<td>
+					<div class = "get-number">
+						<input type = "hidden" value = "" name="taxRate.id" data-hscode = "id" />
+						<input type = "text" data-tag="number"/>
+						<span>税率：</span><span data-hscode="rate"></span>
+						<div class = "scroll-pull" >
+							<ul class = "pull-down" data-tag="pull"></ul>
+						</div>
+					</div>
+				</td>
+			</tr>
 			[#if promotions?has_content]
 				<tr>
 					<th>
@@ -980,6 +1089,7 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 2、商品介绍 --]			
 		<table class="input tabContent">
 			<tr>
 				<td>
@@ -987,6 +1097,7 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 3、商品图片 --]		
 		<table id="productImageTable" class="item tabContent">
 			<tr>
 				<td colspan="4">
@@ -1008,6 +1119,7 @@ $().ready(function() {
 				</th>
 			</tr>
 		</table>
+		[#-- 4、商品参数 --]	
 		<table id="parameterTable" class="parameterTable input tabContent">
 			<tr>
 				<th>
@@ -1019,7 +1131,9 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+		[#-- 5、商品属性 --]	
 		<table id="attributeTable" class="input tabContent"></table>
+		[#-- 6、商品规格 --]			
 		<div class="tabContent">
 			<table id="specificationTable" class="specificationTable input">
 				<tr>
@@ -1033,6 +1147,7 @@ $().ready(function() {
 			</table>
 			<table id="productTable" class="productTable item"></table>
 		</div>
+		[#-- 确定提交&返回 --]	
 		<table class="input">
 			<tr>
 				<th>
