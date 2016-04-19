@@ -39,6 +39,7 @@ public class TaxRateController extends BaseController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		List<TaxRate> taxRates = taxRateService.findListByHsCode(hsCode);
 		data.put("result", taxRates);
+		data.put("message", SUCCESS_MESSAGE);
 		return data;
 	}
 
@@ -53,6 +54,7 @@ public class TaxRateController extends BaseController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		List<TaxRate> taxRates = taxRateService.findListByHsCode(hsCode);
 		data.put("result", JsonUtils.toJson(taxRates));
+		data.put("message", SUCCESS_MESSAGE);
 		return data;
 	}
 

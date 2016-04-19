@@ -443,9 +443,8 @@ public class GoodsDaoImpl extends BaseDaoImpl<Goods, Long> implements GoodsDao {
 			LogUtil.error(this, "插入商品时,级联税率关联表时获取到了空的数据：{taxRateID:" + taxRateID + "}");
 			return -1;
 		}
-		String sql = "INSERT INTO xx_goods_taxrate VALUES (" + goods.getId() + "," + goods.getTaxRate().getId() + ")";
+		String sql = "INSERT INTO xx_goods_taxrate VALUES (" + goodsID + "," + taxRateID + ")";
 		goods.setTaxRate(null);
-		entityManager.flush();
 		return entityManager.createNativeQuery(sql).executeUpdate();
 	}
 

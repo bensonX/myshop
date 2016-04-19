@@ -21,7 +21,7 @@
   WechatPrompt.fn.documentEvent = function () {
     var self = this;
     // 刷新页面
-    $('[data-tag="lose"]').bind('click', this.closeClick);
+    $('[data-tag="close"]').bind('click', this.closeClick);
 
     // 是否弹出过期窗口
     this.setInter = setInterval(function () {
@@ -34,7 +34,7 @@
         cache: false,
         success: function(data) {
 
-          if (data.result.type == "SUCCESS") {
+          if (data.result.type == "success") {
             self.getSuccess();
             clearInterval(self.setInter);
           }

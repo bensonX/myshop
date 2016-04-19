@@ -98,8 +98,8 @@ public class MemberServiceImpl extends BaseServiceImpl<Member, Long> implements 
 	}
 
 	@Transactional(readOnly = true)
-	public Member find(String loginPluginId, String openId) {
-		return memberDao.find(loginPluginId, openId);
+	public Member find(String loginPluginId, String openId, boolean isWechat) {
+		return memberDao.find(loginPluginId, openId, isWechat);
 	}
 
 	@Transactional(readOnly = true)

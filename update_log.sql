@@ -2,10 +2,18 @@
 -- 添加product SKUCODE字段
 -- ----------------------------
 ALTER TABLE xx_product ADD sku_code varchar(255) COMMENT 'sku码';
+
 -- ----------------------------
 -- 添加收货人身份证字段
 -- ----------------------------
 ALTER TABLE xx_receiver ADD card_id varchar(20) DEFAULT NULL COMMENT '收货人身份证号';
+
+-- ----------------------------
+-- 为微信添加union_id字段  在 xx_member字段中
+-- ----------------------------
+ALTER TABLE xx_member ADD union_id varchar(255) COMMENT 'wechat unionId';
+
+
 
 -- ----------------------------
 -- 创建税率表

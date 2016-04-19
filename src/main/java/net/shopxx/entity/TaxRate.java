@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 税率
  * 
@@ -61,6 +63,7 @@ public class TaxRate extends BaseEntity<Long> {
 	/**
 	 * 货品
 	 */
+	@JsonIgnore
 	private Set<Goods> goods;
 
 	/**

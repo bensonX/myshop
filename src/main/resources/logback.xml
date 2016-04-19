@@ -2,9 +2,10 @@
 <!-- 不开启debug，每一个小时扫描一次logback.xml配置文件 -->
 <configuration scan="true" scanPeriod="3600000" debug="false">
 	<!-- 定义日志文件属性 -->
-	<property name="LOG_HOME" value="${catalina.home}/logs/jshop/logback" />
+	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop/logback" /-->
 	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop_wxdev/logback" /-->
-	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop_test/logback" /-->
+	<property name="LOG_HOME" value="${catalina.home}/logs/jshop_test/logback" />
+	<!--property name="LOG_HOME" value="${catalina.home}/logs/jshop_pre/logback" /-->
 	<property name="LOG_NAME" value="${LOG_HOME}/jshop" />
 
 	<!-- 定义一个时间戳变量 bySecond:yyyyMMdd'T'HHmmss -->
@@ -12,6 +13,7 @@
 
 	<!-- 定义日志属性 -->
 	<property name="logPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{60} - %msg%n" />
+	<!-- <property name="logPattern" value="%L  %d{yyyy-MM-dd HH:mm:ss} %level %caller{1} - %msg%n" /> -->
 	<property name="logCharset" value="UTF-8" />
 	<property name="logMaxHistory" value="90" />
 	<property name="logMaxFileSize" value="1024MB" />
@@ -28,6 +30,17 @@
 		<!-- <withJansi>true</withJansi> -->
 	</appender>
 	<!-- 五种日志分割文件appender Start -->
+	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${logPattern}</pattern>
+			<charset>${logCharset}</charset>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_NAME}_%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>${logMaxHistory}</maxHistory>
+		</rollingPolicy>
+	</appender>
 	<appender name="rollingTraceFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<append>true</append>
 		<filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -42,8 +55,6 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_NAME}_trace_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<appender name="rollingDebugFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -60,8 +71,6 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_NAME}_debug_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<appender name="rollingInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -78,8 +87,6 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_NAME}_info_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<appender name="rollingWarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -96,8 +103,6 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_NAME}_warn_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<appender name="rollingErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -114,8 +119,6 @@
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_NAME}_error_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<!-- 五种日志分割文件appender End -->
@@ -128,10 +131,8 @@
 			<charset>${logCharset}</charset>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_NAME}_slice_%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${LOG_NAME}_timeSlice_%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>${logMaxHistory}</maxHistory>
-			<maxFileSize>${logMaxFileSize}</maxFileSize>
-			<totalSizeCap>${logTotalSizeCap}</totalSizeCap>
 		</rollingPolicy>
 	</appender>
 	<appender name="coalescingStatistics" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
@@ -151,6 +152,7 @@
 	<!-- 设置某一个包或某一个类的日志打印级别,不指定level继承root,addtivity:是否向上级loger传递打印信息。默认是true -->
 	<logger name="net.shopxx" level="ALL" addtivity="true">
 		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
 		<appender-ref ref="rollingTraceFile" />
 		<appender-ref ref="rollingDebugFile" />
 		<appender-ref ref="rollingInfoFile" />

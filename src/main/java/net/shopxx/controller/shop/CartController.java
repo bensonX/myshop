@@ -5,8 +5,11 @@
  */
 package net.shopxx.controller.shop;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +31,13 @@ import net.shopxx.service.CartItemService;
 import net.shopxx.service.CartService;
 import net.shopxx.service.MemberService;
 import net.shopxx.service.ProductService;
+import net.shopxx.util.JsonUtils;
 import net.shopxx.util.WebUtils;
 
 /**
  * Controller - 购物车
  * 
- * @author JSHOP Team
- \* @version 3.X
+ * @author JSHOP Team \* @version 3.X
  */
 @Controller("shopCartController")
 @RequestMapping("/cart")
@@ -53,8 +56,7 @@ public class CartController extends BaseController {
 	 * 数量
 	 */
 	@RequestMapping(value = "/quantity", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<String, Integer> quantity() {
+	public @ResponseBody Map<String, Integer> quantity() {
 		Map<String, Integer> data = new HashMap<String, Integer>();
 		Cart cart = cartService.getCurrent();
 		data.put("quantity", cart != null ? cart.getProductQuantity() : 0);
@@ -65,50 +67,27 @@ public class CartController extends BaseController {
 	 * 添加
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public @ResponseBody
-	Message add(Long productId, Integer quantity, HttpServletRequest request, HttpServletResponse response) {
-		if (quantity == null || quantity < 1) {
-			return ERROR_MESSAGE;
-		}
+	public @ResponseBody Message add(Long productId, Integer quantity, HttpServletRequest request, HttpServletResponse response) {
+		if (quantity == null || quantity < 1) { return ERROR_MESSAGE; }
 		Product product = productService.find(productId);
-		if (product == null) {
-			return Message.warn("shop.cart.productNotExist");
-		}
-		if (!Goods.Type.general.equals(product.getType())) {
-			return Message.warn("shop.cart.productNotForSale");
-		}
-		if (!product.getIsMarketable()) {
-			return Message.warn("shop.cart.productNotMarketable");
-		}
+		if (product == null) { return Message.warn("shop.cart.productNotExist"); }
+		if (!Goods.Type.general.equals(product.getType())) { return Message.warn("shop.cart.productNotForSale"); }
+		if (!product.getIsMarketable()) { return Message.warn("shop.cart.productNotMarketable"); }
 
 		Cart cart = cartService.getCurrent();
 		if (cart != null) {
 			if (cart.contains(product)) {
 				CartItem cartItem = cart.getCartItem(product);
-				if (CartItem.MAX_QUANTITY != null && cartItem.getQuantity() + quantity > CartItem.MAX_QUANTITY) {
-					return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY);
-				}
-				if (cartItem.getQuantity() + quantity > product.getAvailableStock()) {
-					return Message.warn("shop.cart.productLowStock");
-				}
+				if (CartItem.MAX_QUANTITY != null && cartItem.getQuantity() + quantity > CartItem.MAX_QUANTITY) { return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY); }
+				if (cartItem.getQuantity() + quantity > product.getAvailableStock()) { return Message.warn("shop.cart.productLowStock"); }
 			} else {
-				if (Cart.MAX_CART_ITEM_COUNT != null && cart.getCartItems().size() >= Cart.MAX_CART_ITEM_COUNT) {
-					return Message.warn("shop.cart.addCartItemCountNotAllowed", Cart.MAX_CART_ITEM_COUNT);
-				}
-				if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) {
-					return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY);
-				}
-				if (quantity > product.getAvailableStock()) {
-					return Message.warn("shop.cart.productLowStock");
-				}
+				if (Cart.MAX_CART_ITEM_COUNT != null && cart.getCartItems().size() >= Cart.MAX_CART_ITEM_COUNT) { return Message.warn("shop.cart.addCartItemCountNotAllowed", Cart.MAX_CART_ITEM_COUNT); }
+				if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) { return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY); }
+				if (quantity > product.getAvailableStock()) { return Message.warn("shop.cart.productLowStock"); }
 			}
 		} else {
-			if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) {
-				return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY);
-			}
-			if (quantity > product.getAvailableStock()) {
-				return Message.warn("shop.cart.productLowStock");
-			}
+			if (CartItem.MAX_QUANTITY != null && quantity > CartItem.MAX_QUANTITY) { return Message.warn("shop.cart.addQuantityNotAllowed", CartItem.MAX_QUANTITY); }
+			if (quantity > product.getAvailableStock()) { return Message.warn("shop.cart.productLowStock"); }
 		}
 		cart = cartService.add(product, quantity);
 
@@ -130,11 +109,48 @@ public class CartController extends BaseController {
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/getCartData", method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> getCartData() {
+		Map<String, Object> data = new HashMap<>();
+		List<Map<String, Object>> cartList = new ArrayList<>();
+		data.put("cart", cartList);
+		Cart cart = cartService.getCurrent();
+		if (cart == null) {
+			data.put("message", new Message(Message.Type.error, "购物车为空"));
+			return data;
+		}
+		Set<CartItem> cartItemsSet = cart.getCartItems();
+		if (cartItemsSet == null || cartItemsSet.size() < 0) {
+			data.put("message", new Message(Message.Type.error, "购物车为空"));
+			return data;
+		}
+		for (CartItem cartItem : cartItemsSet) {
+			Map<String, Object> cartItems = new HashMap<>();
+			Product product = cartItem.getProduct();
+			Goods goods = product.getGoods();
+			cartItems.put("quantity", cartItem.getQuantity());
+			cartItems.put("cartItem.id", cartItem.getId());
+			cartItems.put("cartItem.price", cartItem.getComprehensivePrice());
+			cartItems.put("product.sn", product.getSn());
+			cartItems.put("product.url", product.getUrl());
+			cartItems.put("product.thumbnail", product.getThumbnail());
+			cartItems.put("product.specifications", JsonUtils.toJson(product.getSpecifications()));
+			cartItems.put("product.goods.image", goods.getImage());
+			cartItems.put("product.goods.name", goods.getName());
+			cartList.add(cartItems);
+		}
+		data.put("message", SUCCESS_MESSAGE);
+		return data;
+	}
+
+	/**
 	 * 编辑
 	 */
 	@RequestMapping(value = "/edit", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> edit(Long id, Integer quantity) {
+	public @ResponseBody Map<String, Object> edit(Long id, Integer quantity) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		if (quantity == null || quantity < 1) {
 			data.put("message", ERROR_MESSAGE);
@@ -177,11 +193,10 @@ public class CartController extends BaseController {
 	 * 删除
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, Object> delete(Long id) {
+	public @ResponseBody Map<String, Object> delete(Long id) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		Cart cart = cartService.getCurrent();
-		
+
 		if (cart == null || cart.isEmpty()) {
 			data.put("message", Message.error("shop.cart.notEmpty"));
 			return data;
@@ -208,8 +223,7 @@ public class CartController extends BaseController {
 	 * 清空
 	 */
 	@RequestMapping(value = "/clear", method = RequestMethod.POST)
-	public @ResponseBody
-	Message clear() {
+	public @ResponseBody Message clear() {
 		Cart cart = cartService.getCurrent();
 		cartService.delete(cart);
 		return SUCCESS_MESSAGE;

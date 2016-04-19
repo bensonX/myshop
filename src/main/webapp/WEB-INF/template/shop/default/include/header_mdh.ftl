@@ -7,7 +7,7 @@
 			<div class = "is-login" id = "isLogin">
 				<a href = "${base}/logout.jhtml" >[${message("shop.header.logout")}]</a>
 				<i></i>
-				<a href = "javascript:;" id = "addFavorite" >收藏网站</a>
+				<!--a href = "javascript:;" id = "addFavorite" >收藏网站</a>
 				<i></i>
 				[@navigation_list position = "top"]
 					[#list navigations?reverse as navigation]
@@ -16,8 +16,8 @@
 					[/#list]
 				[/@navigation_list]
 				<a href = "${base}/cart/list.jhtml" id="topCart" >购物车<em>0</em>件</a>
-				<i></i>
-				<a href = "javascript:;" id="topName">小康</a>
+				<i></i-->
+				<a href = "javascript:;" id="topName"></a>
 				<!--a href = "javascript:;" >${message("shop.header.welcome", setting.siteName)}</a-->
 			</div>
 			<div class = "no-login dn" id="noLogin">
