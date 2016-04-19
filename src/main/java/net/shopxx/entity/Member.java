@@ -174,6 +174,9 @@ public class Member extends BaseEntity<Long> {
 
 	/** openID */
 	private String openId;
+	
+	/** unionID */
+	private String unionId;
 
 	/** 锁定KEY */
 	private String lockKey;
@@ -1460,6 +1463,14 @@ public class Member extends BaseEntity<Long> {
 	@PreUpdate
 	public void preUpdate() {
 		setEmail(StringUtils.lowerCase(getEmail()));
+	}
+
+	public String getUnionId() {
+		return unionId;
+	}
+
+	public void setUnionId(String unionId) {
+		this.unionId = unionId;
 	}
 
 }

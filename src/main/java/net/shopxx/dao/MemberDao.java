@@ -57,7 +57,7 @@ public interface MemberDao extends BaseDao<Member, Long> {
 	 *            openID
 	 * @return 会员，若不存在则返回null
 	 */
-	Member find(String loginPluginId, String openId);
+	Member find(String loginPluginId, String openId, boolean isWechat);
 
 	/**
 	 * 根据用户名查找会员

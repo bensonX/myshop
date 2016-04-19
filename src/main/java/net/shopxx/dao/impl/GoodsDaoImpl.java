@@ -444,6 +444,7 @@ public class GoodsDaoImpl extends BaseDaoImpl<Goods, Long> implements GoodsDao {
 			return -1;
 		}
 		String sql = "INSERT INTO xx_goods_taxrate VALUES (" + goods.getId() + "," + goods.getTaxRate().getId() + ")";
+		goods.setTaxRate(null);
 		entityManager.flush();
 		return entityManager.createNativeQuery(sql).executeUpdate();
 	}

@@ -49,6 +49,14 @@ public class PasswordController extends BaseController {
 		Member member = memberService.getCurrent();
 		return StringUtils.equals(DigestUtils.md5Hex(currentPassword), member.getPassword());
 	}
+	
+	/**
+	 * 安全中心
+	 */
+//	public String first(){
+//		
+//		return "/shop/${theme}/member/password/";
+//	}
 
 	/**
 	 * 编辑

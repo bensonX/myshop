@@ -48,6 +48,7 @@
 				<a href = "javascript:;" data-tag="close" >确&nbsp;定</a>
 			</div>
 		</div>	
+
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>	
 </html>

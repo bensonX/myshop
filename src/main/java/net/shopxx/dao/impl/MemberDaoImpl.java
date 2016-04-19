@@ -60,13 +60,20 @@ public class MemberDaoImpl extends BaseDaoImpl<Member, Long> implements MemberDa
 		return count > 0;
 	}
 
-	public Member find(String loginPluginId, String openId) {
+	public Member find(String loginPluginId, String openId, boolean isWechat) {
 		if (StringUtils.isEmpty(loginPluginId) || StringUtils.isEmpty(openId)) {
 			return null;
 		}
 		try {
-			String jpql = "select members from Member members where members.loginPluginId = :loginPluginId and members.openId = :openId";
-			return entityManager.createQuery(jpql, Member.class).setParameter("loginPluginId", loginPluginId).setParameter("openId", openId).getSingleResult();
+			if (isWechat) {
+				String jpql = "select members from Member members where members.loginPluginId = :loginPluginId and members.unionId = :unionId";
+				return entityManager.createQuery(jpql, Member.class).setParameter("loginPluginId", loginPluginId)
+						.setParameter("unionId", openId).getSingleResult();
+			} else {
+				String jpql = "select members from Member members where members.loginPluginId = :loginPluginId and members.openId = :openId";
+				return entityManager.createQuery(jpql, Member.class).setParameter("loginPluginId", loginPluginId)
+						.setParameter("openId", openId).getSingleResult();
+			}
 		} catch (NoResultException e) {
 			return null;
 		}
