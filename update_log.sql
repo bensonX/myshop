@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS `xx_goods_taxrate`;
 create table `xx_goods_taxrate`(
   `goods` bigint(20) NOT NULL COMMENT '商品ID',
   `tax_rate` bigint(20) NOT NULL COMMENT '税率ID',
+  UNIQUE KEY `uk_goods_taxrate_goods` (`goods`),
 	KEY `ind_goods_taxrate_goods` (`goods`),
   KEY `ind_goods_taxrate_taxrates` (`tax_rate`),
   CONSTRAINT `fk_goods_taxrates_goods` FOREIGN KEY (`goods`) REFERENCES `xx_goods` (`id`),
