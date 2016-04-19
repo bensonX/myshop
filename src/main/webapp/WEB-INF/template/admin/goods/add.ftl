@@ -56,7 +56,7 @@
 				var $pullScroll = $('[data-data="scroll"]');
 				var setTime;
 
-				$number.bind('change keyup', getNumber);
+				$number.bind('keyup', getNumber);
 				$pull.delegate('li','click', getContext);
 				$('body').bind('click', function () {
 					$pullScroll.slideUp();
@@ -81,7 +81,7 @@
 								if (data.result) process(data.result);
 							}
 						})
-					}, 1000);
+					}, 500);
 				}
 
 				function process (data) {
@@ -89,6 +89,7 @@
 					$pull.html('');
 					if (data.length >= 1) {
 						for (var k in data) {
+							console.log(data);
 							hl += '<li data-hscode="'+data[k].id+'" data-rate="'+data[k].comprehensiveTaxRate+'">'+data[k].hsCode+'</li>';
 						}
 						$pull.append(hl);
@@ -99,9 +100,9 @@
 				}
 
 				function getContext (event) {
-					event.stoppropagation();
+					event.stopPropagation();
 					var $this = $(this);
-					insertContent($this.html(), $this.attr('[data-hscode]'), $this.attr('[data-rate]'));
+					insertContent($this.html(), $this.attr('data-hscode'), $this.attr('data-rate'));
 					$pullScroll.slideUp();
 					$pull.html('');
 				}
@@ -112,7 +113,8 @@
 					var $rate = $('[data-hscode="rate"]');
 					$number.val(context);
 					$hscode.val(id);
-					$rate.html(+rate*100+'%');
+					console.log(rate);
+					$rate.html(Number(rate)*100+'%');
 				}
 			})
 		</script>
