@@ -202,12 +202,15 @@ public class RegisterController extends BaseController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
 		String today=sdf.format(todayDate);
 		
-		String username,mob="";
+		String username,mob = "";
 		
-		if(mobile.length()>6){
-			mob=mobile.substring(mobile.length()-5);
+		if (mobile.length() > 6) {
+			mob = mobile.substring(mobile.length()-5);
 		}
-		username="mdh_"+mob+"_"+today;
+		username="mdh_" + mob + "_" + today;
+		for (int i = 0; memberService.usernameExists(username); i++) {
+			username = username + i;
+		}
 		
 		Setting setting = SystemUtils.getSetting();
 		if (!setting.getIsRegisterEnabled()) {

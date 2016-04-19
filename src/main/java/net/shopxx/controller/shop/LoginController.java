@@ -6,6 +6,7 @@
 package net.shopxx.controller.shop;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -256,11 +257,23 @@ public class LoginController extends BaseController {
 		if (loginPlugin != null && loginPlugin.getIsEnabled() && loginPlugin.verifyNotify(request)) {
 			Setting setting = SystemUtils.getSetting();
 			String openId = loginPlugin.getOpenId(request);
+			String unionId = request.getAttribute("unionId").toString();;
+			boolean isWechat = false;
+			if (pluginId.contains("wechat") && !StringUtils.isEmpty(unionId)) {
+				//only wechat has the id of unionID.
+				isWechat = true;
+			}			
 			if (StringUtils.isEmpty(openId)) {
 				model.addAttribute("errorMessage", message("shop.login.pluginError"));
 				return ERROR_VIEW;
 			}
-			Member member = memberService.find(pluginId, openId);
+			Member member;
+			if (isWechat) {
+				member = memberService.find(pluginId, unionId, isWechat);
+			}
+			else {
+				member = memberService.find(pluginId, openId, isWechat);
+			}
 			if (member != null) {
 				if (!member.getIsEnabled()) {
 					model.addAttribute("errorMessage", message("shop.login.disabledAccount"));
@@ -303,10 +316,26 @@ public class LoginController extends BaseController {
 				String email = loginPlugin.getEmail(request);
 				String nickname = loginPlugin.getNickname(request);
 				member = new Member();
-				String username = openId;
-				for (int i = 0; memberService.usernameExists(username); i++) {
-					username = openId + i;
+				String username, tmpId;
+
+				if (isWechat) {
+					member.setUnionId(unionId);
+					tmpId = unionId;
+				} else {
+					member.setOpenId(openId);
+					tmpId = openId;
+				}	
+				Date todayDate = new Date();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				String today=sdf.format(todayDate);
+				if(tmpId.length() > 6) {
+					tmpId = tmpId.substring(tmpId.length()-5);
 				}
+				username="mdh_" + tmpId + "_" + today;
+				for (int i = 0; memberService.usernameExists(username); i++) {
+					username = username + i;
+				}
+				
 				member.removeAttributeValue();
 				member.setUsername(username);
 				member.setPassword(DigestUtils.md5Hex(UUID.randomUUID() + RandomStringUtils.randomAlphabetic(30)));
@@ -323,7 +352,6 @@ public class LoginController extends BaseController {
 				member.setLoginIp(request.getRemoteAddr());
 				member.setLoginDate(new Date());
 				member.setLoginPluginId(pluginId);
-				member.setOpenId(openId);
 				member.setLockKey(null);
 				member.setSafeKey(null);
 				member.setMemberRank(memberRankService.findDefault());

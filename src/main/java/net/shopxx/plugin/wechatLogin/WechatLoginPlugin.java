@@ -122,11 +122,13 @@ public class WechatLoginPlugin extends LoginPlugin {
 			JsonNode jsonNode = JsonUtils.toTree(content);
 			String accessToken = jsonNode.get("access_token").textValue();
 			String openId = jsonNode.get("openid").textValue();
+			String unionId = jsonNode.get("unionid").textValue();
 			System.out.println(" lsu .. verifyNotify  accessToken is: " + accessToken);
 			if (StringUtils.isNotEmpty(accessToken)) {
 				System.out.println(" lsu . verifyNotify  set openId");
 				request.setAttribute("accessToken", accessToken);
 				request.setAttribute("openId", openId);
+				request.setAttribute("unionId", unionId);
 				return true;
 			}
 		}
