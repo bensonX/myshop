@@ -39,11 +39,15 @@
 			</div>	
 		</div>
 		<div class = "shielding-layer" data-tag="shieldingLayer"></div>
-		<div class = "wechat-refresh" data-tag="wechatRefresh" >
-			<h3>微信支付</h3>
-			<p>微信支付成功，请关闭窗口</p>
-			<a href = "javascript:;" data-tag="close">确&nbsp;定</a
-		</div>		
+		<div class = "popup-layer" data-tag="wechatRefresh" >
+			<div class = "title clearfix" >
+				<span>买德好</span>
+			</div>
+			<div class = "context" >微信支付成功，请关闭窗口</div>
+			<div class = "button" >
+				<a href = "javascript:;" data-tag="close" >确&nbsp;定</a>
+			</div>
+		</div>	
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>	
 </html>

@@ -766,33 +766,35 @@
   	if (note)
   		$('[data-tag="inputNote"]').val(note);
 
-  	var dataPost = $(e.target).parents('form').serialize();
-  	$.ajax({
-  		url: self.options.urlSubmitPost,
-  		type: "POST",
-  		data: dataPost,
-  		dataType: "json",
-  		cache: false,
-  		beforeSend: function() {
-				$(e.target).prop("disabled", true);
-			},
-  		success: function (data) {
+    $(e.target).parents('form').submit();
 
-  			self.isDeletePerform = false;
-  			if (data.message.type == 'success') {
-  				location.href = self.options.urlPayment+"?sn=" + data.sn;
-  			}
-  			else {
-  				layer(data.message.content);
-  				setTimeout(function() {
-						location.reload(true);
-					}, 3000);
-  			}
-  		},
-			complete: function() {
-				$(e.target).prop("disabled", false);
-			}
-  	})
+  	// var dataPost = $(e.target).parents('form').serialize();
+  	// $.ajax({
+  	// 	url: self.options.urlSubmitPost,
+  	// 	type: "POST",
+  	// 	data: dataPost,
+  	// 	dataType: "json",
+  	// 	cache: false,
+  	// 	beforeSend: function() {
+			// 	$(e.target).prop("disabled", true);
+			// },
+  	// 	success: function (data) {
+
+  	// 		self.isDeletePerform = false;
+  	// 		if (data.message.type == 'success') {
+  	// 			location.href = self.options.urlPayment+"?sn=" + data.sn;
+  	// 		}
+  	// 		else {
+  	// 			layer(data.message.content);
+  	// 			setTimeout(function() {
+			// 			location.reload(true);
+			// 		}, 3000);
+  	// 		}
+  	// 	},
+			// complete: function() {
+			// 	$(e.target).prop("disabled", false);
+			// }
+  	// })
 
   };
 
