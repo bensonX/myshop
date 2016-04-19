@@ -5,28 +5,6 @@
 
 ;$(function () {
 
-  // 验证
-if ($.validator != null) {
-    
-    $.validator.setDefaults({
-      errorClass: "fieldError",
-      ignore: ".ignore",
-      ignoreTitle: true,
-      errorPlacement: function(error, element) {
-        var fieldSet = element.closest("span.fieldSet");
-        if (fieldSet.size() > 0) {
-          error.appendTo(fieldSet);
-        } else {
-          error.insertAfter(element);
-        }
-      },
-      submitHandler: function(form) {
-        $(form).find("input:submit").prop("disabled", true);
-        form.submit();
-      }
-    });
-
-  }
 
   var $registerForm = $("#registerForm");
   var $username = $("#username");

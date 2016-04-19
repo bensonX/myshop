@@ -1,30 +1,6 @@
 [#escape x as x?html]
+<!-- 底部开始 -->
 <div class="footer">
-	<script type="text/javascript">
-	$().ready(function() {
-	
-		var $headerName = $("#headerName");
-		var $topName = $("#topName");
-		
-		var username = getCookie("username") || '';
-		var nickname = getCookie("nickname") || '';
-		var mobile = getCookie("mobile") || '';
-		//$headerName.text(mobile).show();
-		if ($.trim(username) || $.trim(nickname) || $.trim(mobile)) {
-			var userName =  mobile || nickname || username;
-			$headerName.text(userName);
-			$topName.text(userName);
-			$("#login_out").removeClass().addClass('dn');
-			$("#noLogin").hide();
-			$("#isLogin").show();
-		} else {
-			$("#login_in").removeClass().addClass('dn');
-			$("#isLogin").hide();
-			$("#noLogin").show();
-		}
-	});
-	</script>
-	<!-- 底部开始 -->
 	<div id = "footer">
 		<ul class="clearfix features">
   		  <li>
@@ -89,113 +65,69 @@
 				</span>
 			</P>
 		</div>
-		[#--
-			<div class="bottom">
-			<div class="bottomNav">
-				<ul>
-					[@navigation_list position = "bottom"]
+	</div>
+</div>
+	
+<!-- 侧边栏固定区开始 -->
+<div class = "fix" data-side="main">								
+	<ul data-side="isShow">
+		<li data-side="li">
+			<a href="javascript:;" class="one ico" ><i></i></a>
+			<div class="infix" data-side="showHide" id="login_out">
+				<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
+				<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+			</div>
+			<div class="logged" data-side="showHide" id="login_in">
+				<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
+					[@navigation_list position = "top"]
 						[#list navigations as navigation]
-							<li>
-								<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if]>${navigation.name}</a>
-								[#if navigation_has_next]|[/#if]
-							</li>
+							<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
 						[/#list]
 					[/@navigation_list]
-				</ul>
+					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
 			</div>
-			<div class="info">
-				<p>${setting.certtext}</p>
-				<p>${message("shop.footer.copyright", setting.siteName)}</p>
-				[@friend_link_list type="image" count = 8]
-					<ul>
-						[#list friendLinks as friendLink]
-							<li>
-								<a href="${friendLink.url}" target="_blank">
-									<img src="${friendLink.logo}" alt="${friendLink.name}" />
-								</a>
-							</li>
-						[/#list]
-					</ul>
-				[/@friend_link_list]
-			</div>
-		</div>
-		[#include "/shop/${theme}/include/statistics.ftl" /]
-		--]
-	</div>
-	</div>
-	
-	<!-- 窗口固定区开始 -->
-	
-		<div class = "fix" data-side="main">			
-					
-					<ul data-side="isShow">
-						<li data-side="login">
-							<a href="javascript:;" class="one ico" ><i></i></a>
-							<div class="infix" data-side="noLogin" id="login_out">
-								<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
-								<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
-							</div>
-							<div class="logged" data-side="isLogin" id="login_in">
-								<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
-									[@navigation_list position = "top"]
-										[#list navigations as navigation]
-											<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
-										[/#list]
-									[/@navigation_list]
-									<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
-							</div>
-						</li>
-						<li>
-							<a href="javascript:;" class="two ico" data-side="cart" data-isshow = "1" id="headerCart" >
-								<i></i>
-								<em ></em>
-							</a>	
-							<div style = "position: relative">
-								<div class="shopping-list tooltip" data-side="noCart">
-									<p>来都来了，不买点德国货吗~</p>
-									<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
-								</div>
-								<div class="shopping-list2 tooltip" data-side="isCart">
-									<div>
-										<div class="warp clearfix" data-product = "123456">
-											<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
-											<span class="fl" data-right="minus">-</span>
-											<strong class="fl" data-right="num">1</strong>
-											<span class="fl" data-right="plus">+</span>
-											<p class="fr" data-right="priceAll">2365.00</p>
-											<b data-right="delete">x</b>
-										</div>
-									</div>
-									<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
-								</div>
-							</div>
-						</li>
-						<li data-side="mobile">
-							<a href="javascript:;" class="three ico" ><i></i></a>
-							<div class="tell" data-side="isMobile">
-								846546848465
-							</div>
-						</li>
-						<li data-side="weixin">
-							<a href="javascript:;" class="fore ico" ><i></i></a>
-							<div class="images" data-side="isWeixin">
-								<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
-							</div>
-						</li>
-						<li>
-							<a href="javascript:;" class="five ico"><i></i></a>
-						</li>
-					</ul>
+		</li>
+		<li>
+			<a href="javascript:;" class="two ico" data-side="cart" data-isshow="1" id="headerCart" >
+				<i></i>
+				<em ></em>
+			</a>	
+			<div style = "position: relative">
+				<div class="shopping-list tooltip" data-side="noCart">
+					<p>来都来了，不买点德国货吗~</p>
+					<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
 				</div>
-
-	
-	
-	
-	<script>
-			$(function () {
-
-
-				Side({});
-			});
-	</script>
+				<div class="shopping-list2 tooltip" data-side="isCart">
+					<div>
+						<div class="warp clearfix" data-product = "123456">
+							<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
+							<span class="fl" data-right="minus">-</span>
+							<strong class="fl" data-right="num">1</strong>
+							<span class="fl" data-right="plus">+</span>
+							<p class="fr" data-right="priceAll">2365.00</p>
+							<b data-right="delete">x</b>
+						</div>
+					</div>
+					<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
+				</div>
+			</div>
+		</li>
+		<li data-side="li">
+			<a href="javascript:;" class="three ico" ><i></i></a>
+			<div class="tell" data-side="showHide">			
+				${setting.phone}
+			</div>
+		</li>
+		<li data-side="li">
+			<a href="javascript:;" class="fore ico" ><i></i></a>
+			<div class="images" data-side="showHide">
+				<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
+			</div>
+		</li>
+		<li>
+			<a href="javascript:;" id = "goTop" class="five ico"><i></i></a>
+		</li>
+	</ul>
+</div>
+<script  src = "${base}/resources/shop/${theme}/js_mdh/main/views/headerfooter.js"></script>
 [/#escape]

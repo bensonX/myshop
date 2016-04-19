@@ -241,209 +241,7 @@ $().ready(function() {
 			return false;
 		}
 	});
-	
-	$productImage.lazyload({
-		threshold: 100,
-		effect: "fadeIn"
-	});
-	
-	// 加入购物车
-	$addCart.click(function() {
-		var $this = $(this);
-		var productId = $this.attr("productId");
-		$.ajax({
-			url: "${base}/cart/add.jhtml",
-			type: "POST",
-			data: {productId: productId, quantity: 1},
-			dataType: "json",
-			cache: false,
-			success: function(message) {
-				if (message.type == "success" && $headerCart.size() > 0 && window.XMLHttpRequest) {
-					var $image = $this.closest("li").find("img");
-					var cartOffset = $headerCart.offset();
-					var imageOffset = $image.offset();
-					$image.clone().css({
-						width: 170,
-						height: 170,
-						position: "absolute",
-						"z-index": 20,
-						top: imageOffset.top,
-						left: imageOffset.left,
-						opacity: 0.8,
-						border: "1px solid #dddddd",
-						"background-color": "#eeeeee"
-					}).appendTo("body").animate({
-						width: 30,
-						height: 30,
-						top: cartOffset.top,
-						left: cartOffset.left,
-						opacity: 0.2
-					}, 1000, function() {
-						$(this).remove();
-					});
-				}
-				$.message(message);
-			}
-		});
-		return false;
-	});
-	
-	// 积分兑换
-	$exchange.click(function() {
-		var productId = $(this).attr("productId");
-		$.ajax({
-			url: "${base}/order/check_exchange.jhtml",
-			type: "GET",
-			data: {productId: productId, quantity: 1},
-			dataType: "json",
-			cache: false,
-			success: function(message) {
-				if (message.type == "success") {
-					location.href = "${base}/order/checkout.jhtml?type=exchange&productId=" + productId + "&quantity=1";
-				} else {
-					$.message(message);
-				}
-			}
-		});
-		return false;
-	});
-	
-	// 添加商品收藏
-	$addFavorite.click(function() {
-		var goodsId = $(this).attr("goodsId");
-		$.ajax({
-			url: "${base}/member/favorite/add.jhtml",
-			type: "POST",
-			data: {goodsId: goodsId},
-			dataType: "json",
-			cache: false,
-			success: function(message) {
-				$.message(message);
-			}
-		});
-		return false;
-	});
-	
-	// 对比栏
-	var compareGoods = getCookie("compareGoods");
-	var compareGoodsIds = compareGoods != null ? compareGoods.split(",") : [];
-	if (compareGoodsIds.length > 0) {
-		$.ajax({
-			url: "${base}/goods/compare_bar.jhtml",
-			type: "GET",
-			data: {goodsIds: compareGoodsIds},
-			dataType: "json",
-			cache: true,
-			success: function(data) {
-				$.each(data, function (i, item) {
-					var thumbnail = item.thumbnail != null ? item.thumbnail : "${setting.defaultThumbnailProductImage}";
-					$compareBar.find("dt").after(
-						[@compress single_line = true]
-							'<dd>
-								<input type="hidden" name="goodsIds" value="' + item.id + '" \/>
-								<a href="' + escapeHtml(item.url) + '" target="_blank">
-									<img src="' + escapeHtml(thumbnail) + '" \/>
-									<span title="' + escapeHtml(item.name) + '">' + escapeHtml(abbreviate(item.name, 50)) + '<\/span>
-								<\/a>
-								<strong>' + currency(item.price, true) + '[#if setting.isShowMarketPrice]<del>' + currency(item.marketPrice, true) + '<\/del>[/#if]<\/strong>
-								<a href="javascript:;" class="remove" goodsId="' + item.id + '">[${message("shop.common.remove")}]<\/a>
-							<\/dd>'
-						[/@compress]
-					);
-				});
-				$compareBar.fadeIn();
-			}
-		});
-		
-		$.each(compareGoodsIds, function(i, goodsId) { 
-			$addCompare.filter("[goodsId='" + goodsId + "']").addClass("selected");
-		});
-	}
-	
-	// 移除对比
-	$compareBar.on("click", "a.remove", function() {
-		var $this = $(this);
-		var goodsId = $this.attr("goodsId");
-		$this.closest("dd").remove();
-		for (var i = 0; i < compareGoodsIds.length; i ++) {
-			if (compareGoodsIds[i] == goodsId) {
-				compareGoodsIds.splice(i, 1);
-				break;
-			}
-		}
-		$addCompare.filter("[goodsId='" + goodsId + "']").removeClass("selected");
-		if (compareGoodsIds.length == 0) {
-			$compareBar.fadeOut();
-			removeCookie("compareGoods");
-		} else {
-			addCookie("compareGoods", compareGoodsIds.join(","));
-		}
-		return false;
-	});
-	
-	$compareSubmit.click(function() {
-		if (compareGoodsIds.length < 2) {
-			$.message("warn", "${message("shop.goods.compareNotAllowed")}");
-			return false;
-		}
-		
-		$compareForm.submit();
-		return false;
-	});
-	
-	// 清除对比
-	$clearCompare.click(function() {
-		$addCompare.removeClass("selected");
-		$compareBar.fadeOut().find("dd:not(.action)").remove();
-		compareGoodsIds = [];
-		removeCookie("compareGoods");
-		return false;
-	});
-	
-	// 添加对比
-	$addCompare.click(function() {
-		var $this = $(this);
-		var goodsId = $this.attr("goodsId");
-		if ($.inArray(goodsId, compareGoodsIds) >= 0) {
-			return false;
-		}
-		if (compareGoodsIds.length >= 4) {
-			$.message("warn", "${message("shop.goods.addCompareNotAllowed")}");
-			return false;
-		}
-		$.ajax({
-			url: "${base}/goods/add_compare.jhtml",
-			type: "GET",
-			data: {goodsId: goodsId},
-			dataType: "json",
-			cache: false,
-			success: function(data) {
-				if (data.message.type == "success") {
-					$this.addClass("selected");
-					var thumbnail = data.thumbnail != null ? data.thumbnail : "${setting.defaultThumbnailProductImage}";
-					$compareBar.show().find("dd.action").before(
-						[@compress single_line = true]
-							'<dd>
-								<input type="hidden" name="goodsIds" value="' + data.id + '" \/>
-								<a href="' + escapeHtml(data.url) + '" target="_blank">
-									<img src="' + escapeHtml(thumbnail) + '" \/>
-									<span title="' + escapeHtml(data.name) + '">' + escapeHtml(abbreviate(data.name, 50)) + '<\/span>
-								<\/a>
-								<strong>' + currency(data.price, true) + '[#if setting.isShowMarketPrice]<del>' + currency(data.marketPrice, true) + '<\/del>[/#if]<\/strong>
-								<a href="javascript:;" class="remove" goodsId="' + data.id + '">[${message("shop.common.remove")}]<\/a>
-							<\/dd>'
-						[/@compress]
-					);
-					compareGoodsIds.unshift(goodsId);
-					addCookie("compareGoods", compareGoodsIds.join(","));
-				} else {
-					$.message(data.message);
-				}
-			}
-		});
-		return false;
-	});
-	
+
 	$.pageSkip = function(pageNumber) {
 		$pageNumber.val(pageNumber);
 		$goodsForm.submit();
@@ -724,10 +522,10 @@ $().ready(function() {
 		<link href="${base}/resources/shop/${theme}/css_mdh/main.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-		
+		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		<script type="text/javascript">
 			$().ready(function() {
-				var $headerCart = $("#headerCart");
+			//	var $headerCart = $("#headerCart");
 				var $compareBar = $("#compareBar");
 				var $compareForm = $("#compareBar form");
 				var $compareSubmit = $("#compareBar a.submit");
@@ -951,96 +749,6 @@ $().ready(function() {
 				}
 			});
 			
-			$productImage.lazyload({
-				threshold: 100,
-				effect: "fadeIn"
-			});
-			
-			// 加入购物车
-			$addCart.click(function() {
-				var $this = $(this);
-				var productId = $this.attr("productId");
-				$.ajax({
-					url: "${base}/cart/add.jhtml",
-					type: "POST",
-					data: {productId: productId, quantity: 1},
-					dataType: "json",
-					cache: false,
-					success: function(message) {
-						if (message.type == "success" && $headerCart.size() > 0 && window.XMLHttpRequest) {
-							var $image = $this.closest("li").find("img");
-							var cartOffset = $headerCart.offset();
-							var imageOffset = $image.offset();
-							$image.clone().css({
-								width: 170,
-								height: 170,
-								position: "absolute",
-								"z-index": 20,
-								top: imageOffset.top,
-								left: imageOffset.left,
-								opacity: 0.8,
-								border: "1px solid #dddddd",
-								"background-color": "#eeeeee"
-							}).appendTo("body").animate({
-								width: 30,
-								height: 30,
-								top: cartOffset.top,
-								left: cartOffset.left,
-								opacity: 0.2
-							}, 1000, function() {
-								$(this).remove();
-							});
-						}
-						$.message(message);
-					}
-				});
-				return false;
-			});
-				var $addCart = $('[data-tag="addCart"]');  // 产品购物车document
-				var $headerCart = $('#headerCart');        // 右边固定购物车
-				// 加入购物车
-				$addCart.click(function() {
-					var $this = $(this);
-					var productId = $this.closest("li").attr("productId");  // 产品id
-					 $.ajax({
-					 	url: "../../test/add.php",  //jshop/cart/add.jhtml
-					 	type: "POST",
-					 	data: {productId: productId, num: 1}, // 产品id，数量
-					 	dataType: "json",
-					 	cache: false,
-					 	success: function(message) {
-					 		if (message.type == "success") {
-								var $image = $this.closest("li").find("img");
-								var cartOffset = $headerCart.offset();
-								var imageOffset = $image.offset();
-								$image.clone().css({
-									width: 270,
-									height: 265,
-									position: "absolute",
-									"z-index": 20,
-									top: imageOffset.top,
-									left: imageOffset.left,
-									opacity: 0.8,
-									border: "1px solid #dddddd",
-									"background-color": "#eeeeee"
-								}).appendTo("body").animate({
-									width: 30,
-									height: 30,
-									top: cartOffset.top,
-									left: cartOffset.left,
-									opacity: 0.2
-								}, 1000, function() {
-									$(this).remove();
-								});
-								// 右边固定栏购物车显示
-								$headerCart.find('span').html(message.content);
-							}
-						}
-					});
-					return false;
-				});
-
-			});
 		</script>
 	</head>
     <body>
@@ -1066,6 +774,7 @@ $().ready(function() {
 					[#assign filterAttributes = attributes /]
 				[/@attribute_list]	
 			[/#if]
+		</form>
 			<div class="goods-nav clearfix">
 				<div class="goods-left">
 					<h2>
@@ -1128,12 +837,12 @@ $().ready(function() {
 				<ul class="clearfix" >
 					[#list page.content as goods]
 						[#assign defaultProduct = goods.defaultProduct /]
-						<li productId = "123456" >
-							<a href="${goods.url}" >
+						<li productId = "${goods.id}" data-items="list" >
+							<a href="${goods.url}" target="_blank" >
 								<!--img src="${goods.thumbnail!setting.defaultThumbnailProductImage}"  height="270" width="265"/-->
-								<img src="${goods.image}"  height="270" width="265"/>
+								<img src="${goods.image}" height="270" width="265"/>
 
-								<P>	<!--
+								<p>	<!--
 									goods.caption——》${goods.caption}<br/>
 									goods.name——》${goods.name}——》${abbreviate(goods.name, 24)}——》${abbreviate(goods.name, 48)}<br/>
 									goods.type——》${goods.type}<br/>
@@ -1160,8 +869,8 @@ $().ready(function() {
 											${abbreviate(goods.caption, 48)}
 									</p>
 									<div class="collect">
-										<a href="javascript:;" data-tag="addCart" title="${message("shop.goods.addCart")}" goodsId="${goods.id}"></a>
-										<a href="javascript:;" class="last" title="${message("shop.goods.exchange")}" goodsId="${goods.id}"></a>
+										<button title="${message("shop.goods.addCart")}" data-goods="enshrine" data-id="${goods.id}"></button>
+										<button href="javascript:;" class="last" title="${message("shop.goods.exchange")}" goodsId="${goods.id}"></button>
 									</div>
 								</div>
 							</a>							
@@ -1222,7 +931,6 @@ $().ready(function() {
 				</span>
 				<button id="confirm">确&nbsp认</button>
 			</p>
-		</form>
 		
 		<!-- 底部开始 -->
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
