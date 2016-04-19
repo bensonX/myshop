@@ -42,7 +42,7 @@
 		<div class = "wechat-refresh" data-tag="wechatRefresh" >
 			<h3>微信支付</h3>
 			<p>微信支付成功，请关闭窗口</p>
-			<a href = "javascript:;" data-tag="close">确&nbsp;定</a
+			<a href = "javascript:;" data-tag="close">确&nbsp;定</a>
 		</div>		
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>	
