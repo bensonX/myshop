@@ -1,13 +1,12 @@
 [#escape x as x?html]
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>${message("shop.productCategory.title")}[#if showPowered] - Powered By JSHOP[/#if]</title>
 <meta name="author" content="JSHOP Team" />
 <meta name="copyright" content="JSHOP" />
-
 <link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css"/>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
@@ -73,7 +72,7 @@
 							[#if goodsList?has_content]
 								[#list goodsList as goods]
 								<li productId = "${productCategoryId.id}" data-items="list">
-									<a href="${goods.url}" target="blank">
+									<a href="${goods.url}" target="_blank">
 										<img src="${goods.thumbnail!setting.defaultThumbnailProductImage}" alt="${goods.name}" height="270" width="265"/>
 										<p>${abbreviate(goods.name, 10)}
 											<span>${currency(goods.price, true)}</span>
@@ -83,7 +82,7 @@
 											<h3>${abbreviate(goods.name, 52)}</h3>
 											<p>${abbreviate(goods.caption, 100)}</p>
 											<div class="collect">
-												<button data-tag="addCart" class="addFavorite" data-list = "${goods.id}"></button>
+												<button data-goods="enshrine"  data-id="${goods.id}"></button>
 												<button class="last" ></button>
 											</div>
 										</div>
@@ -101,25 +100,4 @@
 	[#include "/shop/${theme}/include/footer_mdh.ftl"/]
 </body>
 </html>
-<script type="text/javascript">
-$().ready(function() {
-	var $addFavorite = $(".addFavorite");
-	// 添加商品收藏
-	$addFavorite.click(function(e) {
-		var goodsId = $(this).attr("data-list");
-		$.ajax({
-			url: "${base}/member/favorite/add.jhtml",
-			type: "POST",
-			data: {goodsId: goodsId},
-			dataType: "json",
-			cache: false,
-			success: function(message) {
-				layer(message.content);
-			}
-		});
-		return false;
-	});
-	
-});
-</script>
 [/#escape]

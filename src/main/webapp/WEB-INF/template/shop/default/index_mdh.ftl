@@ -1,6 +1,6 @@
 [#escape x as x?html]
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,42 +15,20 @@
 		<meta name="description" content="[@seo.description?interpret /]" />
 	[/#if]
 [/@seo]
-[#--
-<link href="${base}/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="${base}/resources/shop/${theme}/slider/slider.css" rel="stylesheet" type="text/css" />
-<link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
-<link href="${base}/resources/shop/${theme}/css/index.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.tools.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.lazyload.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/slider/slider.js"></script>
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
---]
-
 <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/index.js"></script>
 <script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
-<script>
-	$(function () {
-		// 收藏
-		init.enshrine('${base}/member/favorite/add.jhtml');  // 里面收藏地址
-	})
-</script>
 </head>
 <body>
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
-	
 	<!-- 轮播图开始 -->
 	<div class="main_visual">
 		[@ad_position id = 1 /]
-	</div>
-	
+	</div>	
 	[#--
 	<div class="container index" >
-	
-
 		<div class="row" style="border:3px solid red;">
 			<div class="span2">
 				[@product_category_root_list count = 6]

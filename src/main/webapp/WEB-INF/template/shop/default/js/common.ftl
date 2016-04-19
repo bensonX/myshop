@@ -132,7 +132,7 @@ function message(code) {
 	}
 }
 
-(function($) {
+;(function($) {
 
 	var zIndex = 100;
 	
@@ -166,6 +166,14 @@ function message(code) {
 		} else {
 			location.href = href;
 		}
+	}
+	
+	// 获取用户名
+	$.getUserName = function () {
+		var username = getCookie("username");
+		var nickname = getCookie("nickname");
+		var mobile = getCookie("mobile");
+		return mobile || nickname || username;
 	}
 	
 	// 消息框
@@ -209,13 +217,14 @@ function message(code) {
 $().ready(function() {
 
 	var $window = $(window);
-	var $goTop = $('<div class="goTop"><\/div>').appendTo("body");
-	var $top = $('<a href="javascript:;">&nbsp;<\/a>').appendTo($goTop);
-	var $addFavorite = $('<a href="javascript:;">&nbsp;<\/a>').appendTo($goTop);
+	var $goTop = $('#goTop');
+	var $addFavorite = $('#addFavorite');
 	var $headerCartQuantity = $("#headerCart em");
 	var $topCartQuantity = $("#topCart em");
+	var $enshrine = $('[data-goods="enshrine"]');
 	
 	// 返回顶部
+/**
 	$window.scroll(function() {
 		if($window.scrollTop() > 100) {
 			$goTop.fadeIn();
@@ -223,9 +232,9 @@ $().ready(function() {
 			$goTop.fadeOut();
 		}
 	});
-	
+**/	
 	// 返回顶部
-	$top.click(function() {
+	$goTop.click(function() {
 		$("body, html").animate({scrollTop: 0});
 	});
 	
@@ -241,6 +250,22 @@ $().ready(function() {
 			alert("${message("shop.goTop.addFavoriteInvalid")}");
 		}
 	});
+	
+	// 商品添加到收藏
+  $enshrine.bind('click', function(event) {
+      var id = $(event.target).attr('data-id');
+      $.ajax({
+        url: "${base}/member/favorite/add.jhtml",
+        type: "POST",
+        data: {goodsId: id},
+        dataType: "json",
+        cache: false,
+        success: function(message) {
+          layer(message.content);
+        }
+      });
+      return false;
+  });
 	
 	// 显示购物车数量
 	function showHeaderCartQuantity() {
@@ -378,5 +403,100 @@ if ($.validator != null) {
 			form.submit();
 		}
 	});
+	
+	$.validator.addMethod('mobile', function (value, element, params) {
+		if (!value) {
+			return false;
+		}
+		if (/^1[3|4|5|7|8|9]{1}\d{9}$/.test(value)) {
+			return ture;
+		}
+		else { 
+			return false;
+		}
+	}, '输入正确的手机号');
 
 }
+
+
+/**
+ * 弹出接口api
+ */
+
+;(function (window, $) {
+
+  function Layer (options) {
+    if (!(this instanceof Layer)) return new Layer(options);
+    this.init.apply(this, arguments);
+  };
+
+  Layer.prototype = {
+    constructor: Layer,
+
+    init: function (options) {
+      this.options = options;
+
+      this.views();
+      this.documentEvent();
+    },
+
+    views: function () {
+      if (!this.options) return false;
+      this.template(this.options);
+      // 弹出窗口随窗口改变
+      this.windowSize();
+      // 弹出窗口随窗口改变而改变
+      $(window).resize(this.windowSize);
+
+    },
+
+    documentEvent: function () {
+
+      // 关闭事件
+      $('body').delegate('[data-popup="closeEvent"]', 'click', this.closeEvent);
+    },
+
+    template: function (context) {
+      var hl = '<div class = "common-popup" data-popup="popup" >'
+        +'<div class = "title clearfix" >'
+          +'<h4>买德好</h4>'
+          +'<strong data-popup="closeEvent">x</strong>'
+        +'</div>'
+        +'<div class = "context" >'
+          +'<p>'+context+'</p>'
+        +'</div>'
+      +'</div>'
+      +'<div class = "common-shielding" data-popup="shieldingLayer"></div>';
+
+      $('body').append(hl);
+    },
+
+    closeEvent: function () {
+      $('[data-popup="popup"]').remove();
+      $('[data-popup="shieldingLayer"]').remove();
+    },
+
+    // 弹出窗口的位置
+    windowSize: function () {
+      var $wechatRefresh = $('[data-popup="popup"]');
+      var width = $wechatRefresh.outerWidth();
+      var height = $wechatRefresh.outerHeight();
+
+      var windowWdith = $(window).width();
+      var windowHeight = $(window).height();
+      $wechatRefresh.css({
+        top: (windowHeight-height)/2,
+        left: (windowWdith-width)/2
+      }).show();
+
+      $('[data-popup="shieldingLayer"]').css({
+        width: windowWdith,
+        height: windowHeight
+      }).show();
+    }
+
+
+  };
+
+  window.layer = Layer;
+})(window, jQuery);

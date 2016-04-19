@@ -454,7 +454,6 @@
   // 添加地址
 
   Klass.fn.addAddressClick = function () {
-	console.log($('[data-address="items"] li').length);
 	if ($('[data-address="items"] li').length >= 4) {
   		layer('不能超过四个地址，请修改或删除再添加地址');
   		return false;
