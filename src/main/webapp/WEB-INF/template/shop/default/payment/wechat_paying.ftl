@@ -11,59 +11,41 @@
 		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/buy.js"></script>
+		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/pay.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		
 		<script type="text/javascript">
-		var timer1;
-		/* 查询是否支付成功 */
-		function payResult() {
-			$.get("${base}/payment/payResultSearch/${out_trade_no}.jhtml", function(data) {
-			    console.log("lsu into timer: type is: " + data.result.type + "  content is: " + data.result.content);
-			    console.log(data);
-				if (data.result.type == "SUCCESS") {
-				    console.log("lsu pay success, will kill timer!");
-					$("#paying").html("Hello: <b>PAY SUCCESS</b>!");
-					//stop the timer;
-					clearInterval(timer1);
-				}
-				else {
-				    console.log("lsu pay failed");
-					$("#paying").html("the check result is : " + data.result.content );
-				}
+			$(function () {
+				/**
+				 * 微信提示成功
+				 * pay.js    1-80
+				 */
+				WechatPrompt({
+					urlRefreshPost: '${base}/payment/payResultSearch/${out_trade_no}.jhtml'
+				});
+				
 			});
-		}
-		$(function() {
-			/* 每隔4秒查一次 */
-			timer1 = window.setInterval("payResult()", 4000);
-		});
 		</script>
 	</head>
-	
     <body>
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]	
-
-		
-		<div  id = "paying" class = "paying">
-		<h> is ....</h>	
+		<!-- 主体部分开始 -->
+		<div class="pay">
+			<div class="wechat">
+				<P>微信支付</P>
+				<img src="${base}/${code}" width="190" height="190">
+				<span>请使用微信扫一扫<br>扫描二维码支付</span>
+				<a href="javascript:;">${out_trade_no}</a>
+			</div>	
 		</div>
-		
-		<div>		
-		<h> out_trade_no is:  ${out_trade_no}</h>
-		</div>
-		
-		<div>		
-		<h> return_code is(success or failed):  ${return_code}</h>
-		</div>
-		
-		<div>
-	    <img src="${base}/${code}"> url is: ${base}/${code} </img>
-	    </div>
-		
+		<div class = "shielding-layer" data-tag="shieldingLayer"></div>
+		<div class = "wechat-refresh" data-tag="wechatRefresh" >
+			<h3>微信支付</h3>
+			<p>微信支付成功，请关闭窗口</p>
+			<a href = "javascript:;" data-tag="close">确&nbsp;定</a
+		</div>		
 		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>	
-    
-
 </html>
 [/#escape]		
 		
