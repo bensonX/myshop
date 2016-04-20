@@ -114,8 +114,8 @@ public class CartController extends BaseController {
 	 */
 	@RequestMapping(value = "/getCartData", method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> getCartData() {
-		Map<String, Object> data = new HashMap<>();
-		List<Map<String, Object>> cartList = new ArrayList<>();
+		Map<String, Object> data = new HashMap<String, Object>();
+		List<Map<String, Object>> cartList = new ArrayList<Map<String, Object>>();
 		data.put("cart", cartList);
 		Cart cart = cartService.getCurrent();
 		if (cart == null) {
@@ -128,7 +128,7 @@ public class CartController extends BaseController {
 			return data;
 		}
 		for (CartItem cartItem : cartItemsSet) {
-			Map<String, Object> cartItems = new HashMap<>();
+			Map<String, Object> cartItems = new HashMap<String, Object>();
 			Product product = cartItem.getProduct();
 			Goods goods = product.getGoods();
 			cartItems.put("quantity", cartItem.getQuantity());

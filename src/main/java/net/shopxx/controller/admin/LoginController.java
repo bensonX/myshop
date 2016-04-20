@@ -11,14 +11,6 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import net.shopxx.Message;
-import net.shopxx.Setting;
-import net.shopxx.entity.Admin;
-import net.shopxx.service.AdminService;
-import net.shopxx.service.RSAService;
-import net.shopxx.util.SystemUtils;
-import net.shopxx.util.WebUtils;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +18,14 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import net.shopxx.Message;
+import net.shopxx.Setting;
+import net.shopxx.entity.Admin;
+import net.shopxx.service.AdminService;
+import net.shopxx.service.RSAService;
+import net.shopxx.util.SystemUtils;
+import net.shopxx.util.WebUtils;
 
 /**
  * Controller - 管理员登录

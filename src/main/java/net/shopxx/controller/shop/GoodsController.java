@@ -227,7 +227,7 @@ public class GoodsController extends BaseController {
 		model.addAttribute("endPrice", endPrice);
 		model.addAttribute("orderType", orderType);
 		model.addAttribute("page", searchService.search(keyword, startPrice, endPrice, orderType, pageable));
-		return "/shop/${theme}/goods/search";
+		return "/shop/${theme}/goods/search_mdh";
 	}
 
 	/**
