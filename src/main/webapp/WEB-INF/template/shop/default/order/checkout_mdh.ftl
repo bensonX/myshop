@@ -235,22 +235,31 @@
 				<form class="buy-pay" action = "#" method = "post">
 					[#if order.isDelivery]
 						<input type="hidden" id="receiverId" name="receiverId"[#if defaultReceiver??] value="${defaultReceiver.id}"[/#if] />
-						<!-- <input type = "hidden" value = "" name = "addressId" data-tag="inputAddressId" /> -->
 					[/#if]
 					[#if order.type == "general"]
 						<input type="hidden" name="cartToken" value="${cartToken}" />
 					[/#if]
-          			<input type = "hidden" value = "not" name = "memo" data-tag="inputNote" maxlength="350" />
+					[#switch type]
+			          	[#case "buy"]
+							<input type="hidden" name="type" value="buy" />
+							<input type="hidden" name="productId" value="${productId}" />
+							<input type="hidden" name="quantity" value="${quantity}" />
+			             	[#break]
+						[#case "exchange"]
+							<input type="hidden" name="type" value="exchange" />
+							[#break]
+			          	[#default]
+							<input type="hidden" name="type" value="cart" />
+			        [/#switch]
+          			<input type = "hidden" value = "" name = "memo" data-tag="inputNote" maxlength="350" />
+          			<!--
 					<label for="buy">${message("Order.paymentMethod")}</label>
-					<input    id="buy" type="radio" checked="checked" name="paymentMethodId" value="1" />
-					<!--img  type="hidden"  src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-1.png" height="56" width="55"-->
-					<input    type="radio" name="paymentMethodId" value="2">
-					<!--img  type="hidden"  src="${base}/resources/shop/${theme}/images_mdh/icon/buy-pay-2.png" height="56" width="56"><br /-->
-					
+					<input id="buy" type="radio" checked="checked" name="paymentMethodId" value="1" />
 					<input type="hidden" id="shippingMethod_${shippingMethod.id}" name="shippingMethodId" value="1" />
-					<input type="hidden" id="code" name="code" maxlength="200" value="0" />
+					<input type="hidden" id="code" name="couponCode" maxlength="200" value="0" />
 					<input type="hidden" id="invoiceTitle" name="invoiceTitle" class="text" value="${message("shop.order.defaultInvoiceTitle")}" maxlength="200" disabled="disabled" />
 					<input type="hidden" id="balance" name="balance" class="balance" value="0" maxlength="16" onpaste="return false;" />
+					-->
 					<button type="button" data-tag="formSubmit">结算</button>
 				</form>
 			</div>

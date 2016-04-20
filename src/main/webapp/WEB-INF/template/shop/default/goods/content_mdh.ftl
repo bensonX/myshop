@@ -1027,7 +1027,7 @@ $().ready(function() {
 					
 	              </dd>
 	            </dl>
-            	<form method="post" action="${base}/member/order/checkout.jhtml">
+            	<form method="post" action="${base}/order/checkout.jhtml">
 	            <div class = "button" data-tag="button" >
 	              
 	              [#if goods.type == "general"]
@@ -1042,7 +1042,7 @@ $().ready(function() {
 	            
 	              <input type="hidden" id ="productId" name="productId" value=""/>
 	              <input type="hidden" id ="quantity" name="quantity" value=""/>
-	              
+	              <input type="hidden" name="type" value="buy" />
 	              <button type = "button" class = "submit" data-tag="buyImmediately">
 	               	 立即购买
 	              </button>
