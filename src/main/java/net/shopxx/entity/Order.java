@@ -48,6 +48,8 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 订单
  * 
@@ -225,6 +227,7 @@ public class Order extends BaseEntity<Long> {
 	private Invoice invoice;
 
 	/** 地区 */
+	@JsonIgnore
 	private Area area;
 
 	/** 支付方式 */
@@ -232,38 +235,50 @@ public class Order extends BaseEntity<Long> {
 
 	/** 配送方式 */
 	private ShippingMethod shippingMethod;
+	
+	/** 身份证号 */
+	private String cardId;
 
 	/** 会员 */
+	@JsonIgnore
 	private Member member;
 
 	/** 优惠码 */
+	@JsonIgnore
 	private CouponCode couponCode;
 
 	/** 促销名称 */
 	private List<String> promotionNames = new ArrayList<String>();
 
 	/** 赠送优惠券 */
+	@JsonIgnore
 	private List<Coupon> coupons = new ArrayList<Coupon>();
 
 	/** 订单项 */
 	private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
 	/** 支付记录 */
+	@JsonIgnore
 	private Set<PaymentLog> paymentLogs = new HashSet<PaymentLog>();
 
 	/** 收款单 */
+	@JsonIgnore
 	private Set<Payment> payments = new HashSet<Payment>();
 
 	/** 退款单 */
+	@JsonIgnore
 	private Set<Refunds> refunds = new HashSet<Refunds>();
 
 	/** 发货单 */
+	@JsonIgnore
 	private Set<Shipping> shippings = new HashSet<Shipping>();
 
 	/** 退货单 */
+	@JsonIgnore
 	private Set<Returns> returns = new HashSet<Returns>();
 
 	/** 订单记录 */
+	@JsonIgnore
 	private Set<OrderLog> orderLogs = new HashSet<OrderLog>();
 
 	/**
@@ -1054,6 +1069,16 @@ public class Order extends BaseEntity<Long> {
 		this.shippingMethod = shippingMethod;
 	}
 
+	@Transient
+	public String getCardId() {
+		// TODO 修改为数据库映射
+		return cardId;
+	}
+
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
+
 	/**
 	 * 获取会员
 	 * 
@@ -1327,7 +1352,22 @@ public class Order extends BaseEntity<Long> {
 		}
 		return BigDecimal.ZERO;
 	}
-
+	
+	
+	/**
+	 * 获取税率费
+	 * 
+	 * @return 税率费
+	 */
+	@Transient
+	public BigDecimal getTaxFee() {
+		if (orderItems == null || orderItems.size() < 1) return BigDecimal.ZERO;
+		BigDecimal taxFee = new BigDecimal("0");
+		for (OrderItem orderItem : orderItems)
+			taxFee = taxFee.add(orderItem.getTax());
+		return taxFee;
+	}
+	
 	/**
 	 * 获取应退金额
 	 * 

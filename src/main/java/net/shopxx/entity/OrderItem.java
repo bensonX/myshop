@@ -21,6 +21,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import net.shopxx.BaseAttributeConverter;
 
 /**
@@ -67,9 +69,11 @@ public class OrderItem extends BaseEntity<Long> {
 	private Integer returnedQuantity;
 
 	/** 商品 */
+	@JsonIgnore
 	private Product product;
 
 	/** 订单 */
+	@JsonIgnore
 	private Order order;
 
 	/** 规格 */
@@ -410,7 +414,6 @@ public class OrderItem extends BaseEntity<Long> {
 	 */
 	@Transient
 	public BigDecimal getTax() {
-		System.out.println(getSubtotal().multiply(getComprehensiveTaxRate()));
 		return getSubtotal().multiply(getComprehensiveTaxRate());
 	}
 	
@@ -419,7 +422,6 @@ public class OrderItem extends BaseEntity<Long> {
 	 */
 	@Transient
 	public BigDecimal getComprehensivePrice() {
-		System.out.println(getSubtotal().add(getTax()));
 		return getSubtotal().add(getTax());
 	}
 

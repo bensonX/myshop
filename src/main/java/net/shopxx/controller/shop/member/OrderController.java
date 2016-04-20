@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.shopxx.Message;
+import net.shopxx.Page;
 import net.shopxx.Pageable;
 import net.shopxx.Setting;
 import net.shopxx.controller.shop.BaseController;
@@ -122,6 +123,19 @@ public class OrderController extends BaseController {
 		model.addAttribute("page", orderService.findPage(null, null, member, null, null, null, null, null, null, null, pageable));
 		return "/shop/${theme}/member/order/list_mdh";
 	}
+	
+	/**
+	 * 列表
+	 */
+	@RequestMapping(value = "/getOrderPage", method = RequestMethod.GET)
+	public @ResponseBody Page<Order> getOrderPage(Integer pageNumber) {
+		Member member = memberService.getCurrent();
+		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
+		Page<Order> page = orderService.findPage(null, null, member, null, null, null, null, null, null, null, pageable);
+		// 暂时不用
+		page = null;
+		return page;
+	}
 
 	/**
 	 * 查看
@@ -139,7 +153,7 @@ public class OrderController extends BaseController {
 		Setting setting = SystemUtils.getSetting();
 		model.addAttribute("isKuaidi100Enabled", StringUtils.isNotEmpty(setting.getKuaidi100Key()));
 		model.addAttribute("order", order);
-		return "/shop/${theme}/member/order/view";
+		return "/shop/${theme}/member/order/view_mdh";
 	}
 
 	/**

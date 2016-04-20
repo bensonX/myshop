@@ -1,494 +1,285 @@
 [#escape x as x?html]
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>${message("shop.member.order.list")}[#if showPowered] - Powered By JSHOP[/#if]</title>
-<meta name="author" content="JSHOP Team" />
-<meta name="copyright" content="JSHOP" />
+  <meta charset = "utf-8" />
+	<title>买德好</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="keywords" content="test" />
+	<meta name="description" content="买德好专注打造国内首家德国跨境精品聚集地，只将最具品质及品味的德国正品引入国人生活。涵盖生活多方面的产品体系，带来真正一站式的购物便捷体验。独具特色的知识性模块形式，让你无限贴近德式生活" />
+	<link href="favicon.ico" rel="icon" type="image/x-icon" />
+	<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
+  <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/personal.css">
+  <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
+  <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/common.js"></script>
+  <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+  <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/main/views/personal.js"></script>
+  <script>
+  	$(function () {
+  		// 配送鼠标移上去效果
+  		$('[data-logistics="mouse"]').bind({
+  			mouseenter: function (event) {
+  				var $this = $(this);
+  				$this.find('[data-logistics="showHide"]').show();
+  			},
 
-<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/common.css" />     
-<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/personal.css">
-<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
-<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/personal.js"></script>
-<script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-[#--
-<link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
-<link href="${base}/resources/shop/${theme}/css/member.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/jquery.js"></script>
---]
-<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
-<script type="text/javascript">
-$().ready(function() {
+  			mouseleave: function (event) {
+  				var $this = $(this);
+  				$this.find('[data-logistics="showHide"]').hide();
+  			}
+  		});
 
-	[@flash_message /]
+  		function windowSize () {
+		    var $popupLayer = $('[data-tag="popupLayer"]');
+		    var width = $popupLayer.outerWidth();
+		    var height = $popupLayer.outerHeight();
+		
+		    var windowWdith = $(window).width();
+		    var windowHeight = $(window).height();
+		    $popupLayer.css({
+		      top: (windowHeight-height)/2,
+		      left: (windowWdith-width)/2,
+		      display: 'block'
+		    });
+		
+		    $('[data-tag="shieldingLayer"]').css({
+		      width: windowWdith,
+		      height: windowHeight
+		    }).show();
+			}
 
-});
-</script>
+  		$('[data-close="layer"]').click(function() {
+				$('[data-tag="popupLayer"]').hide();
+    		$('[data-tag="shieldingLayer"]').hide();
+			});
+
+			$('[data-order="close"]').bind('click', function (e) {
+				// 弹出窗口随窗口改变
+		    windowSize();
+		    // 弹出窗口随窗口改变而改变
+		    $(window).resize(windowSize);
+			});
+  	});
+  	var pageNumber=${page.pageable.pageNumber};
+  </script>
 </head>
 <body>
-	[#assign current = "orderList" /]
-	[#include "/shop/${theme}/include/header_mdh.ftl" /]
-	
-	<!-- 主体内容开始 -->
-			<!-- 个人中心左侧导航开始 -->
+		[#include "/shop/${theme}/include/header_mdh.ftl" /]
+		<!-- 主体内容开始 -->
+		<!-- 个人中心左侧导航开始 -->
 		<div class="personal clearfix">
-
-			[#assign indexLeft=2]
 			[#include "/shop/${theme}/member/index_left.ftl" /]
 			<!-- 我的订单详情开始 -->
 			<div class="personal-item fr">
-				<p class="order-title">您目前暂无订单，您可以前往：
-					<a href="javascript:;">新近单品</a>
-					<a href="javascript:;">我的购物车</a>
-					<a href="javascript:;">我的收藏</a>
-				</p>
-				<form class="order-search">
-					<input type="text">
-					<button type="submit">搜索订单</button>
-				</form>
-				<div class="order-list-title">
-					<span class="goods">德国好物</span>
-					<span class="price">单价/元</span>
-					<span class="number">数量</span>
-					<span class="place">发货地</span>
-					<span class="money">实付金额</span>
-					<span class="state">状态</span>
-				</div>
-				
-				[#list page.content as order]
-					<div class="order-list">
-						<p class="message">
-							<span class="date">${order.createDate?string("yyyy-MM-dd")}</span>
-							<span class="time">${order.createDate?string("HH:mm:ss")}</span>
-							<strong>订单号：</strong>
-							<span class="no">${order.sn}</span>
-						</p>
-						<ul class="List clearfix">
-							<li class="list-goods fl">
-								[#list order.orderItems as orderItem]
-									<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" class="din" alt="${orderItem.name}" height="90" width="90" />
-									[#if orderItem_index == 0]
-										[#break /]
-									[/#if]
-								[/#list]
-								<div class="item din">
-									<h6>小岛老师的蛋糕教师</h6>
-									<p><span>小岛留美</span>烹饪美食与酒书籍</p>
-									<b>240ml</b>
-								</div>
-							</li>
-							<li class="list-price fl">
-								<span class="dl">${currency(order.price, true)}</span>
-							</li>
-							<li class="list-number fl">
-								<span class="dl">${currency(order.quantity, true)}</span>
-							</li>
-							<li class="list-place fl">
-								<p>上海保税区发货</p>
-								<span class="dl">配送中</span>
-								<a href="javascript:;">详情</a>
-							</li>
-							<li class="list-money fl">
-								<p>${currency(order.amount, true)}</p>
-								<span class="dl">含税金${currency(order.tax, true)}</span>
-								<strong class="dl">含运费${currency(order.freight, true)}</strong>
-								<em class="dl">已共优惠${currency(order.promotionDiscount, true)}</em>
-							</li>
-							<li class="list-state fl">
-									[#if order.hasExpired()]
-										<span class="dl">${message("shop.member.order.hasExpired")}</span>
-									[#else]
-										<span class="dl">${message("Order.Status." + order.status)}</span>
-									[/#if]
-								<a href="javascript:;">查看进度</a>
-							</li>
-						</ul>
-					</div>
-				[/#list]
-				
-				<!-- 订单状态开始 -->
-				<div class="personal-state">
-					<h5 class="personal-state-title">订单状态</h5>
-					<div class="personal-state-plan">
-						<span class="plan one din">
-							<strong class="current">1</strong>
-							<p class="smt">提交订单</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan two din">
-							<strong>2</strong>
-							<p class="smt">付款成功</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan threen din">
-							<strong>3</strong>
-							<p class="smt">订单处理中</p>
-							<div class="time">
-								<span>2016-11-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan four din">
-							<strong>4</strong>
-							<p class="smt">成功</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
+				[#if page.total<1]
+					<p class="order-title">您目前暂无订单，您可以前往：
+						<a href="javascript:;">新近单品</a>
+						<a href="javascript:;">我的购物车</a>
+						<a href="javascript:;">我的收藏</a>
+					</p>
+				[#else]
+				<div class = "personal-top clearfix" >	
+					<div class = "fl" >
+						<form class="order-search" action = "" method = "post">
+							<input type="text" value = "">
+							<button type="submit">搜索订单</button>
+						</form>
 					</div>
 				</div>
-				<!-- 订单状态信息 -->
-				<div class="personal-state-message">
-					<div class="company">
-						<span>物流公司:</span>
-						<p>圆通快递</p>
-					</div>
-					<div class="number">
-						<span>运单号:</span>
-						<p>652348952</p>
-					</div>
-					<div class="track">
-						<span>物流跟踪:</span>
-						<p class="message-one">
-							<b>2016-03-28</b>
-							<strong>12:09:00</strong>
-							<em>顺丰速运</em>
-							已收取快件
-						</p>
-						<p class="message-two">
-							<b>2016-03-28</b>
-							<strong>12:33:00</strong>
-							<em>快件离开</em>
-							<span class="for">［济南市中丽景苑营业点］</span>
-							<i>正发往</i>
-							<span class="to">［济南历城集散中心］</span>
-						</p>
-					</div>
-				</div>
-				<!-- 退货开始 -->
-				<div class="personal-return">
-					<h5 class="personal-state-title">退货</h5>
-					<div class="personal-state-plan">
-						<span class="plan one din">
-							<strong class="current">1</strong>
-							<p class="smt">提交申请</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan two din">
-							<strong>2</strong>
-							<p class="smt">申请通过请寄回</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan threen din">
-							<strong>3</strong>
-							<p class="smt">退货商品已收到</p>
-							<div class="time">
-								<span>2016-11-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan four din">
-							<strong>4</strong>
-							<p class="smt">订单退款中</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan four din">
-							<strong>5</strong>
-							<p class="smt">已完成</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<a href="javascript:;">查看钱款去向</a>
-					</div>
-						<!-- 退货信息开始 -->
-					<div class="message">
-						<div class="place">
-							<span>退换货收件地址:</span>
-							<p>上海市，浦东新区，祖冲之路2305号，天之骄子B栋，501室
-								<a href="javascrtipt:;">修改</a>
-							</p>
-						</div>
-						<div class="company">
-							<span>物流公司:</span>
-							<p>圆通快递</p>
-						</div>
-						<div class="number">
-							<span>运单号码:</span>
-							<p>652348952</p>
-						</div>
-					</div>
-				</div>
-				<!-- 换货/维修开始 -->
-				<div class="personal-exchange">
-					<h5 class="personal-state-title">换货/维修</h5>
-					<div class="personal-state-plan">
-						<span class="plan one din">
-							<strong class="current">1</strong>
-							<p class="smt">提交申请</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan two din">
-							<strong>2</strong>
-							<p class="smt">申请通过请寄回</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan threen din">
-							<strong>3</strong>
-							<p class="smt">换货/维修商品已收到</p>
-							<div class="time">
-								<span>2016-11-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan four din">
-							<strong>4</strong>
-							<p class="smt">换货/维修商品处理中</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-						<p class="next din"></p>
-						<span class="plan four din">
-							<strong>5</strong>
-							<p class="smt">已完成</p>
-							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
-							</div>
-						</span>
-					</div>
-						<!-- 换货/维修信息开始 -->
-					<div class="message">
-						<div class="place">
-							<span>退换货收件地址:</span>
-							<p>上海市，浦东新区，祖冲之路2305号，天之骄子B栋，501室
-								<a href="javascrtipt:;">修改</a>
-							</p>
-						</div>
-						<div class="company">
-							<span>物流公司:</span>
-							<p>圆通快递</p>
-						</div>
-						<div class="number">
-							<span>运单号码:</span>
-							<p>652348952</p>
-						</div>
-					</div>
-				</div>
-					<!-- 订单基础信息开始 -->
-				<div class="personal-information">
-					<h5>订单基础信息</h5>
-					<div class="place">
-						<span>收货地址:</span>
-						<strong>陈xx</strong>
-						<em>15292045468</em>
-						<p>上海市，浦东新区，祖冲之路2305号，天之骄子B栋501室</p>
-					</div>
-					<div class="identity">
-						<span>身份证号码:</span>
-						<p>410185198807015488 </p>
-					</div>
-					<div class="item">
-						<p>
-							<span>订单编号:</span>
-							<strong>5236987125</strong>
-							<em>订单状态:</em>
-							<b>已收货</b>
-						</p>
-						<p>
-							<span>支付流水号:</span>
-							<strong>25689521</strong>
-							<em>支付方式:</em>
-							<b>微信支付</b>
-						</p>
-					</div>
-					<ul class="order-item bt clearfix">
-						<li>
-							<img src="../../images_mdh/content8.png" height="90" width="90">
-						</li>
-						<li class="goods">
-							<h6>小岛老师的蛋糕教师<span>小岛留美</span>烹饪美食与酒书籍</h6>
-							<div class="number din">
-								<span>240ml</span>
-								<p>x10件</p>
-							</div>
-							<div class="pirce din">
-								<span>单价:￥440.00</span>
-								<p>税率:11.9%</p>
-							</div>
-							<div class="place din">
-								<span>上海保税区发货</span>
-								<p>已送达</p>
-							</div>
-						</li>
-						<li class="money">
-							<div class="pay">
-								<span>实付</span>
-								<strong>￥800.00</strong>
-							</div>
-							<p>
-								<span>包含税金</span>
-								<strong>￥12.00</strong>
-								<span>运费</span>
-								<strong>￥10.00</strong>
-							</p>
-							<b>已共优惠</b>
-							<em>￥10.00</em>
-						</li>
-					</ul>
-					<ul class="order-item clearfix">
-						<li>
-							<img src="../../images_mdh/content8.png" height="90" width="90">
-						</li>
-						<li class="goods">
-							<h6>小岛老师的蛋糕教师<span>小岛留美</span>烹饪美食与酒书籍</h6>
-							<div class="number din">
-								<span>240ml</span>
-								<p>x10件</p>
-							</div>
-							<div class="pirce din">
-								<span>单价:￥440.00</span>
-								<p>税率:11.9%</p>
-							</div>
-							<div class="place din">
-								<span>上海保税区发货</span>
-								<p>已送达</p>
-							</div>
-						</li>
-						<li class="money">
-							<div class="pay">
-								<span>实付</span>
-								<strong>￥800.00</strong>
-							</div>
-							<p>
-								<span>包含税金</span>
-								<strong>￥12.00</strong>
-								<span>运费</span>
-								<strong>￥10.00</strong>
-							</p>
-							<b>已共优惠</b>
-							<em>￥10.00</em>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
-	[#--
-	<div class="container member">
-		<div class="row">
-			[#include "/shop/${theme}/member/include/navigation.ftl" /]
-			<div class="span10">
-				<div class="list">
-					<div class="title">${message("shop.member.order.list")}</div>
-					<table class="list">
-						<tr>
-							<th>
-								${message("Order.sn")}
-							</th>
-							<th>
-								${message("OrderItem.product")}
-							</th>
-							<th>
-								${message("Order.consignee")}
-							</th>
-							<th>
-								${message("Order.amount")}
-							</th>
-							<th>
-								${message("Order.status")}
-							</th>
-							<th>
-								${message("shop.common.createDate")}
-							</th>
-							<th>
-								${message("shop.member.action")}
-							</th>
-						</tr>
+				<!-- 
+					<p class="order-title">没有此订单号，您可以前往：
+						<a href="javascript:;">新近单品</a>
+						<a href="javascript:;">我的购物车</a>
+						<a href="javascript:;">我的收藏</a>
+					</p> 
+				-->
+				<div class="personal-order">
+					<table>
+						<thead class="order-list-title">
+							<tr>
+								<th>
+									<span class="goods">德国好物</span>
+								</th>
+								<th>
+									<span class="price">单价/元</span>
+								</th>
+								<th>
+									<span class="number">数量</span>
+								</th>
+								<th>
+									<span class="money">实付金额</span>
+								</th>
+								<th>
+									<span class="state">状态</span>
+								</th>
+								<!--
+								<th>
+									<span class="state">操作</span>
+								</th>
+								-->
+							</tr>
+						</thead>
 						[#list page.content as order]
-							<tr[#if !order_has_next] class="last"[/#if]>
-								<td>
-									${order.sn}
-								</td>
-								<td>
-									[#list order.orderItems as orderItem]
-										<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" class="thumbnail" alt="${orderItem.name}" />
-										[#if orderItem_index == 2]
-											[#break /]
-										[/#if]
-									[/#list]
-								</td>
-								<td>
-									${order.consignee!"-"}
-								</td>
-								<td>
-									${currency(order.amount, true)}
-								</td>
-								<td>
-									[#if order.hasExpired()]
-										${message("shop.member.order.hasExpired")}
-									[#else]
-										${message("Order.Status." + order.status)}
-									[/#if]
-								</td>
-								<td>
-									<span title="${order.createDate?string("yyyy-MM-dd HH:mm:ss")}">${order.createDate}</span>
-								</td>
-								<td>
-									<a href="view.jhtml?sn=${order.sn}">[${message("shop.member.action.view")}]</a>
+						<tbody class="order-list">
+							<tr class="message">
+								<td colspan = "6" >
+									<span class="date">${order.createDate?string("yyyy-MM-dd HH:mm:ss")}</span>
+									<strong>订单号：</strong>
+									<span class="no">${order.sn}</span>
 								</td>
 							</tr>
-						[/#list]
-					</table>
-					[#if !page.content?has_content]
-						<p>${message("shop.member.noResult")}</p>
-					[/#if]
+							[#list order.orderItems as orderItem]
+							<tr class="list">
+								<td class="list-goods">
+									<img class="din" src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" alt="${orderItem.name}" height="90" width="90">
+									<div class="item din">
+										<h6>${orderItem.name}</h6>
+										[#if orderItem.product.specifications?has_content]
+											<span class="silver">[${orderItem.product.specifications?join(", ")}]</span>
+										[/#if]
+										[#if orderItem.type != "general"]
+											<span class="red">[${message("Goods.Type." + orderItem.type)}]</span>
+										[/#if]
+									</div>
+								</td>
+								<td class="list-price">
+									<span class="dl">${currency(orderItem.price, true)}</span>
+								</td>
+								<td class="list-number" >
+									<span class="dl">x${orderItem.quantity}</span>
+								</td>
+								[#if orderItem_index == 0]
+								<td rowspan="${order.orderItems.size()+1}" class="list-money">
+									<p>${currency(order.amountPayable, true, true)}</p>
+									<span class="dl">含税金:${currency(order.taxFee, true, true)}</span>
+									<!-- <strong class="dl">含运费￥10.00</strong> -->
+									<!-- <em class="dl">已共优惠￥10.00</em> -->
+								</td>
+								<td rowspan="${order.orderItems.size()+1}" class="list-state">
+									[#switch order.status]
+							          	[#case "pendingPayment"]
+								          	<div>
+											<span>等待付款</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;">付款</a>
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+							             	[#break]
+										[#case "pendingReview"]
+											<div>
+												<span>等待审核</span>
+												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "pendingShipment"]
+											<div>
+												<span>等待发货</span>
+												<a href = "./order-state.html" target="_blank" data-logistics="mouse">配送中
+													<!-- 没有物流信息 -->
+													<div class = "logistics dn" data-logistics="showHide">
+														<ul>
+															<li>圆通单号8521619608  2016-3-28 15:32<li>
+															<li>已到达浦东新区分拣中心</li>
+														</ul>
+														<i></i>
+													</div>
+												</a>
+												<a href="${base}/member/order/view.jhtml" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "shipped"]
+											<div>
+											<span>已发货</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "received"]
+											<div>
+											<span>已收货</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "completed"]
+											<div>
+												<span>已完成</span>
+												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "failed"]
+											<div>
+											<span>已失败</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "canceled"]
+											<div>
+											<span>已取消</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "denied"]
+											<div>
+											<span>已拒绝</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											</div>
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+							          	[#default]
+							          	<!-- 没有 -->
+							        [/#switch]
+								</td>
+								[/#if]
+							</tr>
+							[/#list]
+						</tbody>
+						[/#list]	
+					</table>	
+					<div class="pagin fr">
+						<a href = "${base}/member/order/list.jhtml" class="prev-disabled">上一页<b></b></a>
+						<a class="current">1</a>                    
+    					<a href = "${base}/member/order/list.jhtml" class="next-disabled">下一页<b></b></a>    
+     		 		</div>
 				</div>
-				[@pagination pageNumber = page.pageNumber totalPages = page.totalPages pattern = "?pageNumber={pageNumber}"]
-					[#include "/shop/${theme}/include/pagination.ftl"]
-				[/@pagination]
+				[/#if]
+				<div class = "shielding-layer" data-tag="shieldingLayer"></div>
+				<div class = "popup-layer dn" data-tag="popupLayer" >
+					<div class = "title clearfix" >
+						<span>买德好</span>
+						<strong class = "fr" data-close="layer" >x</strong>
+					</div>
+					<div class = "context" >确定取消订单?</div>
+					<div class = "button" >
+						<a href = "javascript:;" >确定</a>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-	--]
-	[#include "/shop/${theme}/include/footer_mdh.ftl" /]
-</body>
+		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
+  </body>
 </html>
 [/#escape]

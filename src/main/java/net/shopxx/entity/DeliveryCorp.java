@@ -20,6 +20,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 物流公司
  * 
@@ -43,6 +45,7 @@ public class DeliveryCorp extends OrderEntity<Long> {
 	private String code;
 
 	/** 配送方式 */
+	@JsonIgnore
 	private Set<ShippingMethod> shippingMethods = new HashSet<ShippingMethod>();
 
 	/**
