@@ -1785,6 +1785,45 @@ public class Goods extends BaseEntity<Long> {
 		}
 		return getProductImages().get(0).getThumbnail();
 	}
+	
+	/**
+	 * 获取中图片
+	 * 
+	 * @return 中图片
+	 */
+	@Transient
+	public String getMedium() {
+		if (CollectionUtils.isEmpty(getProductImages())) {
+			return null;
+		}
+		return getProductImages().get(0).getMedium();
+	}
+	
+	/**
+	 * 获取原图片
+	 * 
+	 * @return 原图片
+	 */
+	@Transient
+	public String getSource() {
+		if (CollectionUtils.isEmpty(getProductImages())) {
+			return null;
+		}
+		return getProductImages().get(0).getSource();
+	}
+	
+	/**
+	 * 获取大图片
+	 * 
+	 * @return 大图片
+	 */
+	@Transient
+	public String getLarge() {
+		if (CollectionUtils.isEmpty(getProductImages())) {
+			return null;
+		}
+		return getProductImages().get(0).getLarge();
+	}
 
 	/**
 	 * 获取是否库存警告

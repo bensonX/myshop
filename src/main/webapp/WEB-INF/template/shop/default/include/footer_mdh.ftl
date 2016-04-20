@@ -81,7 +81,7 @@
 				<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
 					[@navigation_list position = "top"]
 						[#list navigations as navigation]
-							<a href="${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
+							<a href="${base}${navigation.url}"[#if navigation.isBlankTarget] target="_blank"[/#if] class="logged-news" >${navigation.name}</a>
 						[/#list]
 					[/@navigation_list]
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>

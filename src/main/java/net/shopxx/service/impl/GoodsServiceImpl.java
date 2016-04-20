@@ -690,8 +690,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		}
 
 		productImageService.generate(goods.getProductImages());
-		if (StringUtils.isEmpty(goods.getImage()) && StringUtils.isNotEmpty(goods.getThumbnail())) {
-			goods.setImage(goods.getThumbnail());
+		if (StringUtils.isEmpty(goods.getImage()) && StringUtils.isNotEmpty(goods.getSource())) {
+			goods.setImage(goods.getSource());
 		}
 		if (goods.isNew()) {
 			if (StringUtils.isEmpty(goods.getSn())) {
