@@ -8,7 +8,8 @@
 		<meta name="keywords" content="test" />
 		<meta name="description" content="买德好专注打造国内首家德国跨境精品聚集地，只将最具品质及品味的德国正品引入国人生活。涵盖生活多方面的产品体系，带来真正一站式的购物便捷体验。独具特色的知识性模块形式，让你无限贴近德式生活" />
 		<link href="favicon.ico" rel="icon" type="image/x-icon" />
-		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
+		<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
+		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/personal.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
 		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/buy.js"></script>
@@ -66,87 +67,81 @@
 	</head>
     <body>
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]
-	<div class="buy">
+	
+		<!-- 主体内容开始 -->
+		<div class="personal clearfix">
+			<!-- 左侧 -->
 			[#assign indexLeft=4]
-		[#include "/shop/${theme}/member/index_left.ftl" /]
-		<div class="buyForm dn" data-tag="addressForm" >
-			<div class = "title clearfix" >
-	 			<span class = "fl" data-tag="title">新增地址</span>
-	  			<strong class = "fr" data-tag="popupClose">x</strong>
-			</div>
-			<div class="username">
-				<label for="username">收货人姓名</label>
-				<input id="username" data-tag = "userName" type="text" placeholder="请输入与身份证一致的姓名">
-			</div>
-			<div class="city">
-				<label for="city">省/市</label>
-				<select class="provinciala" data-tag="province" province = "2">
-        		<option>所在省</option>
-    			</select>
-				<select class="provinciala" data-tag="city" disabled="disabled">
-			   		<option>所在市区</option>
-				</select>
-	          <select class="citya" data-tag="town" disabled="disabled">
-	              <option>所在城镇</option>
-	          </select>
-			</div>
-			<div class="address">
-				<label for="address">详细地址</label>
-     			 <textarea id="address" data-tag = "address" placeholder="请输入详细地址"></textarea>
-			</div>
-			<div class="identity">
-				<label for="identity">身份信息</label>
-				<input id="identity" type="text" data-tag="idCard" placeholder="海关清关所需，请填入18位身份证号码">
-			</div>
-			<div class="mobile">
-				<label for="mobile">手机号码</label>
-				<input id="mobile" type="text" data-tag="mobile" placeholder="请输入收货的手机号码">
-			</div>
-			<div class="isdefault">
-				<input id="isdefault" type="checkbox" data-tag="isdefault" >
-				<label for="isdefault">默认地址</label>
-			</div>
-   			<div class = "error hidden" data-tag="error">
-     			 <i></i><span></span>
-   			 </div>
-			<div class="btn">
-				<button type = "button" data-tag="addressSubmit">保存地址</button>
-			</div>
-		</div>
-      	<div class = "shielding-layer" data-tag="shieldingLayer"></div>
-      
-		<!-- 收货地址开始 -->
-		<div class="buy-address dn" data-tag="butAddress" >
-		<h5 class = "clearfix">收货地址<a herf = "javascript:;" data-tag="addAddress" class = "fr">添加</a></h5>
-	        
-	        <button class="left" type="button" data-tag="scrollLeft"></button>
-	        <button class="right" type="button" data-tag="scrollRight"></button>
-	        
-	        
-	        <div class = "scroll-address" data-tag="scroll-address" >
-				<ul class="clearfix" data-address="items">
-	  				[#if member.receivers?has_content]
+			[#include "/shop/${theme}/member/index_left.ftl" /]
+			<!-- end -->
+			<!-- 收件地址开始 -->
+			<div class="personal-address fr dn " data-tag="butAddress">
+				<div class = "scroll-address">
+				<h5>收货地址</h5>
+  				<ul class="clearfix" data-address="items">
+  					[#if member.receivers?has_content]
 	  					[#list member.receivers as receiver]
 		  					<li class="fl [#if receiver == defaultReceiver]selected[/#if]" data-id="${receiver.id}">
 		  						<p class="information">${receiver.consignee}
 		  							<span class="fr" >${receiver.phone}</span>
-		  						</P>
+		  						</p>
 		  						<strong>${receiver.cardId}</strong>
-		  						<em>${receiver.areaName}<br>${receiver.address}</em>
+		  						<div class="address">
+		  							<span>${receiver.areaName}</span>
+		  							<p>${receiver.address}</p>
+		  						</div>
 		  						<p class="about">
 		  							<a href="javascript:;" class = "default" data-address="default">默认地址</a>
 		  							<a class="editor" href="javascript:;" data-address="edit" >编辑</a>
 		  							<a href="javascript:;" data-address="delete">删除</a>
 		  						</p>
 		  					</li>
-						[/#list]
-						
+  						[/#list]		
 	  				[/#if]
-				</ul>
-	        </div>
+	        		<li class="fl">
+	        			<button type="button" data-tag="addAddress">新增收货地址</button>
+	        		</li>
+  				</ul>
+       	      </div>
+				<div class="add" data-tag="addressForm">
+					<h6 data-tag="title">新增地址信息</h6>
+					<div>
+						<div class="name">
+							<label class="din" for="usename">收件人姓名</label>
+							<input type="text" id="usename" placeholder="请输入与身份证一致的姓名" data-tag = "userName" />
+							<span>5-150个字符，一个汉字为两个字符</span>
+						</div>
+						<div class="city">
+							<label class="din" for="province_id">省/市</label>
+							<select id="selProvance" data-tag="province" >
+   			 				</select>
+    						<select id="selCity" data-tag="city" disabled="disabled">
+    						</select>
+    						<select id="selArea" data-tag="town" disabled="disabled">
+   				 			</select>
+							<span>请选择区域</span>
+						</div>
+						<div class="place">
+							<label class=din for="place">详细地址</label>
+							<input type="text" id="place" data-tag = "address" placeholder="请输入详细的收货地址" />
+						</div>
+						<div class="number">
+							<label class="din" for="number">身份证号</label>
+							<input type="text" id="number" data-tag="idCard" placeholder="海关清关所需，请填入18位身份证号码" />
+							<span></span>
+						</div>
+						<div class="mobile">
+							<label class="din" for="mobile">手机号码</label>
+							<input id="mobile" type="text" data-tag="mobile" placeholder="请输入您的手机号码" />
+							<span></span>
+						</div>
+						<button type="button" data-tag="addressSubmit">新增</button>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-		[#include "/shop/${theme}/include/footer_mdh.ftl" /]
+	
+	[#include "/shop/${theme}/include/footer_mdh.ftl" /]
     </body>
 </html>
 [/#escape]

@@ -86,6 +86,15 @@
     });
   }
 
+  // 底部效果
+  $('#footer .copy p span a.last').hover(function() {
+    $('#footer .copy .scan').css('display', 'block');
+  }, function() {
+    $('#footer .copy .scan').css('display', 'none');
+  });
+
+
+
   // list初始化
   $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
 
