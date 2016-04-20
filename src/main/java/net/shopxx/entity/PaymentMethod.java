@@ -24,6 +24,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 支付方式
  * 
@@ -83,9 +85,11 @@ public class PaymentMethod extends OrderEntity<Long> {
 	private String content;
 
 	/** 配送方式 */
+	@JsonIgnore
 	private Set<ShippingMethod> shippingMethods = new HashSet<ShippingMethod>();
 
 	/** 订单 */
+	@JsonIgnore
 	private Set<Order> orders = new HashSet<Order>();
 
 	/**

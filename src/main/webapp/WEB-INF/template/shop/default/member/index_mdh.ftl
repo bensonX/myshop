@@ -7,10 +7,11 @@
 <title>${message("shop.member.index")}[#if showPowered] - Powered By JSHOP[/#if]</title>
 <meta name="author" content="JSHOP Team" />
 <meta name="copyright" content="JSHOP" />
-
+<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
 <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/personal.css">
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 <script type="text/javascript"  src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
+<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 [#--
 <link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/shop/${theme}/css/member.css" rel="stylesheet" type="text/css" />

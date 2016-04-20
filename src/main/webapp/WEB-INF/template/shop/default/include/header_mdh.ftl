@@ -1,4 +1,5 @@
 [#escape x as x?html]
+<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/headerfooter.css" />
 <!-- 头部开始 -->
 <div id = "header">
 	<div id = "top" class = "clearfix" >

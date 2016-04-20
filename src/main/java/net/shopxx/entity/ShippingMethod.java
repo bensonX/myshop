@@ -31,6 +31,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Entity - 配送方式
  * 
@@ -69,12 +71,15 @@ public class ShippingMethod extends OrderEntity<Long> {
 	private DeliveryCorp defaultDeliveryCorp;
 
 	/** 支持支付方式 */
+	@JsonIgnore
 	private Set<PaymentMethod> paymentMethods = new HashSet<PaymentMethod>();
 
 	/** 运费配置 */
+	@JsonIgnore
 	private Set<FreightConfig> freightConfigs = new HashSet<FreightConfig>();
 
 	/** 订单 */
+	@JsonIgnore
 	private Set<Order> orders = new HashSet<Order>();
 
 	/**

@@ -130,4 +130,48 @@
 	</ul>
 </div>
 <script  src = "${base}/resources/shop/${theme}/js_mdh/main/views/headerfooter.js"></script>
+<script>
+;$(document).ready(function(){
+    // 用户信息
+    var $headerName = $("#headerName");
+    var $topName = $("#topName");
+
+    var $goodsSearchForm = $("#goodsSearchForm");
+    var $keyword = $("#goodsSearchForm input");
+    var defaultKeyword = $keyword.attr('data-search');
+
+    if ($.getUserName()) {
+      $headerName.text($.getUserName());
+      $topName.text($.getUserName());
+      $("#login_in").show();
+      $("#login_out").remove();
+      $("#noLogin").remove();
+      $("#isLogin").show();
+    } else {
+      $("#login_in").remove();
+      $("#login_out").show();
+      $("#isLogin").remove();
+      $("#noLogin").show();
+    }
+
+    // 搜索
+    $keyword.focus(function() {
+      if ($.trim($keyword.val()) == defaultKeyword) {
+        $keyword.val("");
+      }
+    }); 
+    $keyword.blur(function() {
+      if ($.trim($keyword.val()) == "") {
+        $keyword.val(defaultKeyword);
+      }
+    });
+    $goodsSearchForm.submit(function() {
+      if ($.trim($keyword.val()) == "" || $keyword.val() == defaultKeyword) {
+        return false;
+      }
+    });
+
+    Side();
+});
+</script>
 [/#escape]
