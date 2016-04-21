@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -50,6 +51,9 @@ public class AdPosition extends BaseEntity<Long> {
 
 	/** 模板 */
 	private String template;
+	
+	/** 商品分类 */
+	private ProductCategory productCategory;
 
 	/** 广告 */
 	private Set<Ad> ads = new HashSet<Ad>();
@@ -160,6 +164,27 @@ public class AdPosition extends BaseEntity<Long> {
 	 */
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+
+	/**
+	 * 获取商品分类
+	 * 
+	 * @return ProductCategory
+	 * 				商品分类
+	 */
+	@OneToOne(mappedBy = "adPosition", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	public ProductCategory getProductCategory() {
+		return productCategory;
+	}
+
+	/**
+	 * 设置商品分类
+	 * 
+	 * @param productCategory
+	 * 				商品分类
+	 */
+	public void setProductCategory(ProductCategory productCategory) {
+		this.productCategory = productCategory;
 	}
 
 	/**

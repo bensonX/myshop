@@ -53,7 +53,7 @@
 			</li>
 			<li class="last">
 				<a href="javascript:;" target="blank">
-					<img src="${base}/resources/shop/${theme}//images_mdh/footer.png" height="42" width="100">
+					<img src="${base}/resources/shop/${theme}/images_mdh/footer.png" height="42" width="100">
 				</a>
 			</li>
 		</ol>
@@ -63,8 +63,12 @@
 					<a href=""></a>
 					<a href="" class = "last"></a>
 				</span>
-			</P>
+			</P>			
+			<div class="scan dn">
+        		<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="95" width="100">
+        	</div>
 		</div>
+
 	</div>
 </div>
 	

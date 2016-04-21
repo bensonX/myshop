@@ -61,7 +61,73 @@
 				</li>
 				<li>
 					<a href="${base}/product_category.jhtml">${message("shop.header.allProductCategory")}</a>
-					<div class="innav">
+					<div class="innav dn">
+						
+						<ul class="clearfix">							
+							[@product_category_root_list count = 20]
+							[#list productCategories as productCategory]
+								<li>									
+									${productCategory.name}
+								</li>
+							[/#list]
+							[/@product_category_root_list]
+						</ul>
+						
+						<ol>
+							[@product_category_root_list count = 20]
+							[#list productCategories as productCategory]
+							<li>
+								<div class="content din">
+									<div class="row">
+										[@product_category_children_list productCategoryId = productCategory.id recursive = false count = 20]
+										[#list productCategories as productCategory]									
+											<div class="goods din">
+												<p><a href="${base}${productCategory.path}">${productCategory.name}</a></p>
+												[@product_category_children_list productCategoryId = productCategory.id recursive = false]
+													[#list productCategories as productCategory]
+															<a href="${base}${productCategory.path}">${productCategory.name}</a>
+													[/#list]
+												[/@product_category_children_list]
+												
+											</div>
+										[/#list]
+										[/@product_category_children_list]
+	                           		</div>
+	                           </div>
+	                           <div class="image din clearfix">
+	                           		[@brand_list productCategoryId = productCategory.id count = 8]
+										[#if brands?has_content]
+												[#list brands as brand]
+													<a href="${base}${brand.path}" title="${brand.name}">
+															<img class="one din" src="${brand.logo}" alt="${brand.name}"  height="90" width="90">
+													</a>
+												[/#list]
+										[/#if]
+									[/@brand_list]
+									
+
+								</div>
+								<div class="entrance din">
+									[@promotion_list productCategoryId = productCategory.id hasEnded = false count = 4]
+										[#if promotions?has_content]
+												[#list promotions as promotion]
+													[#if promotion.image?has_content]
+														<a href="${base}${promotion.path}" title="${promotion.title}">
+															<img src="${promotion.image}" alt="${promotion.title}"  height="108" width="146">
+														</a>
+													[/#if]
+												[/#list]
+										[/#if]
+									[/@promotion_list]
+									<a href="${base}/product_category/channel.jhtml?productCategoryId=${productCategory.id}">进入频道${productCategory.id}</a>
+								</div>
+	                        </li>
+							[/#list]
+							[/@product_category_root_list]	
+						</ol>	
+						
+							
+					[#--							
 						<ol class="clearfix">
 						[@product_category_root_list count = 20]
 						[#list productCategories as productCategory]
@@ -80,6 +146,7 @@
 						[/#list]
 						[/@product_category_root_list]
 						</ol>
+						--]
 					</div>
 				</li>
 			</ul>

@@ -999,7 +999,7 @@ $().ready(function() {
 					<div class = "get-number">
 						<input type = "hidden" value = "" name="taxRate.id" data-hscode = "id" />
 						<input type = "text" data-tag="number" class = "text" />
-						<span>税率：</span><span data-hscode="rate"></span>
+						<span>${message("Setting.taxRate")}：</span><span data-hscode="rate"></span>
 						<div class = "scroll-pull" data-data="scroll">
 							<ul class = "pull-down" data-tag="pull"></ul>
 						</div>

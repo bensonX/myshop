@@ -227,7 +227,7 @@ public class Cart extends BaseEntity<Long> {
 	}
 
 	/**
-	 * 获取总数量
+	 * 获取总数量(商品+赠送商品)
 	 * 
 	 * @return 总数量
 	 */
@@ -317,18 +317,30 @@ public class Cart extends BaseEntity<Long> {
 	}
 
 	/**
-	 * 获取商品价格
+	 * 获取商品价格(小计,不包含税费)
 	 * 
 	 * @return 商品价格
 	 */
 	@Transient
 	public BigDecimal getPrice() {
 		BigDecimal price = BigDecimal.ZERO;
-		if (getCartItems() != null) {
-			for (CartItem cartItem : getCartItems()) {
-				price = price.add(cartItem.getComprehensivePrice());
-			}
-		}
+		if (getCartItems() == null) return price;
+		for (CartItem cartItem : getCartItems())
+			price = price.add(cartItem.getSubtotal());
+		return price;
+	}
+	
+	/**
+	 * 获取商品小计加上关税的价格
+	 * 
+	 * @return 商品价格
+	 */
+	@Transient
+	public BigDecimal getComprehensivePrice() {
+		BigDecimal price = BigDecimal.ZERO;
+		if (getCartItems() == null) return price;
+		for (CartItem cartItem : getCartItems())
+			price = price.add(cartItem.getComprehensivePrice());
 		return price;
 	}
 

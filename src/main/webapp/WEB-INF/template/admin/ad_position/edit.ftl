@@ -88,6 +88,23 @@ $().ready(function() {
 					<textarea name="template" class="text" style="width: 98%; height: 300px;">${adPosition.template}</textarea>
 				</td>
 			</tr>
+			
+			<tr>
+				<th>
+					商品分类:
+				</th>
+				<td>
+					<select id="type" name="productCategoryId">
+						<option value="">--请选择--${AdPosition.productCategory.id}</option>
+						[@product_category_root_list count = 20]
+						[#list productCategories as productCategory]
+							<option value="${productCategory.id}" [#if adPosition.productCategory.id==productCategory.id]  selected = "selected" [/#if]>${productCategory.name}</option>
+						[/#list]
+						[/@product_category_root_list]
+					</select>
+				</td>
+			</tr>		
+			
 			<tr>
 				<th>
 					&nbsp;

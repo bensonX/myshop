@@ -37,4 +37,16 @@ public class ProductCategoryController extends BaseController {
 		//return "/shop/${theme}/product_category/index";
 	}
 
+	/**
+	 * 频道
+	 */
+	@RequestMapping(value = "channel",method = RequestMethod.GET)
+	public String channel(ModelMap model,Long productCategoryId,String productCategoryName) {
+		model.addAttribute("rootProductCategories", productCategoryService.find(productCategoryId));
+		model.addAttribute("productCategoryId",productCategoryId);
+		model.addAttribute("productCategoryName",productCategoryName);
+		return "/shop/${theme}/product_category/channel_mdh";
+
+	}
+
 }

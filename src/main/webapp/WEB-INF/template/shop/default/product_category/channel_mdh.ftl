@@ -17,55 +17,39 @@
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
 		<!-- 内容区域开始 -->
 		<div class="list-content clearfix">
+			[#list rootProductCategories as rootProductCategory]
 			<div class="nav fl">
-			<h2>家具电器</h2>
-			<ul class="list-nav">
-				<li class="category">类目</li>
-				[#list rootProductCategories as rootProductCategory]
-				<li><a href="${base}${rootProductCategory.path}">${rootProductCategory.name}</a>
-					<div class="list-twoCategory">
-						<ul class="clearfix">
-							[#list rootProductCategories as rootProductCategory]
-							<li class="current"><a href="${base}${rootProductCategory.path}">${rootProductCategory.name}</a></li>
-							[/#list]
-						</ul>
-						<p>
-							[#list rootProductCategory.children as productCategory]
-								<a href="${base}${productCategory.path}">${productCategory.name}</a>
-							[/#list]
-						</p>
-						[@promotion_list productCategoryId = rootProductCategory.id hasEnded = false count = 3]
-							[#if promotions?has_content]
-									[#list promotions as promotion]
-										[#if promotion.image?has_content]
-											<a href="${base}${promotion.path}" title="${promotion.title}">
-												<img src="${promotion.image}" alt="${promotion.title}" />
-											</a>
-										[/#if]
-									[/#list]
+				<h2>${rootProductCategory.name}</h2>
+				<ul class="list-nav">
+					[#list rootProductCategory.children as productCategory]
+					<li><a href="${base}${productCategory.path}">${productCategory.name}</a>
+						<ol>
+						[#list productCategory.children as productcategory]
+							<li><a href="${base}${productcategory.path}">${productcategory.name}</a></li>	
+						[/#list]
+						</ol>
+					</li>
+					[/#list]
+				</ul>
+				<div class="brand">
+					<h3>热销品牌</h3>
+						[@brand_list productCategoryId = rootProductCategory.id count = 8]
+							[#if brands?has_content]
+								[#list brands as brand]
+										<a href="${base}${brand.path}">${brand.name}</a>
+								[/#list]
 							[/#if]
-						[/@promotion_list]
-					</div>
-				</li>
-				[/#list]
-				<ol class="brand">
-					<li class="category">${message("shop.index.recommendBrand")}</li>
-					[@brand_list productCategoryId = productCategory.id count = 8]
-						[#if brands?has_content]
-							[#list brands as brand]
-								<li>
-									<a href="${base}${brand.path}">${brand.name}</a>
-								</li>
-							[/#list]
-						[/#if]
-					[/@brand_list]
-				</ol>
-			</ul>
-		</div>
+						[/@brand_list]
+				</div>
+			</div>
+			[/#list]		
+				
 		
 				<div class="content fr clearfix">
 					<ol class="list-images clearfix">
-						[@ad_position id = 7 /]
+						[#list rootProductCategories as rootProductCategory]
+						[@ad_position id = rootProductCategory.adPosition.id /]
+						[/#list]
 					</ol>
 					<div class="moods">
 						<h3 class="mian-h2">${message("shop.goods.hotGoods")}

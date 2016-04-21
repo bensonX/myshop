@@ -34,12 +34,10 @@ public class RateMethod implements TemplateMethodModelEx {
 	@SuppressWarnings("rawtypes")
 	public Object exec(List arguments) throws TemplateModelException {
 		BigDecimal amount = FreeMarkerUtils.getArgument(0, BigDecimal.class, arguments);
-		if (amount != null) {
-			String sign = "%";
-			amount = amount.multiply(new BigDecimal(100));
-			amount.setScale(2, BigDecimal.ROUND_HALF_UP);
-			return new SimpleScalar(amount.toString() + sign);
-		}
-		return null;
+		String sign = "%";
+		if (amount == null) return new SimpleScalar("0" + sign);
+		amount = amount.multiply(new BigDecimal(100));
+		amount.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return new SimpleScalar(amount.toString() + sign);
 	}
 }

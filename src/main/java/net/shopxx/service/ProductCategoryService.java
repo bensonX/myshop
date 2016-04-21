@@ -18,6 +18,14 @@ import net.shopxx.entity.ProductCategory;
 public interface ProductCategoryService extends BaseService<ProductCategory, Long> {
 
 	/**
+	 * 根据id查找商品分类
+	 * 
+	 * @param 	id
+	 * 			主键
+	 */
+	ProductCategory  findById(Long id);
+	
+	/**
 	 * 查找顶级商品分类
 	 * 
 	 * @return 顶级商品分类

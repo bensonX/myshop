@@ -122,7 +122,7 @@
 				<entry key="base" value="#{servletContext.contextPath}" />
 				<entry key="showPowered" value="#{${show_powered}}" />
 				<entry key="message" value-ref="messageMethod" />
-				<entry key="rate" value-ref="rateMethod" />
+				
 				<entry key="abbreviate" value-ref="abbreviateMethod" />
 				<entry key="currency" value-ref="currencyMethod" />
 				<entry key="flash_message" value-ref="flashMessageDirective" />

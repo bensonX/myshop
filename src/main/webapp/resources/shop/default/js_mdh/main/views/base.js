@@ -18,10 +18,23 @@
       }
 
 
-  $('.nav ul li').hover(function() {
-    $(this).find('.innav').stop().slideDown(300);
+  $('.nav>ul>li').hover(function() {
+	    var num=$('.innav ul li').length;
+	    if(num>0){
+	    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
+	    	$('.innav ul li').eq(0).addClass('current');
+	    }
+    $(this).find('.innav').slideDown(300);
   }, function() {
-    $(this).find('.innav').stop().slideUp(300);
+    $(this).find('.innav').slideUp(300);
+  });
+  
+  
+
+  $('.innav>ul>li').mouseover(function(event) {
+    var n=$(this).index();
+    $(this).addClass('current').siblings().removeClass('current');
+    $('.innav>ol>li').eq(n).css('display', 'block').siblings().css('display', 'none');;
   });
 
  
@@ -86,12 +99,6 @@
     });
   }
 
-  // 底部效果
-  $('#footer .copy p span a.last').hover(function() {
-    $('#footer .copy .scan').css('display', 'block');
-  }, function() {
-    $('#footer .copy .scan').css('display', 'none');
-  });
 
 
 
@@ -103,4 +110,11 @@
     $('.form .password input').focus(function(event) {
       $('.form .register-fix').css('display', 'block');
     });
+
+    // 详情页分享效果
+    $('[data-share="btn"]').click(function(event) {
+      $('[data-share="way"]').stop().animate({'margin-left': 20}, 500);
+    });
+
+
 });
