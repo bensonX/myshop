@@ -766,12 +766,9 @@
   	if (note)
   		$('[data-tag="inputNote"]').val(note);
 
-
   	//var dataPost = $(e.target).parents('form').serialize();
-
-  	$(e.target).parents('form').attr('action',self.options.urlSubmitPost);
+    $(e.target).parents('form').attr('action', self.options.urlSubmitPost);
     $(e.target).parents('form').submit();
-
   	// $.ajax({
   	// 	url: self.options.urlSubmitPost,
   	// 	type: "POST",

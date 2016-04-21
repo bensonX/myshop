@@ -132,7 +132,7 @@
 #header .nav ul {
 	padding-left: 42px;
 }
-#header .nav ul li{
+#header .nav ul>li{
 	float:left;
 	margin-right: 20px;
 }
@@ -162,40 +162,108 @@
 	}
 }
 #header .nav ul li .innav{
-	width: 1060px;
-	background: #000;
-	opacity:0.8;
-	filter:alpha(opacity=80);
+	width: 1100px;
+	background: #fff;
 	position:absolute;
 	top:50px;
 	left:0;
-	z-index:1;
-	padding:0 20px 20px 20px;
-	display: none;
+	z-index:999;
+	ul{
+		height: 45px;
+		padding-left:6px;
+		background: #000;
+		position:relative;
+		li{
+			height: 65px;
+			float: left;
+			margin:0 39px;
+			font-size: @font;
+			color:#fff;
+			line-height: 45px;
+			position:relative;
+			z-index: 9999;
+		}
+		.current{
+			z-index: 9999;
+			background:url(../images_mdh/icon/innav.png) no-repeat center 36px;
+		}
+	}
+	ol{
+		width: 1056px;
+		border:2px solid #d0d0d0;
+		border-top:none;
+		background: #fff;
+		padding-left:40px;
+		padding-top:10px;
+		position:relative;
+		z-index: 100;
+		.content{
+			width:635px;
+			margin-right:60px;
+			.goods{
+				width: 272px;
+				margin-bottom:13px;
+				margin-right:42px;
+				vertical-align: top;
+				p{
+					font-size: @font;
+					color:#595757;
+					line-height: 25px;
+					border-bottom:1px solid #c4c4c4;
+					margin-bottom:13px;
+				}
+				a{
+					font-size: 14px;
+					color:#595757;
+					display: inline-block;
+					padding-right:5px;
+					margin-right:2px;
+					margin-bottom:13px;
+					border-right:1px solid #b3b2b2;
+				}
+				.no{
+					margin:0;
+					padding:0;
+					border:none;
+				}
+			}
+		}
+		.image{
+			width: 190px;
+			vertical-align: top;
+			img{
+				border:1px solid #e4e4e4;
+				float:left;
+			}
+			.two{
+				border-left:none;
+			}
+			.three{
+				border-top:none;
+			}
+			.four{
+				border-top:none;
+				border-left:none;
+			}
+		}
+		.entrance{
+			margin-left:8px;
+			width: 146px;
+			text-align:center;
+			vertical-align: top;
+			img{
+				display: block;
+				margin-bottom:34px;
+			}
+			a{
+				padding:3px 7px;
+				font-size: @font;
+				color:#595757;
+				border:1px solid #a0a0a0;
+			}
+		}
+	}
 }
-#header .nav ul li .innav ol li{
-	float: left;
-	width: 100px;
-}
-#header .nav ul li .innav ol li h2{
-	font-size: 16px;
-	color:#fff;
-	line-height: 40px;
-}
-#header .nav ul li .innav ol li h2:hover{
-	color:#FFC800;
-}
-#header .nav ul li .innav ol li a{
-	font-size: 14px;
-	color:#ccc;
-	line-height: 30px;
-	display: block;
-
-}
-#header .nav ul li .innav ol li a:hover{
-	color:#FFC800;
-}
-
 /** header end */
 
 

@@ -17,6 +17,8 @@
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
 		<!-- 内容区域开始 -->
 		<div class="list-content clearfix">
+			<div class="nav fl">
+			<h2>家具电器</h2>
 			<ul class="list-nav">
 				<li class="category">类目</li>
 				[#list rootProductCategories as rootProductCategory]
@@ -59,15 +61,18 @@
 					[/@brand_list]
 				</ol>
 			</ul>
-			<ol class="list-images">
-				[@ad_position id = 7 /]
-				<li>
+		</div>
+		
+				<div class="content fr clearfix">
+					<ol class="list-images clearfix">
+						[@ad_position id = 7 /]
+					</ol>
 					<div class="moods">
-						<h2 class="mian-h2">${message("shop.goods.hotGoods")}
+						<h3 class="mian-h2">${message("shop.goods.hotGoods")}
 							<span>
 								<a href="javascript:;" target="blank">更多></a>
 							</span>
-						</h2>
+						</h3>
 						<ul class="clearfix" >
 							[@goods_list productCategoryId = productCategory.id count = 15 orderBy = "monthSales desc"]
 							[#if goodsList?has_content]
@@ -93,11 +98,10 @@
 							[/#if]
 							[/@goods_list]
 						</ul>
-						<button type="button"></button>
-					</div>
-				</li>
-			</ol>
+				</div>
+			</div>
 		</div>
+		
 	[#include "/shop/${theme}/include/footer_mdh.ftl"/]
 </body>
 </html>

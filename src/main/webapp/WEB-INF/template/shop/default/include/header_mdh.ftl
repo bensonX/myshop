@@ -61,7 +61,40 @@
 				</li>
 				<li>
 					<a href="${base}/product_category.jhtml">${message("shop.header.allProductCategory")}</a>
-					<div class="innav">
+					<div class="innav dn">
+						
+						<ul class="clearfix">							
+							[@product_category_root_list count = 20]
+							[#list productCategories as productCategory]
+								<li>									
+									${productCategory.name}
+								</li>
+							[/#list]
+							[/@product_category_root_list]
+						</ul>
+						
+						<ol>
+							[@product_category_root_list count = 20]
+							[#list productCategories as productCategory]
+							<li>
+								<div class="content din">
+									<div class="row">
+										[@product_category_children_list productCategoryId = productCategory.id recursive = false count = 20]
+										[#list productCategories as productCategory]									
+											<div class="goods din">
+												<p>${productCategory.name}</p>	
+											</div>
+										[/#list]
+										[/@product_category_children_list]
+	                           		</div>
+	                           </div>
+	                        </li>
+							[/#list]
+							[/@product_category_root_list]	
+						</ol>	
+						
+							
+					[#--							
 						<ol class="clearfix">
 						[@product_category_root_list count = 20]
 						[#list productCategories as productCategory]
@@ -80,6 +113,7 @@
 						[/#list]
 						[/@product_category_root_list]
 						</ol>
+						--]
 					</div>
 				</li>
 			</ul>
