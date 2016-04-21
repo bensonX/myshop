@@ -89,6 +89,21 @@ $().ready(function() {
 			</tr>
 			<tr>
 				<th>
+					商品分类:
+				</th>
+				<td>
+					<select id="type" name="productCategoryId">
+							<option value="">--请选择--</option>
+						[@product_category_root_list count = 20]
+						[#list productCategories as productCategory]
+							<option value="${productCategory.id}">${productCategory.name}</option>
+						[/#list]
+						[/@product_category_root_list]
+					</select>
+				</td>
+			</tr>		
+			<tr>
+				<th>
 					&nbsp;
 				</th>
 				<td>
