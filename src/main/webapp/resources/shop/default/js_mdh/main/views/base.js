@@ -19,10 +19,17 @@
 
 
   $('.nav>ul>li').hover(function() {
+	    var num=$('.innav ul li').length;
+	    if(num>0){
+	    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
+	    	$('.innav ul li').eq(0).addClass('current');
+	    }
     $(this).find('.innav').slideDown(300);
   }, function() {
     $(this).find('.innav').slideUp(300);
   });
+  
+  
 
   $('.innav>ul>li').mouseover(function(event) {
     var n=$(this).index();
@@ -92,12 +99,6 @@
     });
   }
 
-  // 底部效果
-  $('#footer .copy p span a.last').hover(function() {
-    $('#footer .copy .scan').css('display', 'block');
-  }, function() {
-    $('#footer .copy .scan').css('display', 'none');
-  });
 
 
 
