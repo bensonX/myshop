@@ -15,13 +15,13 @@ import java.util.Map;
 
 import javax.persistence.TypedQuery;
 
-import net.shopxx.dao.ProductCategoryDao;
-import net.shopxx.entity.ProductCategory;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.springframework.stereotype.Repository;
+
+import net.shopxx.dao.ProductCategoryDao;
+import net.shopxx.entity.ProductCategory;
 
 /**
  * Dao - 商品分类
@@ -31,6 +31,15 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("productCategoryDaoImpl")
 public class ProductCategoryDaoImpl extends BaseDaoImpl<ProductCategory, Long> implements ProductCategoryDao {
+
+	public ProductCategory findById(Integer id) {
+		String jpql = "select productCategory from ProductCategory productCategory where productCategory.id := id";
+		TypedQuery<ProductCategory> query = entityManager.createQuery(jpql, ProductCategory.class).setParameter("id",id);
+		if (id != null) {
+			query.setMaxResults(1);
+		}
+		return query.getSingleResult();
+	}
 
 	public List<ProductCategory> findRoots(Integer count) {
 		String jpql = "select productCategory from ProductCategory productCategory where productCategory.parent is null order by productCategory.order asc";

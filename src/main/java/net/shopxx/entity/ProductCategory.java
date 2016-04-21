@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -66,6 +67,9 @@ public class ProductCategory extends OrderEntity<Long> {
 
 	/** 层级 */
 	private Integer grade;
+	
+	/** 广告位  **/
+	private AdPosition adPosition;
 
 	/** 上级分类 */
 	private ProductCategory parent;
@@ -211,6 +215,26 @@ public class ProductCategory extends OrderEntity<Long> {
 	 */
 	public void setGrade(Integer grade) {
 		this.grade = grade;
+	}
+
+	/**
+	 * 获取广告位
+	 * 
+	 * @return AdPosition
+	 * 				广告位
+	 */
+	@OneToOne(fetch = FetchType.EAGER)
+	public AdPosition getAdPosition() {
+		return adPosition;
+	}
+	/**
+	 * 设置广告位
+	 * 
+	 * @param adPosition
+	 * 				广告位
+	 */
+	public void setAdPosition(AdPosition adPosition) {
+		this.adPosition = adPosition;
 	}
 
 	/**

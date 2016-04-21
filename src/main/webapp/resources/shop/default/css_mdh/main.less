@@ -10,7 +10,6 @@
 @inputBackground:#f1f1f1;
 @inputColor:#8A8A8A;
 
-
 /* 轮播图开始 */
 .main_visual {
 	margin: 0 auto;
@@ -648,7 +647,7 @@ div.landing #registerForm input.tet {
 	margin: 0 auto;
 	.item-main-detail {
 		width: 100%;
-		p{
+		.nav{
 			font-size: @font;
 			color:#727171;
 			line-height: 70px;
@@ -674,8 +673,7 @@ div.landing #registerForm input.tet {
 			margin-right: 15px;
 		}
 		.item-middle {
-			width: 533px;
-			margin-right: 430px;
+			width: 753px;
 			margin-left: 137px;
 		}
 		.item-right {
@@ -742,20 +740,21 @@ div.landing #registerForm input.tet {
 	
 }
 .item-sku {
-	.specification, .color, .amount, .share {
+ 	.size,.color, .amount, .share {
 		margin-top: 24px;
 		dt {
 			float: left;
-			width: 72px;
+			width: 52px;
 			line-height: 27px;
 			font-size: @font;
-			color: @itemBoxColor;
+			color: #727171;
 		}
 		dd {
 			float: left;
+
 		}
 	}
-	.specification  {
+/* 	.specification  {
 		dl {
 			margin-top: 20px;
 		}
@@ -781,8 +780,43 @@ div.landing #registerForm input.tet {
 				}
 			
 		}
+	} */
+	.size{
+		span{
+			line-height: 27px;
+			color:#727171;
+			padding:3px 5px;
+			border:1px solid #d2d2d2;
+			margin-right:10px;
+		}
 	}
-	
+	.color{
+		dd{
+			display: block;
+			width: 350px;
+			li{
+				width: 27px;
+				margin-right:10px;
+				span{
+					width: 27px;
+					height: 27px;
+					border:1px solid #b5b5b5;
+					text-indent:-9999px;
+					background:#cbcbcb;
+				}
+			}
+			.white{
+				span{
+				background: white;
+				}
+			}
+			.yellow{
+				span{
+				background: #c2a47f;
+				}
+			}
+		}
+	}
 	.amount {
 		font-size: 0px;
 		a {
@@ -810,12 +844,35 @@ div.landing #registerForm input.tet {
 		}
 	}
 	.share{
-		span{
-			width: 25px;
-			height: 25px;
-			text-indent: -9999px;
-			display:inline-block;
-			background: url(../images_mdh/icon/item-share.png) no-repeat center center;
+		dd{
+			border:1px solid #b5b5b5;
+			vertical-align: middle;
+			overflow: hidden;
+			.btn{
+				width: 25px;
+				height: 29px;
+				text-indent: -9999px;
+				background: url(../images_mdh/icon/item-share.png) no-repeat center center;
+			}
+			.way{
+				margin-left:-215px;
+				span{
+					width: 23px;
+					height: 29px;
+					margin:auto 12px;
+					text-indent:-9999px;
+					background: url(../images_mdh/icon/item-way1.png) no-repeat center center;
+				}
+				.weibo{
+					background: url(../images_mdh/icon/item-way2.png) no-repeat center center;
+				}
+				.circle{
+					background: url(../images_mdh/icon/item-way3.png) no-repeat center center;
+				}
+				.other{
+					background: url(../images_mdh/icon/item-way4.png) no-repeat center center;
+				}
+			}
 		}
 	}
 	.button {
@@ -846,7 +903,7 @@ div.landing #registerForm input.tet {
 	.sku-p {
 		margin-top: 24px;
 		font-size: @font;
-		color: @itemBoxColor;
+		color: #727171;
 	}
 }
 .item-sku dl a.selected {
@@ -869,26 +926,28 @@ div.landing #registerForm input.tet {
 }
 
 .item-main-grid .item-middle {
+	margin-top:30px;
 	position: relative;
-	.item-box {
-		h3 {
-			margin-top: 36px;
-			margin-bottom: 22px;
-			width: 220px;
-			background: #CFCFCF;
-			text-align: center;
-			border: 1px solid #DEDEDE;
-			font-size: 18px;
-			line-height: 40px;
-			color: @itemBoxColor;
+	ul{
+		border-bottom:2px solid #5e5e5e;
+		li{
+			margin:0 55px;
+			a{
+				font-size: 16px;
+				color:#323232;
+				line-height: 60px;
+			}
 		}
-		p {
-			color: @itemBoxPColor;
+	}
+	.parameter{
+		margin-top:40px;
+		p{
 			font-size: @font;
-			line-height: 20px;
+			color:#727171;
+			line-height: 24px;
 		}
 		img{
-			margin:20px 0;
+			margin-top:60px;
 		}
 	}
 }
@@ -956,8 +1015,20 @@ div.landing #registerForm input.tet {
 	padding-left:33px;
 	position:relative; 
 }
-.list-nav li{
+.list-nav>li{
+	padding-bottom: 20px;
+	cursor:pointer;
 	background: url(../images_mdh/icon/list.png) no-repeat 160px 8px;
+	ol{
+		li{
+			padding-top:12px;
+			a{
+				margin-left:15px;
+				font-size: @font;
+				color:#505050;
+			}
+		}
+	}
 }
 .nav .brand{
 	font-size: 16px;
@@ -1020,10 +1091,6 @@ div.landing #registerForm input.tet {
 } */
 .nav .brand .category{
 	margin:40px 0;
-}
-.list-nav li{
-	padding-bottom: 20px;
-	cursor:pointer;
 }
 .content{
 	width: 825px;
@@ -1264,7 +1331,15 @@ body.emailverification {
 	width: 1100px;
 	margin: 100px auto;
 	h1{
-		margin:120px auto;
+		margin-bottom:127px;
+		a{
+			display:block;
+			width: 326px;
+			height: 29px;
+			text-indent:-9999px;
+			margin:0 auto;
+			background: url(../images_mdh/logo.png) no-repeat center center;
+		}
 	}
 	.retrieve-nav{
 		text-align:center;
@@ -2090,6 +2165,19 @@ body.emailverification {
 			min-height: 5px;
 			border:none;
 			background: #e6e6e6;
+		}
+		a{
+			width: 183px;
+			height: 43px;
+			display: block;
+			margin:50px auto;
+			background: #444;
+			font-size: 18px;
+			color:#fff;
+			letter-spacing:20px;
+			text-align:center;
+			line-height: 43px;
+			padding-left:20px;
 		}
 	}
 	.settlement{

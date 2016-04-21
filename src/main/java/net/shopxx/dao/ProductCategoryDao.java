@@ -16,7 +16,15 @@ import net.shopxx.entity.ProductCategory;
  \* @version 3.X
  */
 public interface ProductCategoryDao extends BaseDao<ProductCategory, Long> {
-
+	
+	/**
+	 * 根据id查找商品分类
+	 * 
+	 * @param 	id
+	 * 			主键
+	 */
+	ProductCategory  findById(Integer id);
+	
 	/**
 	 * 查找顶级商品分类
 	 * 

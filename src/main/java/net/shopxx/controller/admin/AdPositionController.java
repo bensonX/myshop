@@ -10,7 +10,9 @@ import javax.annotation.Resource;
 import net.shopxx.Message;
 import net.shopxx.Pageable;
 import net.shopxx.entity.AdPosition;
+import net.shopxx.entity.ProductCategory;
 import net.shopxx.service.AdPositionService;
+import net.shopxx.service.ProductCategoryService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,6 +34,9 @@ public class AdPositionController extends BaseController {
 	@Resource(name = "adPositionServiceImpl")
 	private AdPositionService adPositionService;
 
+	@Resource(name = "productCategoryServiceImpl")
+	private ProductCategoryService productCategoryService;
+	
 	/**
 	 * 添加
 	 */
@@ -44,12 +49,22 @@ public class AdPositionController extends BaseController {
 	 * 保存
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String save(AdPosition adPosition, RedirectAttributes redirectAttributes) {
+	public String save(AdPosition adPosition,Long productCategoryId, RedirectAttributes redirectAttributes) {
 		if (!isValid(adPosition)) {
 			return ERROR_VIEW;
 		}
 		adPosition.setAds(null);
-		adPositionService.save(adPosition);
+		adPosition.setProductCategory(null);
+		AdPosition adposition=adPositionService.save(adPosition);
+		
+		System.out.println(adposition.getId());
+		if(productCategoryId !=null){
+			
+			ProductCategory productCategory=productCategoryService.find(productCategoryId);
+			productCategory.setAdPosition(adposition);
+			productCategoryService.update(productCategory);
+		}
+
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
 	}
@@ -67,11 +82,21 @@ public class AdPositionController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(AdPosition adPosition, RedirectAttributes redirectAttributes) {
+	public String update(AdPosition adPosition,Long productCategoryId ,RedirectAttributes redirectAttributes) {
 		if (!isValid(adPosition)) {
 			return ERROR_VIEW;
 		}
-		adPositionService.update(adPosition, "ads");
+		
+		AdPosition adposition=adPositionService.update(adPosition, "ads");
+		System.out.println(adposition.getId());
+
+		if(productCategoryId !=null){
+			
+			ProductCategory productCategory=productCategoryService.find(productCategoryId);
+			productCategory.setAdPosition(adposition);
+			productCategoryService.update(productCategory);
+		}
+		
 		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
 		return "redirect:list.jhtml";
 	}

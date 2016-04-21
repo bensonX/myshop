@@ -33,6 +33,11 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory,
 	private ProductCategoryDao productCategoryDao;
 
 	@Transactional(readOnly = true)
+	public ProductCategory findById(Long id){
+		return productCategoryDao.find(id);
+	}
+	
+	@Transactional(readOnly = true)
 	public List<ProductCategory> findRoots() {
 		return productCategoryDao.findRoots(null);
 	}
