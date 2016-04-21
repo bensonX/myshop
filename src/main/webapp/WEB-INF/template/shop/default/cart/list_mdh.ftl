@@ -89,7 +89,7 @@
 									<span>${currency(cartItem.price, true)}</span>
 								</td>
 								<td>
-									<span>${cartItem.comprehensiveTaxRate!0.0}</span>
+									<span>${rate(cartItem.comprehensiveTaxRate)}</span>
 								</td>
 								<td>
 									<span>${currency(cartItem.tax, true)}</span>

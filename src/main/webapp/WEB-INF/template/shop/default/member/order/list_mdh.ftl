@@ -159,7 +159,7 @@
 									[#switch order.status]
 							          	[#case "pendingPayment"]
 								          	<div>
-											<span>等待付款</span>
+											<span>${message("Order.Status.pendingPayment")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
 											</div>
 											<div class = "" >
@@ -169,7 +169,7 @@
 							             	[#break]
 										[#case "pendingReview"]
 											<div>
-												<span>等待审核</span>
+												<span>${message("Order.Status.pendingReview")}</span>
 												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
 											</div>
 											<div class = "" >
@@ -178,7 +178,7 @@
 											[#break]
 										[#case "pendingShipment"]
 											<div>
-												<span>等待发货</span>
+												<span>${message("Order.Status.pendingShipment")}</span>
 												<a href = "./order-state.html" target="_blank" data-logistics="mouse">配送中
 													<!-- 没有物流信息 -->
 													<div class = "logistics dn" data-logistics="showHide">
@@ -197,8 +197,8 @@
 											[#break]
 										[#case "shipped"]
 											<div>
-											<span>已发货</span>
-											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											<span>${message("Order.Status.shipped")}</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">取消订单</a>
@@ -206,8 +206,8 @@
 											[#break]
 										[#case "received"]
 											<div>
-											<span>已收货</span>
-											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											<span>${message("Order.Status.received")}</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">再次购买</a>
@@ -215,8 +215,8 @@
 											[#break]
 										[#case "completed"]
 											<div>
-												<span>已完成</span>
-												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+												<span>${message("Order.Status.completed")}</span>
+												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">再次购买</a>
@@ -224,8 +224,8 @@
 											[#break]
 										[#case "failed"]
 											<div>
-											<span>已失败</span>
-											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											<span>${message("Order.Status.failed")}</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">再次购买</a>
@@ -233,8 +233,8 @@
 											[#break]
 										[#case "canceled"]
 											<div>
-											<span>已取消</span>
-											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											<span>${message("Order.Status.canceled")}</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">再次购买</a>
@@ -242,8 +242,8 @@
 											[#break]
 										[#case "denied"]
 											<div>
-											<span>已拒绝</span>
-											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
+											<span>${message("Order.Status.denied")}</span>
+											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
 											<div class = "" >
 												<a href = "javascript:;" data-order="close">再次购买</a>
@@ -274,7 +274,7 @@
 					</div>
 					<div class = "context" >确定取消订单?</div>
 					<div class = "button" >
-						<a href = "javascript:;" >确定</a>
+						<a href = "javascript:;" >${message("shop.order.codeConfirm")}</a>
 					</div>
 				</div>
 			</div>

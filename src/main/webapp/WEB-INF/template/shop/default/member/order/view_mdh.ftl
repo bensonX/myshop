@@ -27,10 +27,10 @@
 			<div class="personal-item fr">
 				<!-- 订单状态开始 -->
 				<div class="personal-state">
-					<h5 class="personal-state-title">订单状态</h5>
+					<h5 class="personal-state-title">${message("Order.status")}</h5>
 					<div class="personal-state-plan">
 						<span class="plan one din">
-							<strong class="current">1</strong>
+							<strong [#if order.status=="pendingPayment" || order.status=="failed" || order.status=="canceled" || order.status=="denied"]class="current"[/#if]>1</strong>
 							<p class="smt">提交订单</p>
 							<div class="time">
 								<span>${order.createDate?string("yyyy-MM-dd HH:mm:ss")}</span>
@@ -38,29 +38,32 @@
 						</span>
 						<p class="next din"></p>
 						<span class="plan two din">
-							<strong>2</strong>
+							<strong [#if order.status=="pendingReview" || order.status=="pendingShipment"]class="current"[/#if]>2</strong>
 							<p class="smt">付款成功</p>
 							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
+								[#if order.completeDate??]
+									<span>${order.completeDate?string("yyyy-MM-dd HH:mm:ss")}</span>
+								[/#if]
 							</div>
 						</span>
 						<p class="next din"></p>
 						<span class="plan threen din">
-							<strong>3</strong>
+							<strong [#if order.status=="shipped" || order.status=="received"]class="current"[/#if]>3</strong>
 							<p class="smt">订单处理中</p>
 							<div class="time">
-								<span>2016-11-28</span>
-								<em>15:32</em>
+								[#if order.completeDate??]
+									<span>${order.completeDate?string("yyyy-MM-dd HH:mm:ss")}</span>
+								[/#if]
 							</div>
 						</span>
 						<p class="next din"></p>
 						<span class="plan four din">
-							<strong>4</strong>
+							<strong [#if order.status=="completed"]class="current"[/#if]>4</strong>
 							<p class="smt">成功</p>
 							<div class="time">
-								<span>2016-3-28</span>
-								<em>15:32</em>
+								[#if order.completeDate??]
+								<span>${order.completeDate?string("yyyy-MM-dd HH:mm:ss")}</span>
+								[/#if]
 							</div>
 						</span>
 					</div>
@@ -96,9 +99,9 @@
 				-->
 					<!-- 订单基础信息开始 -->
 				<div class="personal-information">
-					<h5>订单信息</h5>
+					<h5>${message("shop.order.info")}</h5>
 					<div class="place">
-						<span>收货地址:</span>
+						<span>${message("shop.member.receiver.list")}:</span>
 						<strong>${order.consignee}</strong>
 						<em>${order.phone}</em>
 						<p>${order.areaName}${order.address}</p>
@@ -111,33 +114,41 @@
 						<p>
 							<span>订单编号:</span>
 							<strong>${order.sn}</strong>
-							<em>订单状态:</em>
-							<b>${order.state}</b>
+							<em>${message("Order.status")}:</em>
+							<b>${message("Order.Status." + order.status)}</b>
 						</p>
 						<p>
 							<span>支付流水号:</span>
-							<strong>25689521</strong>
-							<em>支付方式:</em>
+							<strong>${order.payment.sn}</strong>
+							<em>${message("shop.member.deposit.paymentPlugin")}:</em>
 							<b>${order.paymentMethodName}</b>
 						</p>
 					</div>
-					<ul class="order-item bt clearfix">
+					[#list order.orderItems as orderItem]
+					<ul class="order-item [#if orderItem_index == 0]bt[/#if] clearfix">
 						<li>
-							<img src="../../images_mdh/content8.png" height="90" width="90">
+							<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" alt="${orderItem.name}" height="90" width="90">
 						</li>
 						<li class="goods">
-							<h6>小岛老师的蛋糕教师<span>小岛留美</span>烹饪美食与酒书籍</h6>
+							<h6>${orderItem.name}
+							[#if orderItem.product.specifications?has_content]
+								<span class="silver">[${orderItem.product.specifications?join(", ")}]</span>
+							[/#if]
+							[#if orderItem.type != "general"]
+								<span class="red">[${message("Goods.Type." + orderItem.type)}]</span>
+							[/#if]
 							<div class="number din">
-								<span>240ml</span>
-								<p>x10件</p>
+								<p>x${orderItem.quantity}</p>
 							</div>
 							<div class="pirce din">
-								<span>单价:￥440.00</span>
-								<p>税率:11.9%</p>
+								<span>单价:${currency(orderItem.price, true)}</span>
+								<p>税率:${rate(orderItem.comprehensiveTaxRate)}</p>
 							</div>
 							<div class="place din">
 								<span>上海保税区发货</span>
+								<!--
 								<p>已送达</p>
+								-->
 							</div>
 						</li>
 						<li class="money">
@@ -155,40 +166,7 @@
 							<em>￥10.00</em>
 						</li>
 					</ul>
-					<ul class="order-item clearfix">
-						<li>
-							<img src="../../images_mdh/content8.png" height="90" width="90">
-						</li>
-						<li class="goods">
-							<h6>小岛老师的蛋糕教师<span>小岛留美</span>烹饪美食与酒书籍</h6>
-							<div class="number din">
-								<span>240ml</span>
-								<p>x10件</p>
-							</div>
-							<div class="pirce din">
-								<span>单价:￥440.00</span>
-								<p>税率:11.9%</p>
-							</div>
-							<div class="place din">
-								<span>上海保税区发货</span>
-								<p>已送达</p>
-							</div>
-						</li>
-						<li class="money">
-							<div class="pay">
-								<span>实付</span>
-								<strong>￥800.00</strong>
-							</div>
-							<p>
-								<span>包含税金</span>
-								<strong>￥12.00</strong>
-								<span>运费</span>
-								<strong>￥10.00</strong>
-							</p>
-							<b>已共优惠</b>
-							<em>￥10.00</em>
-						</li>
-					</ul>
+					[/#list]
 				</div>
 			</div>
 		</div>
