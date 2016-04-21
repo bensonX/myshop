@@ -461,6 +461,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			order.setZipCode(receiver.getZipCode());
 			order.setPhone(receiver.getPhone());
 			order.setArea(receiver.getArea());
+			order.setCardId(receiver.getCardId());
 		}
 		order.setMemo(memo);
 		order.setIsUseCouponCode(false);

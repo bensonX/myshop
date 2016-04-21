@@ -930,6 +930,12 @@ $().ready(function() {
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<th>
+					${message("Setting.taxRate")}:
+				</th>
+				<td>${rate(goods.taxRate.comprehensiveTaxRate)}</td>
+			</tr>
 			[#if goods.type == "general" && promotions?has_content]
 				<tr>
 					<th>
