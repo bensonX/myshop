@@ -57,7 +57,7 @@
 		<div class="nav">
 			<ul class="clearfix">
 				<li>
-					<a href="${base}">${message("shop.header.allHome")}</a>
+					<a href="${base}/">${message("shop.header.allHome")}</a>
 				</li>
 				<li>
 					${message("shop.header.allProductCategory")}[#--<a href="${base}/product_category.jhtml"></a>--]

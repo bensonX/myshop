@@ -117,9 +117,12 @@ public class OrderController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Integer pageNumber, ModelMap model) {
+	public String list(Integer pageNumber,String searchContent, ModelMap model) {
 		Member member = memberService.getCurrent();
 		Pageable pageable = new Pageable(pageNumber, PAGE_SIZE);
+		if (StringUtils.isNotEmpty(searchContent)) {
+			// TODO 全文搜索
+		}
 		model.addAttribute("page", orderService.findPage(null, null, member, null, null, null, null, null, null, null, pageable));
 		return "/shop/${theme}/member/order/list_mdh";
 	}
