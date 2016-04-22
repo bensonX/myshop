@@ -12,7 +12,6 @@
 		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/cart.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		<script>
 			$(function () {
@@ -20,7 +19,8 @@
 				 * 选，加，减，删，提交等功能
 				 * cart
 				 */
-				ShoppingCart({
+				SideCart({
+					el: '[data-cart="cart"]',
 					urlMinusPlusPost: '${base}/cart/edit.jhtml',
 					minusPlusData: {},
 
@@ -36,7 +36,7 @@
     <body>
     	[#include "/shop/${theme}/include/header_mdh.ftl" /]	
 		<!-- 购物车详情开始 -->
-		<div class="shoppingcart-list">
+		<div class="shoppingcart-list" data-cart="cart">
 			<a class="nav" href="javascript:;">购物车</a>
 			<a class="last nav" href="javascript:;">付款</a>
 			[#if cart?? && cart.cartItems?has_content]
@@ -105,7 +105,7 @@
 						[/#list]
 					</table>
 					<P class="total">
-						总价/<span>￥</span><span data-tag="totalPrice">0.00</span>
+						总价/<span data-tag="totalPrice">0.00</span>
 					</P>
 					<button class="settlement" type  = "button" data-tag="submit" >立即结算</button>
 				</form>
