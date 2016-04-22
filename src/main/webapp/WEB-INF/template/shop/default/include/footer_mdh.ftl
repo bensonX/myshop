@@ -51,7 +51,6 @@
 				<a href="/">联系我们</a>
 				<a href="/">招商合作</a>
 				<a href="/">销售联盟</a>
-				
 			</li>
 			<li class="last">
 				<a href="javascript:;" target="blank">
@@ -81,6 +80,8 @@
 			<div class="infix" data-side="showHide" id="login_out">
 				<a href="${base}/login.jhtml">${message("shop.header.login")}</a>
 				<a href="${base}/register.jhtml">${message("shop.header.register")}</a>
+				<i class = "right"></i>
+        <div class = "op"></div>
 			</div>
 			<div class="logged" data-side="showHide" id="login_in">
 				<h6><span id="headerName" class="headerName">&nbsp;</span></h6>
@@ -90,43 +91,69 @@
 						[/#list]
 					[/@navigation_list]
 					<span><a href="${base}/logout.jhtml">[${message("shop.header.logout")}]</a></span>
+					<i class = "right"></i>
+        	<div class = "op"></div>
 			</div>
 		</li>
-		<li>
-			<a href="javascript:;" class="two ico" data-side="cart" data-isshow="1" id="headerCart" >
-				<i></i>
-				<em ></em>
-			</a>	
-			<div style = "position: relative">
-				<div class="shopping-list tooltip" data-side="noCart">
-					<p>来都来了，不买点德国货吗~</p>
-					<a href="${base}/cart/list.jhtml" class = "no"><i></i>查看我的购物车</a>
-				</div>
-				<div class="shopping-list2 tooltip" data-side="isCart">
-					<div>
-						<div class="warp clearfix" data-product = "123456">
-							<img class="fl" src="${base}/resources/shop/${theme}/images_mdh/content3.png" height="60" width="60">
-							<span class="fl" data-right="minus">-</span>
-							<strong class="fl" data-right="num">1</strong>
-							<span class="fl" data-right="plus">+</span>
-							<p class="fr" data-right="priceAll">2365.00</p>
-							<b data-right="delete">x</b>
-						</div>
-					</div>
-					<a href="${base}/cart/list.jhtml"><i></i>查看我的购物车</a>
-				</div>
-			</div>
-		</li>
+		<li data-side="li" data-sideGet="true" >
+      <a href="${base}/cart/list.jhtml" class="two ico" data-side="cart" data-isshow="1" id="headerCart">
+        <i></i>
+        <em></em>
+      </a>
+      <div class="shopping-list tooltip" data-side="showHide" data-side="isCart" data-footer="cart">
+      	<form action = "${base}/order/checkout.jhtml" method = "post" data-data="form" >
+        <table class="caption">
+          <thead>
+             <tr>
+                <th class = "first" >
+                  <input type="checkbox" data-tag="selectAll" disabled="true" checked />
+                </th>
+                <th class = "img" ><span>全选</span></th>
+                <th class = "text" ><a href = "javascript:;" >查看全部</a></th>
+                <th class = "last" ></th>
+              </tr>
+          </thead>
+          <tbody data-cart="tbody">
+            <tr class = "noCart">
+              <td colspan="4">
+                <p>您的购物车暂时没有商品</p>
+                <p>快去买德国的好东西吧～</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class = "button clearfix">
+          <div class = "unit fl">
+            <span>已选</span>
+            <span data-tag="totalNumber">0</span>
+            <span>件</span>
+          </div>
+          <div class = "total-prive fl">
+            <span data-tag="totalPrice">￥0.00</span>
+          </div>
+          <div class = "submit fl">
+            <button type = "button" data-tag="submit" >去&nbsp;结&nbsp;算</button>
+          </div>
+        </div>
+        </form>
+        <i class = "right"></i>
+        <div class = "op"></div>
+      </div>
+    </li>
 		<li data-side="li">
 			<a href="javascript:;" class="three ico" ><i></i></a>
 			<div class="tell" data-side="showHide">			
 				${setting.phone}
+				<i class = "right"></i>
+        <div class = "op"></div>
 			</div>
 		</li>
 		<li data-side="li">
 			<a href="javascript:;" class="fore ico" ><i></i></a>
 			<div class="images" data-side="showHide">
 				<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="190" width="190">
+				<i class = "right"></i>
+        <div class = "op"></div>
 			</div>
 		</li>
 		<li>
@@ -135,6 +162,7 @@
 	</ul>
 </div>
 <script  src = "${base}/resources/shop/${theme}/js_mdh/main/views/headerfooter.js"></script>
+<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/cart.js"></script>
 <script>
 ;$(document).ready(function(){
     // 用户信息
@@ -177,6 +205,21 @@
     });
 
     Side();
+    
+    /**
+	 * 选，加，减，删，提交等功能
+	 * cart
+	 */
+	SideCart({
+		el: '[data-footer="cart"]',
+		urlMinusPlusPost: '${base}/cart/edit.jhtml',
+		minusPlusData: {},
+	
+		urlDeletePost: '${base}/cart/delete.jhtml',
+		deleteData: {},
+	
+		disabled: 1   // 1选中禁止，0, 不选择不禁止
+	});
 });
 </script>
 [/#escape]
