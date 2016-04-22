@@ -25,9 +25,9 @@
 <body>
 	[#include "/shop/${theme}/include/header_mdh.ftl" /]
 	<!-- 轮播图开始 -->
-	<div class="main_visual">
+	
 		[@ad_position id = 1 /]
-	</div>	
+	
 	[#--
 	<div class="container index" >
 		<div class="row" style="border:3px solid red;">

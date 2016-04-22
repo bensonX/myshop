@@ -62,7 +62,7 @@ public class InitListener implements ServletContextAware, ApplicationListener<Co
 	 */
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		if (servletContext != null && contextRefreshedEvent.getApplicationContext().getParent() == null) {
-			String info = "I|n|i|t|i|a|l|i|z|i|n|g| |S|H|O|P|+|+| |" + systemVersion;
+			String info = "I|n|i|t|i|a|l|i|z|i|n|g| |M|D|H| |" + systemVersion;
 			String infoStr = info.replace("|", "");
 			LogUtil.debug(this, infoStr);
 			configService.init();

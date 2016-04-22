@@ -461,6 +461,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 			order.setZipCode(receiver.getZipCode());
 			order.setPhone(receiver.getPhone());
 			order.setArea(receiver.getArea());
+			order.setCardId(receiver.getCardId());
 		}
 		order.setMemo(memo);
 		order.setIsUseCouponCode(false);
@@ -676,8 +677,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
 		order.setAmountPaid(order.getAmountPaid().add(payment.getEffectiveAmount()));
 		order.setFee(order.getFee().add(payment.getFee()));
 		if (!order.hasExpired() && Order.Status.pendingPayment.equals(order.getStatus()) && order.getAmountPayable().compareTo(BigDecimal.ZERO) <= 0) {
-			//order.setStatus(Order.Status.pendingReview);  //lsu temp change it.s
-			order.setStatus(Order.Status.pendingShipment);
+			order.setStatus(Order.Status.pendingReview); 
+			//order.setStatus(Order.Status.pendingShipment);//lsu temp change it.s
 			order.setExpire(null);
 		}
 

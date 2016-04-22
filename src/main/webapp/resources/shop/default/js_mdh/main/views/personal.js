@@ -2,7 +2,7 @@
 * @Author: maidehao
 * @Date:   2016-04-12 16:11:46
 * @Last Modified by:   maidehao
-* @Last Modified time: 2016-04-20 16:59:06
+* @Last Modified time: 2016-04-21 20:08:39
 */
 
 'use strict';
@@ -64,4 +64,15 @@ $(function() {
    $('.genre p span').click(function(event) {
      $(this).addClass('current');
    });
+
+    // 查看钱款去向
+    $('[data-return="where"]').click(function(event) {
+      $('.shielding-layer').css('display', 'block');
+      $('[data-return="returnd"]').css('display', 'block');
+    });
+
+    $('[data-return="btn"]').click(function(event) {
+      $('.shielding-layer').css('display', 'none');
+      $('[data-return="returnd"]').css('display', 'none');
+    });
 });

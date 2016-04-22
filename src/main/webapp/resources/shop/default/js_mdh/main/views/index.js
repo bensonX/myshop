@@ -70,7 +70,11 @@
       .bind("drag", this.touchmove)
       .bind("dragend", this.touchend)
 
-      $(window).bind("orientationchange resize", function () {
+      // $(window).bind("orientationchange resize", function () {
+      //   _this.resize(_this);
+      // });
+
+       $(window).bind("orientationchange", function () {
         _this.resize(_this);
       });
     });
@@ -127,15 +131,22 @@
           return false;
         });
       }
-
       if(this.opts.paging) {
         $(this._list).each(function (i, el) {
           //var btn_page = _this.opts.paging.eq(0).clone();
+      
+         // console.log(i);
           var btn_page = _this.opts.paging.eq(i);
           //_this.opts.paging.before(btn_page);
-
           btn_page.bind("click", function(e) {
             _this.go_page(i, e);
+            return false;
+          });
+
+          var btn_page_tow = _this.opts.paging.eq(i+_this._len);
+          //_this.opts.paging.before(btn_page);
+          btn_page_tow.bind("click", function(e) {
+            _this.go_page(i+_this._len, e);
             return false;
           });
         });
@@ -396,12 +407,31 @@
 
 })(jQuery);
 
-
 /**
  * 调用轮播功能
  */
 
 ;$(function () {
+
+  var cur = 0;
+  var self = $('.flicking_con');   
+  var length = $('.flicking_inner a').length;
+
+  var thumb= self.find('.flicking_inner');
+  var li = self.find('.flicking_inner a');
+  //每次滚动宽度
+ // var thumb_w = li.width();
+  var thumb_w = 363;
+
+  $dragBln = false;
+
+  var first = false;
+
+  var timer;
+
+  //$('.main_image ul').append($('.main_image li').clone());
+  $('.flicking_inner').append($('.flicking_inner a').clone());
+ 
 
   for (var i = 0, len = $('.main_image li').length; i < len; i++) {
     //$('.flicking_inner').append('<a href="javascript:void 0;">'+(i+1)+'</a>');
@@ -413,15 +443,19 @@
     $("#btn_prev,#btn_next").stop().fadeOut()
   })
 
-  $dragBln = false;
+  
   $(".main_image").touchSlider({
     flexible : true,
     speed : 500,
     btn_prev : $("#btn_prev"),
     btn_next : $("#btn_next"),
     paging : $(".flicking_con a"),
-    counter : function (e) {
-      $(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on");
+    counter: function (e) {
+      $(".flicking_con a").removeClass("on").eq(e.current-1).addClass("on"); 
+      if (first)
+        rightEvent();
+
+      first = true;
     }
   });
 
@@ -458,4 +492,37 @@
       $("#btn_next").click();
     }, 5000);
   });
+
+  // 幻灯主函数
+  function moveto(n){
+      var left = -n*thumb_w;
+      thumb.stop().animate({'left':left}, 350,function(){
+          if( n >= length){
+              thumb.css('left', -(n-length)*thumb_w);
+              n = n-length;
+          }
+          cur = n;    
+      });
+  }
+
+  // thumb.delegate('li', 'click', function(event) {
+  //     var index = $(this).index();
+  //     moveto(index);
+  // });
+
+  //左右键
+  function rightEvent () {
+      cur++;
+      if(cur == 2*length ) cur = 0;
+      moveto(cur);
+  };
+
+  function leftEvent () {
+      if(cur == 0){
+          thumb.css('left', -length*thumb_w);
+          cur=length;
+      }
+      cur--;
+      moveto(cur);
+  };
 });

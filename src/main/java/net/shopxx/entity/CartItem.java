@@ -155,18 +155,17 @@ public class CartItem extends BaseEntity<Long> {
 	 */
 	@Transient
 	public BigDecimal getPrice() {
-		if (getProduct() != null && getProduct().getPrice() != null) {
-			Setting setting = SystemUtils.getSetting();
-			if (getCart() != null && getCart().getMember() != null && getCart().getMember().getMemberRank() != null) {
-				MemberRank memberRank = getCart().getMember().getMemberRank();
-				if (memberRank.getScale() != null) {
-					return setting.setScale(getProduct().getPrice().multiply(new BigDecimal(String.valueOf(memberRank.getScale()))));
-				}
-			}
-			return setting.setScale(getProduct().getPrice());
-		} else {
-			return BigDecimal.ZERO;
+		Product pro = getProduct();
+		if (pro == null) return BigDecimal.ZERO;
+		BigDecimal proPrice = pro.getPrice();
+		if (proPrice == null || proPrice.equals(BigDecimal.ZERO)) return BigDecimal.ZERO;
+		Setting setting = SystemUtils.getSetting();
+		if (getCart() != null && getCart().getMember() != null && getCart().getMember().getMemberRank() != null) {
+			MemberRank memberRank = getCart().getMember().getMemberRank();
+			// 对有优惠的会员进行优惠
+			if (memberRank.getScale() != null) return setting.setScale(proPrice.multiply(new BigDecimal(String.valueOf(memberRank.getScale()))));
 		}
+		return setting.setScale(proPrice);
 	}
 
 	/**
@@ -221,16 +220,14 @@ public class CartItem extends BaseEntity<Long> {
 	 */
 	@Transient
 	public void add(int quantity) {
-		if (quantity < 1) {
-			return;
-		}
+		if (quantity < 1) { return; }
 		if (getQuantity() != null) {
 			setQuantity(getQuantity() + quantity);
 		} else {
 			setQuantity(quantity);
 		}
 	}
-	
+
 	/**
 	 * 获取综合税税率
 	 */
@@ -238,15 +235,15 @@ public class CartItem extends BaseEntity<Long> {
 	public BigDecimal getComprehensiveTaxRate() {
 		return getProduct() != null && getProduct().getGoods() != null && getProduct().getGoods().getTaxRate() != null ? getProduct().getGoods().getTaxRate().getComprehensiveTaxRate() : BigDecimal.ZERO;
 	}
-	
+
 	/**
-	 * 获取税费
+	 * 获取综合税费
 	 */
 	@Transient
 	public BigDecimal getTax() {
 		return getSubtotal().multiply(getComprehensiveTaxRate());
 	}
-	
+
 	/**
 	 * 获取综合费用
 	 */
