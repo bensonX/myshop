@@ -17,7 +17,6 @@
       this.views();
       this.documentEvent();
       this.getData = false;
-      this.getCartData();
     },
 
     views: function () {

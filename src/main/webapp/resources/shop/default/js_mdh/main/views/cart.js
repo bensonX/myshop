@@ -11,7 +11,6 @@
 	  SideCart.fn.init = function (options) {
 	    this.options = options;
 	    this.$el = $(this.options.el);
-	    console.log(this.$el);
 	    this.documentClick();
 	    this.oldShoppingId = 0;
 	    this.clearClick = 0;
@@ -81,7 +80,6 @@
 	    var $number = $(e.target).parents('tr').find('[data-tag="count"]');
 	    var shoopingId = $(e.target).parents('tr').attr('data-list');
 	    var num = parseInt(Number($number.html()));
-	    console.log($(e.target));
 	    if (num > 0 ) {
 	      $number.html(++num);
 	      this.minusPlusPost(num, shoopingId);
@@ -173,7 +171,6 @@
 	        dataType: "json",
 	        cache: false,
 	        success: function(data) {
-	        	console.log(data);
 	          if (data.isLowStock) {
 	            layer('库存不足')
 	          }
