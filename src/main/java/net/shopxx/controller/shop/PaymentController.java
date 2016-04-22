@@ -293,7 +293,7 @@ public class PaymentController extends BaseController {
 		}
 
 		LogUtil.info(this, "wechat:.. mobile is: " + member.getMobile() + " order sn is: " + order.getSn() );
-		if (order.getStatus() == Order.Status.pendingShipment) {
+		if (order.getStatus() == Order.Status.pendingReview) {
 			LogUtil.info(this, "wechat: we get the successful result");
 			data.put("result", SUCCESS_MESSAGE);
 			return data;
