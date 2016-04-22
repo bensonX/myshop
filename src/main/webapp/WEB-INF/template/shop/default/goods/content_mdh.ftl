@@ -959,7 +959,11 @@ $().ready(function() {
 					[/#if]
 				</p>
 			</div>
-			
+			<br/>
+			[#if goods.taxRate.comprehensiveTaxRate]
+			税金：${goods.taxRate.comprehensiveTaxRate}
+			[/#if]
+			<br/>
 		[#if goods.type == "general"]
 			<div class = "price" >
 			<h5  id="price">${currency(defaultProduct.price, true)}</h5>

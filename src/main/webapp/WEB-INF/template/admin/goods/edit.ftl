@@ -486,6 +486,9 @@ $().ready(function() {
 					${message("Product.stock")}
 				<\/th>
 				<th>
+					Sku码
+				<\/th>
+				<th>
 					${message("Product.isDefault")}
 				<\/th>
 				<th>

@@ -60,14 +60,15 @@
 					<a href="${base}/">${message("shop.header.allHome")}</a>
 				</li>
 				<li>
-					<a href="${base}/product_category.jhtml">${message("shop.header.allProductCategory")}</a>
+				
+					<a href="javascript:;">${message("shop.header.allProductCategory")}</a>
 					<div class="innav dn">
 						
 						<ul class="clearfix">							
 							[@product_category_root_list count = 20]
 							[#list productCategories as productCategory]
 								<li>									
-									${productCategory.name}
+									<a href="${base}/product_category/channel.jhtml?productCategoryId=${productCategory.id}">${productCategory.name}</a>
 								</li>
 							[/#list]
 							[/@product_category_root_list]
@@ -75,17 +76,17 @@
 						
 						<ol>
 							[@product_category_root_list count = 20]
-							[#list productCategories as productCategory]
+							[#list productCategories as productCategoryRoot]
 							<li>
 								<div class="content din">
 									<div class="row">
-										[@product_category_children_list productCategoryId = productCategory.id recursive = false count = 20]
+										[@product_category_children_list productCategoryId = productCategoryRoot.id recursive = false count = 20]
 										[#list productCategories as productCategory]									
 											<div class="goods din">
-												<p><a href="${base}${productCategory.path}">${productCategory.name}</a></p>
+												<p><a href="${base}/product_category/channeltwo.jhtml?productCategoryId=${productCategory.id}">${productCategory.name}</a></p>
 												[@product_category_children_list productCategoryId = productCategory.id recursive = false]
 													[#list productCategories as productCategory]
-															<a href="${base}${productCategory.path}">${productCategory.name}</a>
+														<a href="${base}/product_category/channeltwo.jhtml?productCategoryId=${productCategory.id}">${productCategory.name}</a>
 													[/#list]
 												[/@product_category_children_list]
 												
@@ -99,6 +100,7 @@
 										[#if brands?has_content]
 												[#list brands as brand]
 													<a href="${base}${brand.path}" title="${brand.name}">
+													<a  href="${base}/product_category/brand/${brand.id}.jhtml?id=${brand.id}&productCategoryId=${productCategoryRoot.id}">
 															<img class="one din" src="${brand.logo}" alt="${brand.name}"  height="90" width="90">
 													</a>
 												[/#list]
@@ -119,7 +121,7 @@
 												[/#list]
 										[/#if]
 									[/@promotion_list]
-									<a href="${base}/product_category/channel.jhtml?productCategoryId=${productCategory.id}">进入频道${productCategory.id}</a>
+									<a href="${base}/product_category/channel.jhtml?productCategoryId=${productCategory.id}">进入频道</a>
 								</div>
 	                        </li>
 							[/#list]
