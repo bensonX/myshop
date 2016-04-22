@@ -117,7 +117,7 @@ public class RegisterController extends BaseController {
 		String appkey = "23331183";
 		String secret = "ed45c69efd06e5b91aa8708ba8595a3a";
 		//短信模板的内容  
-		String json="{\"code\":\""+strcode+"\",\"product\":\"leosu , 电子商务验证\"}"; 
+		String json="{\"code\":\""+strcode+"\",\"product\":\" 买德好跨境购物网站 \"}"; 
 		TaobaoClient client = new DefaultTaobaoClient(url, appkey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
 		req.setExtend("123456");
