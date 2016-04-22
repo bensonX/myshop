@@ -960,7 +960,9 @@ $().ready(function() {
 				</p>
 			</div>
 			<br/>
+			[#if goods.taxRate.comprehensiveTaxRate]
 			税金：${goods.taxRate.comprehensiveTaxRate}
+			[/#if]
 			<br/>
 		[#if goods.type == "general"]
 			<div class = "price" >
