@@ -27,6 +27,7 @@ import net.shopxx.entity.ProductCategory;
 import net.shopxx.entity.Promotion;
 import net.shopxx.entity.Specification;
 import net.shopxx.entity.Tag;
+import net.shopxx.entity.TaxRate;
 import net.shopxx.service.AdminService;
 import net.shopxx.service.AttributeService;
 import net.shopxx.service.BrandService;
@@ -39,6 +40,8 @@ import net.shopxx.service.PromotionService;
 import net.shopxx.service.SpecificationItemService;
 import net.shopxx.service.SpecificationService;
 import net.shopxx.service.TagService;
+import net.shopxx.service.TaxRateService;
+import net.shopxx.util.LogUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -84,6 +87,8 @@ public class GoodsController extends BaseController {
 	private SpecificationService specificationService;
 	@Resource(name = "adminServiceImpl")
 	private AdminService adminService;
+	@Resource(name = "taxRateServiceImpl")
+	private TaxRateService taxRateService;
 
 	/**
 	 * 检查编号是否存在
@@ -202,6 +207,19 @@ public class GoodsController extends BaseController {
 		}
 
 		Admin admin = adminService.getCurrent();
+		TaxRate taxRate = goods.getTaxRate();
+		if (taxRate == null) {
+			LogUtil.warn(this, "插入商品时,税率表为null：{goodsName:" + goods.getName() + "}");
+		} else {
+			Long taxRateID = taxRate.getId();
+			if (taxRateID == null) {
+				goods.setTaxRate(null);
+				LogUtil.warn(this, "插入商品时,税率ID为null：{goodsName:" + goods.getName() + "}");
+			} else {
+				TaxRate taxRatePers = taxRateService.find(taxRateID);
+				goods.setTaxRate(taxRatePers);
+			}
+		}
 		if (goods.hasSpecification()) {
 			List<Product> products = productListForm.getProductList();
 			if (CollectionUtils.isEmpty(products) || !isValid(products, getValidationGroup(goods.getType()), BaseEntity.Save.class)) {

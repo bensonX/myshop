@@ -32,8 +32,6 @@ import net.shopxx.entity.Product;
 import net.shopxx.entity.ProductCategory;
 import net.shopxx.entity.Promotion;
 import net.shopxx.entity.Tag;
-import net.shopxx.entity.TaxRate;
-import net.shopxx.util.LogUtil;
 import net.shopxx.util.SystemUtils;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -428,24 +426,6 @@ public class GoodsDaoImpl extends BaseDaoImpl<Goods, Long> implements GoodsDao {
 
 		String jpql = "update Goods goods set goods." + Goods.ATTRIBUTE_VALUE_PROPERTY_NAME_PREFIX + attribute.getPropertyIndex() + " = null where goods.productCategory = :productCategory";
 		entityManager.createQuery(jpql).setParameter("productCategory", attribute.getProductCategory()).executeUpdate();
-	}
-
-	@Override
-	public int insertGoodsTaxRate(Goods goods) {
-		Long goodsID = goods.getId();
-		TaxRate taxRate = goods.getTaxRate();
-		if (taxRate == null || goodsID == null) {
-			LogUtil.error(this, "插入商品时,级联税率关联表时获取到了空的数据：{taxRate:" + goodsID + ",goodsID:" + goodsID + "}");
-			return -1;
-		}
-		Long taxRateID = taxRate.getId();
-		if (taxRateID == null) {
-			LogUtil.error(this, "插入商品时,级联税率关联表时获取到了空的数据：{taxRateID:" + taxRateID + "}");
-			return -1;
-		}
-		String sql = "INSERT INTO xx_goods_taxrate VALUES (" + goodsID + "," + taxRateID + ")";
-		goods.setTaxRate(null);
-		return entityManager.createNativeQuery(sql).executeUpdate();
 	}
 
 }

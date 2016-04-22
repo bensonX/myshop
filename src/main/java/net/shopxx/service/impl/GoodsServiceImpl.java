@@ -19,6 +19,17 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.persistence.LockModeType;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
@@ -52,19 +63,7 @@ import net.shopxx.service.GoodsService;
 import net.shopxx.service.ProductImageService;
 import net.shopxx.service.SpecificationValueService;
 import net.shopxx.service.StaticService;
-import net.shopxx.util.LogUtil;
 import net.shopxx.util.SystemUtils;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.collections.Predicate;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 /**
  * Service - 货品
@@ -303,7 +302,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		product.setProductNotifies(null);
 		product.setStockLogs(null);
 		product.setGiftPromotions(null);
-		System.out.println(goods.getSn()+"");
 		product.setSkuCode(goods.getSn()+"sn");
 		
 		goods.setPrice(product.getPrice());
@@ -329,8 +327,6 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 		goods.setProducts(null);
 		setValue(goods);
 		goodsDao.persist(goods);
-		int insertTax = goodsDao.insertGoodsTaxRate(goods);
-		LogUtil.debug(this, insertTax + "");
 		setValue(product);
 		productDao.persist(product);
 		stockIn(product, operator);
