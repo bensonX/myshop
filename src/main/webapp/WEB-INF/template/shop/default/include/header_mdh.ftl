@@ -99,6 +99,7 @@
 										[#if brands?has_content]
 												[#list brands as brand]
 													<a href="${base}${brand.path}" title="${brand.name}">
+													<a  href="${base}/product_category/brand/${brand.id}.jhtml?id=${brand.id}&productCategoryId=${productCategoryRoot.id}">
 															<img class="one din" src="${brand.logo}" alt="${brand.name}"  height="90" width="90">
 													</a>
 												[/#list]
