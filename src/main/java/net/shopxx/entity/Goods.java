@@ -1707,7 +1707,7 @@ public class Goods extends BaseEntity<Long> {
 	 * 
 	 * @return 税率
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
 	@JoinTable(name = "xx_goods_taxrate", joinColumns = @JoinColumn(name = "goods", unique = true) , inverseJoinColumns = @JoinColumn(name = "tax_rate") )
 	public TaxRate getTaxRate() {
 		return taxRate;

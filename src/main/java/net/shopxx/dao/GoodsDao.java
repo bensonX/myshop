@@ -204,13 +204,4 @@ public interface GoodsDao extends BaseDao<Goods, Long> {
 	 */
 	void clearAttributeValue(Attribute attribute);
 
-	/**
-	 * 保存一个商品时级联插入和税率关联的中间表
-	 * 
-	 * @param goods
-	 *            商品
-	 * @return 受影响的行数
-	 */
-	int insertGoodsTaxRate(Goods goods);
-
 }

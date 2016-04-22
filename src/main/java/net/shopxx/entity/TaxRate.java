@@ -8,6 +8,7 @@ package net.shopxx.entity;
 import java.math.BigDecimal;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -199,7 +200,7 @@ public class TaxRate extends BaseEntity<Long> {
 	 * 
 	 * @return
 	 */
-	@OneToMany(mappedBy = "taxRate", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "taxRate", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH })
 	public Set<Goods> getGoods() {
 		return goods;
 	}
