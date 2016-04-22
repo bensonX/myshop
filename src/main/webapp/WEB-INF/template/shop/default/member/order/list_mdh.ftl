@@ -163,7 +163,7 @@
 								[#if orderItem_index == 0]
 								<td rowspan="${order.orderItems.size()+1}" class="list-money">
 									<div class="money">
-									<p>${currency(order.amountPayable, true, true)}</p>
+									<p>${currency(order.amountPaid, true, true)}</p>
 									<span class="dl">含税金:${currency(order.taxFee, true, true)}</span>
 									</div>
 									<!-- <strong class="dl">含运费￥10.00</strong> -->
@@ -244,22 +244,22 @@
 							          	[#case "pendingPayment"]
 							          		<div class = "" >
 												<a href = "javascript:;">付款</a>
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "pendingReview"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "pendingShipment"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "shipped"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "received"]
