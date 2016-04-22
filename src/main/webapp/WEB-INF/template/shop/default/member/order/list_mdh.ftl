@@ -60,7 +60,21 @@
 		    $(window).resize(windowSize);
 			});
   	});
-  	var pageNumber=${page.pageable.pageNumber};
+  	var pageInfo={pageNumber:${page.pageable.pageNumber!1},pageTotal:${page.totalPages!1},url:'${base}/member/order/list.jhtml'};
+  	function turnPage(type){
+  		debugger;
+  		if (type==='down') {
+  			if (pageInfo.pageNumber<pageInfo.pageTotal) {
+  				var num=pageInfo.pageNumber*1+1;
+  				location.href=pageInfo.url+"?pageNumber="+num;
+  			}
+  		} else if (type==="up") {
+  			if (pageInfo.pageNumber>1) {
+  				var num=pageInfo.pageNumber*1-1;
+  				location.href=pageInfo.url+"?pageNumber="+num;
+  			}
+  		}
+  	}
   </script>
 </head>
 <body>
@@ -80,8 +94,8 @@
 				[#else]
 				<div class = "personal-top clearfix" >	
 					<div class = "fl" >
-						<form class="order-search" action = "" method = "post">
-							<input type="text" value = "">
+						<form class="order-search" action = "${base}/member/order/list.jhtml" method = "get">
+							<input name="searchContent" type="text" />
 							<button type="submit">搜索订单</button>
 						</form>
 					</div>
@@ -260,9 +274,9 @@
 						[/#list]	
 					</table>	
 					<div class="pagin fr">
-						<a href = "${base}/member/order/list.jhtml" class="prev-disabled">上一页<b></b></a>
-						<a class="current">1</a>                    
-    					<a href = "${base}/member/order/list.jhtml" class="next-disabled">下一页<b></b></a>    
+						<a href = "javascript:turnPage('up');" class="prev-disabled">上一页<b></b></a>
+						<a class="current">${page.pageable.pageNumber}</a>                    
+    					<a href = "javascript:turnPage('down');" class="next-disabled">下一页<b></b></a>    
      		 		</div>
 				</div>
 				[/#if]
