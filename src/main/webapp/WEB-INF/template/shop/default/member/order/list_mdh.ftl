@@ -112,11 +112,9 @@
 								<th>
 									<span class="state">状态</span>
 								</th>
-								<!--
 								<th>
 									<span class="state">操作</span>
 								</th>
-								-->
 							</tr>
 						</thead>
 						[#list page.content as order]
@@ -150,8 +148,10 @@
 								</td>
 								[#if orderItem_index == 0]
 								<td rowspan="${order.orderItems.size()+1}" class="list-money">
+									<div class="money">
 									<p>${currency(order.amountPayable, true, true)}</p>
 									<span class="dl">含税金:${currency(order.taxFee, true, true)}</span>
+									</div>
 									<!-- <strong class="dl">含运费￥10.00</strong> -->
 									<!-- <em class="dl">已共优惠￥10.00</em> -->
 								</td>
@@ -162,18 +162,11 @@
 											<span>${message("Order.Status.pendingPayment")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
 											</div>
-											<div class = "" >
-												<a href = "javascript:;">付款</a>
-												<a href = "javascript:;" data-order="close">取消订单</a>
-											</div>
 							             	[#break]
 										[#case "pendingReview"]
 											<div>
 												<span>${message("Order.Status.pendingReview")}</span>
 												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">订单详情</a>
-											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "pendingShipment"]
@@ -191,17 +184,11 @@
 												</a>
 												<a href="${base}/member/order/view.jhtml" target="_blank">订单详情</a>
 											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
-											</div>
 											[#break]
 										[#case "shipped"]
 											<div>
 											<span>${message("Order.Status.shipped")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
-											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "received"]
@@ -209,17 +196,11 @@
 											<span>${message("Order.Status.received")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">再次购买</a>
-											</div>
 											[#break]
 										[#case "completed"]
 											<div>
 												<span>${message("Order.Status.completed")}</span>
 												<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
-											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">再次购买</a>
 											</div>
 											[#break]
 										[#case "failed"]
@@ -227,17 +208,11 @@
 											<span>${message("Order.Status.failed")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">再次购买</a>
-											</div>
 											[#break]
 										[#case "canceled"]
 											<div>
 											<span>${message("Order.Status.canceled")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
-											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">再次购买</a>
 											</div>
 											[#break]
 										[#case "denied"]
@@ -245,14 +220,63 @@
 											<span>${message("Order.Status.denied")}</span>
 											<a href="${base}/member/order/view.jhtml?sn=${order.sn}" target="_blank">${message("shop.order.view")}</a>
 											</div>
-											<div class = "" >
-												<a href = "javascript:;" data-order="close">再次购买</a>
-											</div>
 											[#break]
 							          	[#default]
 							          	<!-- 没有 -->
 							        [/#switch]
 								</td>
+								<td rowspan="${order.orderItems.size()+1}" class="list-operation">
+									[#switch order.status]
+							          	[#case "pendingPayment"]
+							          		<div class = "" >
+												<a href = "javascript:;">付款</a>
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "pendingReview"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "pendingShipment"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "shipped"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">取消订单</a>
+											</div>
+											[#break]
+										[#case "received"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "completed"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "failed"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "canceled"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]
+										[#case "denied"]
+											<div class = "" >
+												<a href = "javascript:;" data-order="close">再次购买</a>
+											</div>
+											[#break]   
+							          	[#default]
+							          	<!-- 没有 -->
+							        [/#switch]
+								</td> 
 								[/#if]
 							</tr>
 							[/#list]
