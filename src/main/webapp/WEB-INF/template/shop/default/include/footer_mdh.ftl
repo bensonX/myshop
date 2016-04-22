@@ -42,7 +42,8 @@
 				<a href="/">配送方式</a>
 				<a href="/">运费标准</a>
 				<a href="/">通关关税</a>
-				<a href="/">物流跟踪</a>
+				<!--a href="">物流跟踪</a-->
+				<a href="//m.kuaidi100.com" target="_blank">快递查询</a>
 			</li>
 			<li>
 				<h4>关于我们</h4>
@@ -56,7 +57,7 @@
 					<img src="${base}/resources/shop/${theme}/images_mdh/footer.png" height="42" width="100">
 				</a>
 			</li>
-		</ol>
+		</ol>		
 		<div class="copy">
 			<P>增值电信业务经营许可证：沪B2-20160101-3 买德好公司版权所有©2015-2016　　　　　400-666-66666
 				<span>
@@ -68,8 +69,7 @@
         		<img src="${base}/resources/shop/${theme}/images_mdh/wechat.png" height="95" width="100">
         	</div>
 		</div>
-
-	</div>
+	</div>	
 </div>
 	
 <!-- 侧边栏固定区开始 -->

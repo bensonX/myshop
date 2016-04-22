@@ -7,10 +7,14 @@ package net.shopxx.controller.shop;
 
 import javax.annotation.Resource;
 
+import net.shopxx.entity.Brand;
+import net.shopxx.entity.ProductCategory;
+import net.shopxx.service.BrandService;
 import net.shopxx.service.ProductCategoryService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,6 +31,8 @@ public class ProductCategoryController extends BaseController {
 	@Resource(name = "productCategoryServiceImpl")
 	private ProductCategoryService productCategoryService;
 
+	@Resource(name = "brandServiceImpl")
+	private BrandService brandService;
 	/**
 	 * 首页
 	 */
@@ -49,4 +55,40 @@ public class ProductCategoryController extends BaseController {
 
 	}
 
+	/**
+	 * 频道2
+	 */
+	@RequestMapping(value = "channeltwo",method = RequestMethod.GET)
+	public String channeltwo(ModelMap model,Long productCategoryId) {
+		ProductCategory pc=productCategoryService.find(productCategoryId);
+		
+		while(pc.getParent()!=null){
+			pc=productCategoryService.find(pc.getParent().getId());
+		}
+
+		model.addAttribute("rootProductCategories", productCategoryService.find(productCategoryId));
+		model.addAttribute("rootProductCategory", productCategoryService.find(pc.getId()));
+		model.addAttribute("productCategoryId",productCategoryId);
+		
+		return "/shop/${theme}/product_category/channeltwo_mdh";
+
+	}
+	
+	/**
+	 * 商品分类
+	 */
+	@RequestMapping(value="/brand/{id}", method = RequestMethod.GET)
+	public String brandProductCategory(@PathVariable Long id,Long productCategoryId, ModelMap model){
+		
+		model.addAttribute("rootProductCategory", productCategoryService.find(productCategoryId));
+		model.addAttribute("productCategoryId",productCategoryId);
+		
+		if(id!=null){
+			Brand brand = brandService.find(id);			
+			model.addAttribute("brand", brand);
+			model.addAttribute("brandId",brand.getId());
+		}
+		
+		return "/shop/${theme}/product_category/brand_mdh";
+	}
 }
