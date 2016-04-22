@@ -60,7 +60,7 @@ public class CommonController {
 		if (setting.getIsSiteEnabled()) {
 			return "redirect:/";
 		} else {
-			return "/shop/${theme}/common/site_close";
+			return "/shop/${theme}/common/site_close_mdh";
 		}
 	}
 
