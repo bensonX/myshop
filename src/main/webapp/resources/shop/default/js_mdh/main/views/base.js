@@ -54,23 +54,11 @@
   $('.list-images li').eq(4).css('margin-right', '0');
 
   // 侧边栏悬停效果
-  $('.list-nav li').mouseover(function() {
-    var num = $(this).index();
-    $(this).find('.list-twoCategory').show();
-    $(this).find('.list-twoCategory ul li').eq(num - 1).addClass('current').siblings().removeClass('current');
-  }).mouseout(function() {
-    $(this).find('.list-twoCategory').hide();
-  });
+    $('[data-list="nav"]').click(function(event) {
+      $(this).toggleClass('current').find('ol').toggle();
 
- $('.list-innav li').mouseover(function() {
-    var num=$(this).index();
-    event.stopPropagation();
-    $(this).addClass('current').siblings().removeClass('current');
-    $('.list-twoCategory').eq(num).show().siblings().hide();
-  });
-  $('.list-twoCategory').mouseout(function(event) {
-    $(this).hide();
-  });
+    });
+
 
    // placehloder兼容处理
   if (!('placeholder' in document.createElement('input'))) {
@@ -101,7 +89,6 @@
 
 
 
-
   // list初始化
   $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
 
@@ -113,7 +100,15 @@
 
     // 详情页分享效果
     $('[data-share="btn"]').click(function(event) {
-      $('[data-share="way"]').stop().animate({'margin-left': 20}, 500);
+      
+      var num=$('[data-share="way"]').css('margin-left');
+
+      if(num>0){
+        $('[data-share="way"]').stop().animate({'margin-left': -215}, 300)
+      }else{
+        $('[data-share="way"]').stop().animate({'margin-left': 20}, 300)
+      };
+      
     });
 
 
