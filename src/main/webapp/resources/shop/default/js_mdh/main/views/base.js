@@ -1,6 +1,10 @@
 // 所有header，footer的js动态
 
 ;$(function() {
+
+  // 定时器
+  var isShowNav;
+
   if ($('.nav').offset()) {
     var y = $('.nav').offset().top;
 
@@ -19,14 +23,24 @@
 
 
   $('.nav>ul>li').hover(function() {
-	    var num=$('.innav ul li').length;
-	    if(num>0){
-	    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
-	    	$('.innav ul li').eq(0).addClass('current');
-	    }
-    $(this).find('.innav').slideDown(300);
+
+    var num=$('.innav ul li').length;
+    var _this = this;
+    if(num>0){
+      $('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
+      $('.innav ul li').eq(0).addClass('current');
+    }
+    clearTimeout(isShowNav);
+    isShowNav = setTimeout (function () {
+       $(_this).find('.innav').slideDown(200);
+    }, 100);
+   
   }, function() {
-    $(this).find('.innav').slideUp(300);
+    var _this = this;
+    clearTimeout(isShowNav);
+    isShowNav = setTimeout (function () {
+      $(_this).find('.innav').slideUp(150);
+    }, 100);
   });
   
   
@@ -92,6 +106,14 @@
   // list初始化
   $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
 
+  // 列表页左侧导航
+    $('[data-list="nav"]').click(function(event) {
+      $(this).addClass('current').siblings().removeClass('current');
+    });
+
+    $('[data-list="brand"]').click(function(event) {
+      $(this).addClass('current').siblings().removeClass('current');
+    });
 
     // 注册页
     $('.form .password input').focus(function(event) {

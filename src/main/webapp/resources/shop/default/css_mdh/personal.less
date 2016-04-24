@@ -461,6 +461,14 @@
 		*display:inline-block;
 		*zoom:1; 
 	}
+	.gather{
+		.money{
+			width: 50%;
+		}
+		.state{
+			width: 25%;
+		}
+	}
 	// .price{
 	// 	width: 80px;
 	// }
@@ -493,10 +501,9 @@
 		}
 	}
 	.list{
-		padding:10px 5px;
 		.list-goods{
 			width: 290px;
-			
+			margin:10px  0;
 			height: 90px;
 			border-bottom:1px solid #b5b5b5;
 			border-left:1px solid #b5b5b5;
@@ -537,7 +544,7 @@
 		}
 		.list-price{
 			width: 88px;
-			height: 90px;
+			height: 70px;
 			border-bottom:1px solid #b5b5b5;
 			span{
 				font-size: 12px;
@@ -549,7 +556,6 @@
 		.list-number{
 			width:70px; 
 			height: 90px;
-			border-right:1px solid #b2b2b2;
 			border-bottom:1px solid #b5b5b5;
 			span{
 				font-size: 12px;
@@ -580,37 +586,39 @@
 				line-height: 20px;
 			}
 		}
-		.list-money{
-			width: 115px;
+		.list-gather{
+			width: 275px;
 			height: 90px;
-			padding-left:15px;
+			padding:10px 0;
 			border-bottom:1px solid #b5b5b5;
-			p{
-				font-size:16px;
-				color:#1e1e1e;
-				text-align:left;
-				line-height: 20px;
-				span{
-					font-size: 16px;
+			border-right:1px solid #b5b5b5;
+			.money{
+				width: 130px;
+			height: 100%;
+			font-size: 14px;
+			color:@itemBoxPColor;
+			border-left:1px solid #b2b2b2;
+			padding:20% 0 0 15px;
+				p{
+					font-size:16px;
 					color:#1e1e1e;
+					text-align:left;
+					line-height: 20px;
 				}
-			}
-			p.item{
-				font-size: 12px;
-				color:@itemBoxPColor;
-				line-height: 20px;
-				text-align:left;
-				span{
-					font-size: 12px;
+				strong{
+					font-weight: normal;
 				}
 			}
 		}
 		.list-state{
-			width: 73px;
-			height: 90px;
+			width:92px;
+			height: 100%;
+			padding:10px 0;
 			border-left:1px solid #b2b2b2;
-			border-bottom:1px solid #b5b5b5;
+			border-right:1px solid #b2b2b2;
 			div {
+				height: 100%;
+				padding-top:50%;
 				text-align: center;
 			}
 			
@@ -665,11 +673,12 @@
 
 		.list-operation{
 			width: 73px;
-			height: 90px;
-			border-right:1px solid #b2b2b2;
-			border-left:1px solid #b2b2b2;
-			border-bottom:1px solid #b5b5b5;	
+			height: 100%;
+			padding:10px 0;
 			text-align: center;
+			div{
+				padding-top:80%;
+			}
 			span{
 				width: 55px;
 				font-size: 12px;
@@ -694,6 +703,34 @@
 	.personal-state-title{
 		font-size: @font;
 		color:#808080;
+	}
+
+	.time{
+		position:relative;
+		font-size: 14px;
+		color:#808080;
+		text-align:center;
+		font-weight: normal;
+		margin:5px 20px 27px 0;
+		li{
+			position:absolute;
+			top:0;
+			left:10px;
+			text-align: center;
+			em{
+				text-decoration:none;
+				margin-left:6px;
+			}
+		}
+		.two{
+			left:230px;
+		}
+		.three{
+			left:452px;
+		}
+		.four{
+			left:660px;
+		}
 	}
 	.personal-state-plan{
 		margin-top:35px;
@@ -726,21 +763,12 @@
 				line-height:47px;
 				text-align:center;
 			}
-			.time{
-				font-size: 14px;
-				color:#808080;
-				text-align:center;
-				em{
-					text-decoration:none;
-					margin-left:6px;
-				}
-			}
 		}
 		.next{
 			width: 160px;
 			height:13px;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat center center;
-			vertical-align: 390%;
+			vertical-align: 220%;
 			margin-left:-45px;		
 		}
 	}
@@ -776,6 +804,36 @@
 		font-size: @font;
 		color:#808080;
 	}
+	.time{
+		position:relative;
+		font-size: 14px;
+		color:#808080;
+		text-align:center;
+		font-weight: normal;
+		margin:5px 20px 60px 0;
+		li{
+			position:absolute;
+			top:0;
+			left:10px;
+			text-align: center;
+			em{
+				text-decoration:none;
+				margin-left:6px;
+			}
+		}
+		.two{
+			left:174px;
+		}
+		.three{
+			left:348px;
+		}
+		.four{
+			left:515px;
+		}
+		.five{
+			left:673px;
+		}
+	}
 	.personal-state-plan{
 		margin-top:35px;
 		position:relative;
@@ -808,22 +866,13 @@
 				line-height:47px;
 				text-align:center;
 			}
-			.time{
-				font-size: 14px;
-				color:#808080;
-				text-align:center;
-				em{
-					text-decoration:none;
-					margin-left:6px;
-				}
-			}
 		}
 		.next{
 			width: 100px;
 			height:13px;
 			position:relative;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat right center;
-			vertical-align:390%;
+			vertical-align:220%;
 			margin-left:-45px;	
 			span{
 				font-size:@font;
@@ -844,7 +893,7 @@
 			color:#808080;
 			padding:1px 9px;
 			border:1px solid #aaa;
-			margin:25px 0 0 30px;
+			margin:0 0 0 30px;
 		}	
 	}
 	.through-message{
@@ -936,7 +985,7 @@
 			color:#808080;
 			padding:1px 9px;
 			border:1px solid #aaa;
-			margin:25px 0 0 690px;
+			margin:0 30px 0 0;
 		}
 	}
 	.nopass-message{
@@ -1062,18 +1111,24 @@
 			}
 		}
 	}
-	.order-item{
-	border:1px solid #afafaf;
-	border-top:none;
-	padding:10px;
-	padding-bottom:0;
-	li{
-		float:left;
+.order-item{
+	table{
+		width: 100%;
+		border:1px solid #afafaf;
+		border-bottom:none;
+		border-collapse: collapse;
+		position:relative;
+	}
+	.images{
+		width: 90px;
+	}
+	td{
 		font-size: 12px;
 		color:#808080;
+		padding:10px;
+		border-bottom:1px solid #afafaf;
 		img{
 			vertical-align:top;
-			margin-right:28px;
 		}
 		p{
 			display:block;
@@ -1090,7 +1145,7 @@
 		}
 	}
 	.goods{
-		margin-right:130px;
+		height: 90px;
 		div{
 			text-align:center;
 		}
@@ -1105,27 +1160,47 @@
 				color:@itemBoxPColor;
 				padding:0 5px;
 				border:1px solid #afafaf;
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 		.pirce{
 			margin:0 35px;
 			span{
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 		.place{
 			span{
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 	}
+	.empty{
+		padding:10px 0;
+		.inempty{
+			min-height: 90px;
+			max-height: 9000px;
+			border-left:1px solid #afafaf;
+			text-indent: -9999px;
+			line-height: 100%;
+		}
+	}
 	.money{
-		.pay{
-			strong{
-				font-size:@font;
-				color:#808080;
+		padding:10px 0 10px 30px;
+		height: 90px;
+
+			span{
+				font-size: 14px;
+			}
+			b{
+				font-size:18px;
+				color:#1e1e1e;
 				font-weight:normal;
+			}
+			p{
+				display: block;
+				font-size: 12px;
+
 			}
 			.cash{
 				font-size: 18px;
@@ -1136,7 +1211,6 @@
 		.contain{
 			line-height: 30px;
 		}
-	}
 }
 .bt{
 	border-top:1px solid #afafaf;
@@ -1321,6 +1395,9 @@
 /* 收货地址开始 */
 .personal-address{
 	width: 820px;
+	.scroll-address {
+		margin-bottom: 30px;
+	}
 	h5{
 		font-size: 18px;
 		color:#444;
@@ -1332,6 +1409,7 @@
 		border:1px solid #AFAFAF;
 		padding:0 13px;
 		margin-right:10px;
+		margin-bottom: 10px;
 		.information{
 			font-size: 14px;
 			color:#808080;
@@ -1362,7 +1440,6 @@
 			margin-top:45px;
 			.default{
 				font-size: @font;
-				color:#ae340d;
 				line-height: 60px;
 			}
 			.editor{
@@ -1387,16 +1464,21 @@
 			background: url(../images_mdh/icon/buy.png) no-repeat left center ;
 		}
 	}
+	.selected {
+		border: 1px solid #F5A623;
+		.default {
+			color:#ae340d;
+		}
+	}
 }
 /* 新增收货地址开始 */
 .add{
-	padding-top:70px;
 	font-size: @font;
 	color:#808080;
+
 	h6{
 		font-size: 18px;
 		color:#505050;
-		margin-top:45px;
 	}
 	label{
 		width: 80px;
@@ -1437,6 +1519,10 @@
 		padding-left:25px;
 		margin-left:15px;
 		background: url(../images_mdh/icon/falsh.png) no-repeat left center;
+		visibility: hidden;
+	}
+	span.visible {
+		visibility: visible;
 	}
 	.city span{
 		margin-left:5px;
@@ -1448,9 +1534,14 @@
 		color:#fff;
 		background: #444;
 		margin:35px 0 0 100px;
-		letter-spacing: 20px;
 		text-align:center;
-		padding-left:20px;
+	}
+	input.checkbox {
+		width: 18px;
+		height: 18px;
+		border:1px solid #A0A0A0;
+		vertical-align: -4px;
+		margin-left: 98px;
 	}
 }
 /* 收藏列表开始 */

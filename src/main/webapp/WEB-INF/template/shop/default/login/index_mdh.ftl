@@ -386,7 +386,7 @@ $().ready(function() {
 		});
 		</script>
 	</head>
-    <body class="body-color">
+    <body>
     	<div class="landing login">
     	<a href = "/" >
 				<h1></h1>

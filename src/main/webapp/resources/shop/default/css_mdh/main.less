@@ -1043,6 +1043,10 @@ div.landing #registerForm input.tet {
 	cursor:pointer;
 	background: url(../images_mdh/icon/list.png) no-repeat 160px 8px;
 	ol{
+			.current{
+				font-weight: bold;
+				background: url(../images_mdh/icon/list.png) no-repeat 130px 19px;
+			}
 		li{
 			padding-top:12px;
 			a{
@@ -1062,6 +1066,10 @@ div.landing #registerForm input.tet {
 		font-size: 16px;
 		color:#505050;
 		margin:20px 0 40px 0;
+	}
+	.current{
+		font-weight: bold;
+		background: url(../images_mdh/icon/list.png) no-repeat 130px 6px;
 	}
 	a{
 		display: block;
@@ -1850,7 +1858,7 @@ body.emailverification {
 .buy{
 	width: 1100px;
 	margin:65px auto;
-	.buyForm{
+	.buyForm {
 		padding-left:145px;
 		margin-bottom:100px;
 		div{
@@ -1943,27 +1951,19 @@ body.emailverification {
 			color:#fff;
 			margin-left: 95px;
 		}
-		.error {
-			width: 370px;
-			font-size: 0px;
-			margin-top: 5px;
-			i {
-				margin-left: 92px;
-				display: inline-block;
-				width: 20px;
-				height: 20px;
-				background: url('../images_mdh/icon/error.png') no-repeat;
-				vertical-align: middle;
-			}
-			span {
-				font-size: 14px;
-				color: #b2340d;
-				vertical-align: middle;
-				display: inline-block;
-				padding-left: 5px;
-				line-height: 20px;
-			}
+		span {
+			color: #ae340d;
+	    line-height: 50px;
+	    padding-left: 25px;
+	    margin-left: 15px;
+	    font-size: 14px;
+	   	visibility: hidden;
+	    background: url(../images_mdh/icon/falsh.png) no-repeat left center;
 		}
+		span.visable {
+			visibility: visible;
+		}
+
 	}
 	.layer {
 		position: fixed;
@@ -2051,9 +2051,6 @@ body.emailverification {
 			
 			li.selected {
 				border: 1px solid #F5A623;
-				.default {
-					color: #ae340d;
-				}
 			}
 			li{
 				width: 260px;
@@ -2088,6 +2085,9 @@ body.emailverification {
 					a{
 						color:#828282;
 						font-size: @font;
+					}
+					a.default {
+						color: #ae340d;
 					}
 					a.last{
 						text-indent: -9999px;
