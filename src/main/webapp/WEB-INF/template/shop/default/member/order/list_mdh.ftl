@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	<meta name="keywords" content="test" />
 	<meta name="description" content="买德好专注打造国内首家德国跨境精品聚集地，只将最具品质及品味的德国正品引入国人生活。涵盖生活多方面的产品体系，带来真正一站式的购物便捷体验。独具特色的知识性模块形式，让你无限贴近德式生活" />
-	<link href="favicon.ico" rel="icon" type="image/x-icon" />
+	<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 	<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
   <link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/personal.css">
   <script type="text/javascript" src="${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
@@ -159,7 +159,7 @@
 								[#if orderItem_index == 0]
 								<td rowspan="${order.orderItems.size()+1}" class="list-gather">
 									<div class="money din fl">
-									<p>${currency(order.amountPayable, true, true)}</p>
+									<p>${currency(order.amountPaid, true, true)}</p>
 									<span class="dl">含税金:${currency(order.taxFee, true, true)}</span>
 									</div>
 									<!-- <strong class="dl">含运费￥10.00</strong> -->
@@ -239,22 +239,22 @@
 							          	[#case "pendingPayment"]
 							          		<div class = "" >
 												<a href = "javascript:;">付款</a>
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "pendingReview"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "pendingShipment"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "shipped"]
 											<div class = "" >
-												<a href = "javascript:;" data-order="close">取消订单</a>
+												<a href = "${base}/member/order/cancel.jhtml?sn=${order.sn}" data-order="close">取消订单</a>
 											</div>
 											[#break]
 										[#case "received"]

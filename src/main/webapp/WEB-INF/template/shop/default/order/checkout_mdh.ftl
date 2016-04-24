@@ -7,7 +7,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 		<meta name="keywords" content="test" />
 		<meta name="description" content="买德好专注打造国内首家德国跨境精品聚集地，只将最具品质及品味的德国正品引入国人生活。涵盖生活多方面的产品体系，带来真正一站式的购物便捷体验。独具特色的知识性模块形式，让你无限贴近德式生活" />
-		<link href="favicon.ico" rel="icon" type="image/x-icon" />
+		<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 		<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
 		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
@@ -69,13 +69,10 @@
 		[#include "/shop/${theme}/include/header_mdh.ftl" /]
 		<div class="buy">
 			<div class="buyForm dn" data-tag="addressForm" >
-    		<div class = "title clearfix" >
-     			<span class = "fl" data-tag="title">新增地址</span>
-      		<strong class = "fr" data-tag="popupClose">x</strong>
-    		</div>
 				<div class="username">
 					<label for="username">收货人姓名</label>
 					<input id="username" data-tag = "userName" type="text" placeholder="请输入与身份证一致的姓名">
+					<span data-error="userName" ></span>
 				</div>
 				<div class="city">
 					<label for="city">省/市</label>
@@ -88,31 +85,31 @@
 		          <select class="citya" data-tag="town" disabled="disabled">
 		              <option>所在城镇</option>
 		          </select>
+		          <span data-error="province" ></span>
 				</div>
 				<div class="address">
 					<label for="address">详细地址</label>
          			 <textarea id="address" data-tag = "address" placeholder="请输入详细地址"></textarea>
+         			 <span data-error="address"></span>
 				</div>
 				<div class="identity">
 					<label for="identity">身份信息</label>
 					<input id="identity" type="text" data-tag="idCard" placeholder="海关清关所需，请填入18位身份证号码">
+					<span data-error="identity"></span>
 				</div>
 				<div class="mobile">
 					<label for="mobile">手机号码</label>
 					<input id="mobile" type="text" data-tag="mobile" placeholder="请输入收货的手机号码">
+					<span data-error="mobile"></span>
 				</div>
 				<div class="isdefault">
 					<input id="isdefault" type="checkbox" data-tag="isdefault" >
 					<label for="isdefault">默认地址</label>
 				</div>
-       			<div class = "error hidden" data-tag="error">
-         			 <i></i><span></span>
-       			 </div>
 				<div class="btn">
 					<button type = "button" data-tag="addressSubmit">保存地址</button>
 				</div>
 			</div>
-      <div class = "shielding-layer" data-tag="shieldingLayer"></div>
       
 		<!-- 收货地址开始 -->
 		<div class="buy-address dn" data-tag="butAddress" >
@@ -124,14 +121,14 @@
 			<ul class="clearfix" data-address="items">
   				[#if member.receivers?has_content]
   					[#list member.receivers as receiver]
-	  					<li class="fl [#if receiver == defaultReceiver]selected[/#if]" data-id="${receiver.id}">
+	  					<li data-address="li" class="fl [#if receiver == defaultReceiver]selected[/#if]" data-id="${receiver.id}">
 	  						<p class="information">${receiver.consignee}
 	  							<span class="fr" >${receiver.phone}</span>
 	  						</P>
 	  						<strong>${receiver.cardId}</strong>
 	  						<em>${receiver.areaName}<br>${receiver.address}</em>
 	  						<p class="about">
-	  							<a href="javascript:;" class = "default" data-address="default">默认地址</a>
+	  							<a href="javascript:;" class = "[#if receiver == defaultReceiver]default[/#if]" data-address="default">默认地址</a>
 	  							<a class="editor" href="javascript:;" data-address="edit" >编辑</a>
 	  							<a href="javascript:;" data-address="delete">删除</a>
 	  						</p>

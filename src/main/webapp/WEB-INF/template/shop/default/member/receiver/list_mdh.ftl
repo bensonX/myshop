@@ -8,7 +8,7 @@
 <meta name="author" content="JSHOP Team" />
 <meta name="copyright" content="JSHOP" />
 
-	<link href="favicon.ico" rel="icon" type="image/x-icon" />
+	<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 	<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 	<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/personal.css" />
 	<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>

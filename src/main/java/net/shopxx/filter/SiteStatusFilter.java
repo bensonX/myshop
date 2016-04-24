@@ -32,7 +32,7 @@ public class SiteStatusFilter extends OncePerRequestFilter {
 	private static final String[] DEFAULT_IGNORE_URL_PATTERNS = new String[] { "/admin/**" };
 
 	/** 默认重定向URL */
-	private static final String DEFAULT_REDIRECT_URL = "/common/site_close.jhtml";
+	private static final String DEFAULT_REDIRECT_URL = "/common/site_close_mdh.jhtml";
 
 	/** AntPathMatcher */
 	private static AntPathMatcher antPathMatcher = new AntPathMatcher();

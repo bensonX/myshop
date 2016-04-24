@@ -60,7 +60,8 @@
 					<a href="${base}/">${message("shop.header.allHome")}</a>
 				</li>
 				<li class="leve">
-					${message("shop.header.allProductCategory")}[#--<a href="${base}/product_category.jhtml"></a>--]
+				
+					<a href="javascript:;">${message("shop.header.allProductCategory")}</a>
 					<div class="innav dn">
 						
 						<ul class="clearfix">							
@@ -99,6 +100,7 @@
 										[#if brands?has_content]
 												[#list brands as brand]
 													<a href="${base}${brand.path}" title="${brand.name}">
+													<a  href="${base}/product_category/brand/${brand.id}.jhtml?id=${brand.id}&productCategoryId=${productCategoryRoot.id}">
 															<img class="one din" src="${brand.logo}" alt="${brand.name}"  height="90" width="90">
 													</a>
 												[/#list]

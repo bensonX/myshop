@@ -7,12 +7,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 		<meta name="keywords" content="test" />
 		<meta name="description" content="买德好专注打造国内首家德国跨境精品聚集地，只将最具品质及品味的德国正品引入国人生活。涵盖生活多方面的产品体系，带来真正一站式的购物便捷体验。独具特色的知识性模块形式，让你无限贴近德式生活" />
-		<link href="favicon.ico" rel="icon" type="image/x-icon" />
+		<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 		<link rel="stylesheet" type="text/css" href="${base}/resources/shop/${theme}/css_mdh/common.css" />
 		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/main.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/cart.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		<script>
 			$(function () {
@@ -20,7 +19,8 @@
 				 * 选，加，减，删，提交等功能
 				 * cart
 				 */
-				ShoppingCart({
+				SideCart({
+					el: '[data-cart="cart"]',
 					urlMinusPlusPost: '${base}/cart/edit.jhtml',
 					minusPlusData: {},
 
@@ -36,7 +36,7 @@
     <body>
     	[#include "/shop/${theme}/include/header_mdh.ftl" /]	
 		<!-- 购物车详情开始 -->
-		<div class="shoppingcart-list">
+		<div class="shoppingcart-list" data-cart="cart">
 			<a class="nav" href="javascript:;">购物车</a>
 			<a class="last nav" href="javascript:;">付款</a>
 			[#if cart?? && cart.cartItems?has_content]
@@ -105,7 +105,7 @@
 						[/#list]
 					</table>
 					<P class="total">
-						总价/<span>￥</span><span data-tag="totalPrice">0.00</span>
+						总价/<span data-tag="totalPrice">0.00</span>
 					</P>
 					<button class="settlement" type  = "button" data-tag="submit" >立即结算</button>
 				</form>
