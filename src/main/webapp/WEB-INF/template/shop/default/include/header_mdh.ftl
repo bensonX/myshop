@@ -60,7 +60,8 @@
 					<a href="${base}/">${message("shop.header.allHome")}</a>
 				</li>
 				<li>
-					${message("shop.header.allProductCategory")}[#--<a href="${base}/product_category.jhtml"></a>--]
+				
+					<a href="javascript:;">${message("shop.header.allProductCategory")}</a>
 					<div class="innav dn">
 						
 						<ul class="clearfix">							
