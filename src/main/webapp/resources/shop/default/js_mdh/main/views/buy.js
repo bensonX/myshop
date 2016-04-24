@@ -271,20 +271,19 @@
   // 初始化视图
 
   Klass.fn.views = function () {
-  	// document
-  	this.$userName = $('[data-tag="userName"]');
-  	this.$province = $('[data-tag="province"]');
-  	this.$city = $('[data-tag="city"]');
-  	this.$address = $('[data-tag="address"]');
-  	this.$idCard = $('[data-tag="idCard"]');
-  	this.$mobile = $('[data-tag="mobile"]');
-  	this.$town = $('[data-tag="town"]');
-  	this.$addressSubmit = $('[data-tag="addressSubmit"]');
-  	this.addAddress = $('[data-tag="addAddress"]');
-  	this.popupClose = $('[data-tag="popupClose"]');
-  	this.$isDefault = $('[data-tag="isDefault"]');
+    // document
+    this.$userName = $('[data-tag="userName"]');
+    this.$province = $('[data-tag="province"]');
+    this.$city = $('[data-tag="city"]');
+    this.$address = $('[data-tag="address"]');
+    this.$idCard = $('[data-tag="idCard"]');
+    this.$mobile = $('[data-tag="mobile"]');
+    this.$town = $('[data-tag="town"]');
+    this.$addressSubmit = $('[data-tag="addressSubmit"]');
+    this.addAddress = $('[data-tag="addAddress"]');
+    this.$isDefault = $('[data-tag="isdefault"]');
 
-  	this.isShowAddress();
+    this.isShowAddress();
 
   };
 
@@ -292,9 +291,6 @@
   Klass.fn.documentClick = function() {
     // 显示添加地址栏
     this.addAddress.bind('click', $.proxy(this.addAddressClick, this));
-
-    // 关闭弹出框
-    this.popupClose.bind('click', $.proxy(this.closeClick, this));
 
     //  绑定验证用户名失去焦点事件
     this.$userName.bind('blur', $.proxy(this.checkUserName, this));
@@ -321,6 +317,8 @@
 
     // 编辑地址
     $('[data-tag="butAddress"]').delegate('[data-address="edit"]', 'click', $.proxy(this.editClick, this));
+    // 选择
+    $('[data-tag="butAddress"]').delegate('[data-address="li"]', 'click', this.selectedEvent);
 
     // 左右滚动
     $('[data-tag="scrollLeft"]').bind('click', $.proxy(this.scrollLeftClick, this));
@@ -329,41 +327,50 @@
     // 提交表单绑定事件
     $('[data-tag="formSubmit"]').bind('click', $.proxy(this.formSubmit, this));
   };
+  
+  Klass.fn.selectedEvent = function (event) {
+    $('[data-address="items"]').find('li').removeClass('selected');
+    $(this).addClass('selected');
+  };
 
   // 是否显示地址输入框
   Klass.fn.isShowAddress = function() {
     // 显示收货地址还是显示输入地址
     var $addressForm = $('[data-tag="addressForm"]'),
-      $butAddress = $('[data-tag="butAddress"]');
+        $butAddress = $('[data-tag="butAddress"]');
     // 如果不存在地址显示
     var isShow = $('[data-address="items"] li').length || 0;
     if (isShow < 1) {
-      $addressForm.removeClass('dn layer');
+      $addressForm.removeClass('dn');
       $butAddress.addClass('dn');
     } else {
       $butAddress.removeClass('dn');
       $addressForm.addClass('dn');
+      if (!$('[data-address="items"]').find('li').hasClass('selected')) {
+    $('[data-address="items"]').find('li:first').addClass('selected');
+    }
       this.itemsWidth();
     }
   };
 
   // 修改items的框
   Klass.fn.itemsWidth = function () {
-  	var $items = $('[data-address="items"]');
-  	var liLen = $items.find('li').length;
-  	var liWdith = $items.find('li').outerWidth();
-  	$items.css({
-  		width: (liWdith+10)*liLen
-  	})
+    var $items = $('[data-address="items"]');
+    var liLen = $items.find('li').length;
+    var liWdith = $items.find('li').outerWidth();
+    $items.css({
+      width: (liWdith+10)*liLen
+    })
   };
 
   // 用户姓名验证
   Klass.fn.checkUserName = function() {
-    this.prompt('username', false);
+    var $error = $('[data-error="userName"]');
     var patternUser = /^[\s\S]{2,60}$/;
     var user = $.trim(this.$userName.val()) || '';
+    $error.html('').removeClass('visible');
     if (!user || !patternUser.test(user)) {
-      this.prompt('username', true, '请输入正确的用户名(2-20字符)');
+      $error.html('请输入正确的用户名(2-20字符)').addClass('visible');
       return false;
     }
     return true;
@@ -371,10 +378,11 @@
 
   // 省验证
   Klass.fn.checkProvince = function() {
-    this.prompt('province', false);
+    var $error = $('[data-error="province"]');
     var province = $.trim(this.$province.find(':selected').html());
-    if (!province || province == "所在省份") {
-      this.prompt('province', true, '请选择省份');
+    $error.html('').removeClass('visible');
+    if (!province || province == "所在省") {
+      $error.html('请选择省份').addClass('visible');
       return false;
     }
     return true;
@@ -382,33 +390,35 @@
 
   // 详细地址验证
   Klass.fn.checkAddress = function() {
-    this.prompt('address', false);
-    var patternAddress = /^[\s\S]{5,60}$/;
+    var $error = $('[data-error="address"]');
+    var patternAddress = /^[\s\S]{5,150}$/;
     var address = $.trim(this.$address.val()) || '';
+    $error.html('').removeClass('visible');
     if (!address || !patternAddress.test(address)) {
-      this.prompt('address', true, '请输入正确的地址，5-60个字');
+      $error.html('5-150个字符').addClass('visible');
       return false;
     }
     return true;
   };
   // 手机号验证
   Klass.fn.checkMobile = function() {
-    this.prompt('mobile', false);
+    var $error = $('[data-error="mobile"]');
     var patternMobile = /^1[3|4|5|7|8|9]{1}\d{9}$/;
     var mobile = $.trim(this.$mobile.val()) || '';
+    $error.html('').removeClass('visible');
     if (!mobile || !patternMobile.test(mobile)) {
-      this.prompt('mobile', true, '请输入正确的手机号');
+      $error.html('请输入正确的手机号').addClass('visible');
       return false;
     }
     return true;
   };
   // 身份证验证
   Klass.fn.checkIdCard = function() {
-    this.prompt('idcard', false);
+    var $error = $('[data-error="identity"]');
     var idCard = $.trim(this.$idCard.val()) || '';
-
+    $error.html('').removeClass('visible');
     if (!idCard) {
-      this.prompt('idcard', true, '请输入正确的身份证号码');
+      $error.html('请输入正确的身份证号码').addClass('visible');
       return false;
     }
     //15位和18位身份证号码的正则表达式
@@ -432,7 +442,7 @@
           if (idCardLast == "X" || idCardLast == "x") {
             return true;
           } else {
-            this.prompt('idcard', true, '请输入正确的身份证号码');
+            $error.html('请输入正确的身份证号码').addClass('visible');
             return false;
           }
         } else {
@@ -440,362 +450,289 @@
           if (idCardLast == idCardY[idCardMod]) {
             return true;
           } else {
-            this.prompt('idcard', true, '请输入正确的身份证号码');
+            $error.html('请输入正确的身份证号码').addClass('visible');
             return false;
           }
         }
       }
     } else {
-      this.prompt('idcard', true, '请输入正确的身份证号码');
+      $error.html('请输入正确的身份证号码').addClass('visible');
       return false;
     }
+  };
+  Klass.fn.removeMessage = function () {
+    var $addressForm = $('[data-tag="addressForm"]');
+    $addressForm.find('input, textarea').val('');
+    $addressForm.find('input:checked').removeAttr('checked');
+    this.$province.removeAttr('province').find('option:selected').removeAttr('selected');
+    this.$city.removeAttr('city').find('option:nth-child(n+2)').remove();
+    this.$town.removeAttr('town').find('option:nth-child(n+2)').remove();
+    $addressForm.removeAttr('data-id');
   };
 
   // 添加地址
 
   Klass.fn.addAddressClick = function () {
-	if ($('[data-address="items"] li').length >= 4) {
-  		layer('不能超过四个地址，请修改或删除再添加地址');
-  		return false;
-  	}
-  	// 弹出窗口随窗口改变
-    this.windowSize();
-    // 弹出窗口随窗口改变而改变
-    $(window).bind('resize', this.windowSize);
+    var $addressForm = $('[data-tag="addressForm"]');
+    if ($('[data-address="items"] li').length >= 4) {
+      layer('不能超过四个地址，请修改或删除再添加地址');
+      return false;
+    }
+  this.removeMessage();
 
-    $('[data-tag="title"]').html('新增地址');
+    $addressForm.slideDown();
   };
-
-  // 弹出窗口的位置
-  Klass.fn.windowSize = function() {
-      var $addressForm = $('[data-tag="addressForm"]');
-      var width = $addressForm.outerWidth();
-      var height = $addressForm.outerHeight();
-
-      var windowWdith = $(window).width();
-      var windowHeight = $(window).height();
-      $addressForm.css({
-        top: (windowHeight - height) / 2,
-        left: (windowWdith - width) / 2,
-      }).addClass('layer').removeClass('dn');
-
-      $('[data-tag="shieldingLayer"]').css({
-        width: windowWdith,
-        height: windowHeight
-      }).show();
-    },
-
     // 关闭窗口
     Klass.fn.closeClick = function() {
-      var $addAddressForm = $('[data-tag="addressForm"]');
-      $addAddressForm.find('input, textarea').val('');
-      this.$province.removeAttr('province').find('option:selected').removeAttr('selected');
-      this.$city.removeAttr('city').find('option:nth-child(n+2)').remove();
-      this.$town.removeAttr('town').find('option:nth-child(n+2)').remove();
-      $addAddressForm.addClass('dn');
-      $('[data-tag="shieldingLayer"]').hide();
-      $(window).unbind('resize', this.windowSize);
+      var $addressForm = $('[data-tag="addressForm"]');
+      $addressForm.slideUp();
       this.itemsWidth();
+      this.removeMessage();
     };
 
-  /**
-   * 提示错误
-   * @param  {[type]} type    [属于那个doc， mobile，address]
-   * @param  {[type]} status  [隐藏，还是显示]
-   * @param  {[type]} context [需要显示的错误]
-   * 
-   */
-  Klass.fn.prompt = function(type, status, context) {
-    var $error = $('[data-tag="error"]');
-    var isHidden = $error.hasClass('hidden');
-    var isType = $error.attr('data-type');
-    if ((!status && type == isType) || type == "all") {
-      $error
-        .addClass('hidden')
-        .removeAttr('data-type')
-        .find('span')
-        .html('');
-    }
-
-    if (status && (!isType || type == isType)) {
-      $error
-        .removeClass('hidden')
-        .attr('data-type', type)
-        .find('span')
-        .html(context);
-    }
-  };
-
+ 
   // 新增，添加地址提交
   Klass.fn.addressSubmitClick = function () {
-  	var self = this;
-  	var url = this.options.urlAddAddress;
-  	var postData = this.options.addAddressData();
-  	var id = $('[data-tag="addressForm"]').attr('data-id');
-  	// 验证输入是否正确
-  	if (!this.checkUserName() || !this.checkProvince() 
-  		|| !this.checkAddress() || !this.checkIdCard() 
-  		|| !this.checkMobile()) return false;
+    var self = this;
+    var url = this.options.urlAddAddress;
+    var postData = this.options.addAddressData();
+    var id = $('[data-tag="addressForm"]').attr('data-id');
+    // 验证输入是否正确
+    if (!this.checkUserName() || !this.checkProvince() 
+      || !this.checkAddress() || !this.checkIdCard() 
+      || !this.checkMobile()) return false;
 
-  	if (self.isAddPost) return false;
+    if (self.isAddPost) return false;
 
-  	if ($.trim(id)) {
-  		url = this.options.urlEditAddress;
-  		postData = this.options.editAddressData();
-  	}
-  	self.isAddPost = true;
+    if ($.trim(id)) {
+      url = this.options.urlEditAddress;
+      postData = this.options.editAddressData();
+    }
+    self.isAddPost = true;
  
-  	$.ajax({
-  		url: url,
-  		type: "POST",
-  		data: postData,
-  		dataType: "json",
-  		cache: false,
-  		success: function (data) {
-  			console.log(data);
-  			self.isAddPost = false;
-  			if (data.message.type == 'success') {
-  				self.getAddAddressSuccess(data, id);
-  				self.isShowAddress();
-  			}
-  			else {
-  				self.prompt('all', true, 'message.content');
-  			}
-  		}
-  	})
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: postData,
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        self.isAddPost = false;
+        if (data.message.type == 'success') {
+          self.getAddAddressSuccess(data, id);
+          self.isShowAddress();
+        }
+        else {
+          layer(message.content);
+        }
+      }
+    })
   };
 
   // 数据返回后成功处理,添加
   Klass.fn.getAddAddressSuccess = function (context, id) {
-	
-    var isSelected = context.isDefault ? 'selected' : "";
-  	var hl = '<li class="fl '+isSelected+'" data-id = "'+context.id+'">'
-						+'<p class="information">'+(context.consignee || '')
-							+'<span class="fr">'+(context.phone || '')+'</span>'
-						+'</P>'
-            +'<strong>'+(context.cardId || '')+'</strong>'
-						+'<em>'+(context.areaName || '')+'<br />'+(context.address || '')+'</em>'
-						+'<p class="about">'
-							+'<a href="javascript:;" class = "default" data-address="default">默认地址</a>'
-							+'<a class="editor" href="javascript:;" data-address="edit">编辑</a>'
-							+'<a href="javascript:;" data-address="delete">删除</a>'
-						+'</p>'
-					+'</li>';
-		if (isSelected && id) {
-			$('[data-tag="butAddress"]').find('[data-id="'+id+'"]').remove();
-			$('[data-tag="addressForm"]').removeAttr('data-id');
-		}
-		if (isSelected) {
-			$('[data-address="items"]').find('li').removeClass('selected');
-			$('[data-address="items"]').prepend(hl);
-			$('[data-address="items"]').css({
-				left: 0
-			});
-		} else {
-			$('[data-address="items"]').append(hl);
-		}
-		
-		// 关闭弹出框
-		this.closeClick();
+  
+    var isDefault = context.isDefault ? 'default' : "";
+    var hl = '<li data-address="li" class="fl selected" data-id = "'+context.id+'">'
+        +'<p class="information">'+(context.consignee || '')
+          +'<span class="fr">'+(context.phone || '')+'</span>'
+        +'</P>'
+        +'<strong>'+(context.cardId || '')+'</strong>'
+        +'<em>'+(context.areaName || '')+'<br />'+(context.address || '')+'</em>'
+        +'<p class="about">'
+          +'<a href="javascript:;" class = "'+isDefault+'" data-address="default">默认地址</a>'
+          +'<a class="editor" href="javascript:;" data-address="edit">编辑</a>'
+          +'<a href="javascript:;" data-address="delete">删除</a>'
+        +'</p>'
+      +'</li>';
+    $('[data-address="items"]').find('li').removeClass('selected');
+    if (isSelected) {
+      $('[data-address="items"]').find('[data-address="default"]').removeClass('default');
+  }
+    if (id) {
+    $('[data-address="items"]').find('[data-id="'+id+'"]').replaceWith(hl);
+  }
+    else {
+      $('[data-address="items"]').append(hl);
+    }
+    //if (isSelected) {
+  //    var clone = $('[data-address="items"]').find('li.selected').clone();
+  //    $('[data-address="items"]').prepend(clone);
+  //    $('[data-address="items"]').find('li.selected:last').remove();
+  //    $('[data-address="items"]').css({
+  //    left: 0
+  //  });
+    //}
+  // 关闭弹出框
+  this.closeClick();
   };
 
   // 设置默认的地址
   Klass.fn.defaultClick = function (e) {
-  	var self = this;
-  	var $target = $(e.target).parents('[data-id]');
-  	var isChange = $target.hasClass('selected');
-  	if (isChange) return false;
-  	if (self.isChangePerform) return false;
-  	var posData = {
-  		id: $target.attr('data-id')
-  	}
-  	self.isChangePerform = true;
+    var self = this;
+    var $target = $(e.target).parents('[data-id]');
+    var isChange = $target.hasClass('selected');
+    if (isChange) return false;
+    if (self.isChangePerform) return false;
+    var posData = {
+      id: $target.attr('data-id')
+    }
+    self.isChangePerform = true;
 
-  	$.ajax({
-  		url: this.options.urlDefaultAddressPost,
-  		type: "POST",
-  		data: posData,
-  		dataType: "json",
-  		cache: false,
-  		success: function(data){
-  			console.log(data);
-  			self.isChangePerform = false;
-  			if (data.message.type == 'success') {
-  				$target
-  					.addClass('selected')
-  					.siblings('li')
-  					.removeClass('selected');
-  				$('[data-address="items"]').prepend($target.clone());
-  				$target.remove();
-  				$('[data-address="items"]').css({
-  					left: 0
-  				})
-  			}
-  			else {
-  				layer('设置默认的地址失败');
-  			}
-  		}
-  	});
+    $.ajax({
+      url: this.options.urlDefaultAddressPost,
+      type: "POST",
+      data: posData,
+      dataType: "json",
+      cache: false,
+      success: function(data){
+        self.isChangePerform = false;
+        if (data.message.type == 'success') {
+          $('[data-address="items"]').find('li').removeClass('selected');
+          $('[data-address="items"]').find('[data-address="default"]').removeClass('default');
+          $target.addClass('selected').find('[data-address="default"]').addClass('default');
+           //  var clone = $('[data-address="items"]').find('li.selected').clone();
+           // $('[data-address="items"]').prepend(clone);
+           // $('[data-address="items"]').find('li.selected:last').remove();
+          //$('[data-address="items"]').css({
+          //  left: 0
+          //})
+        }
+        else {
+          layer('设置默认的地址失败');
+        }
+      }
+    });
 
   };
 
   // 删除地址
   Klass.fn.deleteClick = function (e) {
-  	var self = this;
-  	var $target = $(e.target).parents('[data-id]');
-  	if (self.isDeletePerform) return false;
+    var self = this;
+    var $target = $(e.target).parents('[data-id]');
+    if (self.isDeletePerform) return false;
 
-  	var data = {
-  		id: $target.attr('data-id')
-  	}
-  	self.isDeletePerform = true;
-  	$.ajax({
-  		url: this.options.urlDeleteAddressPost,
-  		type: "POST",
-  		data: data,
-  		dataType: "json",
-  		cache: false,
-  		success: function (data) {
-  			self.isDeletePerform = false;
-  			if (data.type == 'success') {
-  				$target.remove();
-  				self.isShowAddress();
-  			}
-  			else {
-  				layer('删除地址失败');
-  			}
-  		}
-  	})
+    var data = {
+      id: $target.attr('data-id')
+    }
+    self.isDeletePerform = true;
+    $.ajax({
+      url: this.options.urlDeleteAddressPost,
+      type: "POST",
+      data: data,
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        self.isDeletePerform = false;
+        if (data.type == 'success') {
+          $target.remove();
+          self.isShowAddress();
+          if (!$('[data-address="items"]').find('li').hasClass('selected')) {
+            $('[data-address="items"]').find('li:first').addClass('selected');
+          }
+        }
+        else {
+          layer('删除地址失败');
+        }
+      }
+    })
   };
 
   // 编辑
   Klass.fn.editClick = function (e) {
-  	var self = this;
-  	var $target = $(e.target).parents('[data-id]');
-  	var id = $target.attr('data-id');
-  	$.ajax({
-  		url: this.options.urlEditPost,
-  		type: "POST",
-  		data: {id: id},
-  		dataType: "json",
-  		cache: false,
-  		success: function (data) {
-  			if (data.message.type == 'success') {
-  				self.editViews(data);
-  	  			// 弹出窗口随窗口改变
-  			    self.windowSize();
-  			    // 弹出窗口随窗口改变而改变
-  			    $(window).resize(self.windowSize);
-  			    $('[data-tag="title"]').html('编辑地址');
-  			}
-  			else {
-  				layer('获取编辑地址失败');
-  			}
-  		}
-  	});
+    var self = this;
+    var $target = $(e.target).parents('[data-id]');
+    var id = $target.attr('data-id');
+    $.ajax({
+      url: this.options.urlEditPost,
+      type: "POST",
+      data: {id: id},
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        if (data.message.type == 'success') {
+          self.editViews(data);
+          var $addressForm = $('[data-tag="addressForm"]');
+          $addressForm.slideDown();
+        }
+        else {
+          layer('获取编辑地址失败');
+        }
+      }
+    });
   };
 
   Klass.fn.editViews = function (data) {
-	 console.log(data);
-	var area = JSON.parse(data.area);
-	var province = area.pop();
-	var city = area.pop();
-	var town = area.pop();
-  	$('[data-tag="addressForm"]').attr('data-id', data.id);
-  	this.$userName.val(data.consignee);
+  this.removeMessage();
+  var area = JSON.parse(data.area);
+  var province = area.pop();
+  var city = area.pop();
+  var town = area.pop();
+    $('[data-tag="addressForm"]').attr('data-id', data.id);
+    this.$userName.val(data.consignee);
  
-  	this.$province.attr('province', Number(province.areaId));
-  	selectCity.provinceEvent(Number(province.areaId));
-  	if (city) {
-  		this.$city.attr('city', Number(city.areaId));
-  		selectCity.cityEvent(Number(city.areaId));
-  	}
-  	if (town) {
-  		this.$town.attr('town', Number(town.areaId));
-  	}
-  	this.$address.val(data.address);
-  	this.$idCard.val(data.cardId);
-  	this.$mobile.val(data.phone);
-  	if (data.isDefault)
-  		this.$isDefault.attr('checked', 'checked');
+    this.$province.attr('province', Number(province.areaId));
+    selectCity.provinceEvent(Number(province.areaId));
+    if (city) {
+      this.$city.attr('city', Number(city.areaId));
+      selectCity.cityEvent(Number(city.areaId));
+    }
+    if (town) {
+      this.$town.attr('town', Number(town.areaId));
+    }
+    this.$address.val(data.address);
+    this.$idCard.val(data.cardId);
+    this.$mobile.val(data.phone);
+    if (data.isDefault)
+      this.$isDefault.attr('checked', 'checked');
   };
   // 地址栏左滑动
   Klass.fn.scrollLeftClick = function () {
-  	
-  	var $items = $('[data-address="items"]');
-  	var $scroll = $('[data-tag="scroll-address"]');
-  	var width = $items.width();
-  	var positionWidth = $items.position();
-  	var scrollWidth = $scroll.width();
-  	var liWidth = $items.find('li').outerWidth()+10;
-  	if (width <= scrollWidth) return false;
-  	if (positionWidth.left >= 0) return false;
-  	$items.css({
-  		'left': positionWidth.left+liWidth
-  	});
+    var $items = $('[data-address="items"]');
+    var $scroll = $('[data-tag="scroll-address"]');
+    var width = $items.width();
+    var positionWidth = $items.position();
+    var scrollWidth = $scroll.width();
+    var liWidth = $items.find('li').outerWidth()+10;
+    if (width <= scrollWidth) return false;
+    if (positionWidth.left >= 0) return false;
+    $items.css({
+      'left': positionWidth.left+liWidth
+    });
   };
   // 地址栏右滑动
   Klass.fn.scrollRightClick = function () {
-	  console.log('0000');
-	  var $items = $('[data-address="items"]');
-  	var $scroll = $('[data-tag="scroll-address"]');
-  	var width = $items.width();
-  	var positionWidth = $items.position();
-  	var scrollWidth = $scroll.width();
-  	var liWidth = $items.find('li').outerWidth()+10;
-  	if (width <= scrollWidth) return false;
-  	if (-positionWidth.left+scrollWidth >= width) return false;
-  	$items.css({
-  		'left': positionWidth.left-liWidth
-  	});
-  	
+  var $items = $('[data-address="items"]');
+    var $scroll = $('[data-tag="scroll-address"]');
+    var width = $items.width();
+    var positionWidth = $items.position();
+    var scrollWidth = $scroll.width();
+    var liWidth = $items.find('li').outerWidth()+10;
+    if (width <= scrollWidth) return false;
+    if (-positionWidth.left+scrollWidth >= width) return false;
+    $items.css({
+      'left': positionWidth.left-liWidth
+    });
+    
   };
 
   // 提交表单
   Klass.fn.formSubmit = function (e) {
-  	var self = this;
-  	var addressId = $('[data-address="items"] li.selected').attr("data-id");
-  	var note = $('[data-tag="note"]').val();
-  	if (!addressId) {
-  		layer('请填写/设置默认地址');
-  		return false;
-  	}
-  	else
-  		$('[data-tag="inputAddressId"]').val(addressId);
+    var self = this;
+    var addressId = $('[data-address="items"] li.selected').attr("data-id");
+    var note = $('[data-tag="note"]').val();
+    if (!addressId) {
+      layer('请填写/设置默认地址');
+      return false;
+    }
+    else
+      $('[data-tag="inputAddressId"]').val(addressId);
 
-  	if (note)
-  		$('[data-tag="inputNote"]').val(note);
+    if (note)
+      $('[data-tag="inputNote"]').val(note);
 
-  	//var dataPost = $(e.target).parents('form').serialize();
     $(e.target).parents('form').attr('action', self.options.urlSubmitPost);
     $(e.target).parents('form').submit();
-  	// $.ajax({
-  	// 	url: self.options.urlSubmitPost,
-  	// 	type: "POST",
-  	// 	data: dataPost,
-  	// 	dataType: "json",
-  	// 	cache: false,
-  	// 	beforeSend: function() {
-			// 	$(e.target).prop("disabled", true);
-			// },
-  	// 	success: function (data) {
-
-  	// 		self.isDeletePerform = false;
-  	// 		if (data.message.type == 'success') {
-  	// 			location.href = self.options.urlPayment+"?sn=" + data.sn;
-  	// 		}
-  	// 		else {
-  	// 			layer(data.message.content);
-  	// 			setTimeout(function() {
-			// 			location.reload(true);
-			// 		}, 3000);
-  	// 		}
-  	// 	},
-			// complete: function() {
-			// 	$(e.target).prop("disabled", false);
-			// }
-  	// })
-
   };
 
   window.addressValidation = Klass;

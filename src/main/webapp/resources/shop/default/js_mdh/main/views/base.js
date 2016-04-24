@@ -1,9 +1,10 @@
 // 所有header，footer的js动态
 
 ;$(function() {
-	
-	 // 定时器
+
+  // 定时器
   var isShowNav;
+
   if ($('.nav').offset()) {
     var y = $('.nav').offset().top;
 
@@ -22,24 +23,24 @@
 
 
   $('.nav>ul>li').hover(function() {
-	    var num=$('.innav ul li').length;
-	    var _this = this;
-	    if(num>0){
-	    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
-	    	$('.innav ul li').eq(0).addClass('current');
-	    }
-	    clearTimeout(isShowNav);
-	    isShowNav = setTimeout (function () {
-	       $(_this).find('.innav').slideDown(200);
-	    }, 100);
-	   
-	  }, function() {
-	    var _this = this;
-	    clearTimeout(isShowNav);
-	    isShowNav = setTimeout (function () {
-	      $(_this).find('.innav').slideUp(150);
-	    }, 100);
-	  });
+    var num=$('.innav ul li').length;
+    var _this = this;
+    if(num>0){
+    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
+    	$('.innav ul li').eq(0).addClass('current');
+    }
+    clearTimeout(isShowNav);
+    isShowNav = setTimeout (function () {
+       $(_this).find('.innav').slideDown(200);
+    }, 100);
+   
+  }, function() {
+    var _this = this;
+    clearTimeout(isShowNav);
+    isShowNav = setTimeout (function () {
+      $(_this).find('.innav').slideUp(150);
+    }, 100);
+  });
   
   
 

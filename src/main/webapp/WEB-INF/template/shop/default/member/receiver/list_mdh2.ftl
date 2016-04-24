@@ -12,7 +12,7 @@
 		<link type="text/css" rel="stylesheet" href="${base}/resources/shop/${theme}/css_mdh/personal.css" />
 		<script src = "${base}/resources/shop/${theme}/js_mdh/third/jquery.js"></script>
 		<script src = "${base}/resources/shop/${theme}/js_mdh/main/views/base.js"></script>
-		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/buy.js"></script>
+		<script src="${base}/resources/shop/${theme}/js_mdh/main/views/address.js"></script>
 		<script type="text/javascript" src="${base}/resources/shop/${theme}/js/common.js"></script>
 		 
    	 <script>
@@ -50,8 +50,6 @@
 	          },
 	          urlDeleteAddressPost: '${base}/member/receiver/delete.jhtml',   // 删除地址
 	          urlDefaultAddressPost: '${base}/member/receiver/updateDefault.jhtml',  // 修改默认地址
-	          urlSubmitPost: '${base}/order/create.jhtml',  // 提交地址
-          	  urlPayment: '${base}/order/payment.jhtml'// 跳转地址
 	        });
 		  	/**
 	         * 城市选择接口
@@ -75,13 +73,13 @@
 			[#include "/shop/${theme}/member/index_left.ftl" /]
 			<!-- end -->
 			<!-- 收件地址开始 -->
-			<div class="personal-address fr dn " data-tag="butAddress">
-				<div class = "scroll-address">
+			<div class="personal-address fr " >
+				<div class = "scroll-address dn" data-tag="butAddress" >
 				<h5>收货地址</h5>
   				<ul class="clearfix" data-address="items">
   					[#if member.receivers?has_content]
 	  					[#list member.receivers as receiver]
-		  					<li class="fl [#if receiver == defaultReceiver]selected[/#if]" data-id="${receiver.id}">
+		  					<li class="fl [#if receiver.isDefault]selected[/#if]" data-id="${receiver.id}">
 		  						<p class="information">${receiver.consignee}
 		  							<span class="fr" >${receiver.phone}</span>
 		  						</p>
@@ -109,33 +107,41 @@
 						<div class="name">
 							<label class="din" for="usename">收件人姓名</label>
 							<input type="text" id="usename" placeholder="请输入与身份证一致的姓名" data-tag = "userName" />
-							<span>5-150个字符，一个汉字为两个字符</span>
+							<span data-error="userName" ></span>
 						</div>
 						<div class="city">
 							<label class="din" for="province_id">省/市</label>
 							<select id="selProvance" data-tag="province" >
+								<option>所在省</option>
    			 				</select>
     						<select id="selCity" data-tag="city" disabled="disabled">
+    							<option>所在市区</option>
     						</select>
     						<select id="selArea" data-tag="town" disabled="disabled">
+    							<option>所在城镇</option>
    				 			</select>
-							<span>请选择区域</span>
+							<span data-error="province" ></span>
 						</div>
 						<div class="place">
 							<label class=din for="place">详细地址</label>
 							<input type="text" id="place" data-tag = "address" placeholder="请输入详细的收货地址" />
+							<span data-error="address"></span>
 						</div>
 						<div class="number">
 							<label class="din" for="number">身份证号</label>
 							<input type="text" id="number" data-tag="idCard" placeholder="海关清关所需，请填入18位身份证号码" />
-							<span></span>
+							<span data-error="identity"></span>
 						</div>
 						<div class="mobile">
 							<label class="din" for="mobile">手机号码</label>
 							<input id="mobile" type="text" data-tag="mobile" placeholder="请输入您的手机号码" />
-							<span></span>
+							<span data-error="mobile"></span>
 						</div>
-						<button type="button" data-tag="addressSubmit">新增</button>
+						<div class="isdefault">
+							<input class = "checkbox" id="isdefault" type="checkbox" data-tag="isdefault" >
+							<label for="isdefault">默认地址</label>
+						</div>
+						<button type="button" data-tag="addressSubmit">保存地址</button>
 					</div>
 				</div>
 			</div>
