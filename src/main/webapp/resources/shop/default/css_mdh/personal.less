@@ -461,6 +461,14 @@
 		*display:inline-block;
 		*zoom:1; 
 	}
+	.gather{
+		.money{
+			width: 50%;
+		}
+		.state{
+			width: 25%;
+		}
+	}
 	// .price{
 	// 	width: 80px;
 	// }
@@ -578,17 +586,19 @@
 				line-height: 20px;
 			}
 		}
-		.list-money{
-			width: 115px;
+		.list-gather{
+			width: 275px;
 			height: 90px;
 			padding:10px 0;
 			border-bottom:1px solid #b5b5b5;
+			border-right:1px solid #b5b5b5;
 			.money{
+				width: 130px;
 			height: 100%;
 			font-size: 14px;
 			color:@itemBoxPColor;
 			border-left:1px solid #b2b2b2;
-			padding:55px 0 0 15px;
+			padding:20% 0 0 15px;
 				p{
 					font-size:16px;
 					color:#1e1e1e;
@@ -601,15 +611,15 @@
 			}
 		}
 		.list-state{
-			width: 73px;
-			height: 90px;
+			width:92px;
+			height: 100%;
 			padding:10px 0;
-			border-bottom:1px solid #b5b5b5;
+			border-left:1px solid #b2b2b2;
+			border-right:1px solid #b2b2b2;
 			div {
 				height: 100%;
-				padding-top:55px;
+				padding-top:50%;
 				text-align: center;
-				border-left:1px solid #b2b2b2;
 			}
 			
 			span{
@@ -663,17 +673,12 @@
 
 		.list-operation{
 			width: 73px;
-			height: 90px;
+			height: 100%;
 			padding:10px 0;
-			border-right:1px solid #b2b2b2;
-			border-bottom:1px solid #b5b5b5;	
 			text-align: center;
-			div {
-				height: 100%;
-				text-align: center;
-				border-left:1px solid #b2b2b2;
+			div{
+				padding-top:80%;
 			}
-
 			span{
 				width: 55px;
 				font-size: 12px;
@@ -698,6 +703,34 @@
 	.personal-state-title{
 		font-size: @font;
 		color:#808080;
+	}
+
+	.time{
+		position:relative;
+		font-size: 14px;
+		color:#808080;
+		text-align:center;
+		font-weight: normal;
+		margin:5px 20px 27px 0;
+		li{
+			position:absolute;
+			top:0;
+			left:10px;
+			text-align: center;
+			em{
+				text-decoration:none;
+				margin-left:6px;
+			}
+		}
+		.two{
+			left:230px;
+		}
+		.three{
+			left:452px;
+		}
+		.four{
+			left:660px;
+		}
 	}
 	.personal-state-plan{
 		margin-top:35px;
@@ -730,21 +763,12 @@
 				line-height:47px;
 				text-align:center;
 			}
-			.time{
-				font-size: 14px;
-				color:#808080;
-				text-align:center;
-				em{
-					text-decoration:none;
-					margin-left:6px;
-				}
-			}
 		}
 		.next{
 			width: 160px;
 			height:13px;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat center center;
-			vertical-align: 390%;
+			vertical-align: 220%;
 			margin-left:-45px;		
 		}
 	}
@@ -780,6 +804,36 @@
 		font-size: @font;
 		color:#808080;
 	}
+	.time{
+		position:relative;
+		font-size: 14px;
+		color:#808080;
+		text-align:center;
+		font-weight: normal;
+		margin:5px 20px 60px 0;
+		li{
+			position:absolute;
+			top:0;
+			left:10px;
+			text-align: center;
+			em{
+				text-decoration:none;
+				margin-left:6px;
+			}
+		}
+		.two{
+			left:174px;
+		}
+		.three{
+			left:348px;
+		}
+		.four{
+			left:515px;
+		}
+		.five{
+			left:673px;
+		}
+	}
 	.personal-state-plan{
 		margin-top:35px;
 		position:relative;
@@ -812,22 +866,13 @@
 				line-height:47px;
 				text-align:center;
 			}
-			.time{
-				font-size: 14px;
-				color:#808080;
-				text-align:center;
-				em{
-					text-decoration:none;
-					margin-left:6px;
-				}
-			}
 		}
 		.next{
 			width: 100px;
 			height:13px;
 			position:relative;
 			background: url(../images_mdh/icon/personal-state.png) no-repeat right center;
-			vertical-align:390%;
+			vertical-align:220%;
 			margin-left:-45px;	
 			span{
 				font-size:@font;
@@ -848,7 +893,7 @@
 			color:#808080;
 			padding:1px 9px;
 			border:1px solid #aaa;
-			margin:25px 0 0 30px;
+			margin:0 0 0 30px;
 		}	
 	}
 	.through-message{
@@ -940,7 +985,7 @@
 			color:#808080;
 			padding:1px 9px;
 			border:1px solid #aaa;
-			margin:25px 0 0 690px;
+			margin:0 30px 0 0;
 		}
 	}
 	.nopass-message{

@@ -140,10 +140,10 @@
 // 	border-bottom:3px solid #ffc800;
 // 	color:#FFC800;
 // }
-#header .nav ul>li>a{
+#header .nav>ul .leve{
 	padding: 0px 47px;
-	height: 50px;
-	line-height: 50px;
+	height: 37px;
+	padding-top:13px;
 	text-align: center;
 	color:#323232;
 	font-size: 14px;
@@ -155,11 +155,12 @@
 #header .nav ul>li.fr{
 	float:right;
 }
-#header .nav ul>li:hover{
+#header .nav>ul>li:hover{
 	background: #000;
-	a{
 		color:#fff;
-	}
+		a{
+			color:#fff;
+		}
 }
 #header .nav ul li .innav{
 	width: 1100px;
@@ -168,6 +169,9 @@
 	top:50px;
 	left:0;
 	z-index:999;
+	text-align: center;
+	word-spacing: 0;
+
 	ul{
 		height: 45px;
 		padding-left:6px;
@@ -200,6 +204,7 @@
 		padding-left:40px;
 		padding-top:10px;
 		position:relative;
+		text-align:left;
 		z-index: 100;
 		.content{
 			width:635px;
@@ -226,6 +231,7 @@
 					color:#595757;
 					display: inline-block;
 					margin-bottom:13px;
+					line-height:14px;
 				}
 				span{
 					font-size: @font;

@@ -125,48 +125,52 @@
 						</p>
 					</div>
 					[#list order.orderItems as orderItem]
-					<ul class="order-item [#if orderItem_index == 0]bt[/#if] clearfix">
-						<li>
-							<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" alt="${orderItem.name}" height="90" width="90">
-						</li>
-						<li class="goods">
-							<h6>${orderItem.name}
-							[#if orderItem.product.specifications?has_content]
-								<span class="silver">[${orderItem.product.specifications?join(", ")}]</span>
-							[/#if]
-							[#if orderItem.type != "general"]
-								<span class="red">[${message("Goods.Type." + orderItem.type)}]</span>
-							[/#if]
-							<div class="number din">
-								<p>x${orderItem.quantity}</p>
-							</div>
-							<div class="pirce din">
-								<span>单价:${currency(orderItem.price, true)}</span>
-								<p>税率:${rate(orderItem.comprehensiveTaxRate)}</p>
-							</div>
-							<div class="place din">
-								<span>上海保税区发货</span>
-								<!--
-								<p>已送达</p>
-								-->
-							</div>
-						</li>
-						<li class="money">
-							<div class="pay">
+					<div class="order-item [#if orderItem_index == 0]bt[/#if] clearfix">
+						<table>
+						<tr class="bt">
+							<td>
+								<img src="${orderItem.thumbnail!setting.defaultThumbnailProductImage}" alt="${orderItem.name}" height="90" width="90">
+								</td>
+							<td class="goods">
+								<h6>${orderItem.name}
+								[#if orderItem.product.specifications?has_content]
+									<span class="silver">[${orderItem.product.specifications?join(", ")}]</span>
+								[/#if]
+								[#if orderItem.type != "general"]
+									<span class="red">[${message("Goods.Type." + orderItem.type)}]</span>
+								[/#if]
+								<div class="number din">
+									<p>x${orderItem.quantity}</p>
+								</div>
+								<div class="pirce din">
+									<span>单价:${currency(orderItem.price, true)}</span>
+									<p>税率:${rate(orderItem.comprehensiveTaxRate)}</p>
+								</div>
+								<div class="place din">
+									<span>上海保税区发货</span>
+									<!--
+									<p>已送达</p>
+									-->
+								</div>
+						</td>
+						<td rowspan="2" class="empty" data-order="list">
+							<div class="inempty" data-order="money"></div>
+						</td>
+						<td rowspan="2" class="money">
 								<span>实付</span>
 								<strong>￥800.00</strong>
-							</div>
 							<p>
 								<span>包含税金</span>
 								<strong>￥12.00</strong>
 								<span>运费</span>
 								<strong>￥10.00</strong>
 							</p>
-							<b>已共优惠</b>
+							<strong>已共优惠</strong>
 							<em>￥10.00</em>
-						</li>
-					</ul>
+						</td>
+					</tr>
 					[/#list]
+				</table>
 				</div>
 			</div>
 		</div>

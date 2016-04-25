@@ -120,13 +120,9 @@
 								<th>
 									<span class="number">数量</span>
 								</th>
-								<th>
+								<th class="gather">
 									<span class="money">实付金额</span>
-								</th>
-								<th>
 									<span class="state">状态</span>
-								</th>
-								<th>
 									<span class="state">操作</span>
 								</th>
 							</tr>
@@ -161,15 +157,14 @@
 									<span class="dl">x${orderItem.quantity}</span>
 								</td>
 								[#if orderItem_index == 0]
-								<td rowspan="${order.orderItems.size()+1}" class="list-money">
-									<div class="money">
+								<td rowspan="${order.orderItems.size()+1}" class="list-gather">
+									<div class="money din fl">
 									<p>${currency(order.amountPaid, true, true)}</p>
 									<span class="dl">含税金:${currency(order.taxFee, true, true)}</span>
 									</div>
 									<!-- <strong class="dl">含运费￥10.00</strong> -->
 									<!-- <em class="dl">已共优惠￥10.00</em> -->
-								</td>
-								<td rowspan="${order.orderItems.size()+1}" class="list-state">
+								<div class="list-state din fl">
 									[#switch order.status]
 							          	[#case "pendingPayment"]
 								          	<div>
@@ -238,8 +233,8 @@
 							          	[#default]
 							          	<!-- 没有 -->
 							        [/#switch]
-								</td>
-								<td rowspan="${order.orderItems.size()+1}" class="list-operation">
+								</div>
+								<div class="list-operation din fl">
 									[#switch order.status]
 							          	[#case "pendingPayment"]
 							          		<div class = "" >
@@ -290,7 +285,8 @@
 							          	[#default]
 							          	<!-- 没有 -->
 							        [/#switch]
-								</td> 
+								</div> 
+								</td>
 								[/#if]
 							</tr>
 							[/#list]

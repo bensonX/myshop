@@ -156,11 +156,12 @@ public class OrderController extends BaseController {
 			data.put("message", ERROR_MESSAGE);
 			return data;
 		}
+		String areaName=receiver.getAreaName();
 		receiverService.update(receiver, "areaName", "member");
 		data.put("message", SUCCESS_MESSAGE);
 		data.put("id", receiver.getId());
 		data.put("consignee", receiver.getConsignee());
-		data.put("areaName", receiver.getAreaName());
+		data.put("areaName", areaName);
 		data.put("address", receiver.getAddress());
 		data.put("zipCode", receiver.getZipCode());
 		data.put("phone", receiver.getPhone());

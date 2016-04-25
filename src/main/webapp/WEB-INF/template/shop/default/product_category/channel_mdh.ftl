@@ -22,7 +22,7 @@
 				<h2>${rootProductCategory.name}</h2>
 				<ul class="list-nav">
 					[#list rootProductCategory.children as productCategory]
-					<li><a href="${base}${productCategory.path}">${productCategory.name}</a>
+					<li data-list="nav">${productCategory.name}[#--<a href="${base}${productCategory.path}"></a>--]
 						<ol>
 						[#list productCategory.children as productcategory]
 							<li><a href="${base}${productcategory.path}">${productcategory.name}</a></li>	

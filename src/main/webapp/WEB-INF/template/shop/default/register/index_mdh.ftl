@@ -290,7 +290,7 @@
 });
 </script>
 </head>
-<body class="body-color">
+<body>
 		<input type="hidden" id="compareCode" value="关于手机验证码"/>
     	<div class="landing">
     		<a href = "/" >

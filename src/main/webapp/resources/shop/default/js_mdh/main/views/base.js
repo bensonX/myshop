@@ -106,6 +106,14 @@
   // list初始化
   $('[data-items="list"]:nth-child(3n)').addClass('nth-child-three');
 
+  // 列表页左侧导航
+    $('[data-list="nav"]').click(function(event) {
+      $(this).addClass('current').siblings().removeClass('current');
+    });
+
+    $('[data-list="brand"]').click(function(event) {
+      $(this).addClass('current').siblings().removeClass('current');
+    });
 
     // 注册页
     $('.form .password input').focus(function(event) {

@@ -56,10 +56,10 @@
 	<div class="index-nav">
 		<div class="nav">
 			<ul class="clearfix">
-				<li>
+				<li class="leve">
 					<a href="${base}/">${message("shop.header.allHome")}</a>
 				</li>
-				<li>
+				<li class="leve">
 				
 					<a href="javascript:;">${message("shop.header.allProductCategory")}</a>
 					<div class="innav dn">
