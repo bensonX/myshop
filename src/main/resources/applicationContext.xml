@@ -119,6 +119,7 @@
 		</property>
 		<property name="freemarkerVariables">
 			<map>
+				<entry key="systemVersion" value="${system.version}" />
 				<entry key="base" value="#{servletContext.contextPath}" />
 				<entry key="showPowered" value="#{${show_powered}}" />
 				<entry key="message" value-ref="messageMethod" />
