@@ -182,6 +182,10 @@
 			line-height: 45px;
 			position:relative;
 			z-index: 9999;
+			a{
+				padding:0;
+				color:#fff;
+			}
 		}
 		.current{
 			z-index: 9999;
@@ -211,15 +215,21 @@
 					line-height: 25px;
 					border-bottom:1px solid #c4c4c4;
 					margin-bottom:13px;
+					a{
+						border:none;
+						padding:0;
+						margin:0;
+					}
 				}
 				a{
 					font-size: 14px;
 					color:#595757;
 					display: inline-block;
-					padding-right:5px;
-					margin-right:2px;
 					margin-bottom:13px;
-					border-right:1px solid #b3b2b2;
+				}
+				span{
+					font-size: @font;
+					color:#b3b2b2;
 				}
 				.no{
 					margin:0;

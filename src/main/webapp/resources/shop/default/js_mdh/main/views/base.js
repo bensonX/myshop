@@ -23,11 +23,12 @@
 
 
   $('.nav>ul>li').hover(function() {
+
     var num=$('.innav ul li').length;
     var _this = this;
     if(num>0){
-    	$('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
-    	$('.innav ul li').eq(0).addClass('current');
+      $('.innav ol li').eq(0).css('display','block').siblings().css('display','none');
+      $('.innav ul li').eq(0).addClass('current');
     }
     clearTimeout(isShowNav);
     isShowNav = setTimeout (function () {

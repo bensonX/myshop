@@ -493,10 +493,9 @@
 		}
 	}
 	.list{
-		padding:10px 5px;
 		.list-goods{
 			width: 290px;
-			
+			margin:10px  0;
 			height: 90px;
 			border-bottom:1px solid #b5b5b5;
 			border-left:1px solid #b5b5b5;
@@ -537,7 +536,7 @@
 		}
 		.list-price{
 			width: 88px;
-			height: 90px;
+			height: 70px;
 			border-bottom:1px solid #b5b5b5;
 			span{
 				font-size: 12px;
@@ -549,7 +548,6 @@
 		.list-number{
 			width:70px; 
 			height: 90px;
-			border-right:1px solid #b2b2b2;
 			border-bottom:1px solid #b5b5b5;
 			span{
 				font-size: 12px;
@@ -583,35 +581,35 @@
 		.list-money{
 			width: 115px;
 			height: 90px;
-			padding-left:15px;
+			padding:10px 0;
 			border-bottom:1px solid #b5b5b5;
-			p{
-				font-size:16px;
-				color:#1e1e1e;
-				text-align:left;
-				line-height: 20px;
-				span{
-					font-size: 16px;
+			.money{
+			height: 100%;
+			font-size: 14px;
+			color:@itemBoxPColor;
+			border-left:1px solid #b2b2b2;
+			padding:55px 0 0 15px;
+				p{
+					font-size:16px;
 					color:#1e1e1e;
+					text-align:left;
+					line-height: 20px;
 				}
-			}
-			p.item{
-				font-size: 12px;
-				color:@itemBoxPColor;
-				line-height: 20px;
-				text-align:left;
-				span{
-					font-size: 12px;
+				strong{
+					font-weight: normal;
 				}
 			}
 		}
 		.list-state{
 			width: 73px;
 			height: 90px;
-			border-left:1px solid #b2b2b2;
+			padding:10px 0;
 			border-bottom:1px solid #b5b5b5;
 			div {
+				height: 100%;
+				padding-top:55px;
 				text-align: center;
+				border-left:1px solid #b2b2b2;
 			}
 			
 			span{
@@ -666,10 +664,16 @@
 		.list-operation{
 			width: 73px;
 			height: 90px;
+			padding:10px 0;
 			border-right:1px solid #b2b2b2;
-			border-left:1px solid #b2b2b2;
 			border-bottom:1px solid #b5b5b5;	
 			text-align: center;
+			div {
+				height: 100%;
+				text-align: center;
+				border-left:1px solid #b2b2b2;
+			}
+
 			span{
 				width: 55px;
 				font-size: 12px;
@@ -1062,18 +1066,24 @@
 			}
 		}
 	}
-	.order-item{
-	border:1px solid #afafaf;
-	border-top:none;
-	padding:10px;
-	padding-bottom:0;
-	li{
-		float:left;
+.order-item{
+	table{
+		width: 100%;
+		border:1px solid #afafaf;
+		border-bottom:none;
+		border-collapse: collapse;
+		position:relative;
+	}
+	.images{
+		width: 90px;
+	}
+	td{
 		font-size: 12px;
 		color:#808080;
+		padding:10px;
+		border-bottom:1px solid #afafaf;
 		img{
 			vertical-align:top;
-			margin-right:28px;
 		}
 		p{
 			display:block;
@@ -1090,7 +1100,7 @@
 		}
 	}
 	.goods{
-		margin-right:130px;
+		height: 90px;
 		div{
 			text-align:center;
 		}
@@ -1105,27 +1115,47 @@
 				color:@itemBoxPColor;
 				padding:0 5px;
 				border:1px solid #afafaf;
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 		.pirce{
 			margin:0 35px;
 			span{
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 		.place{
 			span{
-				line-height: 40px;
+				line-height: 30px;
 			}
 		}
 	}
+	.empty{
+		padding:10px 0;
+		.inempty{
+			min-height: 90px;
+			max-height: 9000px;
+			border-left:1px solid #afafaf;
+			text-indent: -9999px;
+			line-height: 100%;
+		}
+	}
 	.money{
-		.pay{
-			strong{
-				font-size:@font;
-				color:#808080;
+		padding:10px 0 10px 30px;
+		height: 90px;
+
+			span{
+				font-size: 14px;
+			}
+			b{
+				font-size:18px;
+				color:#1e1e1e;
 				font-weight:normal;
+			}
+			p{
+				display: block;
+				font-size: 12px;
+
 			}
 			.cash{
 				font-size: 18px;
@@ -1136,7 +1166,6 @@
 		.contain{
 			line-height: 30px;
 		}
-	}
 }
 .bt{
 	border-top:1px solid #afafaf;

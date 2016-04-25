@@ -2,7 +2,7 @@
 * @Author: maidehao
 * @Date:   2016-04-12 16:11:46
 * @Last Modified by:   maidehao
-* @Last Modified time: 2016-04-21 20:08:39
+* @Last Modified time: 2016-04-22 20:08:39
 */
 
 'use strict';
@@ -75,4 +75,9 @@ $(function() {
       $('.shielding-layer').css('display', 'none');
       $('[data-return="returnd"]').css('display', 'none');
     });
+    
+    var parentHeight=$('[data-order="list"]').height();
+    var height=parentHeight==null?20:parentHeight-20;
+    $('[data-order="money"]').css('height', height);
 });
+
