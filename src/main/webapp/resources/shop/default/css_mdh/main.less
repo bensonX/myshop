@@ -9,6 +9,7 @@
 @itemBoxPColor: #727171;
 @inputBackground:#f1f1f1;
 @inputColor:#8A8A8A;
+@backgroundcolor:#444;
 
 /* 轮播图开始 */
 .main_visual {
@@ -693,7 +694,7 @@ div.landing #registerForm input.tet {
 			margin-right: 15px;
 		}
 		.item-middle {
-			width: 753px;
+			width: 750px;
 			margin-left: 137px;
 		}
 		.item-right {
@@ -733,8 +734,9 @@ div.landing #registerForm input.tet {
 	.title {
 		h2 {
 			font-size: 20px;
-			line-height: 44px;
 			color: @itemBoxColor;
+			margin-bottom:15px;
+			margin-top:15px;
 		}
 		p {
 			font-size: @font;
@@ -745,6 +747,7 @@ div.landing #registerForm input.tet {
 		h5 {
 			font-size: 51.73px;
 			color: #1e1e1e;
+			margin:7px 0 18px 0;
 			span {
 				font-size: 21.73px;
 			}
@@ -761,7 +764,7 @@ div.landing #registerForm input.tet {
 }
 .item-sku {
  	.size,.color, .amount, .share {
-		margin-top: 24px;
+		margin-top: 18px;
 		dt {
 			float: left;
 			width: 52px;
@@ -921,7 +924,7 @@ div.landing #registerForm input.tet {
 		}
 	}
 	.sku-p {
-		margin-top: 24px;
+		margin-top: 18px;
 		font-size: @font;
 		color: #727171;
 	}
@@ -949,7 +952,7 @@ div.landing #registerForm input.tet {
 	margin-top:30px;
 	position: relative;
 	ul{
-		border-bottom:2px solid #5e5e5e;
+		border-bottom:2px solid #5d5e5e;
 		li{
 			margin:0 55px;
 			a{
@@ -959,15 +962,127 @@ div.landing #registerForm input.tet {
 			}
 		}
 	}
-	.parameter{
-		margin-top:40px;
-		p{
-			font-size: @font;
-			color:#727171;
-			line-height: 24px;
+	.title{
+		width: 335px;
+		background: #fff;
+		margin:0 auto;
+		position: relative;
+		top:-16px;
+		h6{
+			width: 230px;
+			height: 33px;
+			background:@backgroundcolor;
+			margin:0 auto;
+			font-size: 16px;
+			color:#FFF;
+			text-align:center;
+			line-height: 33px;
+			letter-spacing: 5px;
+		}
+	}
+	.goods{
+		margin-top:54px;
+		border-top:1px solid #716e6d;
+		.name{
+			margin-top:30px;
+		}
+		.tle{
+			font-size: 14px;
+			color:@itemBoxPColor;
+			line-height: 30px;
+			span{
+				color:#636464;
+				font-weight: bold;
+				width: 75px;
+				text-align:left;
+				vertical-align: top;
+				b{
+					margin-right:28px;
+				}	
+			}
+			p{
+				width: 667px;
+			}
 		}
 		img{
-			margin-top:60px;
+			display: block;
+			margin:0 auto;
+			margin:15px;
+		}
+	}
+	.brands{
+		border-top:1px solid #716e6d;
+		margin-top:132px;
+		p{
+			background: #ccc;
+			height: 100px;
+			margin-top:30px;
+		}
+	}
+	.buy{
+		border-top:1px solid #716e6d;
+		margin-top:132px;
+		width: 750px;
+		p{
+			background: #ccc;
+			height: 100px;
+			margin-top:30px;
+		}
+	}
+	.about{
+		border-top:1px solid #716e6d;
+		margin-top:132px;
+		margin-bottom:85px;
+		p{
+			margin:27px 0 45px 0;
+			font-size: @font;
+			text-align:center;
+			color:@backgroundcolor;
+			span{
+				margin:0 10px;
+			}
+		}
+		.titled{
+			width: 115px;
+			padding-left:120px;
+			vertical-align:top;
+			background: url(../images_mdh/icon/foot1.png) no-repeat 39px center;
+			p{
+				font-size: 18px;
+				color:@backgroundcolor;
+				margin:28px 0 8px 0;
+				text-align:left;
+			}
+			span{
+				display: block;
+				font-size: @font;
+				color:#979696;
+				text-align:left;
+				margin-bottom:25px;
+				letter-spacing: 3px;
+			}
+		}
+		.price{
+			background: url(../images_mdh/icon/foot2.png) no-repeat 39px center;
+		}
+		.logistics{
+			background: url(../images_mdh/icon/foot3.png) no-repeat 39px center;
+		}
+		.service{
+			background: url(../images_mdh/icon/foot4.png) no-repeat 39px center;
+		}
+		.text{
+			width: 510px;
+			height: 81px;
+			padding-top:23px;
+			font-size: 12px;
+			color:@backgroundcolor;
+			line-height: 30px;
+			border-top:2px solid #DDD;
+		}
+
+		.last{
+			border-bottom:2px solid #DDD;
 		}
 	}
 }
