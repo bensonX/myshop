@@ -5,6 +5,7 @@
 <head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 		[#if productCategory??]
 			[@seo type = "goodsList"]
 				<title>[#if productCategory.seoTitle??]${productCategory.seoTitle}[#elseif seo.title??][@seo.title?interpret /][/#if][#if showPowered] - Powered By JSHOP[/#if]</title>

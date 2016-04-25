@@ -7,6 +7,7 @@
 <title>${message("shop.member.favorite.list")}[#if showPowered] - Powered By JSHOP[/#if]</title>
 <meta name="author" content="JSHOP Team" />
 <meta name="copyright" content="JSHOP" />
+<link href="${base}/resources/shop/${theme}/images_mdh/icon/favicon.ico" rel="icon"/>
 
 [#--
 <link href="${base}/resources/shop/${theme}/css/common.css" rel="stylesheet" type="text/css" />
