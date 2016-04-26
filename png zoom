@@ -1,0 +1,60 @@
+package com.leo;
+
+import java.awt.Graphics2D;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+public class Png_graphic_test {
+
+
+    private static void writeImageLocal(String fileName, BufferedImage image) {  
+        if (fileName != null && image != null) {  
+            try {  
+                File file = new File(fileName);  
+                ImageIO.write(image, "png", file);  
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+        }  
+    }  
+    
+	public static void main(String[] args) throws IOException, ParseException {
+		try {
+//			int srcImgW = 0;
+//			int srcImgH = 0;
+			String srcFileName = "D:/1.png";
+			String dstFileName = "D:/3.png";
+			int expW = 170;
+			int expH = 170;
+			
+			BufferedImage srcImg = ImageIO.read(new File(srcFileName));
+//			srcImgW = srcImg.getWidth();
+//			srcImgH = srcImg.getHeight();
+			// create basic image
+			Graphics2D g2d = srcImg.createGraphics();
+			BufferedImage imageNew = g2d.getDeviceConfiguration().createCompatibleImage(expW, expH,	Transparency.TRANSLUCENT);
+			g2d.dispose();
+			
+			
+			g2d = imageNew.createGraphics();
+//			int oldImgW = srcImg.getWidth();
+//			int oldImgH = srcImg.getHeight();
+			g2d.drawImage(srcImg, 0, 0, expH, expH, null);
+			g2d.dispose();
+			
+			
+            File file = new File(dstFileName);  
+            ImageIO.write(imageNew, "png", file); 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
